@@ -1,0 +1,6 @@
+{
+  "name": "ND MX-5 Render Studio",
+  "description": "Interactive 3D render view and configurator for the Mazda MX-5 Miata (ND) with real-time color, wheel, stance, aero kit, and roof customization.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
