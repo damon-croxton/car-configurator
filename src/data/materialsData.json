@@ -1,0 +1,1015 @@
+{
+  "$schema": "./schema.ts",
+  "version": 2,
+  "paintFinishes": [
+    {
+      "id": "solid",
+      "name": "Solid",
+      "metalness": 0.05,
+      "roughness": 0.22,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.06,
+      "flake": 0.0,
+      "sheen": 0.0,
+      "iridescence": 0.0,
+      "envIntensity": 1.0
+    },
+    {
+      "id": "metallic",
+      "name": "Metallic",
+      "metalness": 0.72,
+      "roughness": 0.28,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.05,
+      "flake": 0.85,
+      "sheen": 0.0,
+      "iridescence": 0.0,
+      "envIntensity": 1.15
+    },
+    {
+      "id": "pearl",
+      "name": "Pearl",
+      "metalness": 0.42,
+      "roughness": 0.2,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.04,
+      "flake": 0.5,
+      "sheen": 0.55,
+      "iridescence": 0.35,
+      "envIntensity": 1.25
+    },
+    {
+      "id": "matte",
+      "name": "Matte / Satin",
+      "metalness": 0.12,
+      "roughness": 0.72,
+      "clearcoat": 0.12,
+      "clearcoatRoughness": 0.6,
+      "flake": 0.15,
+      "sheen": 0.25,
+      "iridescence": 0.0,
+      "envIntensity": 0.75
+    },
+    {
+      "id": "chrome",
+      "name": "Chrome Wrap",
+      "metalness": 1.0,
+      "roughness": 0.035,
+      "clearcoat": 1.0,
+      "clearcoatRoughness": 0.02,
+      "flake": 0.0,
+      "sheen": 0.0,
+      "iridescence": 0.0,
+      "envIntensity": 1.4
+    }
+  ],
+  "oemColors": [
+    {
+      "id": "soul_red",
+      "name": "Soul Red Crystal",
+      "hex": "#a1000c",
+      "finish": "metallic",
+      "flakeHex": "#ff6b5e",
+      "code": "46V",
+      "premium": 895
+    },
+    {
+      "id": "machine_gray",
+      "name": "Machine Gray",
+      "hex": "#3d454c",
+      "finish": "metallic",
+      "flakeHex": "#9fb0bd",
+      "code": "46G",
+      "premium": 595
+    },
+    {
+      "id": "soft_white",
+      "name": "Soft White (Snowflake Pearl)",
+      "hex": "#eef1f2",
+      "finish": "pearl",
+      "flakeHex": "#ffffff",
+      "code": "25D",
+      "premium": 395
+    },
+    {
+      "id": "jet_black",
+      "name": "Jet Black Mica",
+      "hex": "#0e0e11",
+      "finish": "metallic",
+      "flakeHex": "#4b4b55",
+      "code": "41W",
+      "premium": 0
+    },
+    {
+      "id": "racing_orange",
+      "name": "Racing Orange (30th)",
+      "hex": "#d9490b",
+      "finish": "solid",
+      "code": "A4G",
+      "premium": 0
+    },
+    {
+      "id": "zircon_sand",
+      "name": "Zircon Sand Metallic",
+      "hex": "#7c7367",
+      "finish": "metallic",
+      "flakeHex": "#c0b7a6",
+      "code": "47C",
+      "premium": 395
+    },
+    {
+      "id": "aero_gray",
+      "name": "Aero Gray Metallic",
+      "hex": "#5d6167",
+      "finish": "metallic",
+      "flakeHex": "#a9b0b8",
+      "code": "47A",
+      "premium": 395
+    },
+    {
+      "id": "deep_crystal_blue",
+      "name": "Deep Crystal Blue Mica",
+      "hex": "#12275c",
+      "finish": "metallic",
+      "flakeHex": "#5c8ce0",
+      "code": "42M",
+      "premium": 395
+    },
+    {
+      "id": "ceramic_metallic",
+      "name": "Ceramic Metallic",
+      "hex": "#c9cdcd",
+      "finish": "metallic",
+      "flakeHex": "#f0f3f3",
+      "code": "47A",
+      "premium": 395
+    },
+    {
+      "id": "arctic_white",
+      "name": "Arctic White",
+      "hex": "#f4f6f6",
+      "finish": "solid",
+      "code": "A4D",
+      "premium": 0
+    },
+    {
+      "id": "classic_red",
+      "name": "Classic Red",
+      "hex": "#b8110f",
+      "finish": "solid",
+      "code": "SU",
+      "premium": 0
+    },
+    {
+      "id": "mariner_blue",
+      "name": "Mariner Blue",
+      "hex": "#1d63a8",
+      "finish": "solid",
+      "code": "SP",
+      "premium": 0
+    },
+    {
+      "id": "sunburst_yellow",
+      "name": "Sunburst Yellow",
+      "hex": "#e0b400",
+      "finish": "solid",
+      "code": "SU",
+      "premium": 0
+    },
+    {
+      "id": "british_racing_green",
+      "name": "British Racing Green",
+      "hex": "#0f4028",
+      "finish": "solid",
+      "code": "HU",
+      "premium": 0
+    }
+  ],
+  "wrapColors": [
+    {
+      "id": "midnight_purple",
+      "name": "Midnight Purple III",
+      "hex": "#3d1a66",
+      "finish": "pearl",
+      "flakeHex": "#37c2d6",
+      "premium": 4200
+    },
+    {
+      "id": "gulf_cyan",
+      "name": "Gulf Heritage Cyan",
+      "hex": "#3fa9d4",
+      "finish": "solid",
+      "premium": 3400
+    },
+    {
+      "id": "satin_stealth",
+      "name": "Satin Stealth Black",
+      "hex": "#1c1c20",
+      "finish": "matte",
+      "premium": 3800
+    },
+    {
+      "id": "frozen_blue",
+      "name": "Frozen Matte Blue",
+      "hex": "#1f4f8f",
+      "finish": "matte",
+      "premium": 3800
+    },
+    {
+      "id": "acid_lime",
+      "name": "Acid Lime Pearl",
+      "hex": "#7fbf1a",
+      "finish": "pearl",
+      "flakeHex": "#dcff8a",
+      "premium": 4200
+    },
+    {
+      "id": "sakura_pink",
+      "name": "Sakura Pink Pearl",
+      "hex": "#d1568a",
+      "finish": "pearl",
+      "flakeHex": "#ffd6e6",
+      "premium": 4200
+    },
+    {
+      "id": "liquid_platinum",
+      "name": "Liquid Platinum Chrome",
+      "hex": "#e6ecef",
+      "finish": "chrome",
+      "premium": 6500
+    },
+    {
+      "id": "bronze_shift",
+      "name": "Bronze Colour-Shift",
+      "hex": "#8a5a1e",
+      "finish": "pearl",
+      "flakeHex": "#66d2a0",
+      "premium": 5600
+    },
+    {
+      "id": "nardo_grey",
+      "name": "Nardo Grey",
+      "hex": "#8f9295",
+      "finish": "solid",
+      "premium": 3400
+    },
+    {
+      "id": "custom",
+      "name": "Custom Colour",
+      "hex": "#ff2d55",
+      "finish": "metallic",
+      "flakeHex": "#ffb3c0",
+      "premium": 4900,
+      "userColor": true
+    }
+  ],
+  "wheelFinishes": [
+    {
+      "id": "hyper_silver",
+      "name": "Hyper Silver",
+      "hex": "#c3c8cc",
+      "metalness": 0.92,
+      "roughness": 0.18,
+      "clearcoat": 0.4
+    },
+    {
+      "id": "satin_bronze",
+      "name": "Satin Bronze",
+      "hex": "#8f6127",
+      "metalness": 0.88,
+      "roughness": 0.34,
+      "clearcoat": 0.15
+    },
+    {
+      "id": "gloss_black",
+      "name": "Gloss Black",
+      "hex": "#0b0b0e",
+      "metalness": 0.55,
+      "roughness": 0.09,
+      "clearcoat": 1.0
+    },
+    {
+      "id": "matte_black",
+      "name": "Matte Black",
+      "hex": "#131316",
+      "metalness": 0.45,
+      "roughness": 0.62,
+      "clearcoat": 0.0
+    },
+    {
+      "id": "gunmetal",
+      "name": "Gunmetal",
+      "hex": "#4a5058",
+      "metalness": 0.9,
+      "roughness": 0.26,
+      "clearcoat": 0.3
+    },
+    {
+      "id": "chrome",
+      "name": "Polished Chrome",
+      "hex": "#eef2f4",
+      "metalness": 1.0,
+      "roughness": 0.03,
+      "clearcoat": 1.0
+    },
+    {
+      "id": "white",
+      "name": "Gloss White",
+      "hex": "#eceff0",
+      "metalness": 0.3,
+      "roughness": 0.12,
+      "clearcoat": 1.0
+    }
+  ],
+  "caliperColors": [
+    {
+      "id": "brembo_red",
+      "name": "Brembo Red",
+      "hex": "#b21215"
+    },
+    {
+      "id": "brembo_yellow",
+      "name": "Brembo Yellow",
+      "hex": "#e3b409"
+    },
+    {
+      "id": "acid_green",
+      "name": "Acid Green",
+      "hex": "#71c418"
+    },
+    {
+      "id": "powder_black",
+      "name": "Powder Black",
+      "hex": "#0f0f12"
+    },
+    {
+      "id": "polished",
+      "name": "Polished Alloy",
+      "hex": "#c8ccd0",
+      "metalness": 0.95,
+      "roughness": 0.14
+    },
+    {
+      "id": "gulf_blue",
+      "name": "Gulf Blue",
+      "hex": "#1f7fc4"
+    },
+    {
+      "id": "orange",
+      "name": "Signal Orange",
+      "hex": "#e4670f"
+    }
+  ],
+  "roofFabricColors": [
+    {
+      "id": "black",
+      "name": "Black Canvas",
+      "hex": "#141416"
+    },
+    {
+      "id": "tan",
+      "name": "Tan Canvas",
+      "hex": "#7a5b36"
+    },
+    {
+      "id": "cherry",
+      "name": "Cherry Canvas",
+      "hex": "#6b1226"
+    },
+    {
+      "id": "blue",
+      "name": "Navy Canvas",
+      "hex": "#17253f"
+    }
+  ],
+  "glass": {
+    "transmission": 0.92,
+    "ior": 1.52,
+    "roughness": 0.035,
+    "thickness": 0.012,
+    "baseTintHex": "#c8d4dc",
+    "darkTintHex": "#0d1014",
+    "tintLevels": [
+      {
+        "id": "clear",
+        "name": "Clear (OEM)",
+        "value": 0.0
+      },
+      {
+        "id": "light",
+        "name": "Light 50%",
+        "value": 0.28
+      },
+      {
+        "id": "medium",
+        "name": "Medium 35%",
+        "value": 0.52
+      },
+      {
+        "id": "limo",
+        "name": "Limo 15%",
+        "value": 0.78
+      }
+    ]
+  },
+  "lightMods": {
+    "headlightHousingClear": "#dfe9f0",
+    "headlightHousingTinted": "#1a1d22",
+    "indicatorClear": "#e8952b",
+    "indicatorSmoked": "#2a2118",
+    "headlightEmissive": "#eaf4ff",
+    "drlEmissive": "#bfe4ff",
+    "taillightEmissive": "#ff2020",
+    "taillightOff": "#3a0d0d"
+  },
+  "environments": [
+    {
+      "id": "studio",
+      "name": "Studio",
+      "hint": "Neutral softbox cyclorama",
+      "hdri": "assets/hdri/studio.hdr",
+      "exposure": 1.0,
+      "envIntensity": 1.15,
+      "backgroundMode": "gradient",
+      "backgroundTop": "#171a1f",
+      "backgroundBottom": "#05060a",
+      "backgroundBlur": 0.35,
+      "fogColor": "#0a0c10",
+      "fogDensity": 0.006,
+      "groundHex": "#0b0d11",
+      "groundRoughness": 0.32,
+      "groundMetalness": 0.33,
+      "gridHex": "#2a323d",
+      "shadowOpacity": 0.68,
+      "procedural": {
+        "skyTop": "#464c54",
+        "skyHorizon": "#262a30",
+        "skyBottom": "#16181c",
+        "panels": [
+          {
+            "color": "#ffffff",
+            "intensity": 5.0,
+            "position": [
+              0,
+              3.4,
+              1.6
+            ],
+            "size": [
+              5,
+              0.1,
+              3
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#e8f0ff",
+            "intensity": 3.2,
+            "position": [
+              -4.2,
+              2.2,
+              0
+            ],
+            "size": [
+              0.1,
+              3,
+              6
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#fff3e0",
+            "intensity": 2.6,
+            "position": [
+              4.2,
+              2.2,
+              0
+            ],
+            "size": [
+              0.1,
+              3,
+              6
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#cfe0ff",
+            "intensity": 1.6,
+            "position": [
+              0,
+              1.6,
+              -4.6
+            ],
+            "size": [
+              6,
+              2.4,
+              0.1
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#ffffff",
+        "intensity": 1.6,
+        "position": [
+          4.5,
+          6.5,
+          4.0
+        ]
+      },
+      "fill": {
+        "color": "#c9dcff",
+        "intensity": 0.95,
+        "position": [
+          -6,
+          3.5,
+          -2
+        ]
+      },
+      "rim": {
+        "color": "#ffffff",
+        "intensity": 1.0,
+        "position": [
+          -2.5,
+          2.5,
+          -6
+        ]
+      }
+    },
+    {
+      "id": "sunset",
+      "name": "Outdoor Sunset",
+      "hint": "Golden hour coastal road",
+      "hdri": "assets/hdri/sunset.hdr",
+      "exposure": 1.0,
+      "envIntensity": 1.1,
+      "backgroundMode": "gradient",
+      "backgroundTop": "#1e2b52",
+      "backgroundBottom": "#e8794a",
+      "backgroundBlur": 0.15,
+      "fogColor": "#7a4a3a",
+      "fogDensity": 0.01,
+      "groundHex": "#2a2018",
+      "groundRoughness": 0.84,
+      "groundMetalness": 0.06,
+      "gridHex": "#5a4030",
+      "shadowOpacity": 0.55,
+      "procedural": {
+        "skyTop": "#20305e",
+        "skyHorizon": "#f0894c",
+        "skyBottom": "#3a2418",
+        "panels": [
+          {
+            "color": "#ff9d4d",
+            "intensity": 8.0,
+            "position": [
+              -6,
+              1.1,
+              5.5
+            ],
+            "size": [
+              3,
+              2.2,
+              0.1
+            ],
+            "rotation": [
+              0,
+              0.7,
+              0
+            ]
+          },
+          {
+            "color": "#ffd9a0",
+            "intensity": 2.6,
+            "position": [
+              0,
+              5.0,
+              0
+            ],
+            "size": [
+              10,
+              0.1,
+              10
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#2b3f7a",
+            "intensity": 1.2,
+            "position": [
+              5,
+              2.5,
+              -4
+            ],
+            "size": [
+              0.1,
+              4,
+              8
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#ff9b52",
+        "intensity": 2.2,
+        "position": [
+          -7,
+          2.2,
+          6
+        ]
+      },
+      "fill": {
+        "color": "#4a6ecf",
+        "intensity": 0.75,
+        "position": [
+          5,
+          4,
+          -4
+        ]
+      },
+      "rim": {
+        "color": "#ffcf9b",
+        "intensity": 1.2,
+        "position": [
+          -3,
+          1.5,
+          -6
+        ]
+      }
+    },
+    {
+      "id": "urban_night",
+      "name": "Urban Night",
+      "hint": "Neon-lit multi-storey",
+      "hdri": "assets/hdri/urban_night.hdr",
+      "exposure": 1.3,
+      "envIntensity": 1.0,
+      "backgroundMode": "gradient",
+      "backgroundTop": "#03040a",
+      "backgroundBottom": "#0d0618",
+      "backgroundBlur": 0.4,
+      "fogColor": "#07040f",
+      "fogDensity": 0.0225,
+      "groundHex": "#08080d",
+      "groundRoughness": 0.19,
+      "groundMetalness": 0.42,
+      "gridHex": "#2b1d4a",
+      "shadowOpacity": 0.75,
+      "procedural": {
+        "skyTop": "#0b0e1c",
+        "skyHorizon": "#1d1440",
+        "skyBottom": "#0a0916",
+        "panels": [
+          {
+            "color": "#00e5ff",
+            "intensity": 7.0,
+            "position": [
+              -4.5,
+              1.4,
+              3.2
+            ],
+            "size": [
+              0.1,
+              0.5,
+              6
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#ff2d7a",
+            "intensity": 7.0,
+            "position": [
+              4.5,
+              1.4,
+              -3.2
+            ],
+            "size": [
+              0.1,
+              0.5,
+              6
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#7b5cff",
+            "intensity": 3.0,
+            "position": [
+              0,
+              4.0,
+              -5
+            ],
+            "size": [
+              8,
+              2,
+              0.1
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#e8f4ff",
+            "intensity": 1.8,
+            "position": [
+              0,
+              4.6,
+              2
+            ],
+            "size": [
+              3,
+              0.1,
+              3
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#8ea8ff",
+        "intensity": 0.55,
+        "position": [
+          3,
+          6,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#ff2d7a",
+        "intensity": 1.1,
+        "position": [
+          6,
+          1.6,
+          -4
+        ]
+      },
+      "rim": {
+        "color": "#00e5ff",
+        "intensity": 1.5,
+        "position": [
+          -6,
+          1.8,
+          -3
+        ]
+      }
+    },
+    {
+      "id": "warehouse",
+      "name": "Industrial Warehouse",
+      "hint": "Skylights and sodium vapour",
+      "hdri": "assets/hdri/warehouse.hdr",
+      "exposure": 0.98,
+      "envIntensity": 1.05,
+      "backgroundMode": "gradient",
+      "backgroundTop": "#1d2026",
+      "backgroundBottom": "#0b0d10",
+      "backgroundBlur": 0.3,
+      "fogColor": "#12141a",
+      "fogDensity": 0.014,
+      "groundHex": "#191c21",
+      "groundRoughness": 0.74,
+      "groundMetalness": 0.12,
+      "gridHex": "#39404b",
+      "shadowOpacity": 0.62,
+      "procedural": {
+        "skyTop": "#3d444c",
+        "skyHorizon": "#22262c",
+        "skyBottom": "#14161a",
+        "panels": [
+          {
+            "color": "#ffffff",
+            "intensity": 5.5,
+            "position": [
+              -2.2,
+              5.2,
+              0
+            ],
+            "size": [
+              1.2,
+              0.1,
+              9
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#ffffff",
+            "intensity": 5.5,
+            "position": [
+              2.2,
+              5.2,
+              0
+            ],
+            "size": [
+              1.2,
+              0.1,
+              9
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#ffd08a",
+            "intensity": 2.4,
+            "position": [
+              0,
+              2.4,
+              -6
+            ],
+            "size": [
+              9,
+              3,
+              0.1
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#9fb4c9",
+            "intensity": 1.5,
+            "position": [
+              -6.5,
+              2.0,
+              2
+            ],
+            "size": [
+              0.1,
+              3,
+              6
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#fff4e0",
+        "intensity": 1.8,
+        "position": [
+          2,
+          7,
+          1.5
+        ]
+      },
+      "fill": {
+        "color": "#9fb4c9",
+        "intensity": 0.8,
+        "position": [
+          -5,
+          3,
+          3
+        ]
+      },
+      "rim": {
+        "color": "#ffd08a",
+        "intensity": 1.0,
+        "position": [
+          0,
+          2.2,
+          -6
+        ]
+      }
+    },
+    {
+      "id": "salt_flats",
+      "name": "Salt Flats",
+      "hint": "High-key open sky",
+      "hdri": "assets/hdri/salt_flats.hdr",
+      "exposure": 0.88,
+      "envIntensity": 1.1,
+      "backgroundMode": "gradient",
+      "backgroundTop": "#4d8fd4",
+      "backgroundBottom": "#e9eef2",
+      "backgroundBlur": 0.1,
+      "fogColor": "#dfe6ec",
+      "fogDensity": 0.007,
+      "groundHex": "#dfe4e8",
+      "groundRoughness": 1.0,
+      "groundMetalness": 0.01,
+      "gridHex": "#b3bcc4",
+      "shadowOpacity": 0.42,
+      "procedural": {
+        "skyTop": "#2f77c8",
+        "skyHorizon": "#cfe0ee",
+        "skyBottom": "#e8edf0",
+        "panels": [
+          {
+            "color": "#ffffff",
+            "intensity": 4.5,
+            "position": [
+              3,
+              6.5,
+              3
+            ],
+            "size": [
+              4,
+              0.1,
+              4
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#dceaf7",
+            "intensity": 2.0,
+            "position": [
+              0,
+              0.05,
+              0
+            ],
+            "size": [
+              16,
+              0.1,
+              16
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#ffffff",
+        "intensity": 2.2,
+        "position": [
+          5,
+          8,
+          4
+        ]
+      },
+      "fill": {
+        "color": "#cfe0ee",
+        "intensity": 1.2,
+        "position": [
+          -5,
+          3,
+          -3
+        ]
+      },
+      "rim": {
+        "color": "#ffffff",
+        "intensity": 0.8,
+        "position": [
+          -4,
+          2,
+          -5
+        ]
+      }
+    }
+  ]
+}

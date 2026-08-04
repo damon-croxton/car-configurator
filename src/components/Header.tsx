@@ -1,137 +1,123 @@
-import React, { useState } from 'react';
-import { CameraPreset, CarConfig, PresetBuild } from '../types';
-import { PRESET_BUILDS } from '../data/presets';
-import { soundEngine } from '../utils/audioEngine';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Camera,
+  Check,
+  ChevronDown,
+  FileText,
+  Link2,
+  RotateCcw,
+  Sliders,
+  Sparkles,
+  Undo2,
   Volume2,
   VolumeX,
-  RotateCcw,
-  Sparkles,
-  FileText,
-  Sliders,
-  ChevronDown,
 } from 'lucide-react';
+import type { CarConfig, PresetBuild } from '../config/types';
+import { PRESET_BUILDS } from '../config/presets';
+import { buildShareUrl } from '../config/urlState';
+import { getGeneration, getRoofType } from '../data/schema';
+import { soundEngine } from '../utils/audioEngine';
 
 interface HeaderProps {
   config: CarConfig;
-  onChangeConfig: (newConfig: CarConfig) => void;
-  selectedCamera: CameraPreset;
-  onSelectCamera: (cam: CameraPreset) => void;
+  onApplyPreset: (preset: PresetBuild) => void;
   onOpenSpecSheet: () => void;
-  onTakeSnapshot: () => void;
+  onSnapshot: () => void;
   onReset: () => void;
-  toggleSidebarMobile: () => void;
+  onUndo: () => void;
+  canUndo: boolean;
+  onToggleSidebar: () => void;
 }
 
 export const Header: React.FC<HeaderProps> = ({
   config,
-  onChangeConfig,
-  selectedCamera,
-  onSelectCamera,
+  onApplyPreset,
   onOpenSpecSheet,
-  onTakeSnapshot,
+  onSnapshot,
   onReset,
-  toggleSidebarMobile,
+  onUndo,
+  canUndo,
+  onToggleSidebar,
 }) => {
-  const [isRevving, setIsRevving] = useState(false);
-  const [showPresetDropdown, setShowPresetDropdown] = useState(false);
+  const [presetsOpen, setPresetsOpen] = useState(false);
+  const [revving, setRevving] = useState(false);
+  const [shared, setShared] = useState(false);
+  const presetsRef = useRef<HTMLDivElement>(null);
 
-  const cameras: { id: CameraPreset; label: string }[] = [
-    { id: 'hero_34', label: '3/4 Front' },
-    { id: 'side', label: 'Side' },
-    { id: 'rear_34', label: '3/4 Rear' },
-    { id: 'front', label: 'Front' },
-    { id: 'top', label: 'Top' },
-    { id: 'low_stance', label: 'Stance' },
-    { id: 'cockpit', label: 'Interior' },
-  ];
+  const generation = getGeneration(config.generation);
+  const roof = getRoofType(config.roofType);
 
-  const handleToggleAudio = () => {
-    soundEngine.toggleRev(config.exhaustStyle, (active) => setIsRevving(active));
-  };
+  useEffect(() => {
+    if (!presetsOpen) return;
+    const close = (event: MouseEvent) => {
+      if (!presetsRef.current?.contains(event.target as Node)) setPresetsOpen(false);
+    };
+    document.addEventListener('mousedown', close);
+    return () => document.removeEventListener('mousedown', close);
+  }, [presetsOpen]);
 
-  const applyPreset = (preset: PresetBuild) => {
-    onChangeConfig({
-      ...config,
-      ...preset.config,
-    });
-    setShowPresetDropdown(false);
+  const handleShare = async () => {
+    const url = buildShareUrl(config);
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      // Clipboard can be blocked; the URL bar already holds the same link.
+    }
+    setShared(true);
+    window.setTimeout(() => setShared(false), 1800);
   };
 
   return (
-    <header className="h-16 bg-slate-900/90 backdrop-blur-xl border-b border-slate-800 px-4 flex items-center justify-between z-30 shrink-0 select-none">
-      {/* Brand Title */}
-      <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-red-600 via-red-500 to-amber-500 flex items-center justify-center font-bold text-white text-sm shadow-lg shadow-red-900/30 tracking-wider">
-          ND
+    <header className="z-30 flex h-14 shrink-0 items-center justify-between gap-3 border-b border-slate-800 bg-slate-900/95 px-3 backdrop-blur-xl">
+      <div className="flex min-w-0 items-center gap-3">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-tr from-red-600 to-amber-500 text-[11px] font-bold tracking-wider text-white">
+          {generation.code}
         </div>
-        <div>
-          <h1 className="text-sm font-bold text-slate-100 flex items-center gap-2">
-            MAZDA MX-5 <span className="text-xs px-2 py-0.5 rounded bg-red-950/80 border border-red-800/80 text-red-400 font-mono">ND ROADSTER</span>
-          </h1>
-          <p className="text-[11px] text-slate-400 font-mono">
-            3D Studio Render & Customizer
+        <div className="min-w-0">
+          <h1 className="truncate text-sm font-semibold text-slate-100">Mazda MX-5 Configurator</h1>
+          <p className="truncate font-mono text-[10px] text-slate-500">
+            {generation.name} · {roof.shortName} {config.roofState}
           </p>
         </div>
       </div>
 
-      {/* Center Camera Angle Selector Pills */}
-      <div className="hidden lg:flex items-center gap-1 bg-slate-950/60 border border-slate-800/80 p-1 rounded-full">
-        {cameras.map((cam) => {
-          const isActive = selectedCamera === cam.id;
-          return (
-            <button
-              key={cam.id}
-              onClick={() => onSelectCamera(cam.id)}
-              className={`px-3 py-1 rounded-full text-xs font-medium transition-all ${
-                isActive
-                  ? 'bg-red-600 text-white shadow-md shadow-red-900/40 font-semibold'
-                  : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/50'
-              }`}
-            >
-              {cam.label}
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Right Quick Actions */}
-      <div className="flex items-center gap-2">
-        {/* Preset Builds Dropdown */}
-        <div className="relative">
+      <div className="flex items-center gap-1.5">
+        <div className="relative" ref={presetsRef}>
           <button
-            onClick={() => setShowPresetDropdown(!showPresetDropdown)}
-            className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700/80 border border-slate-700 text-xs font-medium text-slate-200 flex items-center gap-2 transition-all"
+            type="button"
+            onClick={() => setPresetsOpen((open) => !open)}
+            className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-[11px] font-medium text-slate-200 transition-colors hover:bg-slate-700"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
-            <span className="hidden sm:inline">Preset Builds</span>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400" />
+            <Sparkles className="h-3.5 w-3.5 text-amber-400" />
+            <span className="hidden sm:inline">Presets</span>
+            <ChevronDown className="h-3.5 w-3.5 text-slate-500" />
           </button>
 
-          {showPresetDropdown && (
-            <div className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-2 z-50 divide-y divide-slate-800">
-              <div className="px-3 py-2 text-[11px] font-mono text-slate-400 uppercase tracking-wider">
-                Select Custom Concept
-              </div>
-              <div className="py-1 space-y-1">
+          {presetsOpen && (
+            <div className="absolute right-0 z-50 mt-2 w-80 overflow-hidden rounded-xl border border-slate-800 bg-slate-900 shadow-2xl">
+              <p className="border-b border-slate-800 px-3 py-2 font-mono text-[10px] uppercase tracking-wider text-slate-500">
+                Curated builds
+              </p>
+              <div className="max-h-[70vh] overflow-y-auto p-1.5">
                 {PRESET_BUILDS.map((preset) => (
                   <button
                     key={preset.id}
-                    onClick={() => applyPreset(preset)}
-                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800/80 transition-all flex flex-col group"
+                    type="button"
+                    onClick={() => {
+                      onApplyPreset(preset);
+                      setPresetsOpen(false);
+                    }}
+                    className="group w-full rounded-lg px-2.5 py-2 text-left transition-colors hover:bg-slate-800"
                   >
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-slate-200 group-hover:text-red-400">
+                    <span className="flex items-center justify-between gap-2">
+                      <span className="text-xs font-semibold text-slate-200 group-hover:text-red-400">
                         {preset.name}
                       </span>
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono">
+                      <span className="rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] text-slate-400 group-hover:bg-slate-700">
                         {preset.badge}
                       </span>
-                    </div>
-                    <span className="text-[11px] text-slate-400 mt-0.5">
-                      {preset.subtitle}
                     </span>
+                    <span className="mt-0.5 block text-[10px] text-slate-500">{preset.subtitle}</span>
                   </button>
                 ))}
               </div>
@@ -139,65 +125,76 @@ export const Header: React.FC<HeaderProps> = ({
           )}
         </div>
 
-        {/* Audio Engine Rev Button */}
-        <button
-          onClick={handleToggleAudio}
-          className={`p-2 rounded-lg border text-xs font-medium transition-all flex items-center gap-1.5 ${
-            isRevving
-              ? 'bg-red-600/20 border-red-500 text-red-400 animate-pulse'
-              : 'bg-slate-800 hover:bg-slate-700 border-slate-700 text-slate-300'
-          }`}
-          title="Engine Sound Simulator"
+        <IconButton
+          label="Engine sound"
+          active={revving}
+          onClick={() => soundEngine.toggleRev(config.exhaust, setRevving)}
         >
-          {isRevving ? (
-            <>
-              <Volume2 className="w-4 h-4 text-red-400" />
-              <span className="hidden sm:inline font-mono text-red-400">REVVING</span>
-            </>
-          ) : (
-            <>
-              <VolumeX className="w-4 h-4 text-slate-400" />
-              <span className="hidden sm:inline font-mono">EXHAUST SOUND</span>
-            </>
-          )}
-        </button>
+          {revving ? <Volume2 className="h-4 w-4" /> : <VolumeX className="h-4 w-4" />}
+        </IconButton>
 
-        {/* Spec Sheet Modal Button */}
+        <IconButton label="Copy share link" active={shared} onClick={handleShare}>
+          {shared ? <Check className="h-4 w-4" /> : <Link2 className="h-4 w-4" />}
+        </IconButton>
+
+        <IconButton label="Undo" onClick={onUndo} disabled={!canUndo}>
+          <Undo2 className="h-4 w-4" />
+        </IconButton>
+
+        <IconButton label="Reset to factory" onClick={onReset}>
+          <RotateCcw className="h-4 w-4" />
+        </IconButton>
+
         <button
+          type="button"
           onClick={onOpenSpecSheet}
-          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 text-xs font-medium flex items-center gap-1.5 transition-all"
-          title="Build Spec Sheet"
+          className="flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1.5 text-[11px] font-medium text-slate-200 transition-colors hover:bg-slate-700"
         >
-          <FileText className="w-4 h-4 text-slate-400" />
-          <span className="hidden md:inline">Spec Sheet</span>
+          <FileText className="h-3.5 w-3.5" />
+          <span className="hidden md:inline">Spec sheet</span>
         </button>
 
-        {/* Snapshot Capture Button */}
         <button
-          onClick={onTakeSnapshot}
-          className="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-500 text-white font-medium text-xs shadow-lg shadow-red-900/40 flex items-center gap-1.5 transition-all"
+          type="button"
+          onClick={onSnapshot}
+          className="flex items-center gap-1.5 rounded-lg bg-red-600 px-2.5 py-1.5 text-[11px] font-semibold text-white transition-colors hover:bg-red-500"
         >
-          <Camera className="w-4 h-4" />
-          <span className="hidden sm:inline">Render Snapshot</span>
+          <Camera className="h-3.5 w-3.5" />
+          <span className="hidden sm:inline">Snapshot</span>
         </button>
 
-        {/* Reset Button */}
         <button
-          onClick={onReset}
-          className="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-400 hover:text-slate-200 transition-all"
-          title="Reset to Factory OEM"
+          type="button"
+          onClick={onToggleSidebar}
+          aria-label="Toggle configurator"
+          className="rounded-lg border border-slate-700 bg-slate-800 p-2 text-slate-300 lg:hidden"
         >
-          <RotateCcw className="w-4 h-4" />
-        </button>
-
-        {/* Mobile Customizer Toggle */}
-        <button
-          onClick={toggleSidebarMobile}
-          className="lg:hidden p-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300"
-        >
-          <Sliders className="w-4 h-4" />
+          <Sliders className="h-4 w-4" />
         </button>
       </div>
     </header>
   );
 };
+
+const IconButton: React.FC<{
+  label: string;
+  active?: boolean;
+  disabled?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}> = ({ label, active, disabled, onClick, children }) => (
+  <button
+    type="button"
+    title={label}
+    aria-label={label}
+    disabled={disabled}
+    onClick={onClick}
+    className={`rounded-lg border p-2 transition-colors ${
+      active
+        ? 'border-red-500/60 bg-red-600/20 text-red-400'
+        : 'border-slate-700 bg-slate-800 text-slate-400 hover:text-slate-100'
+    } ${disabled ? 'cursor-not-allowed opacity-40 hover:text-slate-400' : ''}`}
+  >
+    {children}
+  </button>
+);

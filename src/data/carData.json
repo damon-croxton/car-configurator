@@ -1,0 +1,813 @@
+{
+  "$schema": "./schema.ts",
+  "version": 2,
+  "defaultGeneration": "nd",
+  "generations": [
+    {
+      "id": "nd",
+      "code": "ND",
+      "name": "ND Roadster",
+      "years": "2015 — present",
+      "available": true,
+      "assetUrl": "assets/models/mx5_nd.glb",
+      "tagline": "Fourth generation. Lightest, sharpest, SkyActiv.",
+      "specs": {
+        "engine": "SkyActiv-G 2.0L NA I4",
+        "power": 181,
+        "torque": 205,
+        "weight": 1058,
+        "layout": "Front-midship, RWD",
+        "balance": "50:50",
+        "gearbox": "6-speed manual",
+        "redline": 7500
+      },
+      "dimensions": {
+        "length": 3.915,
+        "width": 1.735,
+        "height": 1.23,
+        "wheelbase": 2.31,
+        "trackFront": 1.495,
+        "trackRear": 1.505
+      },
+      "roofTypes": [
+        "st",
+        "rf"
+      ],
+      "defaultRoofType": "st",
+      "wheels": [
+        "oem_17_design",
+        "oem_16_silver",
+        "rays_te37",
+        "enkei_rpf1",
+        "bbs_mesh",
+        "watanabe_rs"
+      ],
+      "defaultWheel": "oem_17_design",
+      "wheelDiameters": [
+        15,
+        16,
+        17,
+        18
+      ],
+      "defaultWheelDiameter": 17,
+      "aero": {
+        "frontLip": [
+          "stock",
+          "club_lip",
+          "aggressive_splitter"
+        ],
+        "sideSkirts": [
+          "stock",
+          "oem_extensions",
+          "carbon_extenders"
+        ],
+        "rearDiffuser": [
+          "stock",
+          "oem_diffuser",
+          "track_diffuser"
+        ],
+        "rearWing": [
+          "wing_delete",
+          "oem_ducktail",
+          "oem_lip",
+          "gt_wing"
+        ],
+        "hood": [
+          "stock",
+          "vented_carbon",
+          "painted_vented"
+        ],
+        "exhaust": [
+          "stock_single",
+          "oem_dual",
+          "titanium_quad",
+          "big_bore_single"
+        ],
+        "rollBar": [
+          "none",
+          "style_bar",
+          "track_hoop"
+        ]
+      }
+    },
+    {
+      "id": "nc",
+      "code": "NC",
+      "name": "NC Roadster",
+      "years": "2005 — 2015",
+      "available": false,
+      "assetUrl": "assets/models/mx5_nc.glb",
+      "tagline": "Third generation. Grown up, PRHT hardtop option.",
+      "specs": {
+        "engine": "MZR 2.0L I4",
+        "power": 167,
+        "torque": 189,
+        "weight": 1120,
+        "layout": "Front-midship, RWD",
+        "balance": "52:48",
+        "gearbox": "6-speed manual",
+        "redline": 7200
+      },
+      "dimensions": {
+        "length": 4.02,
+        "width": 1.72,
+        "height": 1.245,
+        "wheelbase": 2.33,
+        "trackFront": 1.49,
+        "trackRear": 1.495
+      },
+      "roofTypes": [
+        "st",
+        "rf"
+      ],
+      "defaultRoofType": "st",
+      "wheels": [
+        "oem_17_design",
+        "oem_16_silver",
+        "rays_te37",
+        "enkei_rpf1",
+        "bbs_mesh",
+        "watanabe_rs"
+      ],
+      "defaultWheel": "oem_17_design",
+      "wheelDiameters": [
+        16,
+        17,
+        18
+      ],
+      "defaultWheelDiameter": 17,
+      "aero": {
+        "frontLip": [
+          "stock",
+          "club_lip",
+          "aggressive_splitter"
+        ],
+        "sideSkirts": [
+          "stock",
+          "oem_extensions",
+          "carbon_extenders"
+        ],
+        "rearDiffuser": [
+          "stock",
+          "oem_diffuser",
+          "track_diffuser"
+        ],
+        "rearWing": [
+          "wing_delete",
+          "oem_ducktail",
+          "oem_lip",
+          "gt_wing"
+        ],
+        "hood": [
+          "stock",
+          "vented_carbon",
+          "painted_vented"
+        ],
+        "exhaust": [
+          "stock_single",
+          "oem_dual",
+          "titanium_quad",
+          "big_bore_single"
+        ],
+        "rollBar": [
+          "none",
+          "style_bar",
+          "track_hoop"
+        ]
+      }
+    },
+    {
+      "id": "nb",
+      "code": "NB",
+      "name": "NB Roadster",
+      "years": "1998 — 2005",
+      "available": false,
+      "assetUrl": "assets/models/mx5_nb.glb",
+      "tagline": "Second generation. Fixed headlights, glass rear window.",
+      "specs": {
+        "engine": "BP-Z3 1.8L I4",
+        "power": 142,
+        "torque": 167,
+        "weight": 1065,
+        "layout": "Front engine, RWD",
+        "balance": "52:48",
+        "gearbox": "6-speed manual",
+        "redline": 7000
+      },
+      "dimensions": {
+        "length": 3.955,
+        "width": 1.68,
+        "height": 1.235,
+        "wheelbase": 2.265,
+        "trackFront": 1.415,
+        "trackRear": 1.427
+      },
+      "roofTypes": [
+        "st"
+      ],
+      "defaultRoofType": "st",
+      "wheels": [
+        "oem_16_silver",
+        "rays_te37",
+        "enkei_rpf1",
+        "bbs_mesh",
+        "watanabe_rs"
+      ],
+      "defaultWheel": "oem_16_silver",
+      "wheelDiameters": [
+        15,
+        16,
+        17
+      ],
+      "defaultWheelDiameter": 16,
+      "aero": {
+        "frontLip": [
+          "stock",
+          "club_lip",
+          "aggressive_splitter"
+        ],
+        "sideSkirts": [
+          "stock",
+          "oem_extensions",
+          "carbon_extenders"
+        ],
+        "rearDiffuser": [
+          "stock",
+          "oem_diffuser"
+        ],
+        "rearWing": [
+          "wing_delete",
+          "oem_ducktail",
+          "gt_wing"
+        ],
+        "hood": [
+          "stock",
+          "vented_carbon"
+        ],
+        "exhaust": [
+          "stock_single",
+          "oem_dual",
+          "big_bore_single"
+        ],
+        "rollBar": [
+          "none",
+          "style_bar",
+          "track_hoop"
+        ]
+      }
+    },
+    {
+      "id": "na",
+      "code": "NA",
+      "name": "NA Roadster",
+      "years": "1989 — 1997",
+      "available": false,
+      "assetUrl": "assets/models/mx5_na.glb",
+      "tagline": "The original. Pop-up headlights, 940 kg of purity.",
+      "specs": {
+        "engine": "BP 1.8L I4",
+        "power": 131,
+        "torque": 152,
+        "weight": 990,
+        "layout": "Front engine, RWD",
+        "balance": "52:48",
+        "gearbox": "5-speed manual",
+        "redline": 7000
+      },
+      "dimensions": {
+        "length": 3.975,
+        "width": 1.675,
+        "height": 1.235,
+        "wheelbase": 2.265,
+        "trackFront": 1.405,
+        "trackRear": 1.427
+      },
+      "roofTypes": [
+        "st"
+      ],
+      "defaultRoofType": "st",
+      "wheels": [
+        "oem_16_silver",
+        "rays_te37",
+        "watanabe_rs",
+        "bbs_mesh"
+      ],
+      "defaultWheel": "watanabe_rs",
+      "wheelDiameters": [
+        14,
+        15,
+        16
+      ],
+      "defaultWheelDiameter": 15,
+      "aero": {
+        "frontLip": [
+          "stock",
+          "club_lip"
+        ],
+        "sideSkirts": [
+          "stock",
+          "oem_extensions"
+        ],
+        "rearDiffuser": [
+          "stock"
+        ],
+        "rearWing": [
+          "wing_delete",
+          "oem_ducktail"
+        ],
+        "hood": [
+          "stock"
+        ],
+        "exhaust": [
+          "stock_single",
+          "big_bore_single"
+        ],
+        "rollBar": [
+          "none",
+          "style_bar",
+          "track_hoop"
+        ]
+      }
+    }
+  ],
+  "roofTypes": [
+    {
+      "id": "st",
+      "name": "Soft Top",
+      "shortName": "ST",
+      "description": "Manual folding fabric roof. Drops in under three seconds from the driver's seat.",
+      "nodes": {
+        "up": "Roof_ST_Up",
+        "down": "Roof_ST_Down"
+      },
+      "supportsFabricColor": true,
+      "weightDelta": 0
+    },
+    {
+      "id": "rf",
+      "name": "Retractable Fastback",
+      "shortName": "RF",
+      "description": "Powered targa hardtop with fastback buttresses. ND exclusive.",
+      "nodes": {
+        "up": "Roof_RF_Up",
+        "down": "Roof_RF_Down"
+      },
+      "supportsFabricColor": false,
+      "weightDelta": 45
+    }
+  ],
+  "wheelStyles": [
+    {
+      "id": "oem_17_design",
+      "name": "17\" Design",
+      "brand": "Mazda",
+      "spokeType": "twin_five",
+      "spokeCount": 5,
+      "lipDepth": 0.03,
+      "weightPerCorner": 9.1,
+      "oem": true,
+      "description": "Factory Club / GT twin-five-spoke."
+    },
+    {
+      "id": "oem_16_silver",
+      "name": "16\" Sport",
+      "brand": "Mazda",
+      "spokeType": "mesh_ten",
+      "spokeCount": 10,
+      "lipDepth": 0.025,
+      "weightPerCorner": 8.4,
+      "oem": true,
+      "description": "Factory Sport ten-spoke, lightest OEM option."
+    },
+    {
+      "id": "rays_te37",
+      "name": "Volk TE37",
+      "brand": "Rays",
+      "spokeType": "six_spoke",
+      "spokeCount": 6,
+      "lipDepth": 0.045,
+      "weightPerCorner": 7.4,
+      "oem": false,
+      "description": "Forged six-spoke icon. The benchmark for light."
+    },
+    {
+      "id": "enkei_rpf1",
+      "name": "RPF1",
+      "brand": "Enkei",
+      "spokeType": "split_five",
+      "spokeCount": 5,
+      "lipDepth": 0.04,
+      "weightPerCorner": 7.0,
+      "oem": false,
+      "description": "MAT-forged split five-spoke. Track day staple."
+    },
+    {
+      "id": "bbs_mesh",
+      "name": "Mesh",
+      "brand": "BBS",
+      "spokeType": "mesh_cross",
+      "spokeCount": 12,
+      "lipDepth": 0.06,
+      "weightPerCorner": 9.8,
+      "oem": false,
+      "description": "Three-piece cross-mesh with polished step lip."
+    },
+    {
+      "id": "watanabe_rs",
+      "name": "RS-8",
+      "brand": "Watanabe",
+      "spokeType": "eight_spoke",
+      "spokeCount": 8,
+      "lipDepth": 0.055,
+      "weightPerCorner": 8.2,
+      "oem": false,
+      "description": "Classic dished eight-spoke. Pure kyusha."
+    }
+  ],
+  "aeroParts": {
+    "frontLip": [
+      {
+        "id": "stock",
+        "name": "Stock Bumper",
+        "node": "FrontLip_Stock",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0
+      },
+      {
+        "id": "club_lip",
+        "name": "Club Lip Spoiler",
+        "node": "FrontLip_Club",
+        "material": "trim",
+        "downforce": 6,
+        "weight": 2.1
+      },
+      {
+        "id": "aggressive_splitter",
+        "name": "Carbon Splitter",
+        "node": "FrontLip_Splitter",
+        "material": "carbon",
+        "downforce": 24,
+        "weight": 3.6
+      }
+    ],
+    "sideSkirts": [
+      {
+        "id": "stock",
+        "name": "Stock Sills",
+        "node": "SideSkirts_Stock",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0
+      },
+      {
+        "id": "oem_extensions",
+        "name": "OEM Extensions",
+        "node": "SideSkirts_OEM",
+        "material": "trim",
+        "downforce": 2,
+        "weight": 2.4
+      },
+      {
+        "id": "carbon_extenders",
+        "name": "Carbon Extenders",
+        "node": "SideSkirts_Carbon",
+        "material": "carbon",
+        "downforce": 5,
+        "weight": 1.8
+      }
+    ],
+    "rearDiffuser": [
+      {
+        "id": "stock",
+        "name": "Stock Valance",
+        "node": "RearDiffuser_Stock",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0
+      },
+      {
+        "id": "oem_diffuser",
+        "name": "OEM Accessory Diffuser",
+        "node": "RearDiffuser_OEM",
+        "material": "trim",
+        "downforce": 8,
+        "weight": 2.9
+      },
+      {
+        "id": "track_diffuser",
+        "name": "Track Diffuser",
+        "node": "RearDiffuser_Track",
+        "material": "carbon",
+        "downforce": 22,
+        "weight": 3.4
+      }
+    ],
+    "rearWing": [
+      {
+        "id": "wing_delete",
+        "name": "Wing Delete",
+        "node": "RearWing_None",
+        "material": "none",
+        "downforce": 0,
+        "weight": -1.2
+      },
+      {
+        "id": "oem_ducktail",
+        "name": "OEM Ducktail",
+        "node": "RearWing_Ducktail",
+        "material": "paint",
+        "downforce": 5,
+        "weight": 1.4
+      },
+      {
+        "id": "oem_lip",
+        "name": "Carbon Lip Spoiler",
+        "node": "RearWing_Lip",
+        "material": "carbon",
+        "downforce": 9,
+        "weight": 0.9
+      },
+      {
+        "id": "gt_wing",
+        "name": "GT Wing",
+        "node": "RearWing_GT",
+        "material": "carbon",
+        "downforce": 58,
+        "weight": 6.8
+      }
+    ],
+    "hood": [
+      {
+        "id": "stock",
+        "name": "Stock Hood",
+        "node": "Hood_Stock",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0
+      },
+      {
+        "id": "vented_carbon",
+        "name": "Vented Carbon",
+        "node": "Hood_Carbon",
+        "material": "carbon",
+        "downforce": 3,
+        "weight": -4.2
+      },
+      {
+        "id": "painted_vented",
+        "name": "Vented Painted",
+        "node": "Hood_Vented",
+        "material": "paint",
+        "downforce": 3,
+        "weight": -2.4
+      }
+    ],
+    "exhaust": [
+      {
+        "id": "stock_single",
+        "name": "Stock Single",
+        "node": "Exhaust_Single",
+        "material": "chrome",
+        "downforce": 0,
+        "weight": 0,
+        "power": 0
+      },
+      {
+        "id": "oem_dual",
+        "name": "OEM Dual Tip",
+        "node": "Exhaust_Dual",
+        "material": "chrome",
+        "downforce": 0,
+        "weight": -1.5,
+        "power": 3
+      },
+      {
+        "id": "titanium_quad",
+        "name": "Titanium Quad",
+        "node": "Exhaust_Quad",
+        "material": "titanium",
+        "downforce": 0,
+        "weight": -8.5,
+        "power": 9
+      },
+      {
+        "id": "big_bore_single",
+        "name": "Big Bore Single",
+        "node": "Exhaust_BigBore",
+        "material": "titanium",
+        "downforce": 0,
+        "weight": -11,
+        "power": 12
+      }
+    ],
+    "rollBar": [
+      {
+        "id": "none",
+        "name": "None",
+        "node": "RollBar_None",
+        "material": "none",
+        "downforce": 0,
+        "weight": 0
+      },
+      {
+        "id": "style_bar",
+        "name": "Style Bar",
+        "node": "RollBar_Style",
+        "material": "metal",
+        "downforce": 0,
+        "weight": 4.5
+      },
+      {
+        "id": "track_hoop",
+        "name": "Track Roll Hoop",
+        "node": "RollBar_Track",
+        "material": "metal",
+        "downforce": 0,
+        "weight": 11.5
+      }
+    ]
+  },
+  "stancePresets": [
+    {
+      "id": "stock",
+      "name": "Stock Height",
+      "drop": 0,
+      "camber": -0.5,
+      "spacer": 0,
+      "description": "Factory ride height and geometry."
+    },
+    {
+      "id": "sport",
+      "name": "Sport Springs",
+      "drop": -30,
+      "camber": -1.6,
+      "spacer": 8,
+      "description": "Lowering springs, mild negative camber."
+    },
+    {
+      "id": "coilover",
+      "name": "Coilovers",
+      "drop": -55,
+      "camber": -2.8,
+      "spacer": 15,
+      "description": "Adjustable coilovers, track alignment."
+    },
+    {
+      "id": "slammed",
+      "name": "Slammed / Air",
+      "drop": -85,
+      "camber": -4.5,
+      "spacer": 25,
+      "description": "Air suspension aired out, flush fitment."
+    }
+  ],
+  "interiorTrims": [
+    {
+      "id": "black_leather",
+      "name": "Black Leather",
+      "seatHex": "#17171a",
+      "trimHex": "#0e0e11",
+      "stitchHex": "#3a3a40",
+      "roughness": 0.62,
+      "weight": 0
+    },
+    {
+      "id": "tan_nappa",
+      "name": "Tan Nappa",
+      "seatHex": "#8a5a2b",
+      "trimHex": "#2a1c12",
+      "stitchHex": "#d8b98a",
+      "roughness": 0.58,
+      "weight": 0
+    },
+    {
+      "id": "red_alcantara",
+      "name": "Red Alcantara",
+      "seatHex": "#8e1b1b",
+      "trimHex": "#151517",
+      "stitchHex": "#e8e8ea",
+      "roughness": 0.88,
+      "weight": -1.5
+    },
+    {
+      "id": "recaro_bucket",
+      "name": "Recaro Buckets",
+      "seatHex": "#0b0b0d",
+      "trimHex": "#0b0b0d",
+      "stitchHex": "#c4161c",
+      "roughness": 0.8,
+      "weight": -12
+    }
+  ],
+  "cameraPresets": [
+    {
+      "id": "exterior_360",
+      "name": "Exterior 360",
+      "hint": "Hero three-quarter",
+      "position": [
+        4.6,
+        1.55,
+        5.0
+      ],
+      "target": [
+        0,
+        0.62,
+        0
+      ],
+      "fov": 36,
+      "minDistance": 3.2,
+      "maxDistance": 14
+    },
+    {
+      "id": "profile",
+      "name": "Profile",
+      "hint": "Flat side elevation",
+      "position": [
+        7.6,
+        0.95,
+        0.15
+      ],
+      "target": [
+        0,
+        0.6,
+        0
+      ],
+      "fov": 26,
+      "minDistance": 3.2,
+      "maxDistance": 14
+    },
+    {
+      "id": "wheel_closeup",
+      "name": "Wheel Close-Up",
+      "hint": "Front left corner",
+      "position": [
+        2.5,
+        0.62,
+        2.15
+      ],
+      "target": [
+        -0.55,
+        0.34,
+        1.16
+      ],
+      "fov": 30,
+      "minDistance": 1.1,
+      "maxDistance": 8
+    },
+    {
+      "id": "rear_aero",
+      "name": "Rear / Aero",
+      "hint": "Trunk, wing and diffuser",
+      "position": [
+        -2.9,
+        1.15,
+        -4.4
+      ],
+      "target": [
+        0,
+        0.7,
+        -1.5
+      ],
+      "fov": 34,
+      "minDistance": 2.2,
+      "maxDistance": 12
+    },
+    {
+      "id": "interior",
+      "name": "Driver View",
+      "hint": "In the cockpit",
+      "position": [
+        -0.36,
+        1.16,
+        -0.78
+      ],
+      "target": [
+        -0.05,
+        0.86,
+        3.2
+      ],
+      "fov": 62,
+      "minDistance": 0.25,
+      "maxDistance": 3.4
+    },
+    {
+      "id": "front_low",
+      "name": "Front Low",
+      "hint": "Ground-level nose",
+      "position": [
+        1.5,
+        0.42,
+        4.6
+      ],
+      "target": [
+        0,
+        0.52,
+        0.4
+      ],
+      "fov": 32,
+      "minDistance": 2.4,
+      "maxDistance": 12
+    }
+  ]
+}

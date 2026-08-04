@@ -5,7 +5,6 @@ class ExhaustSoundEngine {
   private isPlaying = false;
   private osc1: OscillatorNode | null = null;
   private osc2: OscillatorNode | null = null;
-  private noiseNode: AudioNode | null = null;
   private gainNode: GainNode | null = null;
   private filterNode: BiquadFilterNode | null = null;
   private revInterval: number | null = null;

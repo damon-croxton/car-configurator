@@ -1,6 +1,8 @@
 {
-  "name": "ND MX-5 Render Studio",
-  "description": "Interactive 3D render view and configurator for the Mazda MX-5 Miata (ND) with real-time color, wheel, stance, aero kit, and roof customization.",
+  "name": "Mazda MX-5 3D Configurator",
+  "description": "Data-driven Three.js configurator for the Mazda MX-5 (ND first, NA/NB/NC scaffolded): PBR car paint, roof and wheel swapping, stance and aero modifications, HDRI environments, camera presets and shareable build URLs.",
   "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

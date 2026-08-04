@@ -1,116 +1,80 @@
-import React, { useState, useRef } from 'react';
-import { CameraPreset, CarConfig } from './types';
-import { DEFAULT_CONFIG } from './data/presets';
-import { Header } from './components/Header';
-import { RenderViewport } from './components/RenderViewport';
-import { ControlPanel } from './components/ControlPanel';
-import { BuildSummaryModal } from './components/BuildSummaryModal';
+import { useCallback, useRef, useState } from 'react';
 import confetti from 'canvas-confetti';
+import { ControlPanel } from './components/ControlPanel';
+import { Header } from './components/Header';
+import { SpecSheetModal } from './components/SpecSheetModal';
+import { Viewport, type ViewportHandle } from './components/Viewport';
+import { DEFAULT_CONFIG } from './config/defaults';
+import type { PresetBuild } from './config/types';
+import { useConfigurator } from './hooks/useConfigurator';
 
 export default function App() {
-  const [config, setConfig] = useState<CarConfig>(DEFAULT_CONFIG);
-  const [selectedCamera, setSelectedCamera] = useState<CameraPreset>('hero_34');
-  const [isSpecSheetOpen, setIsSpecSheetOpen] = useState(false);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const { config, setConfig, replaceConfig, undo, canUndo } = useConfigurator();
+  const [specSheetOpen, setSpecSheetOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const viewportRef = useRef<ViewportHandle | null>(null);
 
-  // Snapshot Capture Handler
-  const handleTakeSnapshot = () => {
-    if (!canvasRef.current) return;
-    const originalCanvas = canvasRef.current;
+  const handleSnapshot = useCallback(() => {
+    const dataUrl = viewportRef.current?.capture(2);
+    if (!dataUrl) return;
 
-    // Create a temporary canvas with watermark overlay
-    const exportCanvas = document.createElement('canvas');
-    exportCanvas.width = originalCanvas.width;
-    exportCanvas.height = originalCanvas.height;
-    const ctx = exportCanvas.getContext('2d');
+    const link = document.createElement('a');
+    link.download = `mx5-${config.generation}-${config.paint}-${Date.now()}.png`;
+    link.href = dataUrl;
+    link.click();
 
-    if (ctx) {
-      // Draw 3D Render
-      ctx.drawImage(originalCanvas, 0, 0);
+    confetti({ particleCount: 70, spread: 75, origin: { y: 0.6 }, disableForReducedMotion: true });
+  }, [config.generation, config.paint]);
 
-      // Add Studio Watermark Banner
-      const w = exportCanvas.width;
-      const h = exportCanvas.height;
-
-      // Top-left Watermark Badge
-      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
-      ctx.roundRect(24, 24, 320, 68, 12);
-      ctx.fill();
-
-      ctx.fillStyle = '#f8fafc';
-      ctx.font = 'bold 20px sans-serif';
-      ctx.fillText('MAZDA MX-5 ND ROADSTER', 40, 52);
-
-      ctx.fillStyle = '#ef4444';
-      ctx.font = '13px monospace';
-      ctx.fillText(`BUILD: ${config.paintName.toUpperCase()}`, 40, 74);
-
-      // Trigger download
-      const imageUri = exportCanvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = `mx5-nd-render-${Date.now()}.png`;
-      link.href = imageUri;
-      link.click();
-
-      // Confetti celebration
-      confetti({
-        particleCount: 80,
-        spread: 80,
-        origin: { y: 0.5 },
-      });
-    }
-  };
-
-  const handleReset = () => {
-    setConfig(DEFAULT_CONFIG);
-    setSelectedCamera('hero_34');
-  };
+  const handleApplyPreset = useCallback(
+    (preset: PresetBuild) => {
+      replaceConfig({ ...DEFAULT_CONFIG, ...preset.config });
+      setSidebarOpen(false);
+    },
+    [replaceConfig],
+  );
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden bg-slate-950 font-sans text-slate-100">
-      {/* Top Navigation Bar */}
+    <div className="flex h-screen w-screen flex-col overflow-hidden bg-slate-950 font-sans text-slate-100">
       <Header
         config={config}
-        onChangeConfig={setConfig}
-        selectedCamera={selectedCamera}
-        onSelectCamera={setSelectedCamera}
-        onOpenSpecSheet={() => setIsSpecSheetOpen(true)}
-        onTakeSnapshot={handleTakeSnapshot}
-        onReset={handleReset}
-        toggleSidebarMobile={() => setIsMobileSidebarOpen(!isMobileSidebarOpen)}
+        onApplyPreset={handleApplyPreset}
+        onOpenSpecSheet={() => setSpecSheetOpen(true)}
+        onSnapshot={handleSnapshot}
+        onReset={() => replaceConfig(DEFAULT_CONFIG)}
+        onUndo={undo}
+        canUndo={canUndo}
+        onToggleSidebar={() => setSidebarOpen((open) => !open)}
       />
 
-      {/* Main Studio Viewport & Sidebar Layout */}
-      <div className="flex-1 flex overflow-hidden relative">
-        {/* 3D Render Viewport Stage */}
-        <main className="flex-1 h-full relative">
-          <RenderViewport
+      <div className="relative flex flex-1 overflow-hidden">
+        <main className="h-full flex-1">
+          <Viewport
             config={config}
-            selectedCamera={selectedCamera}
-            onCameraChange={setSelectedCamera}
-            setSnapshotCanvasRef={(ref) => {
-              canvasRef.current = ref;
-            }}
+            handleRef={viewportRef}
+            onCameraPreset={(cameraPreset) => setConfig({ cameraPreset })}
           />
         </main>
 
-        {/* Right Desktop / Mobile Customizer Drawer */}
-        <div
-          className={`absolute lg:relative right-0 top-0 bottom-0 z-30 transition-transform duration-300 ${
-            isMobileSidebarOpen ? 'translate-x-0' : 'translate-x-full lg:translate-x-0'
+        {sidebarOpen && (
+          <button
+            type="button"
+            aria-label="Close configurator"
+            onClick={() => setSidebarOpen(false)}
+            className="absolute inset-0 z-20 bg-black/50 lg:hidden"
+          />
+        )}
+
+        <aside
+          className={`absolute bottom-0 right-0 top-0 z-30 w-[22rem] max-w-[88vw] transition-transform duration-300 lg:relative lg:max-w-none lg:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <ControlPanel config={config} onChangeConfig={setConfig} />
-        </div>
+          <ControlPanel config={config} onChange={setConfig} />
+        </aside>
       </div>
 
-      {/* Build Spec Sheet Modal */}
-      <BuildSummaryModal
-        config={config}
-        isOpen={isSpecSheetOpen}
-        onClose={() => setIsSpecSheetOpen(false)}
-      />
+      <SpecSheetModal config={config} open={specSheetOpen} onClose={() => setSpecSheetOpen(false)} />
     </div>
   );
 }
