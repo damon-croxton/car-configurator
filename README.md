@@ -127,6 +127,40 @@ environment is swapped (shared library materials are deliberately excluded).
 
 ---
 
+## Assets
+
+Binary assets are **not committed**. `src/data/assetManifest.json` declares each
+one with its URL, licence and credit; `npm run assets` fetches them into
+`public/assets/` and CI runs the same script (cached on the manifest hash)
+before building. Git therefore never carries a multi-megabyte revision history.
+
+A fetch failure is deliberately non-fatal — the app falls back to procedural
+geometry and generated lighting, and the viewport says which path is live with
+`PROCEDURAL MESH` and `GENERATED IBL` badges.
+
+**The car composes rather than chooses.** `CarModel` always builds the
+procedural car first, then replaces only the contract nodes an authored GLB
+actually supplies (`ADOPTABLE_NODES` in `src/three/carModel.ts`). A third-party
+model providing just a body, glass and wheels is useful immediately: every roof
+state and aero variant it lacks keeps working procedurally. That is the whole
+reason the node-name contract exists.
+
+```bash
+npm run assets                                   # fetch declared assets
+node scripts/validate-asset.mjs <file.glb>       # check against the contract
+node scripts/check-composition.mjs               # regression-test the swap
+
+# conform a raw download (headless — no Blender GUI required)
+blender --background --python scripts/blender/conform_mx5.py -- \
+        --input raw/mx5_source.glb --output public/assets/models/mx5_nd.glb
+```
+
+Third-party assets must carry `licence`, `source` and `credit` in the manifest —
+that is what renders the in-app credits panel and keeps `ATTRIBUTION.md` honest.
+See `public/assets/*/README.md` for the per-directory contract.
+
+---
+
 ## Sharing and export
 
 The address bar is always a shareable link. Only values that differ from the

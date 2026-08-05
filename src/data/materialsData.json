@@ -441,6 +441,7 @@
       "groundMetalness": 0.33,
       "gridHex": "#2a323d",
       "shadowOpacity": 0.68,
+      "practicalScale": 0.3,
       "procedural": {
         "skyTop": "#464c54",
         "skyHorizon": "#262a30",
@@ -570,6 +571,7 @@
       "groundMetalness": 0.06,
       "gridHex": "#5a4030",
       "shadowOpacity": 0.55,
+      "practicalScale": 0.35,
       "procedural": {
         "skyTop": "#20305e",
         "skyHorizon": "#f0894c",
@@ -680,6 +682,7 @@
       "groundMetalness": 0.42,
       "gridHex": "#2b1d4a",
       "shadowOpacity": 0.75,
+      "practicalScale": 0.55,
       "procedural": {
         "skyTop": "#0b0e1c",
         "skyHorizon": "#1d1440",
@@ -809,6 +812,7 @@
       "groundMetalness": 0.12,
       "gridHex": "#39404b",
       "shadowOpacity": 0.62,
+      "practicalScale": 0.3,
       "procedural": {
         "skyTop": "#3d444c",
         "skyHorizon": "#22262c",
@@ -938,6 +942,7 @@
       "groundMetalness": 0.01,
       "gridHex": "#b3bcc4",
       "shadowOpacity": 0.42,
+      "practicalScale": 0.25,
       "procedural": {
         "skyTop": "#2f77c8",
         "skyHorizon": "#cfe0ee",

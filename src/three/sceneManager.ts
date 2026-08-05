@@ -19,6 +19,7 @@ export interface SceneStats {
   drawCalls: number;
   triangles: number;
   usingFallbackModel: boolean;
+  usingHdriEnvironment: boolean;
 }
 
 export interface SceneManagerOptions {
@@ -232,6 +233,7 @@ export class SceneManager {
         drawCalls: this.renderer.info.render.calls,
         triangles: this.renderer.info.render.triangles,
         usingFallbackModel: this.car.usingFallback,
+        usingHdriEnvironment: this.environment.usingHdriEnvironment,
       });
       this.frames = 0;
       this.fpsAccumulator = 0;

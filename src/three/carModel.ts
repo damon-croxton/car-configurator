@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
 import type { CarConfig } from '../config/types';
 import { AERO_SLOTS } from '../config/defaults';
 import {
@@ -18,12 +19,40 @@ import { WHEEL_REF_RADIUS, WHEEL_REF_RIM_FRACTION, fitmentFor } from './procedur
 const DEG2RAD = Math.PI / 180;
 
 /**
+ * Contract nodes an authored asset is allowed to take over, each swapped as a
+ * unit. Anything absent from the GLB keeps its procedural counterpart — which
+ * is how a scanned body can coexist with parametric aero and roof variants.
+ *
+ * Deliberately excludes the `Aerodynamics_*` containers: those hold one child
+ * per catalogue variant and are far more valuable generated than authored.
+ */
+const ADOPTABLE_NODES: readonly string[] = [
+  NODE.BODY_MAIN,
+  NODE.BODY_TRIM,
+  NODE.GLASS_WINDSHIELD,
+  NODE.GLASS_WINDOWS,
+  NODE.INTERIOR_MAIN,
+  NODE.INTERIOR_SEATS,
+  NODE.INTERIOR_STEERING,
+  NODE.LIGHTS_HEAD,
+  NODE.LIGHTS_HEAD_HOUSING,
+  NODE.LIGHTS_DRL,
+  NODE.LIGHTS_TAIL,
+  NODE.LIGHTS_INDICATOR,
+  ...ALL_ROOF_NODES,
+  ...WHEEL_NODES,
+];
+
+/**
  * Owns the car in the scene: loading it, applying configuration to it, and
  * disposing it.
  *
- * Loading strategy — try the generation's GLB first; if it is missing or fails
- * to parse, fall back to the procedural mesh. Either way the resulting graph
- * uses the same node names, so `applyConfig` is identical for both.
+ * Loading strategy — the procedural car is *always* built, because it is the
+ * only thing that guarantees the full node contract every configurator toggle
+ * drives. An authored GLB is then composed on top, replacing whichever contract
+ * nodes it actually supplies. A first-pass third-party asset realistically
+ * covers the body, glass and wheels and nothing else; composing rather than
+ * choosing means adopting it costs no functionality.
  */
 export class CarModel {
   readonly group = new THREE.Group();
@@ -33,7 +62,7 @@ export class CarModel {
   private wheels: THREE.Group[] = [];
   private headlightSpots: THREE.SpotLight[] = [];
   private nodes = new Map<string, THREE.Object3D>();
-  private isProcedural = true;
+  private adopted: string[] = [];
   private lastConfig: CarConfig | null = null;
 
   constructor(
@@ -44,9 +73,14 @@ export class CarModel {
     this.generation = getGeneration(undefined);
   }
 
-  /** True when the visible car is the code-generated placeholder. */
+  /** True when nothing authored was adopted — the car is entirely generated. */
   get usingFallback(): boolean {
-    return this.isProcedural;
+    return this.adopted.length === 0;
+  }
+
+  /** Contract node names currently supplied by an authored asset. */
+  get adoptedNodes(): readonly string[] {
+    return this.adopted;
   }
 
   get generationId(): string {
@@ -59,16 +93,15 @@ export class CarModel {
     this.generation = generation;
     this.clear();
 
+    // Always build procedurally first — it is the only source that guarantees
+    // every node the configurator drives.
+    const built = buildProceduralMx5(generation, this.materials);
+    this.group.add(built.root);
+    this.suspension = built.suspension;
+    this.headlightSpots = built.headlightSpots;
+
     const gltfScene = await this.tryLoadGltf(generation);
-    if (gltfScene) {
-      this.adoptGltf(gltfScene);
-    } else {
-      const built = buildProceduralMx5(generation, this.materials);
-      this.group.add(built.root);
-      this.suspension = built.suspension;
-      this.headlightSpots = built.headlightSpots;
-      this.isProcedural = true;
-    }
+    if (gltfScene) this.adopted = this.composeAuthored(gltfScene);
 
     this.indexNodes();
     if (this.lastConfig) this.applyConfig(this.lastConfig);
@@ -84,66 +117,117 @@ export class CarModel {
       if (!probe.ok) return null;
 
       const loader = new GLTFLoader(this.loadingManager);
+      // Meshopt is the compression the asset build script targets. Its decoder
+      // is a plain JS module, so unlike Draco/KTX2 it needs no wasm copied into
+      // `public/` — which matters on a static `base: './'` deploy.
+      loader.setMeshoptDecoder(MeshoptDecoder);
       const gltf = await loader.loadAsync(generation.assetUrl);
       return gltf.scene;
-    } catch {
+    } catch (error) {
+      // A missing asset is the normal case and stays quiet (the HEAD probe
+      // above returns early). Reaching here means the file exists but could not
+      // be parsed, which is worth surfacing — silently falling back makes a
+      // broken asset look like an absent one.
+      console.warn(`[CarModel] ${generation.assetUrl} failed to parse, using procedural mesh:`, error);
       return null;
     }
   }
 
-  /** Wire an authored GLTF into the same contract the procedural model honours. */
-  private adoptGltf(scene: THREE.Group): void {
-    scene.name = NODE.ROOT;
-    this.group.add(scene);
-    this.isProcedural = false;
+  /**
+   * Splice authored nodes into the procedural graph, one contract name at a
+   * time. Each authored node takes the exact parent and sibling slot of the
+   * procedural node it replaces, so it inherits the same transform chain — the
+   * reason the Blender conform step must produce assets at our real-world
+   * dimensions rather than arbitrary ones.
+   */
+  private composeAuthored(scene: THREE.Group): string[] {
+    const adopted: string[] = [];
 
-    this.suspension = (scene.getObjectByName(NODE.SUSPENSION) as THREE.Group) ?? scene;
+    for (const name of ADOPTABLE_NODES) {
+      const authored = scene.getObjectByName(name);
+      if (!authored) continue;
 
-    this.wheels = WHEEL_NODES.map((name) => scene.getObjectByName(name)).filter(
-      (node): node is THREE.Group => Boolean(node),
-    );
+      const existing = this.findInProcedural(name);
+      if (!existing?.parent) continue;
 
-    // Authored assets ship their own materials; replace the ones we drive.
-    const overrides: [string, THREE.Material][] = [
-      [NODE.BODY_MAIN, this.materials.paint],
-      [NODE.GLASS_WINDSHIELD, this.materials.glass],
-      [NODE.GLASS_WINDOWS, this.materials.glass],
-      [NODE.INTERIOR_SEATS, this.materials.seat],
-      [NODE.INTERIOR_MAIN, this.materials.interiorTrim],
-      [NODE.LIGHTS_TAIL, this.materials.taillight],
-      [NODE.LIGHTS_HEAD, this.materials.headlightLens],
-      [NODE.LIGHTS_DRL, this.materials.drl],
-    ];
-    for (const [name, material] of overrides) {
-      const node = scene.getObjectByName(name);
-      node?.traverse((child) => {
+      const parent = existing.parent;
+      const index = parent.children.indexOf(existing);
+
+      existing.removeFromParent();
+      disposeObject3D(existing, { shared: this.materials.owned });
+
+      authored.removeFromParent();
+      parent.add(authored);
+      // Preserve draw order / sibling position rather than always appending.
+      if (index >= 0 && index < parent.children.length - 1) {
+        parent.children.splice(parent.children.indexOf(authored), 1);
+        parent.children.splice(index, 0, authored);
+      }
+
+      adopted.push(name);
+    }
+
+    this.applyAuthoredMaterials(adopted);
+    return adopted;
+  }
+
+  /** Locate a contract node inside the procedural graph currently in `group`. */
+  private findInProcedural(name: string): THREE.Object3D | undefined {
+    return this.group.getObjectByName(name);
+  }
+
+  /**
+   * Authored assets ship their own materials. Re-point the ones the
+   * configurator drives at the shared library so paint, glass and finish
+   * changes keep working; leave anything else the asset provides alone.
+   */
+  private applyAuthoredMaterials(adopted: string[]): void {
+    const overrides: Record<string, THREE.Material> = {
+      [NODE.BODY_MAIN]: this.materials.paint,
+      [NODE.GLASS_WINDSHIELD]: this.materials.glass,
+      [NODE.GLASS_WINDOWS]: this.materials.glass,
+      [NODE.INTERIOR_SEATS]: this.materials.seat,
+      [NODE.INTERIOR_MAIN]: this.materials.interiorTrim,
+      [NODE.INTERIOR_STEERING]: this.materials.interiorTrim,
+      [NODE.BODY_TRIM]: this.materials.trim,
+      [NODE.LIGHTS_TAIL]: this.materials.taillight,
+      [NODE.LIGHTS_HEAD]: this.materials.headlightLens,
+      [NODE.LIGHTS_DRL]: this.materials.drl,
+      [NODE.LIGHTS_INDICATOR]: this.materials.indicator,
+    };
+
+    const assign = (root: THREE.Object3D, material: THREE.Material) =>
+      root.traverse((child) => {
         const asMesh = child as THREE.Mesh;
         if (asMesh.isMesh) asMesh.material = material;
       });
-    }
 
-    for (const wheel of this.wheels) {
-      wheel.getObjectByName(NODE.RIM)?.traverse((child) => {
-        const asMesh = child as THREE.Mesh;
-        if (asMesh.isMesh) asMesh.material = this.materials.rim;
-      });
-      wheel.getObjectByName(NODE.TIRE)?.traverse((child) => {
-        const asMesh = child as THREE.Mesh;
-        if (asMesh.isMesh) asMesh.material = this.materials.rubber;
-      });
-      wheel.getObjectByName(NODE.BRAKE_CALIPER)?.traverse((child) => {
-        const asMesh = child as THREE.Mesh;
-        if (asMesh.isMesh) asMesh.material = this.materials.caliper;
-      });
-    }
+    for (const name of adopted) {
+      const node = this.group.getObjectByName(name);
+      if (!node) continue;
 
-    scene.traverse((child) => {
-      const asMesh = child as THREE.Mesh;
-      if (asMesh.isMesh) {
-        asMesh.castShadow = true;
-        asMesh.receiveShadow = true;
+      const override = overrides[name];
+      if (override) assign(node, override);
+
+      if ((WHEEL_NODES as readonly string[]).includes(name)) {
+        const rim = node.getObjectByName(NODE.RIM);
+        if (rim) assign(rim, this.materials.rim);
+        const tire = node.getObjectByName(NODE.TIRE);
+        if (tire) assign(tire, this.materials.rubber);
+        const caliper = node.getObjectByName(NODE.BRAKE_CALIPER);
+        if (caliper) assign(caliper, this.materials.caliper);
+        const disc = node.getObjectByName(NODE.BRAKE_DISC);
+        if (disc) assign(disc, this.materials.brakeDisc);
       }
-    });
+
+      node.traverse((child) => {
+        const asMesh = child as THREE.Mesh;
+        if (asMesh.isMesh) {
+          asMesh.castShadow = true;
+          asMesh.receiveShadow = true;
+        }
+      });
+    }
   }
 
   private indexNodes(): void {
@@ -151,11 +235,9 @@ export class CarModel {
     this.group.traverse((child) => {
       if (child.name && !this.nodes.has(child.name)) this.nodes.set(child.name, child);
     });
-    if (this.isProcedural) {
-      this.wheels = WHEEL_NODES.map((name) => this.nodes.get(name)).filter(
-        (node): node is THREE.Group => Boolean(node),
-      );
-    }
+    this.wheels = WHEEL_NODES.map((name) => this.nodes.get(name)).filter(
+      (node): node is THREE.Group => Boolean(node),
+    );
   }
 
   private node(name: string): THREE.Object3D | undefined {
@@ -281,6 +363,7 @@ export class CarModel {
     this.wheels = [];
     this.headlightSpots = [];
     this.suspension = null;
+    this.adopted = [];
     this.nodes.clear();
   }
 

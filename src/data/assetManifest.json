@@ -1,0 +1,46 @@
+{
+  "$comment": "Binary assets fetched at build time rather than committed. See scripts/fetch-assets.mjs and public/assets/*/README.md. Every asset here MUST be one the project is licensed to use; record the licence on each entry.",
+  "version": 1,
+  "assets": [
+    {
+      "id": "hdri_studio",
+      "dest": "assets/hdri/studio.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/studio_small_03_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/studio_small_03",
+      "credit": "Poly Haven — Studio Small 03 (CC0)"
+    },
+    {
+      "id": "hdri_sunset",
+      "dest": "assets/hdri/sunset.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/venice_sunset_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/venice_sunset",
+      "credit": "Poly Haven — Venice Sunset (CC0)"
+    },
+    {
+      "id": "hdri_urban_night",
+      "dest": "assets/hdri/urban_night.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dikhololo_night_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/dikhololo_night",
+      "credit": "Poly Haven — Dikhololo Night (CC0)"
+    },
+    {
+      "id": "hdri_warehouse",
+      "dest": "assets/hdri/warehouse.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/autoshop_01_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/autoshop_01",
+      "credit": "Poly Haven — Autoshop 01 (CC0)"
+    },
+    {
+      "id": "hdri_salt_flats",
+      "dest": "assets/hdri/salt_flats.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/kloofendal_43d_clear_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/kloofendal_43d_clear",
+      "credit": "Poly Haven — Kloofendal 43d Clear (CC0)"
+    }
+  ]
+}

@@ -6,3 +6,16 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Binary assets are fetched at build time from src/data/assetManifest.json
+# rather than committed — git keeps every revision of a binary forever.
+# The README.md in each directory documents the contract and stays tracked.
+public/assets/**/*.hdr
+public/assets/**/*.exr
+public/assets/**/*.glb
+public/assets/**/*.gltf
+public/assets/**/*.ktx2
+public/assets/**/*.bin
+
+# Raw, unconformed source models live here before Blender processes them.
+raw/

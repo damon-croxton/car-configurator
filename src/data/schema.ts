@@ -256,6 +256,13 @@ export interface EnvironmentDef {
   groundMetalness: number;
   gridHex: string;
   shadowOpacity: number;
+  /**
+   * Multiplier applied to the key/fill/rim lights when a real HDRI supplies the
+   * IBL. Those intensities were calibrated against the deliberately weak
+   * procedural environment, so an HDRI would otherwise double-light the car.
+   * The procedural path always runs at 1.0.
+   */
+  practicalScale: number;
   procedural: {
     skyTop: string;
     skyHorizon: string;

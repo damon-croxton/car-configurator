@@ -24,6 +24,8 @@ export class EnvironmentManager {
   private grid: THREE.GridHelper | null = null;
   private current: EnvironmentDef | null = null;
   private token = 0;
+  /** True when the active IBL came from a real .hdr rather than the code rig. */
+  private usingHdri = false;
 
   constructor(
     renderer: THREE.WebGLRenderer,
@@ -37,6 +39,11 @@ export class EnvironmentManager {
 
   get environmentId(): string | null {
     return this.current?.id ?? null;
+  }
+
+  /** False when the IBL is the code-generated rig rather than a real HDRI. */
+  get usingHdriEnvironment(): boolean {
+    return this.usingHdri;
   }
 
   /** Swap to a new environment. Concurrent calls resolve to the last one. */
@@ -71,12 +78,14 @@ export class EnvironmentManager {
       hdr.mapping = THREE.EquirectangularReflectionMapping;
       const target = this.pmrem.fromEquirectangular(hdr);
       hdr.dispose();
+      this.usingHdri = true;
       return target.texture;
     }
 
     const rigScene = this.buildProceduralEnvScene(def);
     const target = this.pmrem.fromScene(rigScene, 0, 0.1, 120);
     removeAndDispose(rigScene);
+    this.usingHdri = false;
     return target.texture;
   }
 
@@ -171,7 +180,12 @@ export class EnvironmentManager {
     const rig = new THREE.Group();
     rig.name = 'EnvironmentLights';
 
-    const key = new THREE.DirectionalLight(def.key.color, def.key.intensity);
+    // With a real HDRI the IBL carries most of the illumination, so the
+    // practicals drop back to shaping and shadow-casting duty. Without one they
+    // run at full strength because the generated rig alone is too weak.
+    const practical = this.usingHdri ? def.practicalScale : 1;
+
+    const key = new THREE.DirectionalLight(def.key.color, def.key.intensity * practical);
     key.position.fromArray(def.key.position);
     key.castShadow = true;
     key.shadow.bias = -0.0006;
@@ -185,11 +199,11 @@ export class EnvironmentManager {
     key.shadow.camera.far = 24;
     rig.add(key, key.target);
 
-    const fill = new THREE.DirectionalLight(def.fill.color, def.fill.intensity);
+    const fill = new THREE.DirectionalLight(def.fill.color, def.fill.intensity * practical);
     fill.position.fromArray(def.fill.position);
     rig.add(fill);
 
-    const rim = new THREE.DirectionalLight(def.rim.color, def.rim.intensity);
+    const rim = new THREE.DirectionalLight(def.rim.color, def.rim.intensity * practical);
     rim.position.fromArray(def.rim.position);
     rig.add(rim);
 

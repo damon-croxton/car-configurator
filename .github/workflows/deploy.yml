@@ -33,6 +33,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # Binary assets are not committed. Cache them across runs so we only hit
+      # the upstream CDN when the manifest actually changes.
+      - name: Cache fetched assets
+        uses: actions/cache@v4
+        with:
+          path: public/assets
+          key: assets-${{ hashFiles('src/data/assetManifest.json') }}
+
+      # A fetch failure is deliberately non-fatal: the app falls back to
+      # procedural geometry and generated lighting, so a flaky CDN degrades the
+      # render instead of breaking the deploy.
+      - name: Fetch assets
+        run: npm run assets
+
       - name: Build project
         run: npm run build
 

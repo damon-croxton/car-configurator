@@ -28,6 +28,7 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
     drawCalls: 0,
     triangles: 0,
     usingFallbackModel: true,
+    usingHdriEnvironment: false,
   });
 
   // Keep the latest config available to the async boot without re-running it.
@@ -87,6 +88,14 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
             title="No GLB found for this generation — rendering the parametric fallback mesh."
           >
             PROCEDURAL MESH
+          </span>
+        )}
+        {!stats.usingHdriEnvironment && (
+          <span
+            className="rounded-full border border-sky-700/40 bg-sky-950/60 px-3 py-1 font-mono text-[10px] text-sky-300 backdrop-blur"
+            title="No .hdr found for this environment — lighting from the code-generated rig."
+          >
+            GENERATED IBL
           </span>
         )}
       </div>

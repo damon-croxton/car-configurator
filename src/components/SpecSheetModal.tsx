@@ -3,6 +3,7 @@ import { Check, Copy, Download, Gauge, Scale, Wind, X } from 'lucide-react';
 import type { CarConfig } from '../config/types';
 import { buildSummary } from '../config/summary';
 import { buildShareUrl } from '../config/urlState';
+import { ASSET_CREDITS } from '../data/attribution';
 import { getGeneration } from '../data/schema';
 
 interface SpecSheetModalProps {
@@ -130,6 +131,32 @@ export const SpecSheetModal: React.FC<SpecSheetModalProps> = ({ config, open, on
               {summary.total.toLocaleString()}
             </span>
           </div>
+
+          {ASSET_CREDITS.length > 0 && (
+            <section>
+              <h3 className="mb-2 font-mono text-[10px] uppercase tracking-[0.14em] text-slate-500">
+                Asset credits
+              </h3>
+              <ul className="space-y-1 rounded-xl border border-slate-800 bg-slate-950/50 px-3 py-2.5">
+                {ASSET_CREDITS.map((entry) => (
+                  <li key={entry.credit} className="flex items-baseline justify-between gap-3">
+                    <a
+                      href={entry.source}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] text-slate-400 underline-offset-2 hover:text-slate-200 hover:underline"
+                    >
+                      {entry.credit}
+                    </a>
+                    <span className="shrink-0 font-mono text-[10px] text-slate-600">{entry.licence}</span>
+                  </li>
+                ))}
+              </ul>
+              <p className="mt-1.5 text-[10px] leading-relaxed text-slate-600">
+                Everything else is generated in code. Not affiliated with or endorsed by Mazda.
+              </p>
+            </section>
+          )}
         </div>
 
         <footer className="flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-slate-800 bg-slate-950/60 p-4">
