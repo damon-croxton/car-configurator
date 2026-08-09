@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { classOf, isPaintable } from '../data/surfaces';
+import { classOf } from '../data/surfaces';
 
 /**
  * The Sketchfab source model, copied in verbatim (glTF + .bin + textures).
@@ -25,6 +25,21 @@ export interface WheelFinish {
   metalness: number;
   roughness: number;
   clearcoat: number;
+}
+
+/** Cabin colours. Mirrors `interiorTrims` in carData. */
+export interface InteriorTrim {
+  seatHex: string;
+  trimHex: string;
+  roughness: number;
+}
+
+/** Properties a tint may push onto a material. All optional. */
+interface Tint {
+  hex?: string;
+  metalness?: number;
+  roughness?: number;
+  clearcoat?: number;
 }
 
 export interface Stance {
@@ -77,14 +92,17 @@ export class CarModel {
   private bodyBaseY = 0;
   private wheels: Wheel[] = [];
 
-  /** Distinct material instances carrying body colour — see `data/surfaces.ts`. */
-  private paintMaterials: THREE.Material[] = [];
-  /** Rim materials (one per wheel in this asset). Excludes tyres and centre caps. */
-  private rimMaterials: THREE.Material[] = [];
+  /** Distinct material instances, bucketed by surface class — see `data/surfaces.ts`. */
+  private readonly byClass = new Map<string, THREE.Material[]>();
+  /** The whole roof part: canvas, stitching decal, rear window and frame. */
+  private roofPart: THREE.Object3D | null = null;
 
   // Held so values set before the model finished loading are not lost.
   private paintColor: string | null = null;
   private wheelFinish: WheelFinish | null = null;
+  private roofFabric: string | null = null;
+  private interior: InteriorTrim | null = null;
+  private roofUp = true;
   private stance: Stance | null = null;
 
   constructor(private readonly loadingManager: THREE.LoadingManager) {
@@ -114,9 +132,13 @@ export class CarModel {
     this.bodyBaseY = model.position.y;
     this.extractWheels();
     this.indexMaterials();
+    this.indexRoof();
 
     if (this.paintColor) this.setPaintColor(this.paintColor);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
+    if (this.roofFabric) this.setRoofFabric(this.roofFabric);
+    if (this.interior) this.setInterior(this.interior);
+    this.setRoofUp(this.roofUp);
     if (this.stance) this.setStance(this.stance);
 
     this.loaded = true;
@@ -257,7 +279,7 @@ export class CarModel {
   /* ---------------------------------------------------------------- */
 
   /**
-   * Collect the material instances the configurator is allowed to touch.
+   * Bucket every distinct material instance by its surface class.
    *
    * All 18 painted meshes share one glTF material, and each wheel has its own
    * copy of the rim material — but three.js will clone a material when meshes
@@ -265,8 +287,7 @@ export class CarModel {
    * assuming a count.
    */
   private indexMaterials(): void {
-    const paint = new Set<THREE.Material>();
-    const rim = new Set<THREE.Material>();
+    const seen = new Map<string, Set<THREE.Material>>();
     const unclassified = new Set<string>();
 
     this.group.traverse((child) => {
@@ -276,15 +297,18 @@ export class CarModel {
       for (const material of materials) {
         if (!material) continue;
         const cls = classOf(material.name);
-        if (isPaintable(material.name)) paint.add(material);
-        // Rims only. Tyres stay black and the centre cap keeps its badge.
-        else if (cls === 'rim') rim.add(material);
-        else if (!cls) unclassified.add(material.name);
+        if (!cls) {
+          unclassified.add(material.name);
+          continue;
+        }
+        const bucket = seen.get(cls);
+        if (bucket) bucket.add(material);
+        else seen.set(cls, new Set([material]));
       }
     });
 
-    this.paintMaterials = [...paint];
-    this.rimMaterials = [...rim];
+    this.byClass.clear();
+    for (const [cls, materials] of seen) this.byClass.set(cls, [...materials]);
 
     if (unclassified.size > 0) {
       // Not fatal — an unclassified surface simply never gets touched. Worth
@@ -297,38 +321,111 @@ export class CarModel {
   }
 
   /**
-   * Set the body colour. Affects only materials classified `body_paint`;
-   * trim, glass, lenses, badges, rims and interior are untouched because they
-   * are simply not in this set.
+   * Push colour and/or surface properties onto every material of a class.
+   * A class the asset does not use is simply a no-op.
    */
-  setPaintColor(hex: string): void {
-    this.paintColor = hex;
-    for (const material of this.paintMaterials) {
-      const colored = material as THREE.Material & { color?: THREE.Color };
-      colored.color?.set(hex);
-    }
-  }
-
-  /**
-   * Set the rim finish. Unlike body paint this drives metalness/roughness as
-   * well as colour, because that is what separates matte black from chrome.
-   * Tyres and centre-cap badges are not in `rimMaterials` and never change.
-   */
-  setWheelFinish(finish: WheelFinish): void {
-    this.wheelFinish = finish;
-    for (const material of this.rimMaterials) {
+  private tint(surfaceClass: string, tint: Tint): void {
+    const materials = this.byClass.get(surfaceClass);
+    if (!materials) return;
+    for (const material of materials) {
       const pbr = material as THREE.Material & {
         color?: THREE.Color;
         metalness?: number;
         roughness?: number;
         clearcoat?: number;
       };
-      pbr.color?.set(finish.hex);
-      if (typeof pbr.metalness === 'number') pbr.metalness = finish.metalness;
-      if (typeof pbr.roughness === 'number') pbr.roughness = finish.roughness;
-      if (typeof pbr.clearcoat === 'number') pbr.clearcoat = finish.clearcoat;
+      if (tint.hex !== undefined) pbr.color?.set(tint.hex);
+      if (tint.metalness !== undefined && typeof pbr.metalness === 'number') {
+        pbr.metalness = tint.metalness;
+      }
+      if (tint.roughness !== undefined && typeof pbr.roughness === 'number') {
+        pbr.roughness = tint.roughness;
+      }
+      if (tint.clearcoat !== undefined && typeof pbr.clearcoat === 'number') {
+        pbr.clearcoat = tint.clearcoat;
+      }
       material.needsUpdate = true;
     }
+  }
+
+  /**
+   * Set the body colour. Affects only materials classified `body_paint`;
+   * trim, glass, lenses, badges, rims and interior are untouched because they
+   * are simply not in that class.
+   */
+  setPaintColor(hex: string): void {
+    this.paintColor = hex;
+    this.tint('body_paint', { hex });
+  }
+
+  /**
+   * Set the rim finish. Unlike body paint this drives metalness/roughness as
+   * well as colour, because that is what separates matte black from chrome.
+   * Tyres and centre-cap badges are other classes and never change.
+   */
+  setWheelFinish(finish: WheelFinish): void {
+    this.wheelFinish = finish;
+    this.tint('rim', {
+      hex: finish.hex,
+      metalness: finish.metalness,
+      roughness: finish.roughness,
+      clearcoat: finish.clearcoat,
+    });
+  }
+
+  /** Colour the soft top. The stitching decal follows the canvas. */
+  setRoofFabric(hex: string): void {
+    this.roofFabric = hex;
+    this.tint('soft_top', { hex });
+  }
+
+  /**
+   * Colour the cabin. `seatHex` lands on the whole interior tub, because seats,
+   * dashboard, steering wheel and door cards are one mesh sharing one material
+   * — they cannot be separated without cutting geometry. `trimHex` lands on the
+   * door tops and dash rail, which are a distinct material.
+   */
+  setInterior(trim: InteriorTrim): void {
+    this.interior = trim;
+    this.tint('interior_main', { hex: trim.seatHex, roughness: trim.roughness });
+    this.tint('interior_trim', { hex: trim.trimHex });
+  }
+
+  /**
+   * Raise or lower the roof. The model ships one roof state and no folded
+   * stack, so "down" hides the roof part outright — canvas, stitching, rear
+   * window and frame together, so nothing is left floating.
+   */
+  setRoofUp(up: boolean): void {
+    this.roofUp = up;
+    if (this.roofPart) this.roofPart.visible = up;
+  }
+
+  /**
+   * Find the top-level part containing the soft top.
+   *
+   * The asset nests every part under a single-child chain
+   * (`Sketchfab_model → root → GLTF_SceneRootNode`) before branching into 44
+   * parts, so walking down to the branch point and back up from the canvas
+   * mesh lands on the whole roof assembly rather than just the canvas.
+   */
+  private indexRoof(): void {
+    let partsRoot: THREE.Object3D | null = this.body;
+    while (partsRoot && partsRoot.children.length === 1) partsRoot = partsRoot.children[0];
+    if (!partsRoot) return;
+
+    this.group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh || this.roofPart) return;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      if (!materials.some((m) => m && classOf(m.name) === 'soft_top')) return;
+
+      let node: THREE.Object3D = mesh;
+      while (node.parent && node.parent !== partsRoot) node = node.parent;
+      if (node.parent === partsRoot) this.roofPart = node;
+    });
+
+    if (!this.roofPart) console.warn('[CarModel] roof part not found — roof-down will do nothing');
   }
 
   /* ---------------------------------------------------------------- */

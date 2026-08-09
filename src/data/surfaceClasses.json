@@ -7,6 +7,10 @@
 
   "$wheels": "The classes rim / rim_badge / tyre also identify which meshes are wheels, which is how CarModel splits wheels from body without relying on node names (all four wheels are named 'WheelFL' in the asset). Rim finish applies to 'rim' only — tyres stay black and the centre-cap badge keeps its logo.",
 
+  "$interior": "interior_main is ONE material covering the whole cabin tub — seats, dashboard, steering wheel and door cards are a single mesh, so seat colour and dash colour cannot be separated without cutting geometry. Tinting it multiplies its baseColor texture. interior_trim (door tops, dash rail) is flat black with no texture and takes a colour directly.",
+
+  "$roof": "soft_top identifies the roof canvas and its stitching decal. CarModel also uses it to find the whole roof part (canvas, decal, rear window, frame) so the roof-down state can hide all four together — hiding only the canvas would leave the rear window floating.",
+
   "$normalisation": "Look up a material by stripping a trailing '.NNN' duplicate suffix (M_Tire_Max.002 -> M_Tire_Max). Those suffixes are per-wheel copies of identical materials, not distinct surfaces. Note M_LightGlassNormal_OrangeLow. ends in a bare dot with no digits, so the rule leaves it alone.",
 
   "$trap": "M_CarPaint_Trim_PlasticSmoothBlack_Max contains 'CarPaint' but is the GLOSS BLACK trim on the front bumper, rear bumper and skirts. Matching materials by substring paints the grille surround body colour. Match exact names only.",
@@ -41,9 +45,9 @@
     "M_Fabric_Max": "soft_top",
     "M_FabricDecal_Max": "soft_top",
 
-    "M_Interior_Max": "interior",
-    "Black": "interior",
-    "Tiled": "interior",
+    "M_Interior_Max": "interior_main",
+    "Black": "interior_trim",
+    "Tiled": "interior_insert",
     "Screen": "interior_screen"
   },
 

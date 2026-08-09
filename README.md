@@ -9,11 +9,11 @@ only what can be expressed by moving, scaling and recolouring what is already
 there.
 
 **What reaches the car:** body colour, rim finish, wheel diameter, ride height,
-camber and track offset.
+camber, track offset, roof fabric colour, roof up/down and interior colour.
 
-**What does not:** roof state, aero parts, interior trim, wheel *style* (there
-is one rim design in the model), caliper colour (there are no calipers). Those
-controls still drive the share URL, the spec sheet and pricing.
+**What does not:** aero parts, wheel *style* (there is one rim design in the
+model), caliper colour (there are no calipers), roof *type* (soft top only).
+Those controls still drive the share URL, the spec sheet and pricing.
 
 Also driven: camera presets, environment, exposure, floor reflection, contact
 shadow, bloom/SSAO, turntable and the snapshot export.
@@ -219,9 +219,16 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
 
 ## Known limitations
 
-- **Roof, aero and interior options are inert** in the viewport — the model has
-  one roof state, no aero parts and one interior. They still drive the share
-  URL, the spec sheet and pricing.
+- **Roof "down" hides the roof rather than folding it.** The model ships one
+  roof state and no folded stack, so down means the whole roof part — canvas,
+  stitching, rear window and frame — is hidden together. The side windows stay
+  up, because they live inside the chassis part and cannot be separated by
+  class.
+- **Interior colour cannot separate seats from dashboard.** The cabin tub,
+  seats, steering wheel and door cards are one mesh sharing one material, so
+  the seat colour tints all of it. The door tops and dash rail are a separate
+  material and take the trim colour. Aero options remain inert — the model has
+  no aero parts.
 - **Wheel *style* is inert; wheel *diameter* and *finish* work.** There is one
   rim design in the model, so the TE37/RPF1-style catalogue entries change the
   spec sheet but not the render. Caliper colour is inert for the same reason —

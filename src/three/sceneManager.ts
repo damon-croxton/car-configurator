@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import type { CarConfig } from '../config/types';
-import { getCameraPreset, getEnvironment, getPaintColor, getWheelFinish } from '../data/schema';
+import {
+  getCameraPreset,
+  getEnvironment,
+  getInteriorTrim,
+  getPaintColor,
+  getRoofFabric,
+  getWheelFinish,
+} from '../data/schema';
 import { CameraRig } from './cameraRig';
 import { CarModel } from './carModel';
 import { ContactShadow } from './contactShadow';
@@ -172,6 +179,16 @@ export class SceneManager {
 
     const finish = getWheelFinish(config.wheelFinish);
     this.car.setWheelFinish(finish);
+
+    this.car.setRoofFabric(getRoofFabric(config.roofFabric).hex);
+    this.car.setRoofUp(config.roofState === 'up');
+
+    const trim = getInteriorTrim(config.interiorTrim);
+    this.car.setInterior({
+      seatHex: trim.seatHex,
+      trimHex: trim.trimHex,
+      roughness: trim.roughness,
+    });
 
     this.car.setStance({
       wheelDiameter: config.wheelDiameter,
