@@ -1,374 +1,349 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/examples/jsm/libs/meshopt_decoder.module.js';
-import type { CarConfig } from '../config/types';
-import { AERO_SLOTS } from '../config/defaults';
-import {
-  getAeroPart,
-  getGeneration,
-  getWheelStyle,
-  type AeroSlotId,
-  type Generation,
-} from '../data/schema';
-import { disposeObject3D } from './disposal';
-import type { MaterialLibrary } from './materialLibrary';
-import { ALL_ROOF_NODES, AERO_SLOT_NODE, NODE, WHEEL_NODES, roofNodeName } from './nodeNames';
-import { buildProceduralMx5 } from './proceduralMx5';
-import { WHEEL_REF_RADIUS, WHEEL_REF_RIM_FRACTION, fitmentFor } from './proceduralWheel';
+import { classOf, isPaintable } from '../data/surfaces';
+
+/**
+ * The Sketchfab source model, copied in verbatim (glTF + .bin + textures).
+ * See `public/assets/models/README.md`.
+ */
+const MODEL_URL = 'assets/models/mx5_sketchfab/scene.gltf';
+
+/** Real-world length of an ND MX-5, in metres — the scale the scene is built around. */
+const TARGET_LENGTH = 3.915;
+
+/** Rim diameter the model was authored at. Wheel scaling is relative to this. */
+const NATIVE_WHEEL_INCHES = 17;
 
 const DEG2RAD = Math.PI / 180;
 
-/**
- * Contract nodes an authored asset is allowed to take over, each swapped as a
- * unit. Anything absent from the GLB keeps its procedural counterpart — which
- * is how a scanned body can coexist with parametric aero and roof variants.
- *
- * Deliberately excludes the `Aerodynamics_*` containers: those hold one child
- * per catalogue variant and are far more valuable generated than authored.
- */
-const ADOPTABLE_NODES: readonly string[] = [
-  NODE.BODY_MAIN,
-  NODE.BODY_TRIM,
-  NODE.GLASS_WINDSHIELD,
-  NODE.GLASS_WINDOWS,
-  NODE.INTERIOR_MAIN,
-  NODE.INTERIOR_SEATS,
-  NODE.INTERIOR_STEERING,
-  NODE.LIGHTS_HEAD,
-  NODE.LIGHTS_HEAD_HOUSING,
-  NODE.LIGHTS_DRL,
-  NODE.LIGHTS_TAIL,
-  NODE.LIGHTS_INDICATOR,
-  ...ALL_ROOF_NODES,
-  ...WHEEL_NODES,
-];
+/** Surface classes that mean "this mesh belongs to a wheel, not to the body". */
+const WHEEL_CLASSES = new Set(['rim', 'rim_badge', 'tyre']);
+
+/** Colour + surface properties for the rims. Mirrors `wheelFinishes` in materialsData. */
+export interface WheelFinish {
+  hex: string;
+  metalness: number;
+  roughness: number;
+  clearcoat: number;
+}
+
+export interface Stance {
+  /** Rim diameter in inches. */
+  wheelDiameter: number;
+  /** Millimetres relative to stock; negative lowers the body. */
+  rideHeight: number;
+  /** Degrees; negative tilts the tops of the wheels inboard. */
+  camber: number;
+  /** Millimetres of spacer per side; positive pushes the wheels outboard. */
+  trackOffset: number;
+}
+
+interface Wheel {
+  pivot: THREE.Group;
+  /** Contact patch in car-group space, before spacers are applied. */
+  base: THREE.Vector3;
+  /** Outer (tyre) radius at native size, in car-group units. */
+  radius: number;
+  /** +1 on the right-hand side of the car, -1 on the left. */
+  side: 1 | -1;
+}
 
 /**
- * Owns the car in the scene: loading it, applying configuration to it, and
- * disposing it.
+ * Loads the car and drives the few things that can be driven without altering
+ * the asset: body colour, rim finish, wheel size, ride height, camber and track.
  *
- * Loading strategy — the procedural car is *always* built, because it is the
- * only thing that guarantees the full node contract every configurator toggle
- * drives. An authored GLB is then composed on top, replacing whichever contract
- * nodes it actually supplies. A first-pass third-party asset realistically
- * covers the body, glass and wheels and nothing else; composing rather than
- * choosing means adopting it costs no functionality.
+ * The model's geometry and textures are exactly what the artist shipped —
+ * nothing is split, hidden or re-materialled. Two things happen on load:
+ *
+ * 1. The whole model is scaled, yawed and placed so it stands at real-world
+ *    size on the ground plane facing the camera presets.
+ * 2. The wheel meshes are re-parented onto four pivots placed at their **ground
+ *    contact patches**, which leaves the body as everything still under the
+ *    model root. Scaling a wheel about its contact patch keeps it planted on
+ *    the tarmac and raises its hub, exactly as fitting a bigger wheel does.
+ *
+ * That re-parenting is a scene-graph rearrangement, not an edit: no vertex
+ * moves, and the asset file is untouched. It exists because the model's wheel
+ * nodes have their origins on the car's centreline rather than in the wheels,
+ * so scaling them in place would drag the wheels into the sills.
  */
 export class CarModel {
   readonly group = new THREE.Group();
 
-  private generation: Generation;
-  private suspension: THREE.Group | null = null;
-  private wheels: THREE.Group[] = [];
-  private headlightSpots: THREE.SpotLight[] = [];
-  private nodes = new Map<string, THREE.Object3D>();
-  private adopted: string[] = [];
-  private lastConfig: CarConfig | null = null;
+  private loaded = false;
+  /** Everything that is not a wheel — the model root, once the wheels are out. */
+  private body: THREE.Object3D | null = null;
+  /** Body height set by `frame()`, before stance is applied. */
+  private bodyBaseY = 0;
+  private wheels: Wheel[] = [];
 
-  constructor(
-    private readonly materials: MaterialLibrary,
-    private readonly loadingManager: THREE.LoadingManager,
-  ) {
+  /** Distinct material instances carrying body colour — see `data/surfaces.ts`. */
+  private paintMaterials: THREE.Material[] = [];
+  /** Rim materials (one per wheel in this asset). Excludes tyres and centre caps. */
+  private rimMaterials: THREE.Material[] = [];
+
+  // Held so values set before the model finished loading are not lost.
+  private paintColor: string | null = null;
+  private wheelFinish: WheelFinish | null = null;
+  private stance: Stance | null = null;
+
+  constructor(private readonly loadingManager: THREE.LoadingManager) {
     this.group.name = 'Car';
-    this.generation = getGeneration(undefined);
   }
 
-  /** True when nothing authored was adopted — the car is entirely generated. */
-  get usingFallback(): boolean {
-    return this.adopted.length === 0;
-  }
+  async load(): Promise<void> {
+    if (this.loaded) return;
 
-  /** Contract node names currently supplied by an authored asset. */
-  get adoptedNodes(): readonly string[] {
-    return this.adopted;
-  }
+    const loader = new GLTFLoader(this.loadingManager);
+    const gltf = await loader.loadAsync(MODEL_URL);
+    const model = gltf.scene;
+    model.name = 'MX5_Body';
 
-  get generationId(): string {
-    return this.generation.id;
-  }
+    model.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (mesh.isMesh) {
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+      }
+    });
 
-  /** Load (or rebuild) the car for a generation. Safe to call repeatedly. */
-  async load(generationId: string): Promise<void> {
-    const generation = getGeneration(generationId);
-    this.generation = generation;
-    this.clear();
+    this.group.add(model);
+    this.frame(model);
 
-    // Always build procedurally first — it is the only source that guarantees
-    // every node the configurator drives.
-    const built = buildProceduralMx5(generation, this.materials);
-    this.group.add(built.root);
-    this.suspension = built.suspension;
-    this.headlightSpots = built.headlightSpots;
+    this.body = model;
+    this.bodyBaseY = model.position.y;
+    this.extractWheels();
+    this.indexMaterials();
 
-    const gltfScene = await this.tryLoadGltf(generation);
-    if (gltfScene) this.adopted = this.composeAuthored(gltfScene);
+    if (this.paintColor) this.setPaintColor(this.paintColor);
+    if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
+    if (this.stance) this.setStance(this.stance);
 
-    this.indexNodes();
-    if (this.lastConfig) this.applyConfig(this.lastConfig);
-  }
-
-  private async tryLoadGltf(generation: Generation): Promise<THREE.Group | null> {
-    if (!generation.assetUrl) return null;
-    try {
-      // A HEAD probe keeps the LoadingManager's progress bar honest: a dev
-      // server that answers 404 with an HTML page would otherwise register as
-      // a "successful" asset and then blow up in the parser.
-      const probe = await fetch(generation.assetUrl, { method: 'HEAD' });
-      if (!probe.ok) return null;
-
-      const loader = new GLTFLoader(this.loadingManager);
-      // Meshopt is the compression the asset build script targets. Its decoder
-      // is a plain JS module, so unlike Draco/KTX2 it needs no wasm copied into
-      // `public/` — which matters on a static `base: './'` deploy.
-      loader.setMeshoptDecoder(MeshoptDecoder);
-      const gltf = await loader.loadAsync(generation.assetUrl);
-      return gltf.scene;
-    } catch (error) {
-      // A missing asset is the normal case and stays quiet (the HEAD probe
-      // above returns early). Reaching here means the file exists but could not
-      // be parsed, which is worth surfacing — silently falling back makes a
-      // broken asset look like an absent one.
-      console.warn(`[CarModel] ${generation.assetUrl} failed to parse, using procedural mesh:`, error);
-      return null;
-    }
+    this.loaded = true;
   }
 
   /**
-   * Splice authored nodes into the procedural graph, one contract name at a
-   * time. Each authored node takes the exact parent and sibling slot of the
-   * procedural node it replaces, so it inherits the same transform chain — the
-   * reason the Blender conform step must produce assets at our real-world
-   * dimensions rather than arbitrary ones.
+   * Scale the model to real-world size and stand it on the ground, centred at
+   * the origin — applied to the model root only, so its internal layout is
+   * untouched.
    */
-  private composeAuthored(scene: THREE.Group): string[] {
-    const adopted: string[] = [];
+  private frame(model: THREE.Object3D): void {
+    // The source model's nose points down -Z; every camera preset in
+    // carData.json is built around a car facing +Z (hero three-quarter at
+    // z = +5, rear view at z = -4.4). Turn the whole model to suit.
+    model.rotation.y = Math.PI;
+    model.updateWorldMatrix(true, true);
+    const bounds = new THREE.Box3().setFromObject(model);
+    const size = bounds.getSize(new THREE.Vector3());
 
-    for (const name of ADOPTABLE_NODES) {
-      const authored = scene.getObjectByName(name);
-      if (!authored) continue;
-
-      const existing = this.findInProcedural(name);
-      if (!existing?.parent) continue;
-
-      const parent = existing.parent;
-      const index = parent.children.indexOf(existing);
-
-      existing.removeFromParent();
-      disposeObject3D(existing, { shared: this.materials.owned });
-
-      authored.removeFromParent();
-      parent.add(authored);
-      // Preserve draw order / sibling position rather than always appending.
-      if (index >= 0 && index < parent.children.length - 1) {
-        parent.children.splice(parent.children.indexOf(authored), 1);
-        parent.children.splice(index, 0, authored);
-      }
-
-      adopted.push(name);
+    // Longest horizontal axis is the car's length, whichever way it faces.
+    const length = Math.max(size.x, size.z);
+    if (length > 0) {
+      model.scale.multiplyScalar(TARGET_LENGTH / length);
+      model.updateWorldMatrix(true, true);
+      bounds.setFromObject(model);
     }
 
-    this.applyAuthoredMaterials(adopted);
-    return adopted;
+    const centre = bounds.getCenter(new THREE.Vector3());
+    model.position.x -= centre.x;
+    model.position.z -= centre.z;
+    model.position.y -= bounds.min.y;
   }
 
-  /** Locate a contract node inside the procedural graph currently in `group`. */
-  private findInProcedural(name: string): THREE.Object3D | undefined {
-    return this.group.getObjectByName(name);
-  }
+  /* ---------------------------------------------------------------- */
+  /* Wheels                                                            */
+  /* ---------------------------------------------------------------- */
 
   /**
-   * Authored assets ship their own materials. Re-point the ones the
-   * configurator drives at the shared library so paint, glass and finish
-   * changes keep working; leave anything else the asset provides alone.
+   * Move every wheel mesh onto a pivot at its ground contact patch.
+   *
+   * Wheels are found by material class, not by node name — the asset's wheel
+   * nodes are called things like `Armature.023_192`, and all four are labelled
+   * "WheelFL" internally, so names say nothing useful. Each mesh is bucketed
+   * into one of four quadrants by position, which is what actually identifies
+   * a wheel.
+   *
+   * `attach()` preserves world transforms, so nothing visibly moves here. It
+   * also sidesteps the asset's per-part helper armatures (0.01 scale, mirrored
+   * right-hand side) by baking their contribution into each mesh's new local
+   * transform.
    */
-  private applyAuthoredMaterials(adopted: string[]): void {
-    const overrides: Record<string, THREE.Material> = {
-      [NODE.BODY_MAIN]: this.materials.paint,
-      [NODE.GLASS_WINDSHIELD]: this.materials.glass,
-      [NODE.GLASS_WINDOWS]: this.materials.glass,
-      [NODE.INTERIOR_SEATS]: this.materials.seat,
-      [NODE.INTERIOR_MAIN]: this.materials.interiorTrim,
-      [NODE.INTERIOR_STEERING]: this.materials.interiorTrim,
-      [NODE.BODY_TRIM]: this.materials.trim,
-      [NODE.LIGHTS_TAIL]: this.materials.taillight,
-      [NODE.LIGHTS_HEAD]: this.materials.headlightLens,
-      [NODE.LIGHTS_DRL]: this.materials.drl,
-      [NODE.LIGHTS_INDICATOR]: this.materials.indicator,
-    };
+  private extractWheels(): void {
+    this.group.updateWorldMatrix(true, true);
 
-    const assign = (root: THREE.Object3D, material: THREE.Material) =>
-      root.traverse((child) => {
-        const asMesh = child as THREE.Mesh;
-        if (asMesh.isMesh) asMesh.material = material;
-      });
+    const quadrants = new Map<string, THREE.Mesh[]>();
+    const centre = new THREE.Vector3();
+    const box = new THREE.Box3();
 
-    for (const name of adopted) {
-      const node = this.group.getObjectByName(name);
-      if (!node) continue;
-
-      const override = overrides[name];
-      if (override) assign(node, override);
-
-      if ((WHEEL_NODES as readonly string[]).includes(name)) {
-        const rim = node.getObjectByName(NODE.RIM);
-        if (rim) assign(rim, this.materials.rim);
-        const tire = node.getObjectByName(NODE.TIRE);
-        if (tire) assign(tire, this.materials.rubber);
-        const caliper = node.getObjectByName(NODE.BRAKE_CALIPER);
-        if (caliper) assign(caliper, this.materials.caliper);
-        const disc = node.getObjectByName(NODE.BRAKE_DISC);
-        if (disc) assign(disc, this.materials.brakeDisc);
-      }
-
-      node.traverse((child) => {
-        const asMesh = child as THREE.Mesh;
-        if (asMesh.isMesh) {
-          asMesh.castShadow = true;
-          asMesh.receiveShadow = true;
-        }
-      });
-    }
-  }
-
-  private indexNodes(): void {
-    this.nodes.clear();
     this.group.traverse((child) => {
-      if (child.name && !this.nodes.has(child.name)) this.nodes.set(child.name, child);
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const isWheel = materials.some((m) => {
+        const cls = m && classOf(m.name);
+        return Boolean(cls && WHEEL_CLASSES.has(cls));
+      });
+      if (!isWheel) return;
+
+      box.setFromObject(mesh).getCenter(centre);
+      const key = `${centre.x > 0 ? 'R' : 'L'}${centre.z > 0 ? 'F' : 'R'}`;
+      const bucket = quadrants.get(key);
+      if (bucket) bucket.push(mesh);
+      else quadrants.set(key, [mesh]);
     });
-    this.wheels = WHEEL_NODES.map((name) => this.nodes.get(name)).filter(
-      (node): node is THREE.Group => Boolean(node),
-    );
-  }
 
-  private node(name: string): THREE.Object3D | undefined {
-    return this.nodes.get(name);
-  }
+    for (const meshes of quadrants.values()) {
+      const union = new THREE.Box3();
+      for (const mesh of meshes) union.union(box.setFromObject(mesh));
 
-  private setVisible(name: string, visible: boolean): void {
-    const node = this.node(name);
-    if (node) node.visible = visible;
-  }
+      union.getCenter(centre);
+      // Contact patch: under the hub, at the bottom of the tyre.
+      const base = new THREE.Vector3(centre.x, union.min.y, centre.z);
 
-  /** Show exactly one named child of a container, hide its siblings. */
-  private selectVariant(containerName: string, activeChildName: string): void {
-    const container = this.node(containerName);
-    if (!container) return;
-    // If the asset does not ship this variant, leave the container untouched
-    // rather than hiding everything in it.
-    if (!container.children.some((child) => child.name === activeChildName)) return;
-    for (const child of container.children) {
-      child.visible = child.name === activeChildName;
+      const pivot = new THREE.Group();
+      pivot.name = `Wheel_${centre.x > 0 ? 'R' : 'L'}${centre.z > 0 ? 'F' : 'R'}`;
+      pivot.position.copy(base);
+      this.group.add(pivot);
+      // attach() keeps each mesh exactly where it already is on screen.
+      for (const mesh of meshes) pivot.attach(mesh);
+
+      this.wheels.push({
+        pivot,
+        base,
+        radius: (union.max.y - union.min.y) / 2,
+        side: centre.x > 0 ? 1 : -1,
+      });
+    }
+
+    if (this.wheels.length !== 4) {
+      console.warn(`[CarModel] expected 4 wheels, found ${this.wheels.length}`);
     }
   }
 
-  applyConfig(config: CarConfig): void {
-    this.lastConfig = config;
-    if (!this.suspension) return;
+  /**
+   * Apply wheel size, ride height, camber and track.
+   *
+   * Order matters and is handled by three.js composing translate → rotate →
+   * scale: the wheel scales about its contact patch (so it stays on the
+   * ground), then tilts about that same point (so camber does not lift it),
+   * then slides outboard for spacers.
+   *
+   * The body's height carries both effects: a bigger wheel raises the hubs and
+   * therefore the car, and the ride-height slider lowers it from there.
+   */
+  setStance(stance: Stance): void {
+    this.stance = stance;
+    if (this.wheels.length === 0) return;
 
-    this.applyRoof(config);
-    this.applyAero(config);
-    this.applyStance(config);
-    this.applyWheels(config);
-    this.applyLights(config);
-  }
+    const scale = stance.wheelDiameter / NATIVE_WHEEL_INCHES;
+    const spacer = stance.trackOffset / 1000;
+    // Negative camber (a negative config value) tilts the wheel tops inboard.
+    const camber = -stance.camber * DEG2RAD;
 
-  private applyRoof(config: CarConfig): void {
-    const active = roofNodeName(config.roofType, config.roofState);
-    for (const name of ALL_ROOF_NODES) this.setVisible(name, name === active);
-    // Side glass only makes sense with the roof up.
-    this.setVisible(NODE.GLASS_WINDOWS, config.roofState === 'up');
-  }
-
-  private applyAero(config: CarConfig): void {
-    for (const slot of AERO_SLOTS as AeroSlotId[]) {
-      const part = getAeroPart(slot, config[slot] as string);
-      this.selectVariant(AERO_SLOT_NODE[slot], part.node);
-    }
-  }
-
-  private applyStance(config: CarConfig): void {
-    if (!this.suspension) return;
-    // rideHeight is millimetres of drop relative to stock.
-    this.suspension.position.y = config.rideHeight / 1000;
-  }
-
-  private applyWheels(config: CarConfig): void {
-    const style = getWheelStyle(config.wheelStyle);
-    const fitment = fitmentFor(config.wheelDiameter);
-    const scale = fitment.radius / WHEEL_REF_RADIUS;
-    const rimScale = fitment.rimFraction / WHEEL_REF_RIM_FRACTION;
-
-    const halfTrackFront = this.generation.dimensions.trackFront / 2;
-    const halfTrackRear = this.generation.dimensions.trackRear / 2;
-    const halfBase = this.generation.dimensions.wheelbase / 2;
-    const spacer = config.trackOffset / 1000;
-    const camber = config.camber * DEG2RAD;
-
-    this.wheels.forEach((wheel, index) => {
-      const isLeft = index % 2 === 0;
-      const isFront = index < 2;
-      const halfTrack = isFront ? halfTrackFront : halfTrackRear;
-      const side = isLeft ? -1 : 1;
-
-      wheel.position.set(side * (halfTrack + spacer), fitment.radius, isFront ? halfBase : -halfBase);
-      wheel.scale.setScalar(scale);
-      // Negative camber tilts the top of the wheel inboard on both sides.
-      wheel.rotation.z = side * -camber;
-
-      const rim = wheel.getObjectByName(NODE.RIM);
-      if (rim) {
-        rim.scale.set(rim.scale.x < 0 ? -rimScale : rimScale, rimScale, rimScale);
-        // Only drive variant visibility when the asset actually ships variants —
-        // an authored GLB with a single rim keeps its one child visible.
-        if (rim.children.some((child) => child.name === style.id)) {
-          for (const child of rim.children) child.visible = child.name === style.id;
-        }
-      }
-    });
-  }
-
-  private applyLights(config: CarConfig): void {
-    for (const spot of this.headlightSpots) {
-      spot.intensity = config.headlights ? 18 : 0;
-      spot.visible = config.headlights;
-    }
-    this.setVisible(NODE.LIGHTS_DRL, config.drl);
-  }
-
-  /** Advance the wheel spin animation. */
-  spinWheels(deltaSeconds: number, speed: number): void {
     for (const wheel of this.wheels) {
-      const rim = wheel.getObjectByName(NODE.RIM);
-      const tire = wheel.getObjectByName(NODE.TIRE);
-      const disc = wheel.getObjectByName(NODE.BRAKE_DISC);
-      for (const part of [rim, tire, disc]) {
-        if (part) part.rotation.x -= deltaSeconds * speed;
+      wheel.pivot.scale.setScalar(scale);
+      wheel.pivot.position.set(wheel.base.x + wheel.side * spacer, wheel.base.y, wheel.base.z);
+      wheel.pivot.rotation.z = wheel.side * camber;
+    }
+
+    if (this.body) {
+      const hubRise = this.wheels[0].radius * (scale - 1);
+      this.body.position.y = this.bodyBaseY + hubRise + stance.rideHeight / 1000;
+    }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Materials                                                         */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * Collect the material instances the configurator is allowed to touch.
+   *
+   * All 18 painted meshes share one glTF material, and each wheel has its own
+   * copy of the rim material — but three.js will clone a material when meshes
+   * need different shader variants, so collect distinct instances rather than
+   * assuming a count.
+   */
+  private indexMaterials(): void {
+    const paint = new Set<THREE.Material>();
+    const rim = new Set<THREE.Material>();
+    const unclassified = new Set<string>();
+
+    this.group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      for (const material of materials) {
+        if (!material) continue;
+        const cls = classOf(material.name);
+        if (isPaintable(material.name)) paint.add(material);
+        // Rims only. Tyres stay black and the centre cap keeps its badge.
+        else if (cls === 'rim') rim.add(material);
+        else if (!cls) unclassified.add(material.name);
       }
+    });
+
+    this.paintMaterials = [...paint];
+    this.rimMaterials = [...rim];
+
+    if (unclassified.size > 0) {
+      // Not fatal — an unclassified surface simply never gets touched. Worth
+      // saying out loud, because it means the asset and the table have drifted.
+      console.warn(
+        `[CarModel] ${unclassified.size} material(s) missing from surfaceClasses.json:`,
+        [...unclassified].join(', '),
+      );
     }
   }
 
-  /** World-space bounding box, useful for framing the camera and shadows. */
-  getBounds(target = new THREE.Box3()): THREE.Box3 {
-    return target.setFromObject(this.group);
+  /**
+   * Set the body colour. Affects only materials classified `body_paint`;
+   * trim, glass, lenses, badges, rims and interior are untouched because they
+   * are simply not in this set.
+   */
+  setPaintColor(hex: string): void {
+    this.paintColor = hex;
+    for (const material of this.paintMaterials) {
+      const colored = material as THREE.Material & { color?: THREE.Color };
+      colored.color?.set(hex);
+    }
   }
 
-  private clear(): void {
-    // Geometry is always ours to release; materials from MaterialLibrary are
-    // shared and stay alive, while an authored asset's own materials do not.
-    const shared = this.materials.owned;
-    for (const child of [...this.group.children]) {
-      child.removeFromParent();
-      disposeObject3D(child, { shared });
+  /**
+   * Set the rim finish. Unlike body paint this drives metalness/roughness as
+   * well as colour, because that is what separates matte black from chrome.
+   * Tyres and centre-cap badges are not in `rimMaterials` and never change.
+   */
+  setWheelFinish(finish: WheelFinish): void {
+    this.wheelFinish = finish;
+    for (const material of this.rimMaterials) {
+      const pbr = material as THREE.Material & {
+        color?: THREE.Color;
+        metalness?: number;
+        roughness?: number;
+        clearcoat?: number;
+      };
+      pbr.color?.set(finish.hex);
+      if (typeof pbr.metalness === 'number') pbr.metalness = finish.metalness;
+      if (typeof pbr.roughness === 'number') pbr.roughness = finish.roughness;
+      if (typeof pbr.clearcoat === 'number') pbr.clearcoat = finish.clearcoat;
+      material.needsUpdate = true;
     }
-    this.wheels = [];
-    this.headlightSpots = [];
-    this.suspension = null;
-    this.adopted = [];
-    this.nodes.clear();
   }
+
+  /* ---------------------------------------------------------------- */
 
   dispose(): void {
-    this.clear();
+    this.group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh) return;
+      mesh.geometry?.dispose();
+      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+        material?.dispose();
+      }
+    });
+    this.group.clear();
     this.group.removeFromParent();
+    this.wheels = [];
   }
 }

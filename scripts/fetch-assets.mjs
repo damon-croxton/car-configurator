@@ -2,15 +2,15 @@
 /**
  * Manifest-driven asset fetcher.
  *
- * Binary assets (HDRIs, GLBs) are deliberately NOT committed — git keeps every
- * revision of a binary forever, and these are large. Instead they are declared
- * in `src/data/assetManifest.json` and pulled here, both locally (`npm run
- * assets`) and in CI (before `npm run build`).
+ * Fetchable binary assets (HDRIs) are deliberately NOT committed — git keeps
+ * every revision of a binary forever. Instead they are declared in
+ * `src/data/assetManifest.json` and pulled here, both locally (`npm run
+ * assets`) and in CI (before `npm run build`). Manifest entries marked
+ * `vendored` are already in the repo and are skipped.
  *
- * Failure is non-fatal by design. The app already falls back to procedural
- * geometry and code-generated lighting when an asset is missing, so a flaky
- * CDN degrades the render rather than breaking the build. Pass `--strict` to
- * turn fetch failures into a non-zero exit instead.
+ * Failure is non-fatal by design: a missing HDRI falls back to code-generated
+ * lighting, so a flaky CDN shouldn't break the build outright. Pass `--strict`
+ * to turn fetch failures into a non-zero exit instead.
  */
 import { createHash } from 'node:crypto';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
@@ -45,6 +45,13 @@ async function alreadyPresent(path, expectedHash) {
 
 async function fetchAsset(asset) {
   const destination = resolve(PUBLIC, asset.dest);
+
+  // Vendored assets already live in public/ — they are listed in the manifest
+  // only so their licence and credit are recorded in one place.
+  if (asset.vendored || !asset.url) {
+    console.log(`  · ${asset.dest} (vendored, in repo)`);
+    return { id: asset.id, status: 'cached' };
+  }
 
   if (!force && (await alreadyPresent(destination, asset.sha256))) {
     console.log(`  ✓ ${asset.dest} (cached)`);
@@ -91,7 +98,7 @@ const cached = results.filter((r) => r.status === 'cached');
 console.log(`\n${fetched.length} fetched, ${cached.length} cached, ${failed.length} failed`);
 
 if (failed.length > 0) {
-  console.log('Missing assets fall back to procedural geometry / generated lighting at runtime.');
+  console.log('Missing HDRIs fall back to code-generated lighting at runtime.');
   if (strict) {
     console.error('--strict was set, so this is a failure.');
     process.exit(1);

@@ -17,5 +17,9 @@ public/assets/**/*.gltf
 public/assets/**/*.ktx2
 public/assets/**/*.bin
 
+# ...except the car itself. It is the one asset the app cannot run without, it
+# is not fetched from anywhere, and CI builds straight from the repo.
+!public/assets/models/mx5_sketchfab/**
+
 # Raw, unconformed source models live here before Blender processes them.
 raw/

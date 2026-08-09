@@ -1,58 +1,44 @@
-# Car models
+# Car model
 
-Drop authored GLB/GLTF files here using the filenames declared in
-`src/data/carData.json` (`generations[].assetUrl`), e.g. `mx5_nd.glb`.
-
-The app probes for the file at boot. If it is missing or fails to parse, the
-procedural fallback model in `src/three/proceduralMx5.ts` renders instead and
-the viewport shows a `PROCEDURAL MESH` badge — every configurator control keeps
-working either way.
-
-An authored asset must expose the node names documented in
-`src/three/nodeNames.ts`:
+One model, used as-is:
 
 ```
-MX5_Root
-└── Suspension_Node          ride height is applied here
-    ├── Body_Main            painted shell
-    ├── Body_Trim
-    ├── Roof_ST_Up / Roof_ST_Down / Roof_RF_Up / Roof_RF_Down
-    ├── Glass_Windshield / Glass_Windows
-    ├── Interior_Main / Interior_Seats / Interior_SteeringWheel
-    ├── Lights_Head / Lights_DRL / Lights_Tail / Lights_Indicator
-    └── Aerodynamics_FrontLip / _SideSkirts / _RearDiffuser / _RearWing
-        / _Hood / _Exhaust / _RollBar
-            └── one child per catalogue variant, named by
-                `aeroParts[slot][].node` in carData.json
-Wheel_FL / Wheel_FR / Wheel_RL / Wheel_RR   (siblings of Suspension_Node)
-└── Rim / Tire / Brake_Caliper / Brake_Disc
+mx5_sketchfab/
+├── scene.gltf
+├── scene.bin
+├── textures/
+└── license.txt
 ```
 
-## How a model arrives
+"2016 Mazda MX-5 Miata" by Galaxy Car Showroom, from Sketchfab, licensed
+[CC-BY 4.0](http://creativecommons.org/licenses/by/4.0/). See `license.txt`
+and `ATTRIBUTION.md` in the repo root.
 
-Not committed — see `src/data/assetManifest.json` and `npm run assets`.
+**It is unmodified, and it stays that way.** The app loads `scene.gltf` and
+displays it. It does not split it, rename its nodes, replace its materials,
+hide parts of it, or reposition anything inside it. The only transform applied
+is a uniform scale, a 180° yaw and a placement of the model root — done in
+`src/three/carModel.ts`, computed from its bounding box — so it appears at
+real-world size standing on the ground plane facing the camera presets.
 
-The app **composes** rather than chooses: `CarModel` always builds the
-procedural car first, then replaces only the contract nodes an authored GLB
-actually supplies (see `ADOPTABLE_NODES` in `src/three/carModel.ts`). A model
-providing just a body, glass and wheels is therefore useful immediately — every
-roof state and aero variant it lacks keeps working procedurally.
+Every mesh here carries exactly one material, so `src/data/surfaceClasses.json`
+can classify every surface by material name alone. That table is what lets the
+app touch the model without altering it:
 
-Pipeline:
+- **Body colour** sets `.color` on the one material classed `body_paint`.
+- **Rim finish** sets colour/metalness/roughness on materials classed `rim` —
+  tyres and centre-cap badges are excluded.
+- **Wheel size, ride height, camber and track** work by re-parenting the wheel
+  meshes onto pivots at their ground contact patches, then scaling, rotating
+  and sliding those pivots. World transforms are preserved, so nothing moves on
+  screen when it happens, and no vertex is edited.
 
-```bash
-# 1. Conform a raw download to the contract (headless, no GUI needed)
-blender --background --python scripts/blender/conform_mx5.py -- \
-        --input raw/mx5_source.glb --output public/assets/models/mx5_nd.glb
+No Blender step was needed for any of it.
 
-# 2. Check it against the contract before wiring it in
-node scripts/validate-asset.mjs public/assets/models/mx5_nd.glb
-```
+Roof, aero and interior controls, and the wheel *style* selector, change the
+URL and the spec sheet only — the model has one roof state, no aero parts, one
+interior and one rim design.
 
-The name mapping from source objects to contract nodes lives in
-`raw/<name>.map.json` — that split is a human judgement, best made interactively
-in Blender; the script exists to make it reproducible.
-
-Anything third-party must be recorded in `ATTRIBUTION.md` and given `licence`,
-`source` and `credit` fields in the manifest, which is what renders the in-app
-credits panel.
+Unlike the HDRIs, this asset is committed to the repo rather than fetched at
+build time (see the exception in `.gitignore`) — it is the one thing the app
+cannot run without.

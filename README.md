@@ -1,10 +1,22 @@
 # Mazda MX-5 3D Configurator
 
-A data-driven Three.js configurator for the Mazda MX-5. Phase 1 ships the **ND**
-end to end — paint, roof, wheels, stance, aero, lighting, camera presets,
-shareable build URLs, spec sheet and high-resolution snapshot export. NA / NB /
-NC are already described in the catalogue and gated behind an `available` flag,
-so bringing one online is a data change plus a mesh.
+A Three.js viewer for a Mazda MX-5, wrapped in a data-driven configurator UI.
+
+The app loads one Sketchfab model and renders it as the artist shipped it. The
+guiding rule is that **nothing may cut the asset up** — an earlier attempt to
+do that is written up in `CONFORM_POSTMORTEM.md` — so the configurator drives
+only what can be expressed by moving, scaling and recolouring what is already
+there.
+
+**What reaches the car:** body colour, rim finish, wheel diameter, ride height,
+camber and track offset.
+
+**What does not:** roof state, aero parts, interior trim, wheel *style* (there
+is one rim design in the model), caliper colour (there are no calipers). Those
+controls still drive the share URL, the spec sheet and pricing.
+
+Also driven: camera presets, environment, exposure, floor reflection, contact
+shadow, bloom/SSAO, turntable and the snapshot export.
 
 ```bash
 npm install
@@ -29,6 +41,8 @@ src/
 │   │                      interior trims, camera presets
 │   ├── materialsData.json paint finishes + colours, wheel/caliper finishes,
 │   │                      glass, light mods, environments
+│   ├── surfaceClasses.json  material name → surface class; which class is paint
+│   ├── surfaces.ts        classOf() / isPaintable() over that table
 │   └── schema.ts          typed access layer + lookup helpers
 │
 ├── config/                the build state
@@ -40,13 +54,7 @@ src/
 │
 ├── three/                 the renderer
 │   ├── sceneManager.ts    renderer, frame loop, resize, snapshot, teardown
-│   ├── carModel.ts        GLTF load w/ procedural fallback + applyConfig()
-│   ├── nodeNames.ts       the scene-graph naming contract
-│   ├── proceduralMx5.ts   parametric ND body, roofs, interior, aero, lights
-│   ├── proceduralWheel.ts parametric wheels + six spoke patterns
-│   ├── geometryUtils.ts   lofting / surfacing / merge toolkit
-│   ├── materialLibrary.ts every material, created once and mutated in place
-│   ├── textures.ts        procedural flake, orange-peel, fabric, carbon maps
+│   ├── carModel.ts        loads the model, stands it on the ground, sets paint colour
 │   ├── environmentManager.ts  HDRI or code-generated IBL, lights, ground
 │   ├── contactShadow.ts   baked-on-demand soft ground shadow
 │   ├── cameraRig.ts       OrbitControls + GSAP preset transitions
@@ -60,56 +68,101 @@ src/
 ### Data-driven, not hard-coded
 
 Adding a wheel is an entry in `carData.json` plus a `spokeType`; adding a colour
-is an entry in `materialsData.json`. The UI, the URL codec, the spec sheet and
-the 3D scene all read from the same catalogue, and `reconcileConfig()` forces a
-build onto options the selected generation actually offers — a hand-edited URL
-or a generation switch can never leave a dangling part id.
+is an entry in `materialsData.json`. The UI, the URL codec and the spec sheet
+all read from the same catalogue, and `reconcileConfig()` forces a build onto
+options the selected generation actually offers — a hand-edited URL or a
+generation switch can never leave a dangling part id. The 3D scene reads only
+the camera and environment parts of that config.
 
-### Fail-safe visuals
+### The car
 
-Nothing in this repository is a binary asset, and the app still renders a
-complete car with working image-based lighting:
+`src/three/carModel.ts` loads `scene.gltf`, enables shadows, and applies one
+uniform scale, one 180° yaw and one translation to the model *root* so it
+stands at real-world size on the ground plane facing the camera presets.
+Nothing is split, renamed, hidden or re-materialled. There is no naming
+contract, no procedural fallback and no Blender step.
 
-- **Model** — `CarModel` probes `generations[].assetUrl`. If the GLB is absent
-  or fails to parse, `buildProceduralMx5()` generates the car from code: the
-  body is a superellipse loft with a cockpit cut into the top and a rocker tuck
-  that leaves the wheels proud of the sills. The viewport shows a
-  `PROCEDURAL MESH` badge so it is never ambiguous which path is live.
-- **Environment** — `EnvironmentManager` loads `.hdr` files when present;
-  otherwise it builds a graded sky dome plus emissive softbox panels from the
-  environment's `procedural` block and pre-filters it with `PMREMGenerator`.
-- **Textures** — metallic flake, clearcoat orange peel, roof canvas weave and
-  carbon twill are all generated to canvas at boot.
+### Wheels, stance and the contact-patch pivot
 
-Both fallbacks honour the same contracts as the real assets, so dropping in a
-GLB or an HDRI later requires no code change. See the READMEs in
-`public/assets/models/` and `public/assets/hdri/`.
+On load the wheel meshes are re-parented onto four pivots placed at their
+**ground contact patches**; what remains under the model root is the body. This
+is a scene-graph rearrangement, not an edit — `Object3D.attach()` preserves
+world transforms, so nothing visibly moves, and no vertex changes.
 
-### Scene graph contract
+It exists because the asset's wheel nodes have their origins on the car's
+centreline, not in the wheels, so scaling them in place would drag the wheels
+into the sills. Attaching also bakes away the asset's per-part helper armatures
+(0.01 scale, mirrored right-hand side — a 3ds Max export artefact) instead of
+having to reason about them.
 
-`src/three/nodeNames.ts` is the interface between the renderer and any authored
-asset — `Body_Main`, `Roof_ST_Up` / `Roof_ST_Down`, `Roof_RF_Up` /
-`Roof_RF_Down`, `Glass_Windshield`, `Glass_Windows`, `Wheel_FL…RR` (each with
-`Rim` / `Tire` / `Brake_Caliper` / `Brake_Disc`), `Interior_*`,
-`Aerodynamics_*` and `Suspension_Node`. Aero containers hold one child per
-catalogue variant; `CarModel` only ever toggles visibility, never rebuilds.
+Wheels are found by **material class**, never by node name: all four wheel
+groups are called `WheelFL` internally and the nodes are named things like
+`Armature.023_192`. Meshes classed `rim` / `rim_badge` / `tyre` are bucketed
+into four quadrants by position, which is what actually identifies a wheel.
+
+With the pivot on the ground, the transforms fall out simply:
+
+- **Wheel diameter** scales the pivot. The tyre stays planted and the hub rises,
+  exactly as fitting a bigger wheel does. Rim and tyre scale together, so the
+  bead always fits — growing the rim alone would punch it through the sidewall,
+  since the tyre's inner hole (252mm) sits just inside the rim lip (257mm).
+- **Ride height** moves the body by `hub rise + slider`, so a bigger wheel
+  lifts the car and the slider lowers it from there.
+- **Camber** rotates the pivot, which tilts the wheel about its contact patch
+  rather than lifting it off the ground.
+- **Track offset** slides the pivot outboard.
+
+The trade-off: this is a bigger wheel with the same tyre, not true plus-sizing.
+Fitting an 18" raises the hubs ~19mm. Real plus-sizing — rim grows, sidewall
+thins, overall height unchanged — needs the tyre mesh reshaped, which is
+deliberately not done here.
+
+### Surface classification, and how paint works
+
+Every mesh in the model carries **exactly one material**, so a material name is
+a complete statement of what a surface is. `src/data/surfaceClasses.json` maps
+all 24 material names to a surface class (`body_paint`, `trim_gloss_black`,
+`lens_red`, `rim`, `glass`, …) and names the single paintable class. Painting
+is then trivial: find the materials classified `body_paint` — in practice one
+shared material across 18 meshes — and set `.color`. Grille, lenses, badges,
+rims, glass and interior are untouched because they are simply not in that set.
+
+Two traps the table exists to document:
+
+- `M_CarPaint_Trim_PlasticSmoothBlack_Max` contains "CarPaint" but is the
+  **gloss black** trim on the bumpers and skirts. Lookups are exact-name only;
+  a substring match paints the grille surround body colour.
+- `.001`-style suffixes are per-wheel duplicates of identical materials and are
+  normalised away — but `M_LightGlassNormal_OrangeLow.` ends in a bare dot and
+  must survive that normalisation intact.
+
+`surfaceClasses.json` also records the 18 painted panels by glTF node name
+(`Hood`, `DoorL`, `FenderFR`, …) for later per-panel colour. The app does not
+read that list yet; it is there because the names are already in the shipped
+asset, so per-panel work needs no Blender step either. Note that the rear
+quarters, bumpers, sills and tub are each a single left+right mesh and cannot
+be coloured per-side without cutting geometry.
+
+If the model ever gains a material the table does not know, `CarModel` warns to
+the console and that surface simply never gets painted.
+
+### Fail-safe lighting
+
+`EnvironmentManager` loads `.hdr` files when present; otherwise it builds a
+graded sky dome plus emissive softbox panels from the environment's
+`procedural` block and pre-filters it with `PMREMGenerator`, and the viewport
+shows a `GENERATED IBL` badge. No HDRIs are committed, so this is the default
+path. See `public/assets/hdri/README.md`.
 
 ---
 
 ## Rendering
 
-**Car paint** is a `MeshPhysicalMaterial` driven by the finish table in
-`materialsData.json`: base colour, metalness/roughness, clearcoat (~1.0) with
-low clearcoat roughness, a tiled flake normal map scaled by the finish's flake
-ceiling and the user's slider, an orange-peel clearcoat normal map, plus sheen
-and iridescence for pearl. Solid / Metallic / Pearl / Matte / Chrome are data,
-not branches.
-
-**Glass** uses transmission 0.92 at IOR 1.52; the tint slider darkens the base
-colour and reduces transmission together. **Wheels** get a metallic finish with a
-brushed roughness map and a polished accent for lip and centre cap. **Calipers**
-are powder-coat colours from the catalogue, and the **roof fabric** is a rough
-canvas with a woven bump map.
+**The car's materials are the model's own** — its glTF PBR materials and
+textures are loaded and used as authored, so what you see is the artist's
+glass, chrome and rubber, not a code-side approximation. The one mutation is
+`.color` on the body-paint material; its metalness, roughness and clearcoat
+stay exactly as authored, which is why every colour keeps the same finish.
 
 **Lighting** is image-based (HDRI or generated) plus a key/fill/rim rig for
 shape and the shadow-casting direction. The ground shadow is a **contact
@@ -119,40 +172,27 @@ it costs nothing per frame and never shimmers. Tone mapping is ACES Filmic;
 bloom and SSAO are optional and the composer is bypassed entirely when both are
 off.
 
-**Performance** — one shared material per surface type, spoke patterns merged
-into a single geometry per style, all variants built once and toggled by
-visibility, DPR capped at 2, shadow map resolution chosen from DPR and viewport
-width, and `dispose()` walked over every geometry/material/texture when a car or
-environment is swapped (shared library materials are deliberately excluded).
+**Performance** — the model is loaded once and never rebuilt, DPR capped at 2,
+shadow map resolution chosen from DPR and viewport width, and `dispose()` walked
+over every geometry/material/texture on teardown.
 
 ---
 
 ## Assets
 
-Binary assets are **not committed**. `src/data/assetManifest.json` declares each
-one with its URL, licence and credit; `npm run assets` fetches them into
-`public/assets/` and CI runs the same script (cached on the manifest hash)
-before building. Git therefore never carries a multi-megabyte revision history.
+`src/data/assetManifest.json` is the ledger: every third-party asset, with its
+licence, source and credit. `npm run assets` fetches the entries that have a
+`url` into `public/assets/`, and CI runs the same script before building. HDRIs
+work that way so git never carries a multi-megabyte revision history; a fetch
+failure is non-fatal because the generated lighting rig covers it.
 
-A fetch failure is deliberately non-fatal — the app falls back to procedural
-geometry and generated lighting, and the viewport says which path is live with
-`PROCEDURAL MESH` and `GENERATED IBL` badges.
-
-**The car composes rather than chooses.** `CarModel` always builds the
-procedural car first, then replaces only the contract nodes an authored GLB
-actually supplies (`ADOPTABLE_NODES` in `src/three/carModel.ts`). A third-party
-model providing just a body, glass and wheels is useful immediately: every roof
-state and aero variant it lacks keeps working procedurally. That is the whole
-reason the node-name contract exists.
+The car is the exception. It is marked `vendored` in the manifest (skipped by
+the fetcher) and committed to the repo at
+`public/assets/models/mx5_sketchfab/`, via an explicit un-ignore in
+`.gitignore` — it is the one asset the app cannot run without.
 
 ```bash
-npm run assets                                   # fetch declared assets
-node scripts/validate-asset.mjs <file.glb>       # check against the contract
-node scripts/check-composition.mjs               # regression-test the swap
-
-# conform a raw download (headless — no Blender GUI required)
-blender --background --python scripts/blender/conform_mx5.py -- \
-        --input raw/mx5_source.glb --output public/assets/models/mx5_nd.glb
+npm run assets      # fetch the declared HDRIs; vendored entries are skipped
 ```
 
 Third-party assets must carry `licence`, `source` and `credit` in the manifest —
@@ -179,11 +219,23 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
 
 ## Known limitations
 
-- The procedural ND is a stylised stand-in tuned to real ND dimensions
-  (3915 × 1735 × 1230 mm, 2310 mm wheelbase). It reads correctly and drives
-  every toggle, but it is not a scan — swap in a GLB for production fidelity.
-- NA / NB / NC are catalogued but marked `available: false`. Until each has its
-  own mesh they would render the ND surfaces rescaled to their proportions,
-  which is why the generation switcher keeps them disabled.
+- **Roof, aero and interior options are inert** in the viewport — the model has
+  one roof state, no aero parts and one interior. They still drive the share
+  URL, the spec sheet and pricing.
+- **Wheel *style* is inert; wheel *diameter* and *finish* work.** There is one
+  rim design in the model, so the TE37/RPF1-style catalogue entries change the
+  spec sheet but not the render. Caliper colour is inert for the same reason —
+  the model has no separate caliper.
+- **Body paint applies colour only, not finish.** A matte or chrome swatch
+  changes the hue; the surface keeps the model's authored metallic clearcoat.
+  Rim finishes *do* drive metalness and roughness, because that is what
+  separates matte black from chrome. Making paint consistent with that is a
+  deliberate next decision rather than an oversight.
+- **Wheel sizing is not true plus-sizing** — see above; an 18" raises the car
+  ~19mm.
+- Per-panel colour is not wired up. The data to do it is in
+  `surfaceClasses.json`; the app currently paints all panels together.
+- NA / NB / NC are catalogued but marked `available: false`; there is one model
+  and it is an ND.
 - No HDRIs are committed; every environment currently runs on its generated
   lighting rig.

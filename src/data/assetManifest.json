@@ -1,5 +1,5 @@
 {
-  "$comment": "Binary assets fetched at build time rather than committed. See scripts/fetch-assets.mjs and public/assets/*/README.md. Every asset here MUST be one the project is licensed to use; record the licence on each entry.",
+  "$comment": "Asset ledger. Entries with a `url` are fetched at build time rather than committed (see scripts/fetch-assets.mjs); entries marked `vendored` already live in public/ and are only listed here so their licence and credit are recorded. Every asset here MUST be one the project is licensed to use.",
   "version": 1,
   "assets": [
     {
@@ -41,6 +41,14 @@
       "licence": "CC0",
       "source": "https://polyhaven.com/a/kloofendal_43d_clear",
       "credit": "Poly Haven — Kloofendal 43d Clear (CC0)"
+    },
+    {
+      "id": "car_mx5_sketchfab",
+      "dest": "assets/models/mx5_sketchfab/scene.gltf",
+      "vendored": true,
+      "licence": "CC-BY 4.0",
+      "source": "https://sketchfab.com/3d-models/2016-mazda-mx-5-miata-922ff6fec90340ed8cf5aabe38dd1ad2",
+      "credit": "\"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom, licensed under CC-BY 4.0. Used unmodified."
     }
   ]
 }

@@ -11,8 +11,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
-    "smoke": "node scripts/smoke.mjs",
-    "validate:asset": "node scripts/validate-asset.mjs"
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

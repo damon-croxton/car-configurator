@@ -27,10 +27,8 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
     fps: 0,
     drawCalls: 0,
     triangles: 0,
-    usingFallbackModel: true,
     usingHdriEnvironment: false,
   });
-
   // Keep the latest config available to the async boot without re-running it.
   const configRef = useRef(config);
   configRef.current = config;
@@ -82,14 +80,6 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
           <span className="text-slate-600">|</span>
           {(stats.triangles / 1000).toFixed(0)}k tris
         </span>
-        {stats.usingFallbackModel && (
-          <span
-            className="rounded-full border border-amber-600/40 bg-amber-950/60 px-3 py-1 font-mono text-[10px] text-amber-300 backdrop-blur"
-            title="No GLB found for this generation — rendering the parametric fallback mesh."
-          >
-            PROCEDURAL MESH
-          </span>
-        )}
         {!stats.usingHdriEnvironment && (
           <span
             className="rounded-full border border-sky-700/40 bg-sky-950/60 px-3 py-1 font-mono text-[10px] text-sky-300 backdrop-blur"

@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
 import type { EnvironmentDef } from '../data/schema';
 import { DisposalBin, removeAndDispose } from './disposal';
-import type { MaterialLibrary } from './materialLibrary';
 
 /**
  * Image-based lighting + practical lights + ground plane.
@@ -30,7 +29,6 @@ export class EnvironmentManager {
   constructor(
     renderer: THREE.WebGLRenderer,
     private readonly scene: THREE.Scene,
-    private readonly materials: MaterialLibrary,
     private readonly loadingManager: THREE.LoadingManager,
   ) {
     this.pmrem = new THREE.PMREMGenerator(renderer);
@@ -63,7 +61,6 @@ export class EnvironmentManager {
       this.envTexture = texture;
       this.scene.environment = texture;
       this.scene.environmentIntensity = def.envIntensity;
-      this.materials.setEnvironmentIntensity(def.envIntensity);
 
       this.applyBackground(def);
       this.applyLights(def);

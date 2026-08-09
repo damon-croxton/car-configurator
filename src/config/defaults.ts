@@ -57,7 +57,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   taillights: true,
   drl: true,
   exposure: 1.0,
-  bloom: true,
+  bloom: false,
   ssao: false,
   contactShadow: true,
   groundReflection: 0.3,

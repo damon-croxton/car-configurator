@@ -1,11 +1,10 @@
 import * as THREE from 'three';
 import type { CarConfig } from '../config/types';
-import { getCameraPreset, getEnvironment } from '../data/schema';
+import { getCameraPreset, getEnvironment, getPaintColor, getWheelFinish } from '../data/schema';
 import { CameraRig } from './cameraRig';
 import { CarModel } from './carModel';
 import { ContactShadow } from './contactShadow';
 import { EnvironmentManager } from './environmentManager';
-import { MaterialLibrary } from './materialLibrary';
 import { PostProcessing } from './postProcessing';
 
 export interface LoadingState {
@@ -18,7 +17,6 @@ export interface SceneStats {
   fps: number;
   drawCalls: number;
   triangles: number;
-  usingFallbackModel: boolean;
   usingHdriEnvironment: boolean;
 }
 
@@ -31,6 +29,11 @@ export interface SceneManagerOptions {
  * Top-level owner of the WebGL side of the app. React never touches Three
  * directly — it calls `setConfig`, `goToCamera` and `capture`, and everything
  * else (loading, disposal, resize, quality scaling) lives here.
+ *
+ * `setConfig` drives the camera, the environment, the render settings, and the
+ * handful of things the model can express without being cut up: body colour,
+ * rim finish, wheel size, ride height, camber and track. Roof, aero and
+ * interior options remain inert by design.
  */
 export class SceneManager {
   readonly scene = new THREE.Scene();
@@ -38,7 +41,6 @@ export class SceneManager {
   readonly loadingManager = new THREE.LoadingManager();
 
   private readonly rig: CameraRig;
-  private readonly materials = new MaterialLibrary();
   private readonly car: CarModel;
   private readonly environment: EnvironmentManager;
   private readonly shadow: ContactShadow;
@@ -82,15 +84,10 @@ export class SceneManager {
     container.appendChild(this.renderer.domElement);
 
     this.rig = new CameraRig(this.renderer.domElement, width / height);
-    this.car = new CarModel(this.materials, this.loadingManager);
+    this.car = new CarModel(this.loadingManager);
     this.scene.add(this.car.group);
 
-    this.environment = new EnvironmentManager(
-      this.renderer,
-      this.scene,
-      this.materials,
-      this.loadingManager,
-    );
+    this.environment = new EnvironmentManager(this.renderer, this.scene, this.loadingManager);
     this.environment.setShadowQuality(this.shadowMapSize());
 
     this.shadow = new ContactShadow(this.renderer);
@@ -125,16 +122,13 @@ export class SceneManager {
     this.loadingManager.onError = (url) => emit(1, `Skipped ${describeAsset(url)}`, true);
   }
 
-  /** First-time boot: build the car and light the scene. */
+  /** First-time boot: load the car and light the scene. */
   async initialise(config: CarConfig): Promise<void> {
     this.config = config;
-    this.options.onLoadingChange?.({ progress: 0.08, label: 'Building chassis', done: false });
+    this.options.onLoadingChange?.({ progress: 0.08, label: 'Loading model', done: false });
 
-    await this.car.load(config.generation);
-    this.options.onLoadingChange?.({ progress: 0.45, label: 'Applying materials', done: false });
-
-    this.materials.applyConfig(config);
-    this.car.applyConfig(config);
+    await this.car.load();
+    this.applyCarConfig(config);
 
     this.options.onLoadingChange?.({ progress: 0.7, label: 'Lighting environment', done: false });
     await this.environment.apply(getEnvironment(config.environment), config.groundReflection);
@@ -155,17 +149,10 @@ export class SceneManager {
     const previous = this.config;
     this.config = next;
 
-    if (!previous || previous.generation !== next.generation) {
-      await this.car.load(next.generation);
-    }
-
-    this.materials.applyConfig(next);
-    this.car.applyConfig(next);
+    this.applyCarConfig(next);
 
     if (!previous || previous.environment !== next.environment || previous.groundReflection !== next.groundReflection) {
       await this.environment.apply(getEnvironment(next.environment), next.groundReflection);
-      // Environment intensity resets material env scaling; re-push colours.
-      this.materials.applyConfig(next);
     }
 
     this.applyRenderSettings(next);
@@ -176,6 +163,22 @@ export class SceneManager {
     }
 
     this.shadow.invalidate();
+  }
+
+  /** Everything the config is allowed to change about the car itself. */
+  private applyCarConfig(config: CarConfig): void {
+    const paint = getPaintColor(config.paint);
+    this.car.setPaintColor(paint.userColor ? config.paintCustomHex : paint.hex);
+
+    const finish = getWheelFinish(config.wheelFinish);
+    this.car.setWheelFinish(finish);
+
+    this.car.setStance({
+      wheelDiameter: config.wheelDiameter,
+      rideHeight: config.rideHeight,
+      camber: config.camber,
+      trackOffset: config.trackOffset,
+    });
   }
 
   private applyRenderSettings(config: CarConfig): void {
@@ -205,9 +208,6 @@ export class SceneManager {
     const delta = Math.min(this.timer.getDelta(), 0.1);
     this.renderer.info.reset();
 
-    if (this.config?.wheelSpin) {
-      this.car.spinWheels(delta, 9);
-    }
     this.rig.update();
 
     if (this.config?.contactShadow) {
@@ -232,7 +232,6 @@ export class SceneManager {
         fps: Math.round(this.frames / this.fpsAccumulator),
         drawCalls: this.renderer.info.render.calls,
         triangles: this.renderer.info.render.triangles,
-        usingFallbackModel: this.car.usingFallback,
         usingHdriEnvironment: this.environment.usingHdriEnvironment,
       });
       this.frames = 0;
@@ -315,7 +314,6 @@ export class SceneManager {
     this.shadow.dispose();
     this.environment.dispose();
     this.car.dispose();
-    this.materials.dispose();
     this.rig.dispose();
 
     this.renderer.domElement.remove();

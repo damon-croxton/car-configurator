@@ -55,7 +55,6 @@ export interface Generation {
   name: string;
   years: string;
   available: boolean;
-  assetUrl: string;
   tagline: string;
   specs: GenerationSpecs;
   dimensions: GenerationDimensions;
