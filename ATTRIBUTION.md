@@ -45,6 +45,28 @@ supplemented in code.
 
 ---
 
+## Car model — 1990 Mazda Miata NA
+
+| Field | Value |
+| --- | --- |
+| Title | 1990 Mazda Miata NA |
+| Author | Ricy ([sketchfab.com/ngon_3d](https://sketchfab.com/ngon_3d)) |
+| Source | https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5 |
+| Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Modified | No. Vendored verbatim at `public/assets/models/mx5_na_sketchfab/`. Handled exactly like the ND: placed at real-world size on the ground at runtime, with colours set on the body-paint and rim materials. No geometry is edited and nothing is written back to the file. |
+
+Required credit: *This work is based on "1990 Mazda Miata NA"
+(https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5)
+by Ricy (https://sketchfab.com/ngon_3d) licensed under CC-BY-4.0
+(http://creativecommons.org/licenses/by/4.0/)*
+
+Its materials are named `Material_71`, `Material_230` and so on, which say
+nothing about what they are — so unlike the ND, this model's surface table was
+built by inspecting which objects use each material. See
+`src/data/surfaceClasses.json`.
+
+---
+
 ## Trademarks
 
 "Mazda", "MX-5" and "Miata" are trademarks of Mazda Motor Corporation. This is

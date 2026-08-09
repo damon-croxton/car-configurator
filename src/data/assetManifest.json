@@ -49,6 +49,14 @@
       "licence": "CC-BY 4.0",
       "source": "https://sketchfab.com/3d-models/2016-mazda-mx-5-miata-922ff6fec90340ed8cf5aabe38dd1ad2",
       "credit": "\"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom, licensed under CC-BY 4.0. Used unmodified."
+    },
+    {
+      "id": "car_mx5_na_sketchfab",
+      "dest": "assets/models/mx5_na_sketchfab/scene.gltf",
+      "vendored": true,
+      "licence": "CC-BY 4.0",
+      "source": "https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5",
+      "credit": "\"1990 Mazda Miata NA\" by Ricy (https://sketchfab.com/ngon_3d), licensed under CC-BY 4.0. Used unmodified."
     }
   ]
 }

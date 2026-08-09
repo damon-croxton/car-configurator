@@ -2,11 +2,15 @@
 
 A Three.js viewer for a Mazda MX-5, wrapped in a data-driven configurator UI.
 
-The app loads one Sketchfab model and renders it as the artist shipped it. The
-guiding rule is that **nothing may cut the asset up** — an earlier attempt to
-do that is written up in `CONFORM_POSTMORTEM.md` — so the configurator drives
-only what can be expressed by moving, scaling and recolouring what is already
-there.
+The app loads Sketchfab models and renders them as the artists shipped them.
+Two generations are live — **ND** (2016) and **NA** (1990) — and switching
+between them reloads the car in place. The guiding rule is that **nothing may
+cut the asset up** — an earlier attempt to do that is written up in
+`CONFORM_POSTMORTEM.md` — so the configurator drives only what can be expressed
+by moving, scaling and recolouring what is already there.
+
+Adding a generation is data, not code: an `assetUrl`, a `modelYawDeg` (assets
+disagree about which way is forward), and a surface table.
 
 **What reaches the car:** body colour, rim finish, wheel diameter, ride height,
 camber, track offset, roof fabric colour, roof up/down and interior colour.
@@ -119,13 +123,28 @@ deliberately not done here.
 
 ### Surface classification, and how paint works
 
-Every mesh in the model carries **exactly one material**, so a material name is
-a complete statement of what a surface is. `src/data/surfaceClasses.json` maps
-all 24 material names to a surface class (`body_paint`, `trim_gloss_black`,
-`lens_red`, `rim`, `glass`, …) and names the single paintable class. Painting
-is then trivial: find the materials classified `body_paint` — in practice one
-shared material across 18 meshes — and set `.color`. Grille, lenses, badges,
-rims, glass and interior are untouched because they are simply not in that set.
+Every mesh in both models carries **exactly one material**, so a material name
+is a complete statement of what a surface is. `src/data/surfaceClasses.json`
+holds one table per model, mapping material names to a surface class
+(`body_paint`, `trim_gloss_black`, `lens_red`, `rim`, `glass`, …) and naming the
+single paintable class. Painting is then trivial: find the materials classified
+`body_paint` and set `.color`. Grille, lenses, badges, rims, glass and interior
+are untouched because they are simply not in that set.
+
+**The two tables were built very differently, and that is the interesting bit.**
+The ND's material names are self-describing (`M_CarPaintNormal_Max`), so its
+table was read straight off them. The NA's are `Material_71`, `Material_230` —
+meaningless. Its table was built by inspecting *which objects use each
+material*: `Material_71` turns out to be used by `hood`, `leftdoor`,
+`rigthdoor`, `trunk`, `frontbumper`, `rearfender`, `f fender`, `rearbumper`,
+`Apillar` and `popuplight`, which is unambiguously the paint. Same mechanism,
+different way of populating it — so a model with bad names costs an afternoon of
+inspection, not a redesign.
+
+A table declares `complete: true` when it is meant to cover every material in
+the asset, and `CarModel` warns about anything missing. The NA's is `false`: it
+maps only the surfaces the configurator drives and leaves ~80 others alone
+deliberately, so no drift warning is raised.
 
 Two traps the table exists to document:
 
@@ -242,7 +261,9 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   ~19mm.
 - Per-panel colour is not wired up. The data to do it is in
   `surfaceClasses.json`; the app currently paints all panels together.
-- NA / NB / NC are catalogued but marked `available: false`; there is one model
-  and it is an ND.
+- NB / NC are catalogued but marked `available: false` — no model for them yet.
+- **The NA's roof cannot go up.** The asset ships roof-down with no soft-top
+  geometry, so the roof controls do nothing on it. Its aero and wheel-style
+  options are inert for the same reason as the ND's.
 - No HDRIs are committed; every environment currently runs on its generated
   lighting rig.

@@ -1,75 +1,152 @@
 {
-  "$comment": "Surface classification for the Sketchfab MX-5 (public/assets/models/mx5_sketchfab). Every mesh in that model carries exactly one material, so the material name alone says what a surface IS. This table is the whole classification mechanism — nothing was renamed, regrouped or split in Blender to produce it. See README.md 'The car'.",
-  "version": 1,
-
+  "$comment": "Surface classification, per model. Every mesh in both assets carries exactly one material, so a material name identifies a surface. Nothing was renamed, regrouped or split in Blender to produce these tables - see README.md.",
+  "version": 2,
   "$paintable": "Exactly one class is paintable. Body colour applies to every material in that class and to nothing else.",
-  "paintableClass": "body_paint",
-
   "$wheels": "The classes rim / rim_badge / tyre also identify which meshes are wheels, which is how CarModel splits wheels from body without relying on node names (all four wheels are named 'WheelFL' in the asset). Rim finish applies to 'rim' only — tyres stay black and the centre-cap badge keeps its logo.",
-
   "$interior": "interior_main is ONE material covering the whole cabin tub — seats, dashboard, steering wheel and door cards are a single mesh, so seat colour and dash colour cannot be separated without cutting geometry. Tinting it multiplies its baseColor texture. interior_trim (door tops, dash rail) is flat black with no texture and takes a colour directly.",
-
   "$roof": "soft_top identifies the roof canvas and its stitching decal. CarModel also uses it to find the whole roof part (canvas, decal, rear window, frame) so the roof-down state can hide all four together — hiding only the canvas would leave the rear window floating.",
-
   "$normalisation": "Look up a material by stripping a trailing '.NNN' duplicate suffix (M_Tire_Max.002 -> M_Tire_Max). Those suffixes are per-wheel copies of identical materials, not distinct surfaces. Note M_LightGlassNormal_OrangeLow. ends in a bare dot with no digits, so the rule leaves it alone.",
-
   "$trap": "M_CarPaint_Trim_PlasticSmoothBlack_Max contains 'CarPaint' but is the GLOSS BLACK trim on the front bumper, rear bumper and skirts. Matching materials by substring paints the grille surround body colour. Match exact names only.",
-
-  "materials": {
-    "M_CarPaintNormal_Max": "body_paint",
-
-    "M_CarPaint_Trim_PlasticSmoothBlack_Max": "trim_gloss_black",
-    "M_Opaque_PlasticSmoothBlack_Max": "trim_gloss_black",
-    "M_Opaque_PlasticRoughBlack_Max": "trim_matte_black",
-
-    "M_Glass_WindowFront_Low": "glass",
-    "M_Glass_WindowSurroundFront_Low": "glass_surround",
-    "Mirror": "mirror_glass",
-
-    "M_LightGlassNormal_Clear_Low": "lens_clear",
-    "M_LightGlassNormal_Red_Low": "lens_red",
-    "M_LightGlassNormal_OrangeLow.": "lens_amber",
-    "M_LightBucket_Max": "light_housing",
-
-    "M_Badge_Max": "badge",
-    "M_Opaque_NickelSmooth_Max": "chrome",
-    "M_Opaque_NickelRough_Max": "chrome",
-
-    "M_Rim_Main_Max": "rim",
-    "M_RimBadge_Max": "rim_badge",
-    "M_Tire_Max": "tyre",
-
-    "M_Chassis_Max": "underbody",
-    "M_Engine_Max": "engine_bay",
-
-    "M_Fabric_Max": "soft_top",
-    "M_FabricDecal_Max": "soft_top",
-
-    "M_Interior_Max": "interior_main",
-    "Black": "interior_trim",
-    "Tiled": "interior_insert",
-    "Screen": "interior_screen"
-  },
-
-  "$panels": "The 18 meshes carrying M_CarPaintNormal_Max, by the glTF node name of their parent. Not read by the app today — recorded because per-panel colour would key off exactly these, with no Blender work. 'shared' means left and right are one mesh and cannot be coloured independently without cutting geometry.",
-  "paintPanels": [
-    { "node": "Hood 6.001_120", "panel": "hood", "side": "centre" },
-    { "node": "Boot 6.001_157", "panel": "boot_lid", "side": "centre" },
-    { "node": "Boot 6.003_159", "panel": "boot_trim_strip", "side": "centre" },
-    { "node": "DoorL 6.003_68", "panel": "door", "side": "left" },
-    { "node": "DoorR 6.003_73", "panel": "door", "side": "right" },
-    { "node": "FenderFL 6.002_88", "panel": "fender_front", "side": "left" },
-    { "node": "FenderFR 6.001_80", "panel": "fender_front", "side": "right" },
-    { "node": "MirrorL 6.003_176", "panel": "mirror_cap", "side": "left" },
-    { "node": "MirrorR 6.002_182", "panel": "mirror_cap", "side": "right" },
-    { "node": "M_Interior_Max.006_65", "panel": "cabin_door_cap", "side": "left" },
-    { "node": "M_Interior_Max.007_66", "panel": "cabin_door_cap", "side": "right" },
-    { "node": "FendersR 6.001_40", "panel": "quarter_rear", "side": "shared" },
-    { "node": "BumperF 6.003_111", "panel": "bumper_front", "side": "shared" },
-    { "node": "BumperR 6.001_146", "panel": "bumper_rear", "side": "shared" },
-    { "node": "Skirts 6.003_57", "panel": "sills", "side": "shared" },
-    { "node": "Chassis 7_9", "panel": "body_tub", "side": "shared" },
-    { "node": "Chassis 7.001_10", "panel": "upper_body", "side": "shared" },
-    { "node": "Interior 5.003_8", "panel": "cabin_surround", "side": "shared" }
-  ]
+  "$complete": "complete:true means the table is expected to cover every material in the asset, so anything missing is drift and CarModel warns. complete:false means partial coverage is intended and unmapped surfaces are simply never touched.",
+  "models": {
+    "nd": {
+      "$model": "Sketchfab \"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom. Material names are self-describing, so this table was read straight off them.",
+      "complete": true,
+      "paintableClass": "body_paint",
+      "materials": {
+        "M_CarPaintNormal_Max": "body_paint",
+        "M_CarPaint_Trim_PlasticSmoothBlack_Max": "trim_gloss_black",
+        "M_Opaque_PlasticSmoothBlack_Max": "trim_gloss_black",
+        "M_Opaque_PlasticRoughBlack_Max": "trim_matte_black",
+        "M_Glass_WindowFront_Low": "glass",
+        "M_Glass_WindowSurroundFront_Low": "glass_surround",
+        "Mirror": "mirror_glass",
+        "M_LightGlassNormal_Clear_Low": "lens_clear",
+        "M_LightGlassNormal_Red_Low": "lens_red",
+        "M_LightGlassNormal_OrangeLow.": "lens_amber",
+        "M_LightBucket_Max": "light_housing",
+        "M_Badge_Max": "badge",
+        "M_Opaque_NickelSmooth_Max": "chrome",
+        "M_Opaque_NickelRough_Max": "chrome",
+        "M_Rim_Main_Max": "rim",
+        "M_RimBadge_Max": "rim_badge",
+        "M_Tire_Max": "tyre",
+        "M_Chassis_Max": "underbody",
+        "M_Engine_Max": "engine_bay",
+        "M_Fabric_Max": "soft_top",
+        "M_FabricDecal_Max": "soft_top",
+        "M_Interior_Max": "interior_main",
+        "Black": "interior_trim",
+        "Tiled": "interior_insert",
+        "Screen": "interior_screen"
+      },
+      "paintPanels": [
+        {
+          "node": "Hood 6.001_120",
+          "panel": "hood",
+          "side": "centre"
+        },
+        {
+          "node": "Boot 6.001_157",
+          "panel": "boot_lid",
+          "side": "centre"
+        },
+        {
+          "node": "Boot 6.003_159",
+          "panel": "boot_trim_strip",
+          "side": "centre"
+        },
+        {
+          "node": "DoorL 6.003_68",
+          "panel": "door",
+          "side": "left"
+        },
+        {
+          "node": "DoorR 6.003_73",
+          "panel": "door",
+          "side": "right"
+        },
+        {
+          "node": "FenderFL 6.002_88",
+          "panel": "fender_front",
+          "side": "left"
+        },
+        {
+          "node": "FenderFR 6.001_80",
+          "panel": "fender_front",
+          "side": "right"
+        },
+        {
+          "node": "MirrorL 6.003_176",
+          "panel": "mirror_cap",
+          "side": "left"
+        },
+        {
+          "node": "MirrorR 6.002_182",
+          "panel": "mirror_cap",
+          "side": "right"
+        },
+        {
+          "node": "M_Interior_Max.006_65",
+          "panel": "cabin_door_cap",
+          "side": "left"
+        },
+        {
+          "node": "M_Interior_Max.007_66",
+          "panel": "cabin_door_cap",
+          "side": "right"
+        },
+        {
+          "node": "FendersR 6.001_40",
+          "panel": "quarter_rear",
+          "side": "shared"
+        },
+        {
+          "node": "BumperF 6.003_111",
+          "panel": "bumper_front",
+          "side": "shared"
+        },
+        {
+          "node": "BumperR 6.001_146",
+          "panel": "bumper_rear",
+          "side": "shared"
+        },
+        {
+          "node": "Skirts 6.003_57",
+          "panel": "sills",
+          "side": "shared"
+        },
+        {
+          "node": "Chassis 7_9",
+          "panel": "body_tub",
+          "side": "shared"
+        },
+        {
+          "node": "Chassis 7.001_10",
+          "panel": "upper_body",
+          "side": "shared"
+        },
+        {
+          "node": "Interior 5.003_8",
+          "panel": "cabin_surround",
+          "side": "shared"
+        }
+      ]
+    },
+    "na": {
+      "$model": "Sketchfab \"1990 Mazda Miata NA\" by Ricy. Its materials are named Material_71, Material_230 ... which say nothing. This table was built by inspecting WHICH OBJECTS use each material, e.g. Material_71 is used by hood/leftdoor/rigthdoor/trunk/frontbumper/rearfender/f fender/rearbumper/Apillar/popuplight/americanjapaneserearpanel - unambiguously the paint. Only the surfaces the configurator drives are mapped; the other ~80 materials are deliberately left unclassified, so `complete` is false and no drift warning is raised. Material_70 (mirror housings + the alternate European rear panel) is body-coloured on a real NA, so it joins body_paint; Material_76 is the mirror glass.",
+      "complete": false,
+      "paintableClass": "body_paint",
+      "materials": {
+        "Material_71": "body_paint",
+        "Material_230": "rim",
+        "Material_113": "tyre",
+        "glass": "glass",
+        "Material_170": "interior_main",
+        "Material_155": "interior_trim",
+        "Material_70": "body_paint",
+        "Material_76": "mirror_glass"
+      }
+    }
+  }
 }

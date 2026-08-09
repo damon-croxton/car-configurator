@@ -3,13 +3,14 @@ import type { CarConfig } from '../config/types';
 import {
   getCameraPreset,
   getEnvironment,
+  getGeneration,
   getInteriorTrim,
   getPaintColor,
   getRoofFabric,
   getWheelFinish,
 } from '../data/schema';
 import { CameraRig } from './cameraRig';
-import { CarModel } from './carModel';
+import { CarModel, type ModelSpec } from './carModel';
 import { ContactShadow } from './contactShadow';
 import { EnvironmentManager } from './environmentManager';
 import { PostProcessing } from './postProcessing';
@@ -134,7 +135,7 @@ export class SceneManager {
     this.config = config;
     this.options.onLoadingChange?.({ progress: 0.08, label: 'Loading model', done: false });
 
-    await this.car.load();
+    await this.car.load(modelSpecFor(config.generation));
     this.applyCarConfig(config);
 
     this.options.onLoadingChange?.({ progress: 0.7, label: 'Lighting environment', done: false });
@@ -155,6 +156,12 @@ export class SceneManager {
   async setConfig(next: CarConfig): Promise<void> {
     const previous = this.config;
     this.config = next;
+
+    if (!previous || previous.generation !== next.generation) {
+      this.options.onLoadingChange?.({ progress: 0.1, label: 'Loading model', done: false });
+      await this.car.load(modelSpecFor(next.generation));
+      this.options.onLoadingChange?.({ progress: 1, label: 'Ready', done: true });
+    }
 
     this.applyCarConfig(next);
 
@@ -337,6 +344,28 @@ export class SceneManager {
     this.renderer.dispose();
     this.renderer.forceContextLoss();
   }
+}
+
+/**
+ * Everything the renderer needs about a generation's asset, read from the
+ * catalogue. A generation with no `assetUrl` has no model yet and is gated
+ * behind `available: false` in the UI, so this should never be reached for one.
+ */
+function modelSpecFor(generationId: string): ModelSpec {
+  const generation = getGeneration(generationId);
+  if (!generation.assetUrl) {
+    throw new Error(`[SceneManager] ${generation.id} has no assetUrl in carData.json`);
+  }
+  return {
+    id: generation.id,
+    url: generation.assetUrl,
+    length: generation.dimensions.length,
+    // The asset ships wearing the generation's stock wheel, so that is the
+    // size all wheel scaling is relative to.
+    nativeWheelInches: generation.defaultWheelDiameter,
+    surfaceModel: generation.surfaceModel ?? generation.id,
+    yawDeg: generation.modelYawDeg ?? 0,
+  };
 }
 
 function describeAsset(url: string): string {

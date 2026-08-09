@@ -20,6 +20,12 @@ public/assets/**/*.bin
 # ...except the car itself. It is the one asset the app cannot run without, it
 # is not fetched from anywhere, and CI builds straight from the repo.
 !public/assets/models/mx5_sketchfab/**
+!public/assets/models/mx5_na_sketchfab/**
 
 # Raw, unconformed source models live here before Blender processes them.
 raw/
+
+# Your local model library. Source downloads (FBX, raw glTF) stay on your
+# machine; only the copy under public/assets/ that the app actually loads is
+# committed, and only once its licence is recorded in ATTRIBUTION.md.
+Models/

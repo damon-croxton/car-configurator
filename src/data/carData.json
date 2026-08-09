@@ -8,7 +8,8 @@
       "code": "ND",
       "name": "ND Roadster",
       "years": "2015 — present",
-      "available": true,      "tagline": "Fourth generation. Lightest, sharpest, SkyActiv.",
+      "available": true,
+      "tagline": "Fourth generation. Lightest, sharpest, SkyActiv.",
       "specs": {
         "engine": "SkyActiv-G 2.0L NA I4",
         "power": 181,
@@ -86,14 +87,18 @@
           "style_bar",
           "track_hoop"
         ]
-      }
+      },
+      "assetUrl": "assets/models/mx5_sketchfab/scene.gltf",
+      "surfaceModel": "nd",
+      "modelYawDeg": 180
     },
     {
       "id": "nc",
       "code": "NC",
       "name": "NC Roadster",
       "years": "2005 — 2015",
-      "available": false,      "tagline": "Third generation. Grown up, PRHT hardtop option.",
+      "available": false,
+      "tagline": "Third generation. Grown up, PRHT hardtop option.",
       "specs": {
         "engine": "MZR 2.0L I4",
         "power": 167,
@@ -177,7 +182,8 @@
       "code": "NB",
       "name": "NB Roadster",
       "years": "1998 — 2005",
-      "available": false,      "tagline": "Second generation. Fixed headlights, glass rear window.",
+      "available": false,
+      "tagline": "Second generation. Fixed headlights, glass rear window.",
       "specs": {
         "engine": "BP-Z3 1.8L I4",
         "power": 142,
@@ -255,7 +261,8 @@
       "code": "NA",
       "name": "NA Roadster",
       "years": "1989 — 1997",
-      "available": false,      "tagline": "The original. Pop-up headlights, 940 kg of purity.",
+      "available": true,
+      "tagline": "The original. Pop-up headlights, 940 kg of purity.",
       "specs": {
         "engine": "BP 1.8L I4",
         "power": 131,
@@ -319,7 +326,10 @@
           "style_bar",
           "track_hoop"
         ]
-      }
+      },
+      "assetUrl": "assets/models/mx5_na_sketchfab/scene.gltf",
+      "surfaceModel": "na",
+      "modelYawDeg": 0
     }
   ],
   "roofTypes": [
@@ -389,7 +399,7 @@
       "spokeType": "split_five",
       "spokeCount": 5,
       "lipDepth": 0.04,
-      "weightPerCorner": 7.0,
+      "weightPerCorner": 7,
       "oem": false,
       "description": "MAT-forged split five-spoke. Track day staple."
     },
@@ -700,7 +710,7 @@
       "position": [
         4.6,
         1.55,
-        5.0
+        5
       ],
       "target": [
         0,

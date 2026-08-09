@@ -55,6 +55,12 @@ export interface Generation {
   name: string;
   years: string;
   available: boolean;
+  /** Path to this generation's glTF. Absent for generations with no model yet. */
+  assetUrl?: string;
+  /** Key into `surfaceClasses.json` → `models`. Absent means no classification. */
+  surfaceModel?: string;
+  /** Yaw in degrees to turn the asset so its nose points +Z, matching the camera presets. */
+  modelYawDeg?: number;
   tagline: string;
   specs: GenerationSpecs;
   dimensions: GenerationDimensions;

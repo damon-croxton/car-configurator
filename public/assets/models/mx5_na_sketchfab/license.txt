@@ -1,0 +1,11 @@
+Model Information:
+* title:	1990 Mazda Miata NA
+* source:	https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5
+* author:	Ricy (https://sketchfab.com/ngon_3d)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "1990 Mazda Miata NA" (https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5) by Ricy (https://sketchfab.com/ngon_3d) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

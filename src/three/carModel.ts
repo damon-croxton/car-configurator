@@ -1,18 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { classOf } from '../data/surfaces';
-
-/**
- * The Sketchfab source model, copied in verbatim (glTF + .bin + textures).
- * See `public/assets/models/README.md`.
- */
-const MODEL_URL = 'assets/models/mx5_sketchfab/scene.gltf';
-
-/** Real-world length of an ND MX-5, in metres — the scale the scene is built around. */
-const TARGET_LENGTH = 3.915;
-
-/** Rim diameter the model was authored at. Wheel scaling is relative to this. */
-const NATIVE_WHEEL_INCHES = 17;
+import { classOf, tableFor, type SurfaceTable } from '../data/surfaces';
 
 const DEG2RAD = Math.PI / 180;
 
@@ -53,6 +41,22 @@ export interface Stance {
   trackOffset: number;
 }
 
+/** Everything CarModel needs to know about which car it is showing. */
+export interface ModelSpec {
+  /** Generation id, used to detect a switch. */
+  id: string;
+  /** Path to the glTF. */
+  url: string;
+  /** Real-world length in metres — the model is scaled to this. */
+  length: number;
+  /** Rim diameter the asset was authored at; wheel scaling is relative to it. */
+  nativeWheelInches: number;
+  /** Key into the per-model surface tables. */
+  surfaceModel: string;
+  /** Yaw in degrees needed to point this asset's nose at +Z. */
+  yawDeg: number;
+}
+
 interface Wheel {
   pivot: THREE.Group;
   /** Contact patch in car-group space, before spacers are applied. */
@@ -85,7 +89,9 @@ interface Wheel {
 export class CarModel {
   readonly group = new THREE.Group();
 
-  private loaded = false;
+  /** The spec currently loaded, so a repeat call for the same car is a no-op. */
+  private spec: ModelSpec | null = null;
+  private table: SurfaceTable = tableFor('');
   /** Everything that is not a wheel — the model root, once the wheels are out. */
   private body: THREE.Object3D | null = null;
   /** Body height set by `frame()`, before stance is applied. */
@@ -109,13 +115,17 @@ export class CarModel {
     this.group.name = 'Car';
   }
 
-  async load(): Promise<void> {
-    if (this.loaded) return;
+  /** Load a car, replacing whatever was loaded before. Idempotent per spec. */
+  async load(spec: ModelSpec): Promise<void> {
+    if (this.spec?.id === spec.id) return;
+    this.clear();
+    this.spec = spec;
+    this.table = tableFor(spec.surfaceModel);
 
     const loader = new GLTFLoader(this.loadingManager);
-    const gltf = await loader.loadAsync(MODEL_URL);
+    const gltf = await loader.loadAsync(spec.url);
     const model = gltf.scene;
-    model.name = 'MX5_Body';
+    model.name = `MX5_${spec.id.toUpperCase()}_Body`;
 
     model.traverse((child) => {
       const mesh = child as THREE.Mesh;
@@ -126,7 +136,7 @@ export class CarModel {
     });
 
     this.group.add(model);
-    this.frame(model);
+    this.frame(model, spec.length, spec.yawDeg);
 
     this.body = model;
     this.bodyBaseY = model.position.y;
@@ -140,8 +150,26 @@ export class CarModel {
     if (this.interior) this.setInterior(this.interior);
     this.setRoofUp(this.roofUp);
     if (this.stance) this.setStance(this.stance);
+  }
 
-    this.loaded = true;
+  /** Tear the current car down so another can take its place. */
+  private clear(): void {
+    for (const child of [...this.group.children]) {
+      child.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (!mesh.isMesh) return;
+        mesh.geometry?.dispose();
+        for (const m of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
+          m?.dispose();
+        }
+      });
+      child.removeFromParent();
+    }
+    this.byClass.clear();
+    this.wheels = [];
+    this.roofPart = null;
+    this.body = null;
+    this.spec = null;
   }
 
   /**
@@ -149,11 +177,12 @@ export class CarModel {
    * the origin — applied to the model root only, so its internal layout is
    * untouched.
    */
-  private frame(model: THREE.Object3D): void {
-    // The source model's nose points down -Z; every camera preset in
-    // carData.json is built around a car facing +Z (hero three-quarter at
-    // z = +5, rear view at z = -4.4). Turn the whole model to suit.
-    model.rotation.y = Math.PI;
+  private frame(model: THREE.Object3D, targetLength: number, yawDeg: number): void {
+    // Every camera preset in carData.json is built around a car facing +Z
+    // (hero three-quarter at z = +5, rear view at z = -4.4). Assets disagree
+    // about which way is forward — the ND's nose points -Z and needs turning,
+    // the NA's already points +Z — so the yaw comes from the catalogue.
+    model.rotation.y = yawDeg * DEG2RAD;
     model.updateWorldMatrix(true, true);
     const bounds = new THREE.Box3().setFromObject(model);
     const size = bounds.getSize(new THREE.Vector3());
@@ -161,7 +190,7 @@ export class CarModel {
     // Longest horizontal axis is the car's length, whichever way it faces.
     const length = Math.max(size.x, size.z);
     if (length > 0) {
-      model.scale.multiplyScalar(TARGET_LENGTH / length);
+      model.scale.multiplyScalar(targetLength / length);
       model.updateWorldMatrix(true, true);
       bounds.setFromObject(model);
     }
@@ -202,7 +231,7 @@ export class CarModel {
       if (!mesh.isMesh) return;
       const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       const isWheel = materials.some((m) => {
-        const cls = m && classOf(m.name);
+        const cls = m && classOf(this.table, m.name);
         return Boolean(cls && WHEEL_CLASSES.has(cls));
       });
       if (!isWheel) return;
@@ -237,8 +266,10 @@ export class CarModel {
       });
     }
 
-    if (this.wheels.length !== 4) {
-      console.warn(`[CarModel] expected 4 wheels, found ${this.wheels.length}`);
+    // Only a model whose table declares wheel classes is expected to have any.
+    const declaresWheels = Object.values(this.table.materials).some((c) => WHEEL_CLASSES.has(c));
+    if (declaresWheels && this.wheels.length !== 4) {
+      console.warn(`[CarModel] ${this.spec?.id}: expected 4 wheels, found ${this.wheels.length}`);
     }
   }
 
@@ -257,7 +288,7 @@ export class CarModel {
     this.stance = stance;
     if (this.wheels.length === 0) return;
 
-    const scale = stance.wheelDiameter / NATIVE_WHEEL_INCHES;
+    const scale = stance.wheelDiameter / (this.spec?.nativeWheelInches ?? stance.wheelDiameter);
     const spacer = stance.trackOffset / 1000;
     // Negative camber (a negative config value) tilts the wheel tops inboard.
     const camber = -stance.camber * DEG2RAD;
@@ -296,7 +327,7 @@ export class CarModel {
       const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       for (const material of materials) {
         if (!material) continue;
-        const cls = classOf(material.name);
+        const cls = classOf(this.table, material.name);
         if (!cls) {
           unclassified.add(material.name);
           continue;
@@ -310,11 +341,11 @@ export class CarModel {
     this.byClass.clear();
     for (const [cls, materials] of seen) this.byClass.set(cls, [...materials]);
 
-    if (unclassified.size > 0) {
+    if (unclassified.size > 0 && this.table.complete) {
       // Not fatal — an unclassified surface simply never gets touched. Worth
       // saying out loud, because it means the asset and the table have drifted.
       console.warn(
-        `[CarModel] ${unclassified.size} material(s) missing from surfaceClasses.json:`,
+        `[CarModel] ${this.spec?.id}: ${unclassified.size} material(s) missing from surfaceClasses.json:`,
         [...unclassified].join(', '),
       );
     }
@@ -418,29 +449,24 @@ export class CarModel {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh || this.roofPart) return;
       const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-      if (!materials.some((m) => m && classOf(m.name) === 'soft_top')) return;
+      if (!materials.some((m) => m && classOf(this.table, m.name) === 'soft_top')) return;
 
       let node: THREE.Object3D = mesh;
       while (node.parent && node.parent !== partsRoot) node = node.parent;
       if (node.parent === partsRoot) this.roofPart = node;
     });
 
-    if (!this.roofPart) console.warn('[CarModel] roof part not found — roof-down will do nothing');
+    // Only warn when this model claims to have a soft top at all.
+    const declaresRoof = Object.values(this.table.materials).includes('soft_top');
+    if (declaresRoof && !this.roofPart) {
+      console.warn(`[CarModel] ${this.spec?.id}: roof part not found — roof-down will do nothing`);
+    }
   }
 
   /* ---------------------------------------------------------------- */
 
   dispose(): void {
-    this.group.traverse((child) => {
-      const mesh = child as THREE.Mesh;
-      if (!mesh.isMesh) return;
-      mesh.geometry?.dispose();
-      for (const material of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-        material?.dispose();
-      }
-    });
-    this.group.clear();
+    this.clear();
     this.group.removeFromParent();
-    this.wheels = [];
   }
 }
