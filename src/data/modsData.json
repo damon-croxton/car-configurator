@@ -3,8 +3,23 @@
   "$slots": "`slot` is a CarConfig field name and `optionId` an id already present in carData.json's aeroParts/wheelStyles for that slot. A mod with slot:null has no control yet and cannot ship — see brief §7.1.",
   "$anchors": "`anchors` names base-asset nodes the mod must reach. blender/anchors.json holds their measured boxes; the validator asserts the exported mod comes within `anchorToleranceMm` of each, which is the machine-checkable form of 'nothing floats'.",
   "$attribution": "`derivedFromBaseMesh: true` means the geometry was derived from a CC-BY car asset and ATTRIBUTION.md must record the modification. See brief §4.",
+  "$roadmap": "What we intend to build, in build order. `mods` is what actually exists; `node scripts/mod-status.mjs` joins the two and says what to pick up next. Everything here is ND-only for now because the NA is not imported into the working .blend.",
+  "$origin": "`originMm` is the app-space point a mod's geometry is exported relative to. Body mods omit it and ship in absolute app coordinates. Wheels set it to their contact patch, because the app parents them to a pivot already sitting there — see brief §2.2. The validator offsets the bbox by it before checking anchors.",
   "version": 1,
   "anchorToleranceMm": 25,
+  "roadmap": [
+    { "id": "BP01", "category": "body panels", "displayName": "Vented Carbon Bonnet", "note": "OEM bonnet + louvred apertures" },
+    { "id": "BP03", "category": "body panels", "displayName": "NACA-Duct Bonnet", "note": "same base, single centreline inlet" },
+    { "id": "BP04", "category": "body panels", "displayName": "Carbon Boot Lid", "note": "proves the technique on a second panel" },
+    { "id": "W01", "category": "wheels", "displayName": "Lightweight Race 7-Spoke", "note": "proves the wheel pipeline end to end" },
+    { "id": "W07", "category": "wheels", "displayName": "Forged 6-Spoke Concave", "note": "reuses the W01 barrel + tyre" },
+    { "id": "W04", "category": "wheels", "displayName": "Deep Dish 8-Spoke", "note": "big lip, two-tone face/lip slots" },
+    { "id": "RA02", "category": "rear aero", "displayName": "GT Wing", "note": "first body-mounted bolt-on" },
+    { "id": "FA03", "category": "front aero", "displayName": "Race Splitter", "note": "flat plate + support rods" },
+    { "id": "RB01", "category": "roll bar", "displayName": "Single-Hoop Roll Bar", "note": "swept tube, footplates" },
+    { "id": "EX01", "category": "exhaust", "displayName": "Single Round Tip Cat-Back", "note": "hollow tip, off-centre per measurement" },
+    { "id": "DT07", "category": "details", "displayName": "Bonnet Pins", "note": "quick win, pairs with the bonnets" }
+  ],
   "mods": [
     {
       "id": "BP01",

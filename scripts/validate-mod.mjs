@@ -278,6 +278,17 @@ async function validate(mod, gen) {
   }
 
   // --- anchors: the "nothing floats" check -------------------------
+  // A wheel ships relative to its contact patch, because the app parents it to
+  // a pivot already sitting there. Put it back where it will actually be before
+  // asking whether it reaches its anchor.
+  const origin = mod.originMm?.[gen];
+  const placed = origin
+    ? {
+        min: glb.box.min.map((v, i) => v + origin[i] / 1000),
+        max: glb.box.max.map((v, i) => v + origin[i] / 1000),
+      }
+    : glb.box;
+
   const tolerance = (modsData.anchorToleranceMm ?? 25) / 1000;
   const table = anchors.generations?.[gen];
   for (const anchorName of mod.anchors?.[gen] ?? []) {
@@ -290,7 +301,7 @@ async function validate(mod, gen) {
       min: node.bbox.min.map((v) => v / 1000),
       max: node.bbox.max.map((v) => v / 1000),
     };
-    const gap = boxGap(glb.box, anchorBox);
+    const gap = boxGap(placed, anchorBox);
     const worst = Math.max(...gap);
     if (worst > tolerance) {
       fail(
@@ -305,6 +316,15 @@ async function validate(mod, gen) {
     if (!table?.nodes?.some((n) => n.name === nodeName)) {
       fail(`hides "${nodeName}", which is not a node in the ${gen} asset`);
     }
+  }
+  // Wheels are hidden by surface class, not node name — all four are called
+  // `WheelFL` in the asset, so names identify nothing. Mirrors how CarModel
+  // already finds them.
+  for (const cls of mod.hidesSurfaceClasses ?? []) {
+    const known = Object.values(surfaceClasses.models ?? {}).some((t) =>
+      Object.values(t.materials ?? {}).includes(cls),
+    );
+    if (!known) fail(`hidesSurfaceClasses "${cls}" is not a class any model table uses`);
   }
 
   // --- shipping preconditions --------------------------------------

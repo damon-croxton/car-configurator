@@ -192,6 +192,65 @@ def assign(obj, name, faces=None):
     return slot
 
 
+BASE_BLEND = os.path.join(REPO, "blender", "build", "mx5_base.blend")
+
+
+def save_base():
+    """
+    Snapshot the current scene as the pristine base, once.
+
+    This is the only genuinely expensive thing in the .blend — 368 imported
+    objects and their textures. Every mod is rebuilt from its script, so nothing
+    else needs saving; this exists so a Blender crash costs seconds instead of a
+    re-import and a re-setup.
+    """
+    os.makedirs(os.path.dirname(BASE_BLEND), exist_ok=True)
+    bpy.ops.wm.save_as_mainfile(filepath=BASE_BLEND, copy=True)
+    print(f"saved base scene -> {BASE_BLEND} ({os.path.getsize(BASE_BLEND)/1048576:.0f} MB)")
+    return BASE_BLEND
+
+
+def reset_mods(keep=()):
+    """
+    Clear every MOD_* collection and its orphans, without touching the file.
+
+    This is the reset to reach for. A long run accumulates cruft — orphaned
+    meshes squat on names and the next build silently becomes `..._panel.008`,
+    which is exactly what the naming contract forbids. Purging between mods
+    keeps each build starting from the same state.
+    """
+    dropped = []
+    for coll in list(bpy.data.collections):
+        if not coll.name.startswith("MOD_") or coll.name in keep or coll.name == "MOD_TESTS":
+            continue
+        name = coll.name          # read it before the datablock goes away
+        for obj in list(coll.objects):
+            bpy.data.objects.remove(obj, do_unlink=True)
+        bpy.data.collections.remove(coll)
+        dropped.append(name)
+    sweep_temporaries("_")
+    purge_orphan_meshes()
+    if dropped:
+        print(f"reset: dropped {', '.join(dropped)}")
+    return dropped
+
+
+def reload_base():
+    """
+    Reload the saved base file, discarding everything in memory.
+
+    DANGER, and deliberately not used by the unattended build loop:
+    `wm.open_mainfile` tears down the Python state, and the MCP add-on's timers
+    go with it, so the bridge usually has to be reconnected by hand afterwards.
+    Use `reset_mods()` instead unless the scene is genuinely unrecoverable and
+    somebody is sitting in front of Blender.
+    """
+    if not os.path.exists(BASE_BLEND):
+        raise FileNotFoundError(f"no base scene at {BASE_BLEND}; call save_base() first")
+    print("reload_base(): this will probably drop the MCP connection — reconnect after")
+    bpy.ops.wm.open_mainfile(filepath=BASE_BLEND)
+
+
 def purge_orphan_meshes():
     """
     Drop mesh datablocks nothing uses.
@@ -384,17 +443,26 @@ def stats(objs, gen="nd"):
 
 # --------------------------------------------------------------- export ----
 
-def export_glb(gen, mod_id, filename, objs):
+def export_glb(gen, mod_id, filename, objs, origin=None):
     """
     Export the mod, converted into app space, leaving the scene untouched.
 
     Works on throwaway duplicates so the raw-import scene the artist is
     modelling against is never rotated or rescaled.
+
+    `origin` is an app-space point (mm) to treat as the mod's local zero. Body
+    mods leave it None and export in absolute app coordinates, so they drop in
+    at identity. Wheels pass their contact patch, because the app parents them
+    to a pivot that is already sitting there — see brief §2.2.
     """
     if isinstance(objs, bpy.types.Collection):
         objs = list(objs.objects)
 
     matrix = export_matrix(gen)
+    if origin is not None:
+        # In the exported frame, app (x, y, z) is Blender (x, -z, y).
+        ox, oy, oz = origin
+        matrix = Matrix.Translation(Vector((-ox / 1000.0, oz / 1000.0, -oy / 1000.0))) @ matrix
     bpy.ops.object.select_all(action="DESELECT")
 
     # Blender will not let two datablocks share a name, so a copy of
