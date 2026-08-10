@@ -22,6 +22,28 @@
   ],
   "mods": [
     {
+      "id": "FA03",
+      "gen": ["nd"],
+      "category": "front_aero",
+      "displayName": "Race Splitter",
+      "slot": "frontLip",
+      "optionId": "aggressive_splitter",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["BumperF 6.003_111"] },
+      "materials": ["MOD_CarbonWeave", "MOD_Alloy"],
+      "bboxMm": { "nd": { "min": [-820, 130, 1690], "max": [820, 470, 2055] } },
+      "triangleBudget": 4000,
+      "file": { "nd": "assets/mods/nd/FA03_race_splitter.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Flat and level at app y 150, just under the bumper's measured lowest point of 168, projecting to a leading edge at z 2055 against a nose at 1958. Following the bumper's curve downward instead would make it a valance, which is a different part. Rods run from inside the plate up to y 470, well inside the bumper's 175..644 band, so both ends are buried rather than touching.",
+      "$partial": "Rods are square-section and vertical; the brief specifies 10mm round and raked back."
+    },
+    {
       "id": "RA02",
       "gen": ["nd"],
       "category": "rear_aero",
