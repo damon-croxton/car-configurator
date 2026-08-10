@@ -490,6 +490,28 @@ def displace(obj, offset_mm, gen="nd"):
     return moved
 
 
+def surface_y(obj, app_x, app_z, gen="nd", from_y=2400.0):
+    """
+    Height of `obj`'s skin directly above an app (x, z), in app millimetres.
+
+    This is how anything that must sit ON the car finds what it is sitting on —
+    a wing's base plates, a bonnet pin, an antenna gasket. Measuring beats
+    assuming: the brief's nominal heights are quoted against a different datum
+    and leave parts hanging.
+
+    `ray_cast` works in the object's LOCAL space, so the direction has to be
+    rotated into it as well as the origin. Base-asset parts carry the exporter's
+    helper-armature transforms, so skipping that quietly misses every time.
+    """
+    inv = obj.matrix_world.inverted()
+    origin = inv @ app_to_blender(app_x, from_y, app_z, gen)
+    down = (inv.to_3x3() @ (app_to_blender(0, 0, 0, gen) - app_to_blender(0, 1000, 0, gen))).normalized()
+    hit, loc, _n, _i = obj.ray_cast(origin, down)
+    if not hit:
+        raise RuntimeError(f"nothing under app ({app_x}, {app_z}) on {obj.name}")
+    return blender_to_app(obj.matrix_world @ loc, gen)[1]
+
+
 def solidify(obj, thickness_mm, gen="nd", offset=-1.0):
     """Give a single-skin panel real thickness, filling any open rims."""
     s, _ = _frame(gen)

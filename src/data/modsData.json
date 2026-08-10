@@ -22,6 +22,28 @@
   ],
   "mods": [
     {
+      "id": "RA02",
+      "gen": ["nd"],
+      "category": "rear_aero",
+      "displayName": "GT Wing",
+      "slot": "rearWing",
+      "optionId": "gt_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["Boot 6.001_157"] },
+      "materials": ["MOD_AccentPaint", "MOD_GlossBlack"],
+      "bboxMm": { "nd": { "min": [-703, 858, -1850], "max": [703, 1431, -1550] } },
+      "triangleBudget": 6000,
+      "file": { "nd": "assets/mods/nd/RA02_gt_wing.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Base plates start at app y 858, which is the boot lid's height measured by ray-cast at the upright stations rather than the brief's nominal figure — that assumes a different datum and would leave the uprights hanging. 1400 span against a 1790 cap (body width minus 150). The element is an inverted cambered aerofoil at 8 degrees, trailing edge high.",
+      "$partial": "No bolt heads on the base plates and no adjuster hardware at the upright/element joint. 320 triangles against a 6000 budget — there is plenty of room to add them."
+    },
+    {
       "id": "W04",
       "gen": ["nd"],
       "category": "wheel",
