@@ -525,7 +525,7 @@ def solidify(obj, thickness_mm, gen="nd", offset=-1.0):
 # ------------------------------------------------------------- revolve ----
 
 
-def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd"):
+def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd", axis="x"):
     """
     Spin a 2D cross-section around the vehicle's X axis.
 
@@ -537,6 +537,10 @@ def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd"):
 
     `close` joins the last profile point back to the first, giving a closed
     solid of revolution.
+
+    `axis` is "x" for anything that turns with a wheel and "z" for anything
+    pointing down the length of the car — exhaust pipes, tips, mufflers. The
+    profile's first coordinate always runs along the chosen axis.
     """
     cx, cy, cz = centre_app
     rings = []
@@ -544,7 +548,11 @@ def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd"):
         ring = []
         for j in range(segments):
             a = 2.0 * math.pi * j / segments
-            ring.append(app_to_blender(cx + x, cy + r * math.cos(a), cz + r * math.sin(a), gen))
+            c, s = r * math.cos(a), r * math.sin(a)
+            if axis == "z":
+                ring.append(app_to_blender(cx + c, cy + s, cz + x, gen))
+            else:
+                ring.append(app_to_blender(cx + x, cy + c, cz + s, gen))
         rings.append(ring)
 
     verts = [v for ring in rings for v in ring]

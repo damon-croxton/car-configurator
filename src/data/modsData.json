@@ -22,6 +22,27 @@
   ],
   "mods": [
     {
+      "id": "EX01",
+      "gen": ["nd"],
+      "category": "exhaust",
+      "displayName": "Single Round Tip Cat-Back",
+      "slot": "exhaust",
+      "optionId": "big_bore_single",
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": { "nd": ["Exhausts 6_124", "Exhausts 6.002_126"] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["BumperR 6.001_146"] },
+      "materials": ["MOD_Chrome", "MOD_SatinBlack"],
+      "bboxMm": { "nd": { "min": [-357, 179, -1880], "max": [-217, 279, -920] } },
+      "triangleBudget": 6000,
+      "file": { "nd": "assets/mods/nd/EX01_single_tip.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Sits where the OEM tips MEASURE — app x -354..-220, off-centre to the vehicle's right — not on the centreline the catalogue drawing implies. The tip is a real tube with a separate dark bore sleeve; a solid rod with a dark cap reads as a toy."
+    },
+    {
       "id": "FA03",
       "gen": ["nd"],
       "category": "front_aero",
