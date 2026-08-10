@@ -500,6 +500,118 @@ def solidify(obj, thickness_mm, gen="nd", offset=-1.0):
     return apply_modifier(obj, mod.name)
 
 
+# ------------------------------------------------------------- revolve ----
+
+
+def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd"):
+    """
+    Spin a 2D cross-section around the vehicle's X axis.
+
+    `profile` is a list of `(x_mm, radius_mm)` relative to `centre_app`, the
+    axle centre in app millimetres. This is how every round part gets built —
+    rim barrels, tyres, brake discs, exhaust tips — because a spun profile has
+    the right silhouette by construction. Extruding a cylinder and hoping does
+    not: the bead seats and the drop centre are the whole shape of a rim.
+
+    `close` joins the last profile point back to the first, giving a closed
+    solid of revolution.
+    """
+    cx, cy, cz = centre_app
+    rings = []
+    for x, r in profile:
+        ring = []
+        for j in range(segments):
+            a = 2.0 * math.pi * j / segments
+            ring.append(app_to_blender(cx + x, cy + r * math.cos(a), cz + r * math.sin(a), gen))
+        rings.append(ring)
+
+    verts = [v for ring in rings for v in ring]
+    faces = []
+    pairs = list(zip(range(len(rings)), range(1, len(rings))))
+    if close and len(rings) > 2:
+        pairs.append((len(rings) - 1, 0))
+    for a, b in pairs:
+        for j in range(segments):
+            k = (j + 1) % segments
+            faces.append([a * segments + j, a * segments + k, b * segments + k, b * segments + j])
+
+    mesh = bpy.data.meshes.new(name)
+    mesh.from_pydata([v[:] for v in verts], [], faces)
+    mesh.validate()
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    put(obj, coll)
+    clean(obj)
+    return obj
+
+
+def block(name, coll, centre_app, size_app, gen="nd", rotate_x=0.0):
+    """
+    An axis-aligned box in app millimetres, optionally rolled about the X axis.
+
+    Spokes, blades, footplates, endplates and bolt heads are all boxes before
+    they are anything else, and building them from app-space numbers keeps the
+    brief's dimensions readable in the code that uses them.
+
+    Returns with all transforms applied, so `matrix_world` is identity and the
+    vertices are in world space — the same invariant `revolve()` has. Callers
+    reshape vertices by reading `blender_to_app(v.co)` and writing back, which
+    is only correct while that holds.
+    """
+    s, _ = _frame(gen)
+    centre = app_to_blender(*centre_app, gen=gen)
+    bpy.ops.mesh.primitive_cube_add(size=1.0, location=(centre.x, centre.y, centre.z))
+    obj = bpy.context.active_object
+    obj.name = obj.data.name = name
+    # size_app is (across, up, fore-aft) in app axes; the cube's axes are
+    # Blender's, where app Y is Z and app Z is Y. Feeding app sizes straight in
+    # swaps a spoke's length with its width, which still looks like a wheel
+    # right up until you measure it.
+    sx, sy, sz = size_app
+    obj.scale = (sx / s / 1000.0, sz / s / 1000.0, sy / s / 1000.0)
+    if rotate_x:
+        obj.rotation_euler = (rotate_x, 0.0, 0.0)
+    activate(obj)
+    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    put(obj, coll)
+    return obj
+
+
+def radial_copies(obj, count, centre_app, gen="nd", start_deg=0.0):
+    """
+    Copy `obj` evenly around the X axis and join them into one mesh.
+
+    Spokes are one spoke, seven times. Modelling seven of them separately is how
+    they end up not quite matching.
+    """
+    cx, cy, cz = centre_app
+    pivot = app_to_blender(cx, cy, cz, gen)
+    made = [obj]
+    for i in range(1, count):
+        dup = obj.copy()
+        dup.data = obj.data.copy()
+        for c in obj.users_collection:
+            c.objects.link(dup)
+        angle = math.radians(start_deg + 360.0 * i / count)
+        dup.matrix_world = (
+            Matrix.Translation(pivot)
+            @ Matrix.Rotation(angle, 4, "X")
+            @ Matrix.Translation(-pivot)
+            @ obj.matrix_world
+        )
+        made.append(dup)
+
+    bpy.ops.object.select_all(action="DESELECT")
+    for m in made:
+        m.select_set(True)
+    bpy.context.view_layer.objects.active = obj
+    bpy.ops.object.join()
+    joined = bpy.context.active_object
+    activate(joined)
+    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    return joined
+
+
 # ---------------------------------------------------------------- stats ----
 
 def stats(objs, gen="nd"):
