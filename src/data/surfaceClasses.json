@@ -131,7 +131,28 @@
           "panel": "cabin_surround",
           "side": "shared"
         }
-      ]
+      ],
+      "roofLining": {
+        "$comment": "Loose parts of the cabin mesh that are really roof lining, and so must hide when the roof does. Hiding the roof part alone leaves an inner shell behind, because the artist modelled the lining as part of the interior tub. Identified by eye using the in-app \"roof islands\" debug view — bounding boxes cannot tell lining from cabin trim.",
+        "$keys": "Stable ids from islandKey(): triangleCount@localCentre. Deliberately not list indices, which shift whenever the candidate filter changes.",
+        "$cutAboveY": "Some parts are lining at the top and A-pillar trim lower down, so no whole-part rule separates them. When set, triangles above this world height (metres, ground = 0) are treated as lining too — but only within parts that already sit inside the roof volume. null disables it.",
+        "cutAboveY": null,
+        "hideWithRoof": [
+          "139@0.000,-0.898,-0.892",
+          "51@0.569,-0.503,-0.867",
+          "10@0.024,-0.500,-1.055",
+          "10@0.025,-0.468,-1.052",
+          "14@-0.133,-0.736,-1.019",
+          "20@-0.554,-0.474,-0.966",
+          "10@-0.583,-0.703,-0.904",
+          "10@-0.637,-0.706,-0.790",
+          "20@0.554,-0.474,-0.966",
+          "10@0.583,-0.703,-0.904",
+          "10@0.637,-0.706,-0.790",
+          "8@0.001,-0.248,-1.036",
+          "9@0.536,-0.755,-0.699"
+        ]
+      }
     },
     "na": {
       "$model": "Sketchfab \"1990 Mazda Miata NA\" by Ricy. Its materials are named Material_71, Material_230 ... which say nothing. This table was built by inspecting WHICH OBJECTS use each material, e.g. Material_71 is used by hood/leftdoor/rigthdoor/trunk/frontbumper/rearfender/f fender/rearbumper/Apillar/popuplight/americanjapaneserearpanel - unambiguously the paint. Only the surfaces the configurator drives are mapped; the other ~80 materials are deliberately left unclassified, so `complete` is false and no drift warning is raised. Material_70 (mirror housings + the alternate European rear panel) is body-coloured on a real NA, so it joins body_paint; Material_76 is the mirror glass.",

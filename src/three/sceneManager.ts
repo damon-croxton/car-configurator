@@ -10,7 +10,7 @@ import {
   getWheelFinish,
 } from '../data/schema';
 import { CameraRig } from './cameraRig';
-import { CarModel, type ModelSpec } from './carModel';
+import { CarModel, type IslandDebugResult, type ModelSpec } from './carModel';
 import { ContactShadow } from './contactShadow';
 import { EnvironmentManager } from './environmentManager';
 import { PostProcessing } from './postProcessing';
@@ -55,6 +55,8 @@ export class SceneManager {
   private readonly post: PostProcessing;
   private readonly resizeObserver: ResizeObserver;
   private readonly timer = new THREE.Timer();
+  private readonly raycaster = new THREE.Raycaster();
+  private readonly pointer = new THREE.Vector2();
 
   private config: CarConfig | null = null;
   private animationHandle = 0;
@@ -213,6 +215,48 @@ export class SceneManager {
     this.shadow.group.visible = config.contactShadow;
     this.shadow.setOpacity(environment.shadowOpacity);
     this.rig.setAutoRotate(config.turntable);
+  }
+
+  /**
+   * Debug view: colour the cabin loose parts that sit inside the roof volume,
+   * so a human can say which are roof lining and which are cabin trim.
+   * Returns one entry per candidate for the on-screen legend.
+   */
+  showIslandDebug(enabled: boolean): IslandDebugResult {
+    const reports = this.car.showIslandDebug(enabled);
+    this.shadow.invalidate();
+    return reports;
+  }
+
+  /** Emphasise one debug island and fade the rest. Null clears the emphasis. */
+  highlightIsland(index: number | null): void {
+    this.car.highlightIsland(index);
+  }
+
+  /**
+   * Which debug island is under this point? Coordinates are CSS pixels
+   * relative to the canvas; returns the island index or null for a miss.
+   */
+  pickIsland(x: number, y: number): number | null {
+    const meshes = this.car.islandMeshes;
+    if (meshes.length === 0) return null;
+    const rect = this.renderer.domElement.getBoundingClientRect();
+    this.pointer.set((x / rect.width) * 2 - 1, -(y / rect.height) * 2 + 1);
+    this.raycaster.setFromCamera(this.pointer, this.rig.camera);
+    const hits = this.raycaster.intersectObjects(meshes, false);
+    if (hits.length === 0) return null;
+    return meshes.indexOf(hits[0].object as THREE.Mesh);
+  }
+
+  /** Set which cabin loose parts (and what height cut) count as roof lining. */
+  setRoofLining(keys: string[], cutY: number | null): void {
+    this.car.setRoofLining(keys, cutY);
+    this.shadow.invalidate();
+  }
+
+  /** Height range of the soft top, for the lining cut slider. */
+  roofCutRange(): { min: number; max: number; value: number | null } | null {
+    return this.car.roofCutRange();
   }
 
   goToCamera(presetId: string): void {

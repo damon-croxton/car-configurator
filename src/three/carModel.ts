@@ -1,6 +1,13 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { classOf, tableFor, type SurfaceTable } from '../data/surfaces';
+import {
+  geometryFromIsland,
+  islandKey,
+  partitionGeometry,
+  splitIntoIslands,
+  type Island,
+} from './islands';
 
 const DEG2RAD = Math.PI / 180;
 
@@ -57,6 +64,51 @@ export interface ModelSpec {
   yawDeg: number;
 }
 
+/** Result of the island debug pass: what got coloured, and how many exist. */
+export interface IslandDebugResult {
+  shown: IslandReport[];
+  total: number;
+}
+
+/** One candidate loose part found inside the roof volume. */
+export interface IslandReport {
+  index: number;
+  /** Stable identity, independent of ordering — see islandKey(). */
+  key: string;
+  colour: string;
+  /** True when this part is currently in the roof-lining set. */
+  hidden?: boolean;
+  triangles: number;
+  /** World-space size, metres. */
+  size: [number, number, number];
+  /** World-space centre, metres. */
+  centre: [number, number, number];
+}
+
+/**
+ * An endless supply of distinguishable colours.
+ *
+ * Stepping the hue by the golden angle keeps consecutive entries far apart on
+ * the wheel however many there are, and alternating lightness separates hues
+ * that eventually wrap round near each other.
+ */
+function islandColour(i: number): string {
+  const hue = (i * 137.508) % 360;
+  const lightness = i % 3 === 0 ? 62 : i % 3 === 1 ? 48 : 74;
+  return `hsl(${hue.toFixed(1)}, 90%, ${lightness}%)`;
+}
+
+interface CabinMesh {
+  mesh: THREE.Mesh;
+  /** Every triangle, before any lining was split out. */
+  original: THREE.BufferGeometry;
+  islands: Island[];
+  /** Parallel to `islands`: does this part sit inside the roof volume? */
+  candidate: boolean[];
+  /** Parallel to `islands`: world-space centre height of each triangle. */
+  triangleHeights: Float32Array[];
+}
+
 interface Wheel {
   pivot: THREE.Group;
   /** Contact patch in car-group space, before spacers are applied. */
@@ -102,6 +154,18 @@ export class CarModel {
   private readonly byClass = new Map<string, THREE.Material[]>();
   /** The whole roof part: canvas, stitching decal, rear window and frame. */
   private roofPart: THREE.Object3D | null = null;
+  /** Overlay meshes created by the island debug view, so they can be removed. */
+  private islandOverlays: THREE.Mesh[] = [];
+  /**
+   * Cabin meshes decomposed into loose parts once per load. Holding the
+   * original geometry matters: once the lining is split out, `mesh.geometry`
+   * no longer contains every triangle, and island numbering would drift.
+   */
+  private cabin: CabinMesh[] = [];
+  /** Meshes carrying the roof-lining triangles; hidden along with the roof. */
+  private liningMeshes: THREE.Mesh[] = [];
+  private liningKeys = new Set<string>();
+  private liningCutY: number | null = null;
 
   // Held so values set before the model finished loading are not lost.
   private paintColor: string | null = null;
@@ -143,6 +207,11 @@ export class CarModel {
     this.extractWheels();
     this.indexMaterials();
     this.indexRoof();
+    this.indexCabin();
+    // Seed from the catalogue; the debug view can override it at runtime.
+    this.liningKeys = new Set(this.table.roofLining?.hideWithRoof ?? []);
+    this.liningCutY = this.table.roofLining?.cutAboveY ?? null;
+    this.rebuildLining();
 
     if (this.paintColor) this.setPaintColor(this.paintColor);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
@@ -166,6 +235,9 @@ export class CarModel {
       child.removeFromParent();
     }
     this.byClass.clear();
+    this.cabin = [];
+    this.liningMeshes = [];
+    this.islandOverlays = [];
     this.wheels = [];
     this.roofPart = null;
     this.body = null;
@@ -430,6 +502,7 @@ export class CarModel {
   setRoofUp(up: boolean): void {
     this.roofUp = up;
     if (this.roofPart) this.roofPart.visible = up;
+    for (const lining of this.liningMeshes) lining.visible = up;
   }
 
   /**
@@ -461,6 +534,246 @@ export class CarModel {
     if (declaresRoof && !this.roofPart) {
       console.warn(`[CarModel] ${this.spec?.id}: roof part not found — roof-down will do nothing`);
     }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Island debug view                                                 */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * Colour each loose part of the cabin mesh that sits inside the roof volume.
+   *
+   * The ND's interior mesh is a bag of ~768 disconnected islands, and some of
+   * them are roof lining rather than cabin trim — which is why hiding the roof
+   * part alone leaves an inner shell behind. Bounding boxes cannot tell lining
+   * from trim reliably, so this paints the candidates in distinct colours and
+   * lets a human say which is which.
+   *
+   * Returns one entry per candidate, in the same order as the legend.
+   */
+  showIslandDebug(enabled: boolean): IslandDebugResult {
+    for (const overlay of this.islandOverlays) {
+      overlay.removeFromParent();
+      overlay.geometry.dispose();
+      (overlay.material as THREE.Material).dispose();
+    }
+    this.islandOverlays = [];
+    if (!enabled) return { shown: [], total: 0 };
+
+    const candidates = this.roofCandidates();
+    if (candidates.length === 0) return { shown: [], total: 0 };
+
+    // Biggest first, so the parts most likely to matter get the low numbers.
+    candidates.sort((a, b) => b.island.triangleCount - a.island.triangleCount);
+
+    const shown: IslandReport[] = [];
+    for (const { entry, island, box } of candidates) {
+      const mesh = entry.mesh;
+      const colour = islandColour(shown.length);
+      const overlay = new THREE.Mesh(
+        // Built from the ORIGINAL geometry: once lining is split out the live
+        // geometry is missing triangles, and the overlay would have holes.
+        geometryFromIsland(entry.original, island),
+        new THREE.MeshBasicMaterial({
+          color: colour,
+          side: THREE.DoubleSide,
+          depthTest: true,
+          polygonOffset: true,
+          polygonOffsetFactor: -2,
+          polygonOffsetUnits: -2,
+        }),
+      );
+      overlay.name = `IslandDebug_${shown.length}`;
+      // Child of the source mesh, so the island's local coordinates line up.
+      mesh.add(overlay);
+      this.islandOverlays.push(overlay);
+
+      const size = box.getSize(new THREE.Vector3());
+      const centre = box.getCenter(new THREE.Vector3());
+      shown.push({
+        index: shown.length,
+        key: islandKey(island),
+        colour,
+        triangles: island.triangleCount,
+        size: [size.x, size.y, size.z],
+        centre: [centre.x, centre.y, centre.z],
+        hidden: this.liningKeys.has(islandKey(island)),
+      });
+    }
+    return { shown, total: candidates.length };
+  }
+
+  /**
+   * Cabin loose parts that sit inside the roof volume, from the cached
+   * decomposition. Cheap to call repeatedly — the expensive island split
+   * happens once per load.
+   */
+  private roofCandidates(): { entry: CabinMesh; island: Island; box: THREE.Box3 }[] {
+    const out: { entry: CabinMesh; island: Island; box: THREE.Box3 }[] = [];
+    const worldBox = new THREE.Box3();
+    for (const entry of this.cabin) {
+      entry.islands.forEach((island, i) => {
+        if (!entry.candidate[i]) return;
+        worldBox.copy(island.box).applyMatrix4(entry.mesh.matrixWorld);
+        out.push({ entry, island, box: worldBox.clone() });
+      });
+    }
+    return out;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Roof lining                                                       */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * Decompose the cabin meshes once, and mark which loose parts sit inside the
+   * roof volume. Everything downstream — the debug view and the lining split —
+   * reads this cache rather than re-splitting.
+   */
+  private indexCabin(): void {
+    this.cabin = [];
+    if (!this.roofPart) return;
+
+    // The roof's own volume defines "inside the roof", measured not guessed.
+    const wasVisible = this.roofPart.visible;
+    this.roofPart.visible = true;
+    const roofBox = new THREE.Box3().setFromObject(this.roofPart);
+    this.roofPart.visible = wasVisible;
+    roofBox.expandByScalar(0.04);
+
+    const worldBox = new THREE.Box3();
+    const a = new THREE.Vector3();
+    this.group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh || !mesh.geometry) return;
+      const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+      const inCabin = materials.some((m) => {
+        const cls = m && classOf(this.table, m.name);
+        return cls === 'interior_main' || cls === 'interior_trim';
+      });
+      if (!inCabin) return;
+
+      const original = mesh.geometry;
+      const islands = splitIntoIslands(original);
+      const position = original.getAttribute('position');
+      const index = original.getIndex();
+      const at = (i: number) => (index ? index.getX(i) : i);
+
+      const candidate: boolean[] = [];
+      const triangleHeights: Float32Array[] = [];
+      for (const island of islands) {
+        worldBox.copy(island.box).applyMatrix4(mesh.matrixWorld);
+        // Merely *reaching* the roof is not enough — the cabin tub is 1.8 m
+        // tall and touches it. A roof-lining part lives entirely up there.
+        const isCandidate =
+          roofBox.intersectsBox(worldBox) &&
+          worldBox.min.y >= roofBox.min.y - 0.02 &&
+          island.triangleCount >= 8;
+        candidate.push(isCandidate);
+
+        // Per-triangle world height, so the cut slider is a lookup not a re-solve.
+        const heights = new Float32Array(isCandidate ? island.triangles.length : 0);
+        if (isCandidate) {
+          island.triangles.forEach((offset, t) => {
+            let sum = 0;
+            for (let k = 0; k < 3; k++) {
+              a.fromBufferAttribute(position, at(offset + k)).applyMatrix4(mesh.matrixWorld);
+              sum += a.y;
+            }
+            heights[t] = sum / 3;
+          });
+        }
+        triangleHeights.push(heights);
+      }
+      this.cabin.push({ mesh, original, islands, candidate, triangleHeights });
+    });
+  }
+
+  /**
+   * Split the nominated lining triangles out of the cabin meshes into their own
+   * meshes, which then follow the roof's visibility.
+   *
+   * Two ways a triangle becomes lining: it belongs to a part listed in
+   * `liningKeys` (hidden whole), or — for parts inside the roof volume only —
+   * it sits above `liningCutY`. The height cut exists because some parts are
+   * lining at the top and A-pillar trim further down, so no whole-part rule
+   * can separate them.
+   */
+  private rebuildLining(): void {
+    for (const mesh of this.liningMeshes) {
+      mesh.removeFromParent();
+      mesh.geometry.dispose();
+    }
+    this.liningMeshes = [];
+
+    for (const entry of this.cabin) {
+      const hide = new Set<number>();
+      entry.islands.forEach((island, i) => {
+        if (this.liningKeys.has(islandKey(island))) {
+          for (const offset of island.triangles) hide.add(offset);
+          return;
+        }
+        if (this.liningCutY === null || !entry.candidate[i]) return;
+        const heights = entry.triangleHeights[i];
+        island.triangles.forEach((offset, t) => {
+          if (heights[t] > this.liningCutY!) hide.add(offset);
+        });
+      });
+
+      if (hide.size === 0) {
+        entry.mesh.geometry = entry.original;
+        continue;
+      }
+
+      const { keep, hidden } = partitionGeometry(entry.original, hide);
+      entry.mesh.geometry = keep;
+
+      const lining = new THREE.Mesh(hidden, entry.mesh.material);
+      lining.name = 'RoofLining';
+      lining.castShadow = true;
+      lining.receiveShadow = true;
+      lining.visible = this.roofUp;
+      // Child of the source mesh, so the split geometry's local space lines up.
+      entry.mesh.add(lining);
+      this.liningMeshes.push(lining);
+    }
+  }
+
+  /** Hide these loose parts (by stable key) whenever the roof is down. */
+  setRoofLining(keys: string[], cutY: number | null): void {
+    this.liningKeys = new Set(keys);
+    this.liningCutY = cutY;
+    this.rebuildLining();
+  }
+
+  /** Current height cut, and a sensible range for a slider, in world metres. */
+  roofCutRange(): { min: number; max: number; value: number | null } | null {
+    if (!this.roofPart) return null;
+    const wasVisible = this.roofPart.visible;
+    this.roofPart.visible = true;
+    const box = new THREE.Box3().setFromObject(this.roofPart);
+    this.roofPart.visible = wasVisible;
+    return { min: box.min.y, max: box.max.y, value: this.liningCutY };
+  }
+
+  /** The overlay meshes, so the scene can raycast against them. */
+  get islandMeshes(): THREE.Mesh[] {
+    return this.islandOverlays;
+  }
+
+  /**
+   * Emphasise one island and fade the rest, so a single part can be read out
+   * of a crowded pile. Pass `null` to show them all equally.
+   */
+  highlightIsland(index: number | null): void {
+    this.islandOverlays.forEach((overlay, i) => {
+      const material = overlay.material as THREE.MeshBasicMaterial;
+      const selected = index === null || i === index;
+      material.opacity = selected ? 1 : 0.12;
+      material.transparent = !selected;
+      material.depthWrite = selected;
+      overlay.renderOrder = selected && index !== null ? 1 : 0;
+    });
   }
 
   /* ---------------------------------------------------------------- */

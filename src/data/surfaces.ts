@@ -18,6 +18,8 @@ export interface SurfaceTable {
   /** The one class body colour applies to. */
   paintableClass: string;
   materials: Record<string, string>;
+  /** Cabin loose parts that are really roof lining — see surfaceClasses.json. */
+  roofLining?: { hideWithRoof: string[]; cutAboveY: number | null };
 }
 
 const MODELS = surfaceClasses.models as unknown as Record<string, SurfaceTable>;
