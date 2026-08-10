@@ -8,6 +8,29 @@
   "$normalisation": "Look up a material by stripping a trailing '.NNN' duplicate suffix (M_Tire_Max.002 -> M_Tire_Max). Those suffixes are per-wheel copies of identical materials, not distinct surfaces. Note M_LightGlassNormal_OrangeLow. ends in a bare dot with no digits, so the rule leaves it alone.",
   "$trap": "M_CarPaint_Trim_PlasticSmoothBlack_Max contains 'CarPaint' but is the GLOSS BLACK trim on the front bumper, rear bumper and skirts. Matching materials by substring paints the grille surround body colour. Match exact names only.",
   "$complete": "complete:true means the table is expected to cover every material in the asset, so anything missing is drift and CarModel warns. complete:false means partial coverage is intended and unmapped surfaces are simply never touched.",
+  "mods": {
+    "$comment": "Mod assets are not part of either car, but they are recoloured by the same mechanism, so they classify the same way. This one table is shared by both generations and is merged over whichever model table is loaded. See mx5-mod-modelling-brief.md §3.",
+    "$why": "Naming a mod's paint material MOD_BodyPaint puts it in the body_paint class, so the existing paint picker recolours it with no new code at all. Same for MOD_Rim and the wheel-finish picker. That is the whole point of routing mods through this table rather than giving them their own colour plumbing.",
+    "$caliper": "MOD_CaliperPaint maps to a class no base asset uses. CarConfig.caliperColor already exists and is inert because neither car has a separate caliper mesh; the first wheel mod that ships one makes that control work.",
+    "$newClasses": "mod_accent, mod_carbon, mod_alloy, mod_rubber, mod_titanium and caliper do not appear in either car. They exist so a mod can declare a surface the app deliberately never tints.",
+    "materials": {
+      "MOD_BodyPaint": "body_paint",
+      "MOD_AccentPaint": "mod_accent",
+      "MOD_Rim": "rim",
+      "MOD_Tyre": "tyre",
+      "MOD_CaliperPaint": "caliper",
+      "MOD_CarbonWeave": "mod_carbon",
+      "MOD_GlossBlack": "trim_gloss_black",
+      "MOD_SatinBlack": "trim_matte_black",
+      "MOD_Rubber": "mod_rubber",
+      "MOD_Alloy": "mod_alloy",
+      "MOD_Chrome": "chrome",
+      "MOD_Titanium": "mod_titanium",
+      "MOD_Glass": "glass",
+      "MOD_MirrorGlass": "mirror_glass",
+      "MOD_Mesh": "trim_matte_black"
+    }
+  },
   "models": {
     "nd": {
       "$model": "Sketchfab \"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom. Material names are self-describing, so this table was read straight off them.",

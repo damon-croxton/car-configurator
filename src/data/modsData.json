@@ -1,0 +1,31 @@
+{
+  "$comment": "Mod catalogue. One entry per swappable mod asset, keyed by generation where the two cars differ. See mx5-mod-modelling-brief.md §8 for the schema and §7.1 for how `slot`/`optionId` map onto the controls carData.json already defines. `scripts/validate-mod.mjs` reads this file and checks each exported .glb against its entry.",
+  "$slots": "`slot` is a CarConfig field name and `optionId` an id already present in carData.json's aeroParts/wheelStyles for that slot. A mod with slot:null has no control yet and cannot ship — see brief §7.1.",
+  "$anchors": "`anchors` names base-asset nodes the mod must reach. blender/anchors.json holds their measured boxes; the validator asserts the exported mod comes within `anchorToleranceMm` of each, which is the machine-checkable form of 'nothing floats'.",
+  "$attribution": "`derivedFromBaseMesh: true` means the geometry was derived from a CC-BY car asset and ATTRIBUTION.md must record the modification. See brief §4.",
+  "version": 1,
+  "anchorToleranceMm": 25,
+  "mods": [
+    {
+      "id": "TEST",
+      "gen": ["nd"],
+      "category": "test",
+      "displayName": "Pipeline Test Cube",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["Boot 6.001_157"] },
+      "materials": ["MOD_BodyPaint"],
+      "bboxMm": { "nd": { "min": [-100, 918, -1500], "max": [100, 1118, -1300] } },
+      "triangleBudget": 100,
+      "file": { "nd": "assets/mods/nd/TEST_cube.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Phase 0 step 4 of the brief. A 200mm cube sitting on the ND boot lid, material MOD_BodyPaint so the existing paint picker recolours it with no new code. Proves the whole pipeline before any real mod is built. Delete once Phase 1 starts."
+    }
+  ]
+}

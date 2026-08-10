@@ -1,0 +1,72 @@
+{
+  "$comment": "Permissions for the Blender mod pipeline (see mx5-mod-modelling-brief.md). The point is to let a long mod-building session run unattended: everything the per-mod loop does — run a build script in Blender, screenshot it, validate the export, commit it — is pre-approved. Deliberately NOT allowed: the Blender MCP asset-generation and download tools (download_sketchfab_model, download_polyhaven_asset, generate_hyper3d_*, generate_hunyuan3d_*), which make network calls and can cost money, and any write outside the pipeline's own directories. Those still prompt.",
+  "$note_execute_blender_code": "execute_blender_code is arbitrary Python inside Blender, so it can read and write anywhere the Blender process can. That is unavoidable for this workflow — it is how every mod gets built — but it is worth knowing it is the broadest grant here.",
+  "permissions": {
+    "allow": [
+      "mcp__blender__execute_blender_code",
+      "mcp__blender__get_scene_info",
+      "mcp__blender__get_object_info",
+      "mcp__blender__get_viewport_screenshot",
+      "mcp__blender__get_polyhaven_status",
+      "mcp__blender__get_sketchfab_status",
+
+      "mcp__Blender__execute_blender_code",
+      "mcp__Blender__execute_blender_code_for_cli",
+      "mcp__Blender__get_objects_summary",
+      "mcp__Blender__get_object_detail_summary",
+      "mcp__Blender__get_screenshot_of_area_as_image",
+      "mcp__Blender__get_screenshot_of_window_as_image",
+      "mcp__Blender__get_screenshot_of_window_as_json",
+      "mcp__Blender__render_viewport_to_path",
+      "mcp__Blender__render_thumbnail_to_path",
+      "mcp__Blender__get_python_api_docs",
+      "mcp__Blender__search_api_docs",
+      "mcp__Blender__search_manual_docs",
+      "mcp__Blender__get_blendfile_summary_datablocks",
+      "mcp__Blender__get_blendfile_summary_path_info",
+      "mcp__Blender__get_blendfile_summary_missing_files",
+      "mcp__Blender__jump_to_view3d_object_by_name",
+      "mcp__Blender__jump_to_view3d_object_data_by_name",
+      "mcp__Blender__jump_to_tab_by_name",
+      "mcp__Blender__jump_to_tab_by_space_type",
+
+      "Bash(node scripts/measure-asset.mjs:*)",
+      "Bash(node scripts/validate-mod.mjs:*)",
+      "Bash(node scripts/fetch-assets.mjs:*)",
+      "Bash(npm run lint:*)",
+      "Bash(npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run smoke:*)",
+      "Bash(npx tsc --noEmit:*)",
+      "Bash(npx --yes @gltf-transform/cli:*)",
+
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git restore:*)",
+
+      "Write(blender/**)",
+      "Edit(blender/**)",
+      "Write(public/assets/mods/**)",
+      "Edit(src/data/modsData.json)",
+      "Edit(src/data/surfaceClasses.json)",
+      "Edit(src/data/carData.json)",
+      "Edit(mx5-mod-modelling-brief.md)",
+
+      "mcp__Claude_Browser__preview_start",
+      "mcp__Claude_Browser__preview_logs",
+      "mcp__Claude_Browser__navigate",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__Claude_Browser__computer",
+      "mcp__Claude_Browser__resize_window"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Edit(public/assets/models/**)",
+      "Write(public/assets/models/**)"
+    ]
+  }
+}

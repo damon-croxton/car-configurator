@@ -22,6 +22,11 @@ public/assets/**/*.bin
 !public/assets/models/mx5_sketchfab/**
 !public/assets/models/mx5_na_sketchfab/**
 
+# ...and the mods, for the same reason: they are generated locally by the
+# Blender pipeline, there is nowhere to fetch them from, and each is well under
+# the 2MB budget the brief sets. See mx5-mod-modelling-brief.md §4.
+!public/assets/mods/**
+
 # Raw, unconformed source models live here before Blender processes them.
 raw/
 
@@ -29,3 +34,10 @@ raw/
 # machine; only the copy under public/assets/ that the app actually loads is
 # committed, and only once its licence is recorded in ATTRIBUTION.md.
 Models/
+
+# Blender working files. The build scripts under blender/mods/ are the
+# deliverable and are tracked; the .blend files they produce are not, because a
+# script can always rebuild one and git keeps every revision of a binary forever.
+blender/build/
+*.blend
+*.blend[0-9]

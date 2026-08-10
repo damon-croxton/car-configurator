@@ -1,525 +1,1015 @@
-# MX-5 Configurator — Blender Mod Asset Brief
+# MX-5 Configurator — Mod Asset Brief
 
 **Target:** NA (Mk1, 1989–1997) and ND (Mk4, 2015–) MX-5.
-**Consumer:** a web/app configurator that swaps parts at runtime and recolours materials.
-**Tooling:** Claude Code + Blender MCP (desktop Blender).
+**Consumer:** `src/three/carModel.ts` in this repo — not a hypothetical app.
+**Tooling:** Claude Code + Blender MCP (Blender 5.2 LTS, running, connected).
 
-Read this file top to bottom before touching Blender. §1–§5 are binding rules for *every* asset. §6 is the mod catalogue.
+Read this file top to bottom before touching Blender. §1–§6 are binding rules for
+*every* asset. §7 is the mod catalogue. §8–§11 are the pipeline.
+
+> **This revision is reconciled against the actual codebase and the actual
+> assets.** Every coordinate in this document was *measured*, not assumed —
+> `node scripts/measure-asset.mjs` produced them by replaying the exact
+> transform `CarModel.frame()` applies at runtime. Where the previous revision's
+> nominal numbers were wrong, they are corrected here and the delta is called
+> out. Re-run the script rather than trusting a number you read here; the script
+> is the source of truth and this document is its summary.
 
 ---
 
-## 1. Scene, units, axes, origin
+## 0. What you are building onto, and the one rule that governs everything
 
-| Setting | Value |
+The app loads two Sketchfab glTF cars and renders them **exactly as the artists
+shipped them**. Nothing is split, renamed, re-materialled or cut. That rule is
+not stylistic — `CONFORM_POSTMORTEM.md` is the write-up of a previous attempt to
+cut these assets up, and it failed on the third rebuild. Read it before you
+propose deriving anything from the base mesh.
+
+So mods are **additive scene-graph objects**, never edits to the car. A mod is a
+`.glb` that the app instantiates alongside the car. The car file never changes.
+
+Two consequences you must internalise:
+
+1. **A "REPLACE" mod does not replace geometry.** It adds its own geometry and
+   sets `visible = false` on named nodes of the base asset. If a base part cannot
+   be hidden cleanly by node name, that mod cannot be built. §7 marks which ones
+   those are.
+2. **You cannot rely on the base mesh's topology.** Both assets came out of 3ds
+   Max with per-part helper armatures at 0.01 scale and mirrored right-hand
+   sides. Extracting an edge loop from them to derive a lip or a skirt is exactly
+   the operation that failed last time. §7 tiers the catalogue by how much
+   base-mesh derivation each mod needs, and Tier 1 needs none.
+
+---
+
+## 1. The coordinate system — the app's, measured
+
+There is only one coordinate system that matters: the one the running app puts
+the car in. Not the one the artist authored in, and not a nominal vehicle datum.
+
+`CarModel.frame()` (`src/three/carModel.ts:252`) does three things to the model
+root, in this order:
+
+1. yaws it by `modelYawDeg` from `carData.json` so the nose points **+Z**
+2. scales it uniformly so its longest horizontal axis equals `dimensions.length`
+3. translates it so it is centred on X and Z and stands on **Y = 0**
+
+| | ND | NA |
+|---|---|---|
+| Yaw applied | 180° | 0° |
+| Uniform scale applied | ×1.000562 | ×0.577899 |
+| Translation applied (mm) | (0, 140, 40) | (251, −6, 374) |
+
+**The authoring frame, in three.js world space:**
+
+| Axis | Meaning | Units |
+|---|---|---|
+| **+X** | vehicle **LEFT** | metres |
+| **+Y** | up | metres |
+| **+Z** | forward (nose) | metres |
+| Origin | ground plane, at the car's **bounding-box centre** in X/Z | |
+
+`+X = left` is not a derivation, it is read off the asset: the ND's own
+`MirrorL`, `DoorL` and `FenderFL` nodes all sit at **positive** X.
+
+> **Correction to the previous revision.** It specified +Y forward, +Z up, and
+> the origin at mid-wheelbase. All three are wrong for this app. The origin is
+> the **bbox centre**, which is *not* mid-wheelbase: the ND's mid-wheelbase is at
+> Z = +40 and the NA's at Z = +30. Anchor coordinates below are in app space.
+
+### 1.1 Blender ⇄ app axis mapping
+
+Blender is Z-up and the glTF exporter maps Blender `(x, y, z)` → glTF
+`(x, z, −y)`. To land nose-toward-+Z in three.js, the car's nose must point
+toward **Blender −Y**:
+
+| Blender | App / three.js |
 |---|---|
-| Unit system | Metric, Unit Scale 1.0, Length = Metres |
-| Modelling unit in this doc | **millimetres** — divide by 1000 for Blender values |
-| +X | vehicle right (passenger side on a LHD car) |
-| +Y | vehicle forward (nose) |
-| +Z | up |
-| World origin | ground plane, on the centreline, **mid-wheelbase** |
+| +X | +X — vehicle left |
+| **−Y** | **+Z — forward (nose)** |
+| +Z | +Y — up |
 
-Every mod is modelled *in place on the car*, in world space, with its object origin left at `(0,0,0)`.
-The app then instantiates it at identity transform and it lands exactly where it belongs.
-**Exception:** wheels (see §6.1) — origin at the hub mounting face.
+```
+blender_xyz = (app_x / 1000, -app_z / 1000, app_y / 1000)     # mm → m
+```
 
-glTF export note: Blender `+Y forward` maps to glTF `-Z forward` with the default exporter settings, which is what three.js / react-three-fiber expects. Do not "fix" this by rotating the mesh.
+**Do not memorise this.** `mx5_lib.load_reference(gen)` imports the base car and
+applies the frame transform above, so the reference car sits in Blender exactly
+where it sits in the app. Model against the reference, and the mapping takes care
+of itself. Export with the exporter's default `+Y up` and do not add corrective
+rotations — if a mod comes out backwards, the reference car was not loaded.
 
-### 1.1 Vehicle reference dimensions
+### 1.2 Measured vehicle geometry
 
-| | NA | ND |
-|---|---|---|
-| Length / Width / Height (mm) | 3970 / 1675 / 1235 | 3915 / 1735 / 1230 |
-| Wheelbase | 2265 | 2310 |
-| Front / rear track | 1405 / 1425 | 1495 / 1505 |
-| Front axle Y | +1132.5 | +1155 |
-| Rear axle Y | −1132.5 | −1155 |
-| Nose tip Y | +1867.5 | +1900 |
-| Tail tip Y | −2102.5 | −2015 |
-| Stock rolling radius (hub Z) | 288 (195/50R15) | 308 (205/45R17) |
-| PCD / hub bore | 4×100 / 54.1 | 4×100 / 54.1 |
+Regenerate with `node scripts/measure-asset.mjs`. All values millimetres,
+app space.
 
-### 1.2 Anchor empties
-
-Before modelling anything, create an empty per anchor in the base car `.blend`, named exactly as below, and use them as snap targets. Coordinates are **nominal targets** — if the base car mesh disagrees, snap to the mesh and update the manifest, don't force the number.
-
-| Anchor name | NA (x, y, z) | ND (x, y, z) | Notes |
+| | ND | NA | Catalogue says |
 |---|---|---|---|
-| `ANCH_HUB_FL` | (−702.5, 1132.5, 288) | (−747.5, 1155, 308) | mirror X for FR |
-| `ANCH_HUB_RL` | (−712.5, −1132.5, 288) | (−752.5, −1155, 308) | mirror X for RR |
-| `ANCH_BUMPER_F_LOWER` | (0, 1840, 300) | (0, 1875, 300) | lip/splitter mates here |
-| `ANCH_BONNET_HINGE_L` | (−480, 560, 1005) | (−500, 600, 980) | mirror X |
-| `ANCH_BONNET_NOSE` | (0, 1650, 830) | (0, 1690, 845) | front edge, centreline |
-| `ANCH_BOOTLID_REAR` | (0, −1900, 1010) | (0, −1830, 1015) | ducktail / lip spoiler datum |
-| `ANCH_WING_MOUNT_L` | (−330, −1700, 1040) | (−340, −1650, 1045) | wing upright bolt face, mirror X |
-| `ANCH_MIRROR_L` | (−870, 330, 1080) | (−880, 380, 1050) | mirror X |
-| `ANCH_ANTENNA` | (−760, −900, 1015) | (690, −1450, 1090) | **verify side on base mesh** |
-| `ANCH_EXHAUST_TIP` | (330, −2060, 310) | (240, −1975, 300) | ND is a twin/centre exit |
-| `ANCH_ROLLBAR_L` | (−480, −620, 620) | (−490, −640, 610) | behind seat, floor pan, mirror X |
-| `ANCH_SILL_L` | (−800, −200, 250) | (−820, −200, 245) | side skirt datum, mirror X |
-| `ANCH_TOWHOOK_F` | (−420, 1855, 420) | (−440, 1890, 430) | verify side |
+| Overall bbox size (X × Y × Z) | 1940 × 1397 × 3915 | 1830 × 1570 × 3975 | — |
+| Nose Z / tail Z | +1958 / −1957 | +1988 / −1988 | — |
+| Front axle Z / rear axle Z | +1194 / −1114 | +1181 / −1122 | — |
+| Measured wheelbase | 2308 | **2303** | ND 2310, NA **2265** |
+| Measured track (front = rear) | 1469 | **1446** | ND 1495/1505, NA 1405/1427 |
+| Hub centre height | 321 | 303 | — |
+| Tyre outer ⌀ / wheel width | 641 / 261 | 606 / 258 | — |
+| Lowest body point (not wheel) | 124 | 158 | — |
+| **Centreline X** | **0** (±1) | **≈ −7** | 0 |
+
+Four measured facts that change how you work:
+
+- **The NA is not symmetric about X = 0.** Its wheel contact patches are at
+  X = +714 and X = −732; its panels centre on X = −4 to −9. Its centreline is
+  **X ≈ −7**. Mirror NA mods about **X = −7**, not X = 0, and place left/right
+  anchors from the measured table below rather than by negating one number. On
+  the ND, mirroring about X = 0 is correct to within 1 mm.
+- **Both assets run larger tyres than the spec sheet.** The brief's old
+  "stock rolling radius 288 / 308" is wrong: measured hub heights are 303 (NA)
+  and 321 (ND). Wheel mods must match the *measured* diameter, not the spec.
+- **The NA's front and rear tracks are identical** (1446 both ends) where the
+  real car's differ by 22 mm. The asset is not dimensionally faithful. Trust the
+  asset.
+- **The NA's bbox is 1570 mm tall** against a real roof height of 1235. A single
+  unidentified node, `Tube003_Material #123_0` (x ±485, y 605…1570, z −184…155),
+  accounts for all of it — a 970 mm-wide, 965 mm-tall tube structure sitting
+  right where a roll hoop goes. **Identify it visually before building anything
+  in the `RB` category.** If it is a roll bar, RB01–RB03 must hide it or are
+  redundant.
+
+### 1.3 Measured anchors
+
+These replace the previous revision's nominal table wholesale. Each is a real
+node's measured bounding box, so "snap to the mesh" is already done. The full
+per-node table for both cars is `blender/anchors.json`
+(`node scripts/measure-asset.mjs --out blender/anchors.json`), which
+`mx5_lib.anchor()` reads directly — prefer that over retyping a number.
+
+**ND** — node names are meaningful and stable; use them verbatim in `hides`.
+
+| Feature | Node name | x | y | z |
+|---|---|---|---|---|
+| Bonnet | `Hood 6.001_120` | ±721 | 582…864 | 423…1800 |
+| Boot lid | `Boot 6.001_157` | ±604 | 756…918 | −1864…−1308 |
+| Front bumper (paint) | `BumperF 6.003_111` | ±857 | 175…644 | 1371…1958 |
+| Front bumper lower lip | `BumperF 6.001_109` | ±469 | 169…489 | 1839…1937 |
+| Rear bumper (paint) | `BumperR 6.001_146` | ±856 | 191…753 | −1957…−1303 |
+| Rocker sill | `Skirts 6.003_57` | ±855 | 161…390 | −781…841 |
+| Front fender (left) | `FenderFL 6.002_88` | 653…865 | 255…837 | 358…1609 |
+| Rear quarter (shared L+R) | `FendersR 6.001_40` | ±867 | 371…889 | −1795…−593 |
+| Mirror head (left) | `MirrorL 6.003_176` | 783…970 | 824…936 | −3…158 |
+| Mirror base (left) | `MirrorBaseL 5_163` | 767…829 | 744…816 | 46…163 |
+| Soft top | `Roof 6_24` | ±698 | 831…1226 | −1248…−134 |
+| Exhaust tip | `Exhausts 6_124` | −354…−220 | 198…259 | −1855…−1783 |
+| Antenna mast | `FendersR 6.002_41` | −587…−575 | 989…1371 | −1671…−1571 |
+
+Wheel contact patches (ND): LF (734, 0, 1194) · LR (734, 0, −1114) ·
+RF (−735, 0, 1194) · RR (−735, 0, −1114).
+
+**NA** — node names embed the material and contain a `#` and a space
+(`hood_Material #71_0`). Copy them exactly; they are JSON string keys.
+
+| Feature | Node name | x | y | z |
+|---|---|---|---|---|
+| Bonnet | `hood_Material #71_0` | −702…694 | 623…858 | 523…1795 |
+| Boot lid | `trunk_Material #71_0` | −564…555 | 685…873 | −1889…−1099 |
+| Front bumper | `frontbumper_Material #71_0` | −834…817 | 219…659 | 1465…1988 |
+| Rear bumper | `rearbumper_Material #71_0` | −822…805 | 229…530 | −1988…−1402 |
+| Front fenders **(both, one mesh)** | `f fender_Material #71_0` | −859…845 | 237…845 | 385…1738 |
+| Rear fenders **(both, one mesh)** | `rearfender_Material #71_0` | −853…839 | 232…851 | −1813…−461 |
+| A-pillar / screen frame | `Apillar_Material #71_0` | ±715 | 768…1168 | −24…465 |
+| Mirror (right) | `mirrorbox_Material #70_0` | −915…−717 | 770…892 | −9…172 |
+| Pop-up headlights | `popuplight_Material #71_0` | — | ~619…747 | ~1465…1773 |
+| Unidentified tube (see §1.2) | `Tube003_Material #123_0` | ±485 | 605…1570 | −184…155 |
+
+Wheel contact patches (NA): LF (714, 0, 1181) · LR (714, 0, −1122) ·
+RF (−732, 0, 1181) · RR (−732, 0, −1122).
+
+**Not found in the NA asset by name, and therefore unresolved:** any exhaust or
+muffler node, any rocker-sill node, any antenna. Locate them visually before
+building `EX`, `RA06` or `DT01`/`DT02` for the NA, or drop those from the NA set.
+The NA also carries **79 materials that `surfaceClasses.json` does not classify**
+— deliberate (`complete: false`), but it means you cannot find NA parts by
+surface class the way you can on the ND.
 
 ---
 
-## 2. Naming and file structure
+## 2. How a mod attaches — the app-side contract
+
+**This does not exist yet.** There is currently no code in the repo that loads a
+mod. Building it is Phase 0 of §11 and it must ship before any mod asset, because
+it is the only thing that can prove an asset lands correctly.
+
+### 2.1 Scene graph
 
 ```
-/assets
-  /na
-    /wheels/W01_race7spoke.blend  → W01_race7spoke.glb
-    /aero_front/FA02_streetlip.blend
-    ...
-  /nd
-    ...
-  /shared
-    mx5_lib.py          ← helper module, written once (see §5)
-    manifest.json       ← generated, consumed by the app
+Car  (CarModel.group)                      world space, metres, real size
+├── MX5_ND_Body  (model root)              yawed + scaled + offset by frame()
+│                                          ride height moves .position.y
+├── Wheel_LF / _RF / _LR / _RR  (pivots)   at the contact patches
+│   └── OEM wheel meshes (re-parented)      + wheel mod instances
+└── Mods                                   ← NEW
+    └── BodyMods                           mirrors the body's ride-height Y
+        └── mod instances, identity transform
 ```
 
-**IDs:** `<CAT><nn>` — e.g. `W03`, `FA02`, `RA05`, `BP01`, `EX04`, `SU03`, `RB02`, `DT06`.
-**Object names:** `MOD_<GEN>_<ID>_<part>` → `MOD_NA_RA02_element`, `MOD_NA_RA02_upright_L`, `MOD_NA_RA02_endplate_R`.
-**Collection per mod:** `MOD_<GEN>_<ID>` containing every object for that mod and nothing else.
-**Mesh datablocks:** same as object name. No `Cube.003` anywhere in the final file — this is a hard fail.
+### 2.2 The rules that fall out of it
 
-Use generic descriptive display names in the app ("Deep Dish 8-Spoke", "Race Splitter", "Vented Carbon Bonnet"). The catalogue below cites real products only as visual reference — **do not ship trademarked brand or model names, badges, or logos.**
+- **Body mods are siblings of the body, not children.** The model root carries a
+  uniform scale (×0.578 on the NA!) and an offset. A mod parented under it would
+  be scaled by that factor. Under `Mods`, a mod exported in metres in app space
+  drops in at **identity transform** and lands exactly where it was modelled.
+- **`BodyMods.position.y` must track the body.** `setStance()` sets
+  `body.position.y = bodyBaseY + hubRise + rideHeight/1000`. Body mods must move
+  with it: `bodyMods.position.y = body.position.y - bodyBaseY`. Skip this and
+  every mod floats the moment the ride-height slider moves.
+- **Wheel mods are children of the four pivots**, at identity. The pivot already
+  does position, diameter scaling, camber and track offset — a wheel mod
+  inherits all four for free and no new maths is needed.
+- **Wheel mods are authored once, for the LEFT side, origin at the contact
+  patch**, axis along X. The right-hand instance is placed with
+  `rotation.y = π`. That is a rigid transform, so it does not flip normals or
+  winding — do **not** mirror with a negative scale.
+  > Correction: the previous revision put the wheel origin at the hub mounting
+  > face. That fights the app, which pivots wheels at the contact patch so a
+  > bigger wheel stays planted and raises the hub. Contact-patch origin means
+  > diameter/camber/track keep working unchanged.
+- **Hiding OEM parts** is `visible = false` on the nodes named in the mod's
+  `hides` list. Wheels are hidden by surface class (`rim`, `rim_badge`, `tyre`),
+  which is how `CarModel` already finds them.
+- **Re-bake the contact shadow** after any mod change; `SceneManager` bakes it
+  on config change and a new silhouette needs a new bake.
+
+### 2.3 Ride height, and why mods must not assume it
+
+Anchors in §1.3 are measured at **stock ride height with the stock wheel
+diameter**. `setStance()` moves the body up by `hubRise` for a larger wheel and
+down by the slider. Model at stock. The `BodyMods` group handles the rest.
 
 ---
 
-## 3. Materials — the recolour contract
+## 3. Materials — the real recolour contract
 
-The app recolours by **material slot name**, so slot names must be exact and consistent across every asset. Never create per-mod material names like `Carbon.001`.
+> **The previous revision's material contract does not work in this app.** It
+> said "the app recolours by material slot name, slot 0 is always the primary
+> recolourable surface." This app does not look at slot indices at all. It maps a
+> **material name** to a **surface class** via `src/data/surfaceClasses.json`,
+> buckets every material instance by class, and tints a whole class at once
+> (`CarModel.tint()`). Slot order is irrelevant.
 
-| Slot name | Use | App-recolourable |
-|---|---|---|
-| `M_BodyPaint` | anything that would be painted body colour | ✅ driven by main colour picker |
-| `M_AccentPaint` | secondary paint (wing element, mirror caps, stripes) | ✅ secondary picker |
-| `M_WheelFace` | wheel spokes + centre | ✅ wheel colour picker |
-| `M_WheelLip` | rim barrel / outer lip | ✅ (defaults = same as face) |
-| `M_CaliperPaint` | brake calipers | ✅ |
-| `M_CarbonWeave` | exposed carbon | ❌ (weave texture, gloss/satin variant) |
-| `M_GlossBlack` | trim, endplates, grille surrounds | ❌ |
-| `M_SatinBlack` | unpainted PU/ABS lips, splitters, diffusers | ❌ |
-| `M_Rubber` | tyres, seals, bushes | ❌ |
-| `M_Alloy` | raw/machined aluminium, uprights | ❌ |
-| `M_ChromeSteel` | polished tips, bolts, roll bar tube | ❌ |
-| `M_TitaniumBurn` | burnt Ti exhaust tips | ❌ |
-| `M_Glass` | mirror glass, lenses | ❌ |
-| `M_Mesh` | grille mesh (alpha-clipped plane) | ❌ |
+So the contract is: **name a mod's material such that `surfaceClasses.json` maps
+it to the class you want, and the existing app code recolours it with no new
+code at all.**
+
+Add one shared `mods` table to `surfaceClasses.json`, merged over whichever car's
+table is loaded. Use these names verbatim:
+
+| Material name | Surface class | Driven by | New app code? |
+|---|---|---|---|
+| `MOD_BodyPaint` | `body_paint` | main colour picker | **none** |
+| `MOD_Rim` | `rim` | wheel finish picker | **none** |
+| `MOD_Tyre` | `tyre` | — (stays black) | none |
+| `MOD_GlossBlack` | `trim_gloss_black` | — | none |
+| `MOD_SatinBlack` | `trim_matte_black` | — | none |
+| `MOD_Glass` | `glass` | window tint | none |
+| `MOD_MirrorGlass` | `mirror_glass` | — | none |
+| `MOD_Chrome` | `chrome` | — | none |
+| `MOD_CaliperPaint` | `caliper` | `config.caliperColor` | small — wires up an **existing but inert** control |
+| `MOD_AccentPaint` | `mod_accent` | new secondary picker | new class + picker |
+| `MOD_CarbonWeave` | `mod_carbon` | — (weave texture) | new class |
+| `MOD_Alloy` | `mod_alloy` | — | new class |
+| `MOD_Rubber` | `mod_rubber` | — | new class |
+| `MOD_Titanium` | `mod_titanium` | — | new class |
 
 Rules:
-1. **Slot 0 is always the primary recolourable surface** of that mod. If a mod has no recolourable surface, slot 0 is its dominant material.
-2. Assign by face selection *before* adding modifiers. Never rely on modifier-generated material indices.
-3. Principled BSDF only. Base colour, metallic, roughness, normal. No procedural node trees that won't survive glTF export — bake anything clever.
-4. Every material must exist in the file even if a variant doesn't use it? **No** — only include slots actually used. Unused slots break the app's slot-index assumptions.
+
+1. **Exact names only.** `classOf()` strips a trailing `.001`-style suffix and
+   nothing else. `MOD_BodyPaint.001` is fine; `MOD_BodyPaint_v2` is unclassified
+   and will never be painted.
+2. The ND's table is `complete: true`, so **any unclassified material logs a
+   console warning**. Landing a mod with an off-contract material name is
+   therefore self-reporting — watch the console.
+3. Principled BSDF only: base colour, metallic, roughness, normal. No procedural
+   node trees; bake anything clever. Nothing survives glTF export otherwise.
+4. Only include materials the mod actually uses.
+5. `MOD_CaliperPaint` is worth going out of your way for. `CarConfig.caliperColor`
+   already exists and is inert because the base assets have no calipers — the
+   first wheel mod that ships a caliper makes an existing control work.
 
 ---
 
-## 4. Geometry standards
+## 4. Naming, files and where things live
 
-- **Scale, rotation, location applied** (`Ctrl+A → All Transforms`) except the deliberate object origin.
-- Modifiers **applied** before export (Mirror, Array, Subsurf, Solidify). No unapplied Bevel with a shade-auto-smooth dependency.
+```
+blender/
+  mx5_lib.py          helper module (§6), written once
+  anchors.json        generated: node scripts/measure-asset.mjs --out
+  mods/
+    W01_race7spoke.py   one build script per mod, committed, re-runnable
+    RA02_gtwing.py
+  build/              .blend working files (git-ignored)
+
+public/assets/mods/
+  na/W01_race7spoke.glb
+  nd/RA02_gtwing.glb
+
+src/data/modsData.json    the catalogue the app reads (§9)
+```
+
+**Build scripts are the deliverable, not the .blend file.** Every mod is a
+committed, re-runnable Python file that builds the mod from nothing. If a
+measurement changes, re-run it. Never hand-edit geometry in the viewport — the
+result is unreproducible and the next anchor correction destroys it.
+
+- **IDs:** `<CAT><nn>` — `W03`, `FA02`, `RA05`, `BP01`, `EX04`, `SU03`, `RB02`, `DT06`.
+- **Object names:** `MOD_<GEN>_<ID>_<part>` → `MOD_NA_RA02_element`,
+  `MOD_NA_RA02_upright_L`.
+- **Collection per mod:** `MOD_<GEN>_<ID>`, containing that mod's objects and
+  nothing else.
+- **Mesh datablocks:** same name as their object. No `Cube.003` anywhere — hard
+  fail, checked by `validate-mod.mjs`.
+
+**`.gitignore` currently excludes `public/assets/**/*.glb`.** Mod GLBs are
+generated locally and cannot be fetched from anywhere, so they must be committed
+via an explicit un-ignore, exactly as the car itself is. Add it before the first
+export or the assets silently never reach CI.
+
+**Attribution.** Any mod whose geometry is derived from a base mesh (Tier 3,
+§7.0) is a *derivative work* of a CC-BY asset. `ATTRIBUTION.md` currently says
+both cars are "Used unmodified." That stops being true for those mods. CC-BY
+permits it, but requires the credit and an indication that changes were made —
+update `ATTRIBUTION.md` and the relevant `assetManifest.json` entry in the same
+commit as the first Tier 3 mod. Tier 1 and 2 mods are original geometry and raise
+no such issue.
+
+**Names.** Ship generic descriptive display names for *new* catalogue entries and
+put no trademarked badge, logo or lettering in any geometry. Note that
+`carData.json` **already ships** "Volk TE37", "Enkei RPF1", "BBS Mesh",
+"Watanabe RS-8" as wheel-style display names. That is a pre-existing decision, not
+something to change unilaterally — flag it, leave it, and do not add to it.
+
+---
+
+## 5. Geometry standards
+
+- **Transforms applied** (`Ctrl+A → All Transforms`). Object origin at `(0,0,0)`
+  for body mods; at the **contact patch** for wheels (§2.2).
+- **Modifiers applied** before export — Mirror, Array, Subsurf, Solidify. No
+  unapplied Bevel with a shade-auto-smooth dependency.
 - Quads preferred, tris allowed, **no n-gons on visible curved surfaces**.
-- Normals recalculated outside. No flipped faces, no interior faces, no doubled verts (`Merge by Distance` at 0.0001 m).
-- Shade Smooth + Smooth by Angle 30°. Add a 1–2 mm bevel to every hard edge that catches a highlight — untouched razor edges are the #1 reason a render looks like a placeholder.
-- No object may occupy the same volume as the base car body ("z-fighting"): replacement parts must sit exactly where the removed part sat; bolt-ons must sit **0.5–1 mm proud** of the surface they bolt to.
-- Thickness: real parts are not zero-thickness. Lips/splitters 8–12 mm, wing elements 18–25 mm, over-fenders 4 mm, roll bar tube 38 mm OD × 2.5 mm wall.
-- UVs: every object needs a non-overlapping UV map. Carbon parts need consistent world-scale UVs (~50 mm per weave tile) so the weave doesn't change size between panels.
-- Triangle budgets are per-mod totals, given in §6. Going 20% over is fine; going 3× over is not.
+- Normals recalculated outside. No flipped faces, no interior faces, no doubled
+  verts (`Merge by Distance` at 0.0001 m).
+- Shade Smooth + Smooth by Angle 30°. A 1–2 mm bevel on every hard edge that
+  catches a highlight; untouched razor edges are the #1 reason a render reads as
+  a placeholder.
+- **Nothing may occupy the same volume as the base car.** Bolt-ons sit
+  **0.5–1 mm proud** of their host surface — never coplanar (z-fighting), never
+  gapped. Replacements sit exactly where the hidden OEM part sat.
+- Real thickness: lips/splitters 8–12 mm, wing elements 18–25 mm, over-fenders
+  4 mm, roll bar tube 38 mm OD × 2.5 mm wall.
+- Every object needs a non-overlapping UV map. Carbon parts need world-scale UVs
+  (~50 mm per weave tile) so the weave does not change size between panels.
+- Triangle budgets are per-mod totals, given in §7. +20% is fine; 3× is not.
+- **Target ≤ 2 MB per `.glb`.** The app caps DPR at 2 and re-bakes a contact
+  shadow on every config change; a 60 k-tri mod is a frame-rate problem, not just
+  a download.
 
 ---
 
-## 5. Working method with Blender MCP
+## 6. Working method
 
-The MCP bridge is literal-minded. Work like this:
+The previous revision said "write Python in chunks under ~120 lines, long MCP
+payloads fail silently." Correct diagnosis, wrong fix. **Write the build script
+to a file and have Blender execute the file:**
 
-1. **Write `mx5_lib.py` first**, before any mod, and run it into Blender once per session. It should expose:
-   - `start_mod(gen, mod_id)` → creates/clears the collection, returns it
-   - `mat(name)` → get-or-create a material from the §3 table with sensible Principled values
-   - `assign(obj, name, faces=None)` → material slot assignment
-   - `bevel_smooth(obj, width=0.0015, angle=30)` 
-   - `mirror_x(obj)` → mirror modifier across world X, applied
-   - `stats(collection)` → returns bbox min/max in mm, tri count, material slot list, loose-vert count
-   - `export_glb(gen, mod_id)` → exports the collection only, correct settings
-   - `anchor(name)` → returns the anchor empty's world coords
-   Re-use it for every mod. Do not re-derive this logic per part.
-2. **One mod per unit of work.** Build → `stats()` → render 3 viewport screenshots (front-3/4, rear-3/4, top) → self-critique against the spec → fix → export → append to `manifest.json`.
-3. **Build from primitives + explicit numbers, not from vibes.** "Add a cylinder, radius 0.19, depth 0.203, 48 verts, at (−0.7025, 1.1325, 0.288), rotated 90° about Y" is a good instruction to yourself. "Model a nice wheel" is not.
-4. **Always state the fixing points out loud in the code comments**: what bolts to what, and at which coordinates. Anything that visually floats is a bug.
-5. **Verify before moving on.** The checklist in §7 is not optional.
-6. If a step needs more than ~120 lines of Python, split it. Long MCP payloads fail silently more often than short ones.
+```python
+exec(open(r"C:/Users/Damon/car-configurator/blender/mods/W01_race7spoke.py").read())
+```
+
+That is a one-line MCP payload regardless of script size, and the script is
+committed, diffable and re-runnable. Use `Write`/`Edit` for the script, and
+`mcp__blender__execute_blender_code` only to run it and to read results back.
+
+### 6.1 `mx5_lib.py` — write this first
+
+Run it into Blender once per session. It exposes:
+
+| Function | Contract |
+|---|---|
+| `load_reference(gen)` | imports the base glTF and applies `frame()` from `anchors.json`, so the reference car sits in Blender exactly as in the app. Locked, unselectable, on its own collection. |
+| `anchor(gen, node_name)` | returns a measured node's bbox from `anchors.json`, in **metres, Blender axes** |
+| `app_to_blender(x, y, z)` | mm app space → m Blender space |
+| `start_mod(gen, mod_id)` | creates/clears the collection, returns it |
+| `mat(name)` | get-or-create a §3 material with sensible Principled values; refuses a name not in the table |
+| `assign(obj, name, faces=None)` | material assignment by face selection |
+| `bevel_smooth(obj, width=0.0015, angle=30)` | |
+| `mirror_x(obj, about=0.0)` | mirror + apply; `about` defaults per generation (NA = −0.007) |
+| `stats(collection)` | bbox min/max in mm **app space**, tri count, material list, loose verts, non-manifold count |
+| `export_glb(gen, mod_id)` | exports that collection only, correct settings, to `public/assets/mods/<gen>/` |
+
+Prove each helper on a throwaway cube before using it on a real asset.
+
+### 6.2 Per-mod loop
+
+1. Restate the mod's fixing points and key dimensions in your own words, citing
+   the measured anchors you will use. If the recipe is ambiguous for this
+   specific base mesh, say so and propose a resolution rather than guessing.
+2. Write `blender/mods/<ID>_<name>.py`. Explicit numeric coordinates read from
+   `anchor()`; no magic values.
+3. Run it. Run `stats()`. 
+4. Export the `.glb`, add the `modsData.json` entry, run
+   `node scripts/validate-mod.mjs <ID>` — the automated §10 checklist.
+5. Render three viewport screenshots (front-3/4, rear-3/4, top) **with the
+   reference car visible** and look at them. Critique your own result against the
+   §7 description: silhouette, proportion, anything floating, whether edges catch
+   light. Fix and repeat from 3.
+6. Load it in the app and screenshot it there. The Blender viewport is not the
+   renderer that ships.
+7. Only then move to the next mod.
+
+Steps 3–4 are machine-checkable and must pass before step 5 is worth doing.
 
 ---
 
-## 6. Mod catalogue
+## 7. Mod catalogue
 
-Each entry gives: **Fits · Type · Slot · Anchors · Build · Materials · Tri budget · Pitfalls.**
-- **Type** is `REPLACE` (occupies a slot, evicts the OEM part) or `BOLT_ON` (additive).
-- Where a mod exists for both generations, build the NA version first, then re-fit for ND — the ND is wider and its surfaces are more curved; do not just scale it.
+Each entry gives **Fits · Type · Slot · Anchors · Build · Materials · Tri budget
+· Pitfalls**. `REPLACE` hides base nodes and takes their place; `BOLT_ON` is
+purely additive.
 
----
+### 7.0 Tiers — read before picking anything up
 
-### 6.1 Wheels (`W`) — REPLACE, slot `wheels`
+| Tier | Definition | Risk |
+|---|---|---|
+| **1** | Free-standing geometry placed at a measured anchor. Touches nothing on the base mesh but proximity. | Low. Build these first. |
+| **2** | Free-standing, but must *visually* follow a base surface (sits flush on a curved panel). Needs a shrinkwrap-and-apply against the reference, not topology extraction. | Medium. |
+| **3** | Must reproduce a base part's shut lines or fill a hole left by hiding one. Requires deriving topology from the base mesh. | **High — this is the operation `CONFORM_POSTMORTEM.md` records failing.** Do not start a Tier 3 mod until Tiers 1 and 2 are shipped and the app-side pipeline is proven. |
 
-**Universal wheel rules (read once, apply to all 8):**
+- **Tier 1:** all `W` wheels, `RA02`, `RA03`, `FA03`, `FA05`, `FA06`, `DT01`,
+  `DT02`, `DT04`, `DT06`, `DT07`, `DT08`, all `EX`, all `SU`, `RB01`, `RB02`,
+  `RB05`, `RB06`.
+- **Tier 2:** `FA01`, `FA02`, `FA07`, `RA01`, `RA04`, `RA05`, `RA06`, `DT03`,
+  `RB03`, `RB04`.
+- **Tier 3:** `FA04`, `RA07`, `BP01`, `BP02`, `BP03`, `BP04`, `BP05`, `BP06`,
+  `DT05`.
 
-- Origin at the **hub mounting face centre**, wheel axis along **X**. The app positions and mirrors them; you model one wheel per design, facing +X (right-hand side), and set `Wheel is mirrored for LHS` in the manifest.
-- Model **rim + tyre + brake disc + caliper** as four objects in the collection. The disc and caliper are shared geometry — build them once as `DISC_NA` / `CALIPER_NA` and link, don't rebuild per wheel.
-- **Rim barrel**: build a 2D profile (the cross-section: outer lip → outer bead seat → drop centre → inner bead seat → inner lip) and spin it 360° around the X axis with 48–64 segments. Do not extrude a cylinder and hope.
-- **Spokes must physically bridge hub to rim.** Each spoke starts on the hub face disc (radius ~55–75 mm from centre) and terminates *merged into the inner face of the outer rim lip*. A spoke that stops 5 mm short reads as broken in every render. Use a Boolean union or a bridge-edge-loop to actually join them.
-- **Dish/offset**: the hub face plane sits at X = `width/2 − offset` measured from the wheel centreline. Lower offset ⇒ hub face further inboard ⇒ more visible dish. This is the single most important visual difference between "track wheel" and "stance wheel" — get it right per design.
-- **Centre bore** 54.1 mm ⌀ through the hub face, plus **4 lug holes** on a 100 mm PCD (i.e. 50 mm radius) at 0°, 90°, 180°, 270°. Model lug nuts as small hex frustums seated in countersunk pockets.
-- **Tyre**: separate object, `M_Rubber`. Profile: bead at rim diameter, sidewall bulging outward ~6 mm beyond the rim width at mid-height, square-ish shoulder, tread band with a shallow (2 mm) longitudinal groove pattern — do not model individual tread blocks. Add a raised sidewall lettering ring only as a subtle 0.6 mm extrusion.
-- **Contact patch**: flatten the bottom ~40 mm of the tyre by 3 mm so it doesn't look like it's hovering.
-- Tri budget per wheel assembly: **12k–18k** (rim 6–9k, tyre 4k, disc 1k, caliper 1.5k).
+### 7.1 Slot mapping — the app already has slots, use them
+
+`CarConfig` (`src/config/types.ts`) and `carData.json` already define these
+aero slots, each with catalogue ids that are currently **inert** because the
+assets have no aero parts. A mod that adopts an existing id makes an existing
+control work end to end, with no schema change:
+
+| `CarConfig` field | `carData.json` ids already present | Mods that fit |
+|---|---|---|
+| `frontLip` | `stock`, `club_lip`, `aggressive_splitter` | FA01 → `club_lip`, FA03 → `aggressive_splitter` |
+| `sideSkirts` | `stock`, `oem_extensions`, `carbon_extenders` | RA06 |
+| `rearDiffuser` | `stock`, `oem_diffuser`, `track_diffuser` | RA04 |
+| `rearWing` | `wing_delete`, `oem_ducktail`, `oem_lip`, `gt_wing` | RA01 → `oem_ducktail`, RA05 → `oem_lip`, RA02 → `gt_wing` |
+| `hood` | `stock`, `vented_carbon`, `painted_vented` | BP01 |
+| `exhaust` | `stock_single`, `oem_dual`, `titanium_quad`, `big_bore_single` | EX01/EX02/EX03/EX06 |
+| `rollBar` | `none`, `style_bar`, `track_hoop` | RB01 → `style_bar`, RB02 → `track_hoop` |
+| `wheelStyle` | `oem_17_design`, `oem_16_silver`, `rays_te37`, `enkei_rpf1`, `bbs_mesh`, `watanabe_rs` | W01–W08 |
+| `caliperColor` | inert, no calipers exist | any `W` mod that ships a caliper |
+
+**No slot exists** for canards, tow hooks, mirrors, antennas, over-fenders,
+hardtops, bonnet hardware, tonneau or wind deflector. Those need new `CarConfig`
+fields, new `carData.json` slots, new UI controls and new URL-codec keys —
+roughly a day of app work each batch. **Phase 1 ships only mods that map onto an
+existing slot.** Everything else waits for a deliberate schema extension.
+
+### 7.2 Wheels (`W`) — REPLACE, slot `wheelStyle`
+
+**Universal wheel rules:**
+
+- **Origin at the contact patch** (§2.2), wheel axis along X, modelled for the
+  **left** side. Not the hub face.
+- Outer tyre diameter **must match the measured base wheel**: **641 mm on the ND,
+  606 mm on the NA**. The app scales the pivot by `selectedDiameter /
+  defaultWheelDiameter`, so a mod authored at the wrong overall diameter shifts
+  the whole car's ride height.
+- Model **rim + tyre + brake disc + caliper** as four objects. Build the disc and
+  caliper once as `DISC_<GEN>` / `CALIPER_<GEN>` and reuse.
+- **Rim barrel:** build a 2D cross-section profile (outer lip → outer bead seat →
+  drop centre → inner bead seat → inner lip) and spin it 360° about X with 48–64
+  segments. Do not extrude a cylinder and hope.
+- **Spokes must physically bridge hub to rim.** Each spoke starts on the hub face
+  disc (radius ~55–75 mm) and terminates *merged into the inner face of the outer
+  rim lip*. A spoke stopping 5 mm short reads as broken in every render. Boolean
+  union or bridge-edge-loop — actually join them.
+- **Dish/offset:** the hub face plane sits at `X = width/2 − offset` from the
+  wheel centreline. Lower offset ⇒ hub face further inboard ⇒ more visible dish.
+  This is the single biggest visual difference between a track wheel and a stance
+  wheel.
+- Centre bore 54.1 mm ⌀, 4 lug holes on 100 mm PCD (50 mm radius) at 0/90/180/270°.
+  Lug nuts as small hex frustums in countersunk pockets.
+- **Tyre:** separate object, `MOD_Rubber`. Bead at rim diameter, sidewall bulging
+  ~6 mm beyond rim width at mid-height, square-ish shoulder, tread band with a
+  shallow 2 mm longitudinal groove pattern — no individual tread blocks. Raised
+  sidewall lettering only as a 0.6 mm extrusion, **no brand text**.
+- **Contact patch:** flatten the bottom ~40 mm of the tyre by 3 mm.
+- Tri budget per assembly: **12k–18k** (rim 6–9k, tyre 4k, disc 1k, caliper 1.5k).
+- Materials: `MOD_Rim` (face and lip), `MOD_Rubber`, `MOD_Chrome` (disc),
+  `MOD_CaliperPaint`. Where a design wants a two-tone face/lip, use `MOD_Rim` for
+  the face and `MOD_Alloy` for the lip — `MOD_Rim` is the one the wheel-finish
+  picker drives.
 
 | ID | Display name | Reference look | Sizes (NA / ND) | Character |
 |---|---|---|---|---|
-| `W01` | Lightweight Race 7-Spoke | Enkei RPF1 | 15×8 ET28 / 17×9 ET35 | The default aftermarket Miata wheel. Flat face, 7 straight tapered spokes with a raised centre rib, deep lug pockets, small centre cap. |
-| `W02` | Split 6-Spoke | Rota Grid | 15×8 ET20 / 17×8 ET30 | 6 spokes that fork into 12 at the rim. Mild concavity, visible outer lip ~15 mm. |
-| `W03` | Flow-Form 10-Spoke | Konig Hypergram / Dekagram | 15×9 ET36 / 17×9 ET25 | 10 very thin (14 mm) spokes, strongly concave, spokes arc outboard from the hub then curve back to the rim. Thin spokes = big brake clearance; make the arc obvious. |
-| `W04` | Deep Dish 8-Spoke | RS Watanabe RS-8 | 15×8 ET0 / n/a (NA only) | Classic. Flat 8-spoke face set far inboard, **50 mm+ polished outer lip**, exposed lip bolts (24 around the barrel), stepped inner barrel. Slot 0 = `M_WheelFace`, lip uses `M_WheelLip` set to polished alloy by default. |
-| `W05` | Classic Mesh | Panasport C8 / Minilite | 15×7 ET25 / 16×8 ET35 | 8 spokes with fine mesh webbing between them. Build one 45° wedge of mesh, then circular-array it — never model 200 individual struts. |
-| `W06` | Two-Piece Turbofan Dish | Work Meister / Longchamp | 15×8 ET15 / 17×9 ET20 | Straight multi-spoke (12) flat face + separate barrel with a 30 mm stepped lip and visible hardware. Face and lip in different material slots so the app can do "bronze face / polished lip". |
-| `W07` | Forged 6-Spoke Concave | Volk TE37 | 15×9 ET35 / 17×9 ET25 | Six wide flat-topped spokes, chamfered edges, machined dimple pattern near the hub, prominent centre cap. Spoke cross-section is a rounded trapezoid, not a box. |
-| `W08` | OEM ND 17" Design | Mazda ND Club | n/a / 17×7 ET45 | 10 thin split spokes, gunmetal. Include this as the "stock" baseline so the configurator has a null option. |
+| `W01` | Lightweight Race 7-Spoke | RPF1-ish | 15×8 ET28 / 17×9 ET35 | Flat face, 7 straight tapered spokes, raised centre rib, deep lug pockets, small centre cap. |
+| `W02` | Split 6-Spoke | Rota Grid-ish | 15×8 ET20 / 17×8 ET30 | 6 spokes forking into 12 at the rim. Mild concavity, ~15 mm outer lip. |
+| `W03` | Flow-Form 10-Spoke | Hypergram-ish | 15×9 ET36 / 17×9 ET25 | 10 very thin (14 mm) spokes, strongly concave, arcing outboard then back. Make the arc obvious. |
+| `W04` | Deep Dish 8-Spoke | RS-8-ish | 15×8 ET0 / — | Flat 8-spoke face set far inboard, **50 mm+ polished outer lip**, 24 exposed lip bolts, stepped inner barrel. |
+| `W05` | Classic Mesh | Panasport-ish | 15×7 ET25 / 16×8 ET35 | 8 spokes with fine mesh webbing. Build one 45° wedge and circular-array it — never 200 individual struts. |
+| `W06` | Two-Piece Turbofan Dish | Meister-ish | 15×8 ET15 / 17×9 ET20 | Straight 12-spoke flat face + separate barrel, 30 mm stepped lip, visible hardware. |
+| `W07` | Forged 6-Spoke Concave | TE37-ish | 15×9 ET35 / 17×9 ET25 | Six wide flat-topped spokes, chamfered edges, machined dimples near the hub, prominent cap. Rounded-trapezoid spoke section, not a box. |
+| `W08` | OEM ND 17" Design | — | — / 17×7 ET45 | 10 thin split spokes, gunmetal. The ND's null option. |
 
-Also produce `W00_stock_na` — the NA 14×6 7-spoke/daisy OEM wheel — as the NA null option.
+Also `W00_stock_na` — the NA 14×6 seven-spoke OEM wheel — as the NA null option.
 
-**Wheel-size axis for the app:** expose 15/16/17" per design where the table lists them, with matching tyre profiles (15" → 195/50 or 205/50, 16" → 205/45, 17" → 205/45 or 235/40). Rolling diameter must stay within ±15 mm of stock so ride height maths doesn't break.
+**Sizing:** expose 15/16/17" per design where listed, tyre profiles 15" → 195/50
+or 205/50, 16" → 205/45, 17" → 205/45 or 235/40. Keep rolling diameter within
+±15 mm of the **measured** stock so the ride-height maths does not break.
 
----
+> Note the app's known limitation: wheel scaling scales rim *and* tyre together,
+> so this is a bigger wheel with the same tyre, not true plus-sizing. A wheel mod
+> does not change that — it inherits the same pivot scaling.
 
-### 6.2 Front aero (`FA`)
+### 7.3 Front aero (`FA`)
 
-| ID | Display name | Fits | Type | Slot |
+| ID | Display name | Fits | Type | Slot | Tier |
+|---|---|---|---|---|---|
+| `FA01` | OEM+ Front Lip | NA, ND | BOLT_ON | `frontLip` / `club_lip` | 2 |
+| `FA02` | Street Lip Spoiler (deep) | NA, ND | BOLT_ON | `frontLip` | 2 |
+| `FA03` | Race Splitter + Support Rods | NA, ND | BOLT_ON | `frontLip` / `aggressive_splitter` | 1 |
+| `FA04` | Type-2 Front Bumper | NA | REPLACE | *(no slot)* | 3 |
+| `FA05` | Dive Planes / Canards | NA, ND | BOLT_ON | *(no slot)* | 1 |
+| `FA06` | Tow Hook | NA, ND | BOLT_ON | *(no slot)* | 1 |
+| `FA07` | Mesh Grille Insert | NA, ND | REPLACE | *(no slot)* | 2 |
+
+**`FA01` — OEM+ Front Lip.** Shrinkwrap a swept profile onto the bumper's lower
+edge rather than extracting its loop: build a curve following the bumper's
+plan-view outline at the measured lower edge (ND: y ≈ 169, z ≈ 1839…1937), sweep
+a 55 mm-drop × 25 mm-forward section along it with an 8° outward flare, solidify
+9 mm, bevel 2 mm. Shrinkwrap the top edge onto the bumper and **apply**, then
+push 0.7 mm proud. Ends must wrap into the wheel-arch opening, not stop
+mid-bumper. Materials: `MOD_BodyPaint`, `MOD_SatinBlack` variant. 3k tris.
+
+**`FA02` — Street Lip Spoiler (deep).** As FA01 but 110 mm drop, 20 mm
+forward-projecting leading edge, a full-width horizontal step ridge 40 mm below
+the join, ends sweeping up into the arch. Two 60×25 mm brake-duct openings at
+X ±430, cut through the full 9 mm — an inlet that doesn't go anywhere reads as
+fake. Materials: `MOD_BodyPaint`; carbon variant swaps to `MOD_CarbonWeave`.
+6k tris.
+
+**`FA03` — Race Splitter + Support Rods.** *(Tier 1 — start the FA category
+here.)* A flat 12 mm plate on a level plane, projecting ~95 mm forward of the
+bumper, following the bumper's plan outline plus a straight leading edge with
+25 mm radiused corners. **ND: plate at Y = 150** (the bumper's lowest point is
+168; the old brief's Z = 110 predates measurement), front edge at Z ≈ 2050.
+Two 10 mm ⌀ rods from the plate top face up to bumper mount tabs — **the rods
+must intersect both surfaces, not float between them**. 4 washer/bolt discs where
+rods meet plate. Materials: `MOD_CarbonWeave` or `MOD_SatinBlack`, rods
+`MOD_Alloy`. 4k tris. **Pitfall:** the plate must be flat and level, not
+following the bumper's curve downward — that is the entire point of a splitter.
+
+**`FA04` — Type-2 Front Bumper (NA).** *(Tier 3.)* Full bumper replacement:
+hides `frontbumper_Material #71_0`, and must reproduce its mounting flange and
+the pop-up headlight cutouts exactly. Lower leading edge 40 mm, central intake
+720×140 mm with 15 mm surround, two 220×110 mm outer intakes at X ±480,
+integrated FA02-form lip as one continuous surface. Incompatible with FA01–FA03.
+Materials: `MOD_BodyPaint`, `MOD_Mesh`, `MOD_GlossBlack`. 12k tris.
+
+**`FA05` — Dive Planes / Canards.** One canard = 190×85 mm curved plate, 6 mm
+thick, 12 mm upturned outer edge, swept back 25°, angled 12° nose-up. Two per
+side, 70 mm vertical gap, on the bumper corner face. **The inboard edge must be
+coincident with the bumper** — model oversized and intersect 3 mm into the body.
+`MOD_CarbonWeave`. 1.5k tris the set.
+
+**`FA06` — Tow Hook.** 12 mm-thick, 140 mm-long tapered plate, 45 mm ⌀ hole at
+the outer end, protruding forward and slightly outboard, plus a bolt boss where
+it meets the bumper. 4 mm chamfer around the eye. `MOD_AccentPaint` (these are
+always anodised — make it recolourable). 800 tris.
+
+**`FA07` — Mesh Grille Insert.** A single subdivided plane conforming to the
+intake aperture, 20 mm behind the bumper face, alpha-clip diamond-mesh texture,
+10 mm `MOD_GlossBlack` surround. **Do not model the mesh as geometry.**
+400 tris.
+
+### 7.4 Rear & side aero (`RA`)
+
+| ID | Display name | Fits | Type | Slot | Tier |
+|---|---|---|---|---|---|
+| `RA01` | Ducktail Spoiler | NA, ND | BOLT_ON | `rearWing` / `oem_ducktail` | 2 |
+| `RA02` | GT Wing (boot-mounted) | NA, ND | BOLT_ON | `rearWing` / `gt_wing` | 1 |
+| `RA03` | Swan-Neck Big Wing | NA, ND | BOLT_ON | `rearWing` | 1 |
+| `RA04` | Rear Diffuser (4-strake) | NA, ND | BOLT_ON | `rearDiffuser` / `track_diffuser` | 2 |
+| `RA05` | OEM+ Lip Spoiler | NA, ND | BOLT_ON | `rearWing` / `oem_lip` | 2 |
+| `RA06` | Side Skirts | NA, ND | BOLT_ON | `sideSkirts` | 2 |
+| `RA07` | Over-Fenders (widebody) | NA, ND | BOLT_ON | *(no slot)* | 3 |
+
+**`RA02` — GT Wing.** *(Tier 1, and the best first bolt-on: it touches the car
+only at two base plates.)* Build in this order:
+
+1. **Element** — single-plane aerofoil, chord 240 mm, thickness 22 mm, span
+   **1400 mm**, 3° camber, 8° angle of attack. Extrude the profile along X, 4 mm
+   leading-edge radius, sharp 1.5 mm trailing edge. **ND: centre at
+   (0, 1320, −1700)** — the boot lid's top surface is at Y 918 and its rear edge
+   at Z −1864, so this clears it by ~400 mm and sits inboard of the tail.
+2. **Endplates** — 300×180 mm flat plates, 6 mm, at X ±700, vertical, wing's
+   trailing corner cut flush, 40 mm forward-swept leading corner.
+3. **Uprights** — 2 plates, 14 mm thick, 240 mm tall, tapering 150 mm chord at
+   base to 90 mm at top, from the boot lid at X ±330, Z ≈ −1700 up to the
+   element's underside. **The upright's top edge must be cut to the element's
+   underside curve and merged into it**; the bottom sits on a 180×90×8 mm base
+   plate lying flat on the boot lid.
+4. **Hardware** — 4 bolt heads per base plate, 2 adjuster bolts per joint.
+
+Base plates bolt through the boot lid at the measured surface. The wing must not
+intersect the boot lid, and the boot must look able to open. Materials:
+`MOD_AccentPaint` (element), `MOD_GlossBlack` (endplates), `MOD_Alloy`
+(uprights), `MOD_Chrome` (hardware). 6k tris.
+**Pitfall:** uprights floating above the boot lid, or a span exceeding body width
+— cap span at body width minus 150 mm (**ND 1940 → 1790 max; NA 1830 → 1680**).
+
+**`RA03` — Swan-Neck Big Wing.** As RA02, but uprights attach to the **top** of
+the element and hook over it. Higher-camber section: chord 300 mm, thickness
+30 mm, 12° AoA, span 1500 mm, mounted 40 mm higher. Uprights 16 mm curved plates
+whose top ~90 mm bends 90° over the element and bolts through — model the bend as
+a real 60 mm-radius fillet, not a mitre. Endplates 360×220 mm with a rectangular
+cut-out. 8k tris.
+
+**`RA01` — Ducktail Spoiler.** *(Tier 2.)* Front edge coincident with the boot
+lid — shrinkwrap the front row of verts onto the reference boot surface and
+apply. **ND: boot lid runs Z −1864…−1308 at Y 756…918**, so the ducktail occupies
+the rear ~260 mm (Z −1864…−1600) and raises its trailing edge 85 mm. Front
+tangent matches the boot lid exactly (0° step), rear tangent ~28° up. Solidify
+10 mm with a rolled 5 mm under-return. Width tapers into the rear quarter
+shoulders. Adhesive-mounted, so **the entire lower surface must kiss the boot
+lid** — verify along the boot from the side at eye level.
+**Pitfall:** a visible step at the front edge is the single most common failure.
+
+**`RA05` — OEM+ Lip Spoiler.** A low RA01: 35 mm rise, 140 mm deep, 8 mm thick,
+following the boot's trailing edge with a slight upward flick at the ends.
+`MOD_BodyPaint`. 1.5k tris.
+
+**`RA04` — Rear Diffuser (4-strake).** Base panel following the rear bumper's
+underside, flat at the front and kicking **up at 12°** to the rear edge. **ND:
+the rear bumper runs Y 191…753, Z −1957…−1303**, so start at Z −1820 / Y 260 and
+finish at Z −2050 / Y 330. Width 1180 mm, tapering in 40 mm each side. Four
+vertical strakes, 10 mm × 90 mm deep, at X 0, ±280, ±560, following the kick
+angle. 15 mm rolled outer edge. Must tuck *behind* the bumper's bottom lip, not
+sit on top of it, and must clear the exhaust tip — **the ND's tip is at
+X −354…−220, Y 198…259, Z −1855…−1783**, i.e. off-centre to the vehicle's right,
+so the cut-out is asymmetric. `MOD_CarbonWeave` or `MOD_SatinBlack`. 4k tris.
+
+**`RA06` — Side Skirts.** **ND rocker sill: X ±855, Y 161…390, Z −781…841.**
+Sweep a section along that lower edge, extruding down 60 mm and out 25 mm, with a
+horizontal step ridge and a 12° inward-angled lower face. Solidify 10 mm. **Both
+ends must terminate flush into the arch openings.** Mirror across X (NA: about
+X = −7). `MOD_BodyPaint` / `MOD_SatinBlack` variant. 4k tris the pair.
+**NA blocker:** no rocker-sill node was found by name in the NA asset. Locate it
+visually first, or ship ND-only.
+
+**`RA07` — Over-Fenders.** *(Tier 3.)* Requires the arch opening edge loop, which
+means base-mesh derivation. **On the NA it is worse than that: both front fenders
+are a single mesh (`f fender_Material #71_0`, X −859…845) and both rears are
+another.** Nothing can be hidden or flared per side. Offset the arch outward
++45 mm front / +55 mm rear, flared band 140 mm wide, tangent to the body 140 mm
+from the opening, solidify 4 mm, roll the outer edge 8 mm inward, 12 rivet bosses
+20 mm in from the edge. Intersect 2 mm into the body all round. Flag
+`trackWidening: 40` so the configurator can offer offsets that would otherwise
+clip. 10k tris the set.
+
+### 7.5 Body panels (`BP`) — all Tier 3
+
+Every mod here hides an OEM panel and must reproduce its shut lines. **Do not
+start these until Tiers 1–2 are shipped**, and re-read `CONFORM_POSTMORTEM.md`
+first. `BP05` (fixed headlight conversion) additionally requires *filling* the
+pop-up bays — surfacing over a hole left by a hidden part, which is the hardest
+thing in the catalogue and the least likely to look right.
+
+| ID | Display name | Fits | Hides | Tri budget |
 |---|---|---|---|---|
-| `FA01` | OEM+ Front Lip | NA, ND | BOLT_ON | `front_lip` |
-| `FA02` | Street Lip Spoiler (deep) | NA, ND | BOLT_ON | `front_lip` |
-| `FA03` | Race Splitter + Support Rods | NA, ND | BOLT_ON | `front_lip` |
-| `FA04` | Type-2 Front Bumper | NA | REPLACE | `front_bumper` |
-| `FA05` | Dive Planes / Canards | NA, ND | BOLT_ON | `canards` |
-| `FA06` | Tow Hook | NA, ND | BOLT_ON | `tow_hook_f` |
-| `FA07` | Mesh Grille Insert | NA, ND | REPLACE | `grille` |
+| `BP01` | Vented Carbon Bonnet | NA, ND | ND `Hood 6.001_120` / NA `hood_Material #71_0` | 12k |
+| `BP02` | Cowl / Double-Bubble Bonnet | NA | `hood_Material #71_0` | 10k |
+| `BP03` | NACA-Duct Bonnet | NA, ND | as BP01 | 9k |
+| `BP04` | Carbon Boot Lid | NA, ND | ND `Boot 6.001_157` / NA `trunk_Material #71_0` | 6k |
+| `BP05` | Fixed Headlight Conversion | NA | `popuplight_Material #71_0` | 8k |
+| `BP06` | Hardtop | NA, ND | ND `Roof 6_24`, `Roof 6.001_25`, `Roof 6.002_26`, `Roof 6.003_27` | 14k |
 
-**`FA01` — OEM+ Front Lip** *(ref: Mazdaspeed / R-package lip)*
-Build: take the bumper's lower edge curve from the base mesh (`Shift+G → Sharp Edges`, duplicate the loop, separate). Extrude that loop downward 55 mm and forward 25 mm, with a gentle 8° outward flare. Solidify 9 mm, bevel 2 mm all round. The top edge must **share the bumper's exact silhouette** — if it deviates you get a visible step.
-Fixing: sits flush under the bumper lower lip, 0.5 mm proud; 6 clip bosses along the top face at Y = anchor, X = 0, ±280, ±540.
-Materials: slot 0 `M_BodyPaint` (owners paint these), optional `M_SatinBlack` variant. Tri budget 3k.
-Pitfall: don't let the lip's ends stop mid-bumper — they must wrap to the wheel arch opening.
+Recipes as previously specified, with two corrections:
 
-**`FA02` — Street Lip Spoiler (deep)** *(ref: Garage Vary)*
-Build: as FA01 but 110 mm drop, with a 20 mm forward-projecting leading edge, a horizontal step ridge running the full width at 40 mm below the join, and end sections that sweep up into the arch. Add two 60×25 mm brake-duct openings at X ±430 (cut through the full 9 mm thickness — an inlet that doesn't go anywhere reads as fake).
-Fixing: same as FA01 plus 2 lower brackets to the front subframe at (±300, +1810, 250).
-Materials: slot 0 `M_BodyPaint`; carbon variant swaps slot 0 to `M_CarbonWeave`. Tri budget 6k.
+- **`BP01` apertures.** The ND bonnet measures X ±721, Y 582…864, Z 423…1800.
+  Two 300×160 mm apertures centred at (±330, ~840, 1180) sit comfortably within
+  it. Louvre stack: 5 blades, 300×45 mm, 4 mm thick, 35° rearward-up, 32 mm
+  spacing, leading edges recessed 20 mm below the surface, 10 mm surround lip.
+  **The blades must span the full aperture and attach to the surround at both
+  ends** — floating slats are the classic failure. UV the carbon so the weave
+  runs longitudinally and is continuous.
+- **`BP06` interacts with existing app behaviour.** The ND's roof is already
+  hideable — `CarModel.setRoofUp()` hides the whole roof part *and* the roof
+  lining split out of the cabin mesh (`ROOF_LINING_WIP.md`). A hardtop must reuse
+  that mechanism, not invent a second one. **The NA asset has no soft top at all**
+  (it ships roof-down), so a hardtop on the NA has nothing to hide — it just
+  bolts on, and needs its own header-rail fit against `Apillar_Material #71_0`
+  (X ±715, Y 768…1168, Z −24…465).
 
-**`FA03` — Race Splitter + Support Rods**
-Build: a flat 12 mm plate on a horizontal plane at Z = 110 mm, projecting **95 mm forward** of the bumper (NA: front edge at Y ≈ +1960) and following the bumper's plan-view outline plus a straight leading edge with 25 mm radiused corners. Two support rods: 10 mm ⌀ cylinders from the splitter top face at (±420, +1930, 122) up to bumper mount tabs at (±420, +1840, 420) — **the rods must intersect both surfaces, not float between them**. Add 4 washer/bolt discs where the rods meet the plate.
-Materials: slot 0 `M_CarbonWeave` (or `M_SatinBlack`), rods `M_Alloy`. Tri budget 4k.
-Pitfall: the splitter plate must be *flat and level*, not following the bumper's curve downward — that's the whole point of a splitter.
+### 7.6 Exterior details (`DT`)
 
-**`FA04` — Type-2 Front Bumper (NA)** *(ref: Garage Vary / KG Works full bumper)*
-Build: full bumper replacement. Start by duplicating the OEM bumper mesh, then: lower the leading edge 40 mm, widen the central intake to 720×140 mm with a 15 mm surround, add two 220×110 mm outer intakes at X ±480, and integrate a lip identical in form to FA02 so it's one continuous surface. Keep the mounting flange geometry and the pop-up headlight cutouts identical to OEM.
-Materials: slot 0 `M_BodyPaint`, intakes `M_Mesh`, surrounds `M_GlossBlack`. Tri budget 12k.
-Pitfall: this REPLACES the bumper — the manifest must mark the OEM bumper mesh as hidden, and FA01–FA03 must be marked incompatible.
+None of these has an app slot yet (§7.1). They are cheap and high-payoff, so they
+are the strongest argument for the first schema extension — but they cannot ship
+before it.
 
-**`FA05` — Dive Planes / Canards**
-Build: one canard = a 190×85 mm curved plate, 6 mm thick, with 12 mm upturned outer edge, swept back 25° and angled 12° nose-up. Two per side, stacked with 70 mm vertical gap, mounted to the bumper corner face at (±745, +1790, 480) and (±745, +1790, 410). Mirror across X.
-**The inboard edge must be coincident with the bumper surface** — model them slightly oversized and let them intersect 3 mm into the body.
-Materials: slot 0 `M_CarbonWeave`. Tri budget 1.5k for the set.
-
-**`FA06` — Tow Hook**
-Build: a 12 mm-thick, 140 mm-long tapered plate with a 45 mm ⌀ hole at the outer end, protruding forward and slightly outboard from `ANCH_TOWHOOK_F`, plus a bolt boss where it meets the bumper. Add a 4 mm chamfer around the eye.
-Materials: slot 0 `M_AccentPaint` (these are always anodised red/gold/blue — make it recolourable). Tri budget 800.
-
-**`FA07` — Mesh Grille Insert**
-Build: a single subdivided plane conforming to the intake aperture, offset 20 mm behind the bumper face, with an alpha-clip diamond-mesh texture and a 10 mm `M_GlossBlack` surround frame. Do **not** model the mesh as geometry.
-Materials: slot 0 `M_Mesh`, frame `M_GlossBlack`. Tri budget 400.
-
----
-
-### 6.3 Rear & side aero (`RA`)
-
-| ID | Display name | Fits | Type | Slot |
+| ID | Display name | Fits | Type | Tier |
 |---|---|---|---|---|
-| `RA01` | Ducktail Spoiler | NA, ND | BOLT_ON | `boot_aero` |
-| `RA02` | GT Wing (boot-mounted) | NA, ND | BOLT_ON | `boot_aero` |
-| `RA03` | Swan-Neck Big Wing | NA, ND | BOLT_ON | `boot_aero` |
-| `RA04` | Rear Diffuser (4-strake) | NA, ND | BOLT_ON | `diffuser` |
-| `RA05` | OEM+ Lip Spoiler | NA, ND | BOLT_ON | `boot_aero` |
-| `RA06` | Side Skirts | NA, ND | BOLT_ON | `side_skirts` |
-| `RA07` | Over-Fenders (widebody, 4pc) | NA, ND | BOLT_ON | `fenders` |
+| `DT01` | Stubby Antenna | ND (NA: locate first) | REPLACE | 1 |
+| `DT02` | Antenna Delete Plug | ND | REPLACE | 1 |
+| `DT03` | Aero Mirrors (teardrop) | NA, ND | REPLACE | 2 |
+| `DT04` | Race Mirrors (stalk-mounted) | NA, ND | REPLACE | 1 |
+| `DT05` | Carbon Mirror Caps | ND | REPLACE | 3 |
+| `DT06` | Bonnet Dampers | NA, ND | BOLT_ON | 1 |
+| `DT07` | Bonnet Pins | NA, ND | BOLT_ON | 1 |
+| `DT08` | Tow Strap (rear) | NA, ND | BOLT_ON | 1 |
 
-**`RA01` — Ducktail Spoiler**
-Build: extract the boot lid's trailing edge loop and its rear 260 mm of surface. Duplicate, then raise the trailing edge 85 mm while keeping the front edge coincident with the boot lid at Y ≈ `ANCH_BOOTLID_REAR.y + 260`. The profile is a smooth upward sweep — front tangent matches the boot lid exactly (0° step), rear tangent ~28° up. Solidify 10 mm with a rolled 5 mm under-return at the trailing edge. Width tapers into the rear quarter shoulders on both sides.
-Fixing: adhesive-mounted, so the **entire lower surface must kiss the boot lid** with no gap. Verify by looking along the boot lid from the side at eye level.
-Materials: slot 0 `M_BodyPaint`, carbon variant `M_CarbonWeave`. Tri budget 3k.
-Pitfall: the single most common failure is a visible step at the front edge. Snap the front row of verts to the boot lid mesh.
+**`DT01`/`DT02` — Antenna.** *The previous revision guessed the ND antenna at
+(690, −1450, 1090) and flagged "verify side". Measured, it is at X −587…−575 —
+the vehicle's **right**, not left — with the mast running Y 989…1371 at
+Z −1671…−1571 (`FendersR 6.002_41`), on a housing `FendersR 6_39` reaching down
+to Y 819.* DT01 is a tapered cylinder 32 mm ⌀ → 12 mm over **95 mm**, 14 shallow
+helical grooves, on a 40 mm ⌀ × 8 mm rubber base gasket, raked 20° rearward and
+tilted to the panel's local normal. The gasket must sit **flush against the
+curved quarter panel** — shrinkwrap its bottom face and apply. `MOD_SatinBlack` +
+`MOD_Rubber`, 600 tris. DT02 is a 28 mm ⌀ domed disc 4 mm proud, `MOD_BodyPaint`,
+200 tris. **No NA antenna node was found — locate it before building either.**
 
-**`RA02` — GT Wing (boot-mounted)**
-Build, in this order:
-1. **Element**: a single-plane aerofoil, chord 240 mm, thickness 22 mm, span **1400 mm**, with 3° of camber and set at 8° angle of attack. Extrude the aerofoil profile along X; add a 4 mm radius on the leading edge and a sharp 1.5 mm trailing edge. Position centre at (0, −1740, **1320**) — roughly roofline height.
-2. **Endplates**: 300×180 mm flat plates, 6 mm thick, at X = ±700, vertical, with the wing element's trailing corner cut flush. Add a 40 mm forward-swept leading corner.
-3. **Uprights**: 2 plates, 14 mm thick, 240 mm tall, tapering from 150 mm chord at the base to 90 mm at the top, running from `ANCH_WING_MOUNT_L/R` up to the element's underside at X ±330. **The upright's top edge must be cut to the element's underside curve and merged into it**; the bottom must sit on a 180×90×8 mm base plate that lies flat on the boot lid.
-4. **Hardware**: 4 bolt heads per base plate, 2 adjuster bolts per upright/element joint.
-Fixing: base plates bolt through the boot lid at the anchors. The wing must **not** intersect the boot lid, and the boot lid must still be able to open in the render (visually plausible clearance).
-Materials: slot 0 `M_AccentPaint` (element — people run coloured wings), endplates `M_GlossBlack`, uprights `M_Alloy`, hardware `M_ChromeSteel`. Tri budget 6k.
-Pitfall: uprights floating above the boot lid, or an element whose span extends past the car's width (1675 NA / 1735 ND) — cap span at body width minus 150 mm.
+**`DT03` — Aero Mirrors.** ND mirror head measures X 783…970, Y 824…936,
+Z −3…158; base X 767…829, Y 744…816, Z 46…163. Head = teardrop 180×105×75 mm,
+widest at the front, flat rear face with a 150×90 mm convex glass panel (2 mm
+proud, 400 mm convex radius). Stalk = swept 30×22 mm oval arm, 90 mm, outward and
+forward at 15° rise. Base = 90×60 mm triangular foot conformed to the door skin —
+**coincident, no daylight**. Mirror across X, and **rotate rather than mirror the
+glass** so it faces rearward on both sides. `MOD_BodyPaint` (or `MOD_CarbonWeave`)
++ `MOD_MirrorGlass`. 3k tris the pair.
 
-**`RA03` — Swan-Neck Big Wing** *(ref: 9 Lives Racing style)*
-Build: as RA02 but the uprights attach to the **top** of the element and hook over it (swan neck), and the element is a higher-camber section: chord 300 mm, thickness 30 mm, 12° AoA, span 1500 mm, mounted at Z 1360. Uprights are 16 mm-thick curved plates whose top ~90 mm bends 90° over the element's upper surface and bolts through it — model the bend as a real fillet with a 60 mm radius, not a mitre. Endplates 360×220 mm with a rectangular cut-out.
-Materials: slot 0 `M_AccentPaint`, uprights `M_Alloy`, endplates `M_GlossBlack`. Tri budget 8k.
+**`DT04` — Race Mirrors.** 130×80×50 mm rounded rectangular head with a slight
+forward taper, on a 16 mm ⌀ round stalk 120 mm long, 25° up and 30° out, from a
+70 mm ⌀ base plate. Glass fills 90% of the rear face. `MOD_AccentPaint` +
+`MOD_GlossBlack` + `MOD_MirrorGlass`. 2k tris the pair.
 
-**`RA04` — Rear Diffuser (4-strake)**
-Build: a base panel following the underside of the rear bumper, starting flat at Y = −1820 / Z = 260 and kicking **up at 12°** to the rear edge at Y = −2090 / Z = 330. Width 1180 mm, tapering in 40 mm at each side. Add 4 vertical strakes, 10 mm thick × 90 mm deep, at X = 0, ±280, ±560, each running the full length of the diffuser and following its kick angle. Add a 15 mm rolled outer edge.
-Fixing: 6 tabs to the bumper's lower edge; must tuck *behind* the bumper's bottom lip, not sit on top of it. Must clear the exhaust tip anchor — check against whichever `EX` mod is fitted and leave a 40 mm cut-out at the tip location.
-Materials: slot 0 `M_CarbonWeave` or `M_SatinBlack`. Tri budget 4k.
+**`DT05` — Carbon Mirror Caps (ND).** *(Tier 3 — it must hug the OEM shape
+exactly, which means duplicating and offsetting the base surface.)* Offset the
+OEM mirror head's outer surface 1.5 mm outward, solidify 2 mm, trim to the cap
+parting line. `MOD_CarbonWeave`. 1.5k tris the pair.
 
-**`RA05` — OEM+ Lip Spoiler**
-Build: a low, subtle version of RA01 — 35 mm rise, 140 mm deep, 8 mm thick, following the boot's trailing edge exactly with a slight upward flick at the ends. Materials: slot 0 `M_BodyPaint`. Tri budget 1.5k. Use this as the "mild" option in the same slot as the ducktail and wings.
+**`DT06` — Bonnet Dampers.** Per side, a two-stage gas strut: 20 mm ⌀ body
+190 mm + 12 mm ⌀ rod 150 mm extended, ball-socket ends. **Both ends must
+terminate in visible ball-joint cups touching their mount brackets.** Only
+visible with the bonnet open, which this app never does — **supply the closed
+pose, compressed, and skip the open variant** until bonnet animation exists.
+`MOD_AccentPaint` + `MOD_Chrome`. 1.2k tris the pair.
 
-**`RA06` — Side Skirts**
-Build: from `ANCH_SILL_L`, extract the rocker sill's lower edge loop between the front and rear wheel arches (NA: Y +700 → −900). Extrude down 60 mm and out 25 mm, with a horizontal step ridge and a 12° inward-angled lower face. Solidify 10 mm. **Both ends must terminate flush into the arch openings** — they cannot stop short in the middle of the sill.
-Fixing: 5 clip bosses per side along the top face. Mirror across X.
-Materials: slot 0 `M_BodyPaint` / `M_SatinBlack` variant. Tri budget 4k the pair.
+**`DT07` — Bonnet Pins.** Per pin: 55×55 mm base plate flush to the bonnet, a
+10 mm ⌀ × 40 mm post through it, a hinged locking pin through a cross-hole, and a
+300 mm lanyard (thin bevelled curve) to a second anchor plate 120 mm away. Place
+on the measured bonnet surface (ND: Y ≈ 850 near Z 1700). `MOD_AccentPaint` +
+`MOD_SatinBlack`. 1.5k tris the pair.
 
-**`RA07` — Over-Fenders (widebody, 4pc)** *(ref: Rocket Bunny / Pandem style)*
-Build: for each arch, take the arch opening edge loop, offset it outward **+45 mm front / +55 mm rear**, and build a flared band 140 mm wide (measured along the body surface) that starts tangent to the body 140 mm from the opening and flares to the offset lip. Solidify 4 mm, roll the outer edge 8 mm inward. Add 12 rivet bosses (3 mm ⌀ discs) evenly spaced around the outer perimeter, 20 mm in from the edge.
-Fixing: sits *on* the body, overlapping it — intersect 2 mm into the body surface all round. Mirror across X, and remember front and rear arches have different curvature.
-Materials: slot 0 `M_BodyPaint`, rivets `M_ChromeSteel`. Tri budget 10k the set.
-App note: this mod should also flag `track_widening: +40mm per side` so the configurator can offer aggressive wheel offsets that would otherwise clip.
+**`DT08` — Tow Strap (rear).** A 45 mm-wide, 3 mm-thick woven band, 210 mm long,
+doubled through a stitched eyelet, hanging from a bolt boss under the rear bumper
+with a natural sag (2–3 verts of curve, not a straight bar). `MOD_AccentPaint`.
+500 tris.
 
----
+### 7.7 Exhaust (`EX`) — REPLACE, slot `exhaust`
 
-### 6.4 Body panels (`BP`)
+**Universal:** the app only shows the last ~700 mm plus the tips, but model the
+visible run properly — a mandrel-bent pipe (Bézier curve + 30 mm ⌀ circle bevel,
+12 segments, applied) from the muffler to the tip. **Every tip must be hollow:**
+cut the end face and inset a 25 mm-deep sleeve with `MOD_SatinBlack` inside, or
+it reads as a solid rod. Tips clear the bumper cut-out by 12–18 mm all round and
+never intersect the bumper or a fitted diffuser.
 
-| ID | Display name | Fits | Type | Slot |
-|---|---|---|---|---|
-| `BP01` | Vented Carbon Bonnet (dual louvre) | NA, ND | REPLACE | `bonnet` |
-| `BP02` | Cowl / Double-Bubble Bonnet | NA | REPLACE | `bonnet` |
-| `BP03` | NACA-Duct Bonnet | NA, ND | REPLACE | `bonnet` |
-| `BP04` | Carbon Boot Lid | NA, ND | REPLACE | `boot_lid` |
-| `BP05` | Fixed Headlight Conversion | NA | REPLACE | `headlights` |
-| `BP06` | Hardtop | NA, ND | REPLACE | `roof` |
-
-**`BP01` — Vented Carbon Bonnet**
-Build: duplicate the OEM bonnet as the base surface (identical outer silhouette, hinge cutouts and edge return flange — a replacement panel that doesn't match the shut lines is worthless). Then cut two rectangular apertures, 300×160 mm, centred at (±330, +1180, ~870), following the bonnet's curvature. Into each, fit a louvre stack: 5 blades, each 300×45 mm, 4 mm thick, angled 35° rearward-up, spaced 32 mm, with their leading edges recessed 20 mm below the bonnet surface and a 10 mm surround lip around the aperture. **The blades must span the full aperture and attach to the surround at both ends** — floating slats are the classic failure here.
-Fixing: hinge tabs at `ANCH_BONNET_HINGE_L/R`, latch tab at (0, +1620, 800). Front edge coincident with `ANCH_BONNET_NOSE`.
-Materials: slot 0 `M_CarbonWeave` (default) with a `M_BodyPaint` variant, louvres `M_SatinBlack`. Tri budget 12k.
-Pitfall: UV the carbon so the weave runs longitudinally and is continuous across the whole panel.
-
-**`BP02` — Cowl / Double-Bubble Bonnet (NA)**
-Build: from the OEM bonnet, raise two longitudinal blisters: each 900 mm long, 320 mm wide, peaking 55 mm above the stock surface at Y +1150, centred at X ±280, blending back to flush at both ends over 250 mm. Use a lattice or proportional-edit falloff on a subdivided panel, then relax. Add a rear-facing 240×30 mm exit slot at the back of each blister.
-Materials: slot 0 `M_BodyPaint`. Tri budget 10k.
-Pitfall: shading. Sample the surface with a matcap/studio HDRI — any pinching in the blend zone will show as a dark crease.
-
-**`BP03` — NACA-Duct Bonnet**
-Build: OEM bonnet plus a single centreline NACA inlet: 380 mm long, tapering from 20 mm wide at the front to 190 mm at the rear, sinking from flush to 45 mm deep, with the characteristic curved side walls (the walls diverge and drop simultaneously) and a sharp lip at the rear opening. Cut a real through-hole at the rear 60 mm of the duct.
-Materials: slot 0 `M_BodyPaint` or `M_CarbonWeave`. Tri budget 9k.
-
-**`BP04` — Carbon Boot Lid**
-Build: duplicate OEM boot lid; keep the shut lines and the badge recess deleted (smooth). Add a 6 mm return flange around the underside edge. Weave UVs continuous.
-Materials: slot 0 `M_CarbonWeave`. Tri budget 6k.
-Note: mark as incompatible with nothing — ducktails and wings should still mount to it (their anchors are unchanged).
-
-**`BP05` — Fixed Headlight Conversion (NA)**
-Build: replaces the pop-up assemblies. Fill the pop-up bays with a smooth surface continuous with the bonnet/wing line, then inset a 280×90 mm angled lens aperture per side, raked back 30°, with a 12 mm surround. Behind the lens: a shallow reflector bowl (a shrunk hemisphere with an inner projector barrel, 70 mm ⌀), plus a small LED strip strip along the lower edge.
-Materials: slot 0 `M_BodyPaint`, lens `M_Glass` (transmission 0.9, roughness 0.05), reflector `M_ChromeSteel` (metallic 1, roughness 0.08). Tri budget 8k the pair.
-Pitfall: the filled bay must blend into the bonnet line with no visible seam — this is a surfacing job, do it with edge loops rather than a Boolean.
-
-**`BP06` — Hardtop**
-Build: a shell 1180 mm long, following the windscreen header at the front (must match the header rail exactly at `Y +180, Z 1200`-ish — take the loop from the base mesh) and the rear deck at Y −1150. Roof crown peaks 40 mm above the soft top line. Include: a wraparound rear window (60% of the rear face, `M_Glass`), a 25 mm-wide window surround, side quarter windows following the door glass DLO, a 20 mm perimeter flange with 6 clamp points, and a headlining shell 30 mm inside the outer skin (so it reads as double-skinned at the door aperture).
-Materials: slot 0 `M_BodyPaint`, glass `M_Glass`, surround `M_GlossBlack`, lining `M_SatinBlack`. Tri budget 14k.
-Pitfall: it must REPLACE the soft top; the manifest must hide the soft top and the roll bar mods must be marked incompatible if their hoop height exceeds the hardtop's inner surface.
-
----
-
-### 6.5 Exterior details (`DT`)
-
-| ID | Display name | Fits | Type | Slot |
-|---|---|---|---|---|
-| `DT01` | Stubby Antenna | NA, ND | REPLACE | `antenna` |
-| `DT02` | Antenna Delete Plug | NA, ND | REPLACE | `antenna` |
-| `DT03` | Aero Mirrors (teardrop) | NA, ND | REPLACE | `mirrors` |
-| `DT04` | Race Mirrors (stalk-mounted) | NA, ND | REPLACE | `mirrors` |
-| `DT05` | Carbon Mirror Caps | ND | REPLACE | `mirror_caps` |
-| `DT06` | Bonnet Dampers | NA, ND | BOLT_ON | `bonnet_hw` |
-| `DT07` | Bonnet Pins | NA, ND | BOLT_ON | `bonnet_hw` |
-| `DT08` | Tow Strap (rear) | NA, ND | BOLT_ON | `tow_hook_r` |
-
-**`DT01` — Stubby Antenna**
-Build: a tapered cylinder, 32 mm ⌀ at the base narrowing to 12 mm at the tip, **95 mm tall**, with 14 shallow helical grooves (screw a small profile, or use a spiral bevel), on a 40 mm ⌀ × 8 mm rubber base gasket. Tilt to match the body's local normal at `ANCH_ANTENNA` plus 20° rearward rake.
-Fixing: base gasket must sit **flush against the curved quarter panel** — conform its bottom face to the body surface (shrinkwrap, then apply).
-Materials: slot 0 `M_SatinBlack`, gasket `M_Rubber`. Tri budget 600.
-Pitfall: verify which side of the car the OEM antenna is on in your base mesh before placing it.
-
-**`DT02` — Antenna Delete Plug**
-Build: a 28 mm ⌀ domed disc, 4 mm proud, conformed to the panel. Materials: slot 0 `M_BodyPaint`. Tri budget 200. (Trivial, but it's the option people actually pick.)
-
-**`DT03` — Aero Mirrors (teardrop)** *(ref: Ganador / Craft Square style)*
-Build: head = a teardrop volume 180 mm long × 105 mm tall × 75 mm deep, widest at the front, with a flat rear face holding a 150×90 mm convex glass panel (2 mm proud, 400 mm radius convex). Stalk = a swept 30×22 mm oval cross-section arm, 90 mm long, running from `ANCH_MIRROR_L` outward and forward at 15° rise. Base = a 90×60 mm triangular foot conformed to the A-pillar/door skin.
-Fixing: the base must be **coincident with the door skin surface at the mirror anchor** — no daylight. Mirror across X, and remember the glass faces rearward on both sides (rotate, don't just mirror the glass normal).
-Materials: slot 0 `M_BodyPaint` (or `M_CarbonWeave` variant), glass `M_Glass` metallic 1 / roughness 0. Tri budget 3k the pair.
-
-**`DT04` — Race Mirrors (stalk-mounted)** *(ref: Spoon / APR style)*
-Build: a small rectangular head, 130×80×50 mm with rounded corners and a slight forward taper, on a thin 16 mm ⌀ round stalk 120 mm long, angled 25° up and 30° out from a 70 mm ⌀ round base plate. Glass fills 90% of the rear face.
-Materials: slot 0 `M_AccentPaint`, stalk `M_GlossBlack`, glass `M_Glass`. Tri budget 2k the pair.
-
-**`DT05` — Carbon Mirror Caps (ND)**
-Build: shell-only. Duplicate the OEM mirror head's outer surface, offset 1.5 mm outward, solidify 2 mm, trim to the cap parting line. It must hug the OEM shape exactly.
-Materials: slot 0 `M_CarbonWeave`. Tri budget 1.5k the pair.
-
-**`DT06` — Bonnet Dampers**
-Build: per side, a two-stage gas strut: 20 mm ⌀ body 190 mm long + 12 mm ⌀ rod 150 mm extended, with ball-socket ends. Lower end mounts to the inner wing at (±420, +600, 780); upper end to the bonnet underside at (±430, +1000, 900). **Both ends must terminate in visible ball-joint cups touching their mount brackets.** Only visible with the bonnet open — build a second "open" pose variant if the app animates the bonnet, otherwise supply the closed pose with the strut compressed.
-Materials: slot 0 `M_AccentPaint` (anodised), rod `M_ChromeSteel`. Tri budget 1.2k the pair.
-
-**`DT07` — Bonnet Pins**
-Build: per pin, a 55×55 mm base plate flush to the bonnet surface, a 10 mm ⌀ × 40 mm post through it, a hinged locking pin through a cross-hole at the top, and a 300 mm lanyard cable (a thin bevelled curve) to a second small anchor plate 120 mm away. Placed at (±560, +1600, 815) on the NA.
-Materials: slot 0 `M_AccentPaint`, cable `M_SatinBlack`. Tri budget 1.5k the pair.
-
-**`DT08` — Tow Strap (rear)**
-Build: a flat woven loop — a 45 mm-wide, 3 mm-thick band, 210 mm long, doubled over through a stitched eyelet, hanging from a bolt boss under the rear bumper at (−480, −2070, 400) with a slight natural sag (2–3 verts of curve, not a straight bar).
-Materials: slot 0 `M_AccentPaint`. Tri budget 500.
-
----
-
-### 6.6 Exhaust (`EX`) — REPLACE, slot `exhaust`
-
-**Universal exhaust rules:** the app only ever shows the last ~700 mm plus the tip(s), but model the visible run properly: a mandrel-bent pipe (build a Bézier curve, then a Bevel with a 30 mm ⌀ circle profile, 12 segments, and apply) exiting the muffler and terminating in a tip. Every tip must be **hollow** — cut the end face and inset a 25 mm-deep inner sleeve with `M_SatinBlack` inside, or it looks like a solid rod. Tips must clear the bumper cut-out by 12–18 mm all round and never intersect the bumper or diffuser.
+**ND tip position is measured and off-centre:** X −354…−220 (vehicle right),
+Y 198…259, Z −1855…−1783. `EX03`'s symmetric quad arrangement therefore does not
+sit where the OEM tips do — it needs the OEM `Exhausts` nodes hidden and its own
+valance. **No exhaust node was found in the NA asset at all** — locate it
+visually or ship the `EX` set ND-only.
 
 | ID | Display name | Fits | Description |
 |---|---|---|---|
-| `EX01` | Single Round Tip Cat-Back | NA, ND | 100 mm ⌀ straight-cut polished tip, 140 mm long, on a 60 mm pipe, with a visible 500×140 mm oval muffler body 320 mm ahead of the tip. Tip centre at `ANCH_EXHAUST_TIP`. |
-| `EX02` | Twin Round Tips | NA, ND | Two 90 mm ⌀ tips, 110 mm apart, both exiting a shared 560 mm oval muffler. Tips must be exactly parallel and level — misaligned twin tips are instantly visible. |
-| `EX03` | Quad Centre-Exit | ND | Four 76 mm ⌀ tips in a 2×2 arrangement at X ±95 / ±195, centred, in a `M_GlossBlack` surround valance panel. Requires a bumper cut-out variant flag. |
-| `EX04` | Burnt Titanium Tip | NA, ND | Single 115 mm ⌀ tip, slash-cut at 15°, with a rolled outer edge and a stepped weld bead 30 mm from the end. Materials: slot 0 `M_TitaniumBurn` (blue/purple gradient via a bake or vertex-colour ramp). |
-| `EX05` | Side-Exit | NA | Pipe exits ahead of the rear wheel: 63 mm pipe running along the sill under `ANCH_SILL_L`, terminating in a 90 mm ⌀ tip at (−830, −620, 240), angled 10° out and 8° down. Include a 200×120 mm heat shield plate on the sill above it. |
-| `EX06` | Twin Oval Tips | NA, ND | 120×80 mm oval tips, 150 mm apart, straight-cut, chrome, on a large chrome-tipped rear muffler. The "fast road" default. |
+| `EX01` | Single Round Tip Cat-Back | ND (NA TBC) | 100 mm ⌀ straight-cut polished tip, 140 mm long, 60 mm pipe, visible 500×140 mm oval muffler 320 mm ahead of the tip. |
+| `EX02` | Twin Round Tips | ND (NA TBC) | Two 90 mm ⌀ tips, 110 mm apart, shared 560 mm oval muffler. **Exactly parallel and level** — misalignment is instantly visible. |
+| `EX03` | Quad Centre-Exit | ND | Four 76 mm ⌀ tips, 2×2 at X ±95 / ±195, in a `MOD_GlossBlack` surround valance. Needs a bumper cut-out variant flag. |
+| `EX04` | Burnt Titanium Tip | ND (NA TBC) | Single 115 mm ⌀ tip, slash-cut 15°, rolled outer edge, stepped weld bead 30 mm from the end. `MOD_Titanium` (blue/purple gradient, baked or vertex-colour ramp). |
+| `EX05` | Side-Exit | NA | Blocked until the NA sill is located. 63 mm pipe along the sill, 90 mm ⌀ tip angled 10° out / 8° down, 200×120 mm heat shield above it. |
+| `EX06` | Twin Oval Tips | ND (NA TBC) | 120×80 mm oval tips, 150 mm apart, straight-cut chrome, large chrome-tipped rear muffler. The "fast road" default. |
 
-Materials for all: slot 0 `M_ChromeSteel` (tips), muffler/pipe `M_SatinBlack`. Tri budget 3k–6k each.
+Materials: `MOD_Chrome` tips, `MOD_SatinBlack` muffler and pipe. 3k–6k tris each.
 
----
+### 7.8 Suspension & stance (`SU`)
 
-### 6.7 Suspension & stance (`SU`)
+**This category is mostly data, and most of it already works.** The app's
+`stancePresets` in `carData.json` and `CarConfig.rideHeight` / `camber` /
+`trackOffset` already drive the car — `setStance()` lowers the body, tilts each
+wheel about its contact patch, and slides the pivots outboard. **Do not re-specify
+that behaviour in the manifest; it exists.** What is missing is only the *visible
+hardware*, and it is visible only through the spokes.
 
-This category is **parametric, not just meshes.** The configurator drives it by moving the body relative to the wheels.
-
-Rules for the app (put these in the manifest, not the mesh):
-- The wheels stay on the ground plane. Ride height presets translate the **body + all body-mounted mods** down by `drop_mm` on Z.
-- Camber rotates each wheel about its local Y axis (top inboard = negative).
-- Any drop over 45 mm requires the wheel to tuck: pair each preset with a recommended max wheel width/offset combo and flag `requires_fender_roll` where relevant.
-
-| ID | Display name | Drop | Camber F/R | Notes |
+| ID | Display name | Drop | Camber F/R | Hardware to model |
 |---|---|---|---|---|
-| `SU00` | Stock | 0 | −0.5° / −1.0° | Baseline. |
-| `SU01` | Lowering Springs | −25 mm | −1.0° / −1.5° | Model a visible shorter progressive spring, 12 mm wire, 7 coils, `M_AccentPaint` (springs are always coloured — make it recolourable). |
-| `SU02` | Coilovers (street) | −45 mm | −1.5° / −2.0° | Full visible assembly: 60 mm ⌀ threaded shock body with a real helical thread groove, adjustable perch collar (two knurled rings), 65 mm ⌀ × 180 mm spring (8 coils), top hat with 3 bolts, and a damper rod. Must span from the lower control arm to the tower — model the lower fork bracket and the two bolt holes. |
-| `SU03` | Coilovers (track) | −55 mm | −2.5° / −2.0° | Same assembly, shorter spring, plus a visible camber-adjustable top mount (a slotted plate with a spherical bearing). |
-| `SU04` | Slammed / Stance | −75 mm | −4.0° / −3.5° | Flags `requires_fender_roll: true`, pairs with W04/W06 low-offset wheels. |
-| `SU05` | Raised / Rally | +30 mm | −0.5° / −0.5° | Add a small sump guard plate (900×600×6 mm, `M_Alloy`) under the front. |
+| `SU00` | Stock | 0 | −0.5° / −1.0° | none |
+| `SU01` | Lowering Springs | −25 | −1.0° / −1.5° | shorter progressive spring, 12 mm wire, 7 coils, `MOD_AccentPaint` |
+| `SU02` | Coilovers (street) | −45 | −1.5° / −2.0° | full assembly (below) |
+| `SU03` | Coilovers (track) | −55 | −2.5° / −2.0° | as SU02 + camber-adjustable top mount (slotted plate, spherical bearing) |
+| `SU04` | Slammed / Stance | −75 | −4.0° / −3.5° | as SU02, `requiresFenderRoll: true`, pairs with W04/W06 |
+| `SU05` | Raised / Rally | +30 | −0.5° / −0.5° | + sump guard plate 900×600×6 mm, `MOD_Alloy` |
 
-Coilover mesh: build **once** as `SU_COILOVER_ASSY` and reuse for SU01–SU04 with different spring lengths and perch positions. It is only ever seen through the wheel spokes and the arch gap — budget 4k tris, and make sure the spring is a real swept helix (curve + circle bevel), not a stack of tori.
+Build `SU_COILOVER_ASSY` **once** and reuse with different spring lengths and
+perch positions: 60 mm ⌀ threaded shock body with a real helical thread groove,
+adjustable perch collar (two knurled rings), 65 mm ⌀ × 180 mm spring (8 coils),
+top hat with 3 bolts, damper rod, lower fork bracket with two bolt holes. The
+spring must be a real swept helix (curve + circle bevel), not a stack of tori.
+4k tris.
 
----
+Note the app's existing `stancePresets` use different numbers (`sport` −30,
+`coilover` −55, and a `spacer` field). Reconcile with the catalogue rather than
+adding a parallel set — a second source of truth for ride height is a bug
+waiting to happen.
 
-### 6.8 Roll bar & roof (`RB`)
+### 7.9 Roll bar & roof (`RB`)
 
-| ID | Display name | Fits | Type | Slot |
+**Before anything here: identify `Tube003_Material #123_0` on the NA** (§1.2). It
+occupies the roll-bar volume and reaches 1570 mm.
+
+**Universal:** all tube 38 mm OD, 2.5 mm wall — a curve with a circle bevel,
+ends **capped or welded into footplates**. Every tube end terminates in a
+100×100×6 mm footplate with 4 bolt holes, flat on the floor or rear bulkhead.
+**A tube ending in mid-air is an automatic fail.** Where two tubes meet they must
+intersect and be joined (Boolean union + small fillet), not merely touch.
+
+| ID | Display name | Fits | Slot | Tier |
 |---|---|---|---|---|
-| `RB01` | Single-Hoop Roll Bar | NA, ND | BOLT_ON | `roll_bar` |
-| `RB02` | Double-Hoop Roll Bar + Harness Bar | NA, ND | BOLT_ON | `roll_bar` |
-| `RB03` | Bolt-In Half Cage | NA | BOLT_ON | `roll_bar` |
-| `RB04` | Roof Duckbill Lip | NA, ND | BOLT_ON | `roof_aero` |
-| `RB05` | Tonneau / Soft Top Cover | NA, ND | BOLT_ON | `tonneau` |
-| `RB06` | Wind Deflector | NA, ND | BOLT_ON | `wind_deflector` |
+| `RB01` | Single-Hoop Roll Bar | NA, ND | `rollBar` / `style_bar` | 1 |
+| `RB02` | Double-Hoop + Harness Bar | NA, ND | `rollBar` / `track_hoop` | 1 |
+| `RB03` | Bolt-In Half Cage | NA | `rollBar` | 2 |
+| `RB04` | Roof Duckbill Lip | NA, ND | *(no slot)* | 2 |
+| `RB05` | Tonneau / Soft Top Cover | NA, ND | *(no slot)* | 1 |
+| `RB06` | Wind Deflector | NA, ND | *(no slot)* | 1 |
 
-**Universal:** all tube is 38 mm OD, 2.5 mm wall — model as a curve with a circle bevel and **cap the ends** (or better, weld them into footplates). Every tube end must terminate in a 100×100×6 mm footplate with 4 bolt holes, sitting flat on the floor/rear bulkhead at `ANCH_ROLLBAR_L/R`. **A tube that ends in mid-air is an automatic fail.** Where two tubes meet, they must intersect and be joined (Boolean union + a small fillet), not just touch.
-
-**`RB01` — Single-Hoop**: a main hoop from `ANCH_ROLLBAR_L` up to Z 1120 (just above the seat backs, below the folded soft top line), 470 mm wide radius bends, mirrored, plus two rear stays running back and down at 40° to footplates at (±420, −1050, 480). Materials: slot 0 `M_AccentPaint` (powder-coated colours are common) with `M_ChromeSteel` variant. Tri budget 5k.
-
-**`RB02` — Double-Hoop + Harness Bar**: two parallel hoops at Y −620 and Y −760, 140 mm apart, joined by a horizontal cross-tube at Z 950 (the harness bar) and two short spacer tubes at the top. Same rear stays. Tri budget 8k.
-
-**`RB03` — Bolt-In Half Cage (NA)**: main hoop + harness bar + two A-pillar-following diagonals running forward to footplates at (±520, +420, 380), plus a single X-brace between the rear stays. Follows the cabin's inner surface with a 25 mm gap — must not intersect the door aperture or the windscreen header. Tri budget 12k.
-
-**`RB04` — Roof Duckbill Lip**: for hardtop-equipped cars — a 40 mm-tall lip along the hardtop's rear edge, 8 mm thick, spanning 900 mm, swept up 20°. Depends on `BP06` being fitted; flag that dependency. Materials: slot 0 `M_CarbonWeave`. Tri budget 1k.
-
-**`RB05` — Tonneau Cover**: a soft-look panel over the folded top well, 1180×420 mm, with a slight sag (subdivide and pull the centre down 12 mm), a stitched 8 mm perimeter seam, and 8 press-stud discs. Materials: slot 0 `M_SatinBlack` (fabric roughness 0.85). Tri budget 1.5k.
-
-**`RB06` — Wind Deflector**: a 900×280 mm clear panel between the roll hoops with a 20 mm `M_SatinBlack` frame and two mounting brackets. `M_Glass` with transmission 0.85 and a slight tint. Tri budget 800.
-
----
-
-## 7. Per-mod verification checklist
-
-Run this before exporting. Print the results.
-
-```
-[ ] Collection MOD_<GEN>_<ID> exists and contains only this mod's objects
-[ ] All object + mesh names follow §2, zero "*.001" names
-[ ] Transforms applied; object origin at (0,0,0)  [wheels: hub face]
-[ ] Bounding box (mm) matches the spec dimensions within ±5%
-[ ] Every mount/fixing point listed in the entry is geometrically coincident
-    with its anchor — no floating parts (check with a wireframe side view)
-[ ] Bolt-ons sit 0.5-1mm proud of the host surface; replacements sit exactly
-    where the OEM part sat (no z-fighting)
-[ ] Material slots present, named per §3, slot 0 = primary recolourable
-[ ] All faces have a UV; carbon parts have world-consistent UV scale
-[ ] Normals outside; 0 loose verts; 0 non-manifold edges on closed volumes
-[ ] Hard edges bevelled 1-2mm; Shade Smooth + 30° applied
-[ ] Tri count within budget (+20% tolerance)
-[ ] 3 renders taken (front-3/4, rear-3/4, top) and visually checked against
-    the reference description
-[ ] Exported to /assets/<gen>/<cat>/<ID>.glb, opens cleanly, <2MB
-[ ] manifest.json entry appended
-```
+**`RB01`** — main hoop rising to Y 1120 (just above the seat backs, below the
+folded soft-top line), 470 mm bend radius, mirrored, plus two rear stays running
+back and down at 40° to footplates. `MOD_AccentPaint` with a `MOD_Chrome`
+variant. 5k tris.
+**`RB02`** — two parallel hoops 140 mm apart, joined by a horizontal harness bar
+at Y 950 and two short top spacers. Same rear stays. 8k tris.
+**`RB03`** — main hoop + harness bar + two A-pillar-following diagonals running
+forward to footplates, plus an X-brace between the rear stays. Follows the
+cabin's inner surface with a 25 mm gap; must not intersect the door aperture or
+the windscreen header (**NA A-pillar: X ±715, Y 768…1168, Z −24…465**). 12k tris.
+**`RB04`** — 40 mm-tall lip along a hardtop's rear edge, 8 mm thick, 900 mm span,
+swept up 20°. **Requires `BP06`** — flag the dependency. `MOD_CarbonWeave`. 1k.
+**`RB05`** — soft-look panel over the folded top well, 1180×420 mm, slight sag
+(centre pulled down 12 mm), stitched 8 mm perimeter seam, 8 press-stud discs.
+`MOD_SatinBlack` at roughness 0.85. 1.5k tris.
+**`RB06`** — 900×280 mm clear panel between the hoops, 20 mm `MOD_SatinBlack`
+frame, two brackets. `MOD_Glass` with a slight tint. 800 tris.
 
 ---
 
-## 8. `manifest.json` schema
+## 8. `modsData.json` — the catalogue the app reads
 
-The app reads this. One object per mod.
+There is already an `src/data/assetManifest.json` (a **licence ledger**) and a
+`carData.json` (the **option catalogue**). Do not add a third `manifest.json`
+under `/assets` — it would be a fourth source of truth. Mods go in
+**`src/data/modsData.json`**, typed in `src/data/schema.ts` alongside the others.
 
-```json
+```jsonc
 {
-  "id": "RA02",
-  "gen": ["na", "nd"],
-  "category": "rear_aero",
-  "displayName": "GT Wing",
-  "attachType": "bolt_on",
-  "slot": "boot_aero",
-  "replaces": null,
-  "hides": [],
-  "incompatibleWith": ["RA01", "RA03", "RA05"],
-  "requires": [],
-  "anchors": ["ANCH_WING_MOUNT_L", "ANCH_WING_MOUNT_R"],
-  "transform": { "position": [0,0,0], "rotation": [0,0,0], "scale": 1 },
-  "mirrored": false,
-  "colourable": [
-    { "slot": "M_AccentPaint", "label": "Wing colour", "default": "#1A1A1A" }
-  ],
-  "staticMaterials": ["M_GlossBlack", "M_Alloy", "M_ChromeSteel"],
-  "bbox_mm": { "min": [-700,-1860,1180], "max": [700,-1620,1345] },
-  "triangles": 5840,
-  "file": "/assets/na/aero_rear/RA02_gtwing.glb",
-  "flags": { "requiresFenderRoll": false, "trackWidening": 0 }
+  "version": 1,
+  "mods": [
+    {
+      "id": "RA02",
+      "gen": ["na", "nd"],
+      "category": "rear_aero",
+      "displayName": "GT Wing",
+      // Which existing CarConfig field and option id this mod IS. Null for a
+      // mod with no slot yet — it cannot ship until one exists (§7.1).
+      "slot": "rearWing",
+      "optionId": "gt_wing",
+      "attachType": "bolt_on",          // bolt_on | replace
+      "attachTo": "body",               // body | wheel
+      // Base-asset node names to switch off. Exact strings, per generation.
+      "hides": { "na": [], "nd": [] },
+      "incompatibleWith": ["RA01", "RA03", "RA05"],
+      "requires": [],
+      // Measured anchors this mod must reach — validate-mod.mjs checks the
+      // exported bbox actually comes within tolerance of each one.
+      "anchors": { "nd": ["Boot 6.001_157"], "na": ["trunk_Material #71_0"] },
+      "materials": ["MOD_AccentPaint", "MOD_GlossBlack", "MOD_Alloy", "MOD_Chrome"],
+      "bboxMm": { "nd": { "min": [-700, 1180, -1860], "max": [700, 1345, -1620] } },
+      "triangles": { "nd": 5840 },
+      "triangleBudget": 6000,
+      "file": { "na": "assets/mods/na/RA02_gtwing.glb",
+                "nd": "assets/mods/nd/RA02_gtwing.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false      // true ⇒ ATTRIBUTION.md must be updated
+    }
+  ]
 }
 ```
 
-For `replace` mods, `replaces` names the OEM slot occupant and `hides` lists the base-mesh object names the app must switch off (e.g. `["BODY_bonnet"]`).
+Per-generation values are objects keyed by generation, because the two cars are
+different sizes and a single bbox would be a lie for one of them.
 
 ---
 
-## 9. Build order
+## 9. Automated verification
 
-Do it in this order — each stage de-risks the next.
+The per-mod checklist is a script, not a paragraph. Run it; paste its output.
 
-1. `mx5_lib.py` + anchor empties in both base cars + one throwaway test cube exported end-to-end through the app.
-2. **Wheels** `W00`, `W01`, `W08` (stock NA, stock ND, one aftermarket) — proves the wheel pipeline, sizes, and recolour slots.
-3. Remaining wheels `W02`–`W07`.
-4. **Rear aero** `RA01`, `RA02`, `RA05` — proves bolt-on anchoring on a curved panel.
-5. **Front aero** `FA01`–`FA03`, `FA05`, `FA06`.
-6. **Body panels** `BP01`, `BP04` — proves REPLACE + hide logic.
-7. **Exterior details** `DT01`–`DT04` — quick wins, high visual payoff.
-8. **Exhaust** `EX01`, `EX02`, `EX06`.
-9. **Suspension** `SU_COILOVER_ASSY` + the parametric preset entries.
-10. **Roll bar & roof** `RB01`, `RB02`, `BP06`.
-11. Everything remaining, then a full-catalogue regression render: every mod fitted at once to check for intersections, then a matrix of the likely popular combos.
+```bash
+node scripts/measure-asset.mjs --out blender/anchors.json
+```
+```bash
+node scripts/validate-mod.mjs RA02
+```
+
+`validate-mod.mjs` checks, per generation, from the exported `.glb`:
+
+- file exists, opens cleanly, **< 2 MB**
+- object and mesh names match `MOD_<GEN>_<ID>_<part>`; **zero `.001`, `Cube`,
+  `Material.00n` names**
+- every material name is in the §3 table **and** classified in
+  `surfaceClasses.json`
+- triangle count within budget +20%
+- exported bbox within ±5% of the declared `bboxMm`
+- **every declared anchor is reached** — the mod's bbox must come within
+  tolerance of each anchor node's box, which is the machine-checkable form of
+  "nothing floats"
+- `TEXCOORD_0` and `NORMAL` present on every primitive
+- root node at identity transform (wheels: origin at the contact patch)
+
+What it cannot check, and you still must do by eye:
+
+- loose verts, non-manifold edges, flipped normals → `stats()` in Blender
+- 0.5–1 mm proud vs coplanar vs gapped → wireframe side view against the
+  reference car
+- silhouette, proportion, whether edges catch light → three viewport renders
+  **plus one screenshot from the running app**
+
+---
+
+## 10. Build order
+
+Each stage de-risks the next. Do not reorder.
+
+**Phase 0 — the pipeline (no mod geometry at all).**
+1. `node scripts/measure-asset.mjs --out blender/anchors.json` — done; re-run
+   whenever an asset changes.
+2. App side: `src/three/modLoader.ts` + the `Mods` / `BodyMods` groups (§2),
+   the `mods` table in `surfaceClasses.json` (§3), `modsData.json` + its types
+   (§8), the `.gitignore` un-ignore for `public/assets/mods/**` (§4).
+3. `blender/mx5_lib.py` (§6.1), each helper proved on a throwaway cube.
+4. **One throwaway cube, end to end**: built by a script, exported, validated,
+   loaded by the app, visible in the right place, and recoloured by the existing
+   paint picker because its material is named `MOD_BodyPaint`. Until this works,
+   nothing else is worth building.
+
+**Phase 1 — Tier 1 mods that map to an existing slot.**
+5. Wheels `W08` (ND stock), `W00` (NA stock), `W01` — proves the wheel pipeline,
+   the contact-patch origin, diameter scaling and rim recolour.
+6. `RA02`, `RA03` — proves body-mounted bolt-ons and ride-height tracking.
+7. `FA03`, `RB01`, `RB02`, `EX01`, `EX02`, `EX06` — fills existing slots.
+8. Remaining wheels `W02`–`W07`.
+
+**Phase 2 — Tier 2.**
+9. `RA01`, `RA05`, `RA04`, `RA06`, `FA01`, `FA02` — shrinkwrap-and-apply against
+   the reference. Each needs its own visual sign-off.
+10. `SU_COILOVER_ASSY` + reconciled stance presets.
+
+**Phase 3 — schema extension, then the rest.**
+11. Add `CarConfig` fields, `carData.json` slots, UI controls and URL keys for
+    mirrors, canards, tow hooks, antenna, tonneau, wind deflector.
+12. `DT01`–`DT04`, `DT06`–`DT08`, `FA05`, `FA06`, `RB05`, `RB06`.
+
+**Phase 4 — Tier 3, only if Phases 0–3 shipped clean.**
+13. `BP01`, `BP04` first (simplest hide-and-replace), then the rest.
+    Re-read `CONFORM_POSTMORTEM.md` before starting.
+
+**Finally:** a full-catalogue regression render — every compatible mod fitted at
+once to find intersections, then a matrix of the likely popular combinations.
+
+---
+
+## 11. Stop and ask
+
+- The base mesh is missing, mis-scaled, or oriented differently from §1.
+- A measured anchor moved by more than 30 mm from the table in §1.3 (i.e. an
+  asset changed), or a named node no longer exists.
+- `Tube003_Material #123_0` on the NA turns out to be a roll bar — the `RB`
+  category needs re-scoping.
+- A mod's spec would visually clash with the base car in a way this brief does
+  not anticipate.
+- You are about to exceed a tri budget by more than 2×.
+- A mod needs a `CarConfig` field that does not exist and Phase 3 has not
+  happened.
+- Anything would require editing the base car asset. That is never the answer.
