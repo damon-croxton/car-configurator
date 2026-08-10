@@ -22,6 +22,27 @@
   ],
   "mods": [
     {
+      "id": "BP03",
+      "gen": ["nd"],
+      "category": "body_panel",
+      "displayName": "NACA-Duct Bonnet",
+      "slot": "hood",
+      "optionId": "painted_vented",
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": { "nd": ["Hood 6.001_120"] },
+      "incompatibleWith": ["BP01"],
+      "requires": [],
+      "anchors": { "nd": ["Hood 6.001_120"] },
+      "materials": ["MOD_BodyPaint", "MOD_SatinBlack"],
+      "bboxMm": { "nd": { "min": [-721, 580, 423], "max": [721, 864, 1801] } },
+      "triangleBudget": 9000,
+      "file": { "nd": "assets/mods/nd/BP03_naca_bonnet.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": true,
+      "$note": "The duct is displaced into the OEM surface rather than cut out of it, so the skin stays continuous; only the throat is a real opening. Its mouth carries a lipped surround because face deletion leaves an edge that follows the panel's topology — see blender/mods/BP03_naca_bonnet.py."
+    },
+    {
       "id": "BP01",
       "gen": ["nd"],
       "category": "body_panel",

@@ -403,6 +403,103 @@ def box_uv(obj, scale=0.05):
     bpy.ops.object.mode_set(mode="OBJECT")
 
 
+# ------------------------------------------------------- panel surgery ----
+#
+# Every REPLACE body panel is the same four moves: take the OEM surface so the
+# shut lines are right by construction, refine the small area you are about to
+# work on, reshape or open it, then give it thickness. Doing that per mod is how
+# you end up with four subtly different versions of the same bug.
+
+
+def panel_from_base(node_name, name, coll, gen="nd"):
+    """A free-standing, transform-applied copy of a base panel."""
+    src = base_mesh(node_name, gen)
+    panel = src.copy()
+    panel.data = src.data.copy()
+    panel.name = panel.data.name = name
+    panel.parent = None
+    panel.matrix_world = src.matrix_world
+    put(panel, coll)
+    activate(panel)
+    bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+    return panel
+
+
+def _face_app(obj, face, gen):
+    return blender_to_app(obj.matrix_world @ face.calc_center_median(), gen)
+
+
+def refine_faces(obj, inside, cuts=3, gen="nd"):
+    """
+    Subdivide only where `inside(app_xyz)` says so.
+
+    Both base panels are around 40 mm per face, which is far too coarse to cut a
+    300 mm aperture or sink a duct into. Subdividing the whole panel costs
+    several times the triangle budget for detail that appears nowhere, so refine
+    a band and leave the rest alone.
+    """
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bm.faces.ensure_lookup_table()
+    near = [f for f in bm.faces if inside(_face_app(obj, f, gen))]
+    edges = {e for f in near for e in f.edges}
+    if edges:
+        bmesh.ops.subdivide_edges(bm, edges=list(edges), cuts=cuts, use_grid_fill=True)
+    bm.to_mesh(obj.data)
+    bm.free()
+    obj.data.update()
+    return len(near)
+
+
+def delete_faces(obj, inside, gen="nd"):
+    """
+    Open a hole by deleting faces, not by boolean.
+
+    The base panels are open single-skin shells with several boundary loops, so
+    "inside" is undefined for them and an EXACT boolean returns the cutter volume
+    instead of the difference. Deletion is deterministic, and a later Solidify's
+    rim fill gives the opening a real wall.
+    """
+    bm = bmesh.new()
+    bm.from_mesh(obj.data)
+    bm.faces.ensure_lookup_table()
+    doomed = [f for f in bm.faces if inside(_face_app(obj, f, gen))]
+    bmesh.ops.delete(bm, geom=doomed, context="FACES")
+    bm.to_mesh(obj.data)
+    bm.free()
+    obj.data.update()
+    return len(doomed)
+
+
+def displace(obj, offset_mm, gen="nd"):
+    """
+    Move vertices vertically by `offset_mm(app_xyz)` — app +Y, so up is positive.
+
+    Used to sink a duct or raise a blister into an existing panel without
+    detaching it, which keeps the surrounding surface continuous.
+    """
+    s, _ = _frame(gen)
+    moved = 0
+    for v in obj.data.vertices:
+        app = blender_to_app(obj.matrix_world @ v.co, gen)
+        d = offset_mm(app)
+        if d:
+            v.co.z += d / 1000.0 / s
+            moved += 1
+    obj.data.update()
+    return moved
+
+
+def solidify(obj, thickness_mm, gen="nd", offset=-1.0):
+    """Give a single-skin panel real thickness, filling any open rims."""
+    s, _ = _frame(gen)
+    mod = obj.modifiers.new("Solidify", "SOLIDIFY")
+    mod.thickness = thickness_mm / 1000.0 / s
+    mod.offset = offset
+    mod.use_rim = True
+    return apply_modifier(obj, mod.name)
+
+
 # ---------------------------------------------------------------- stats ----
 
 def stats(objs, gen="nd"):
