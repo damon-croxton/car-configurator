@@ -22,6 +22,28 @@
   ],
   "mods": [
     {
+      "id": "DT07",
+      "gen": ["nd"],
+      "category": "detail",
+      "displayName": "Bonnet Pins",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["Hood 6.001_120"] },
+      "materials": ["MOD_AccentPaint"],
+      "bboxMm": { "nd": { "min": [-587, 659, 1518], "max": [587, 727, 1677] } },
+      "triangleBudget": 1500,
+      "file": { "nd": "assets/mods/nd/DT07_bonnet_pins.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Every plate height is ray-cast from the bonnet at that exact station, so the plates lie on the curved panel rather than hovering at a nominal height — this is a part whose whole job is to look bolted down. Needs the Phase 3 schema extension: CarConfig has no bonnet-hardware field.",
+      "$partial": "The lanyard is a straight bar; the brief asks for a cable with natural sag."
+    },
+    {
       "id": "EX01",
       "gen": ["nd"],
       "category": "exhaust",
