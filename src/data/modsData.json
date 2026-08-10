@@ -22,6 +22,27 @@
   ],
   "mods": [
     {
+      "id": "BP04",
+      "gen": ["nd"],
+      "category": "body_panel",
+      "displayName": "Carbon Boot Lid",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": { "nd": ["Boot 6.001_157"] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["Boot 6.001_157"] },
+      "materials": ["MOD_CarbonWeave", "MOD_SatinBlack"],
+      "bboxMm": { "nd": { "min": [-604, 750, -1865], "max": [604, 918, -1287] } },
+      "triangleBudget": 6000,
+      "file": { "nd": "assets/mods/nd/BP04_carbon_boot.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": true,
+      "$note": "CarConfig has no boot-lid field, so this needs the Phase 3 schema extension before it can ship. Deliberately incompatible with nothing: ducktails and wings still mount to it because their anchors are unchanged. The badge is a separate node and is left alone."
+    },
+    {
       "id": "BP03",
       "gen": ["nd"],
       "category": "body_panel",
