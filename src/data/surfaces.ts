@@ -24,9 +24,25 @@ export interface SurfaceTable {
 
 const MODELS = surfaceClasses.models as unknown as Record<string, SurfaceTable>;
 
+/**
+ * The shared mod material table, merged over whichever car is loaded.
+ *
+ * Mods are not part of either asset but are recoloured by the same mechanism,
+ * so they classify the same way. Naming a mod's paint material `MOD_BodyPaint`
+ * puts it in `body_paint`, and the existing paint picker then drives it with no
+ * new code — which is the whole reason mods route through this table rather
+ * than carrying their own colour plumbing.
+ */
+const MOD_MATERIALS = (surfaceClasses as { mods?: { materials?: Record<string, string> } }).mods
+  ?.materials ?? {};
+
 /** The table for a model id, or an empty one so an unknown model is inert. */
 export function tableFor(modelId: string): SurfaceTable {
-  return MODELS[modelId] ?? { complete: false, paintableClass: 'body_paint', materials: {} };
+  const model = MODELS[modelId];
+  if (!model) {
+    return { complete: false, paintableClass: 'body_paint', materials: { ...MOD_MATERIALS } };
+  }
+  return { ...model, materials: { ...model.materials, ...MOD_MATERIALS } };
 }
 
 /**

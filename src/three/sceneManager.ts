@@ -9,6 +9,7 @@ import {
   getRoofFabric,
   getWheelFinish,
 } from '../data/schema';
+import { activeMods, forcedModIds } from '../data/mods';
 import { CameraRig } from './cameraRig';
 import { CarModel, type IslandDebugResult, type ModelSpec } from './carModel';
 import { ContactShadow } from './contactShadow';
@@ -139,6 +140,16 @@ export class SceneManager {
 
     await this.car.load(modelSpecFor(config.generation));
     this.applyCarConfig(config);
+    await this.car.setMods(activeMods(config.generation, config, forcedModIds()), config.generation);
+
+    // Dev-only handle on the live scene. `CONFORM_POSTMORTEM.md` records that
+    // the ability to inspect the real thing was worth more than any amount of
+    // reasoning about what it should contain — this is the cheap version of it.
+    // `import.meta.env` is Vite's, and this tsconfig does not pull in
+    // vite/client, so read it structurally rather than widen the global types.
+    if ((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV) {
+      (window as unknown as Record<string, unknown>).__mx5 = this;
+    }
 
     this.options.onLoadingChange?.({ progress: 0.7, label: 'Lighting environment', done: false });
     await this.environment.apply(getEnvironment(config.environment), config.groundReflection);
@@ -166,6 +177,10 @@ export class SceneManager {
     }
 
     this.applyCarConfig(next);
+
+    // Mods come after the rest of the car config: fitting one re-buckets the
+    // materials and re-applies paint, so it has to see the final colours.
+    await this.car.setMods(activeMods(next.generation, next, forcedModIds()), next.generation);
 
     if (!previous || previous.environment !== next.environment || previous.groundReflection !== next.groundReflection) {
       await this.environment.apply(getEnvironment(next.environment), next.groundReflection);

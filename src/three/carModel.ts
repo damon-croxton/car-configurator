@@ -1,6 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { classOf, tableFor, type SurfaceTable } from '../data/surfaces';
+import type { ModEntry } from '../data/mods';
+import { ModLoader } from './modLoader';
 import {
   geometryFromIsland,
   islandKey,
@@ -117,6 +119,8 @@ interface Wheel {
   radius: number;
   /** +1 on the right-hand side of the car, -1 on the left. */
   side: 1 | -1;
+  /** The asset's own wheel meshes, so a wheel mod can hide exactly these. */
+  oem: THREE.Mesh[];
 }
 
 /**
@@ -175,8 +179,29 @@ export class CarModel {
   private roofUp = true;
   private stance: Stance | null = null;
 
+  /* ---- mods ---------------------------------------------------------- */
+
+  /**
+   * Body-mounted mods. A sibling of the model root, not a child of it: the root
+   * carries a uniform scale (0.578 on the NA) and an offset, so a mod parented
+   * under it would be scaled by that factor. Here it drops in at identity and
+   * lands exactly where it was modelled.
+   */
+  private readonly bodyMods = new THREE.Group();
+  private readonly modLoader = new ModLoader(this.loadingManager);
+  private modInstances: THREE.Object3D[] = [];
+  /** Base-asset nodes a mod switched off, so they can be switched back on. */
+  private hiddenByMods: THREE.Object3D[] = [];
+  /** Which mods are fitted, so an unchanged selection is a no-op. */
+  private modKey = '';
+  /** The last request, held so a selection made before the car finished
+   *  loading is not lost — the same pattern as paint, finish and stance. */
+  private modRequest: { mods: ModEntry[]; generationId: string } | null = null;
+
   constructor(private readonly loadingManager: THREE.LoadingManager) {
     this.group.name = 'Car';
+    this.bodyMods.name = 'BodyMods';
+    this.group.add(this.bodyMods);
   }
 
   /** Load a car, replacing whatever was loaded before. Idempotent per spec. */
@@ -219,11 +244,17 @@ export class CarModel {
     if (this.interior) this.setInterior(this.interior);
     this.setRoofUp(this.roofUp);
     if (this.stance) this.setStance(this.stance);
+    if (this.modRequest) {
+      await this.setMods(this.modRequest.mods, this.modRequest.generationId);
+    }
   }
 
   /** Tear the current car down so another can take its place. */
   private clear(): void {
+    this.clearMods();
     for (const child of [...this.group.children]) {
+      // The mod group outlives the car it was hanging on; only its contents go.
+      if (child === this.bodyMods) continue;
       child.traverse((node) => {
         const mesh = node as THREE.Mesh;
         if (!mesh.isMesh) return;
@@ -242,6 +273,9 @@ export class CarModel {
     this.roofPart = null;
     this.body = null;
     this.spec = null;
+    // The next car has to be re-fitted from scratch, so forget what was on the
+    // last one — otherwise the key matches and setMods() no-ops on a live car.
+    this.modKey = '';
   }
 
   /**
@@ -335,6 +369,10 @@ export class CarModel {
         base,
         radius: (union.max.y - union.min.y) / 2,
         side: centre.x > 0 ? 1 : -1,
+        // Captured now, before any mod is fitted, so hiding "the OEM wheel"
+        // later cannot accidentally catch a mod's own rim or tyre — which share
+        // the same surface classes by design.
+        oem: meshes,
       });
     }
 
@@ -374,7 +412,104 @@ export class CarModel {
     if (this.body) {
       const hubRise = this.wheels[0].radius * (scale - 1);
       this.body.position.y = this.bodyBaseY + hubRise + stance.rideHeight / 1000;
+      // Body mods were modelled against the car at its base height, so they
+      // have to carry the same delta. Without this a lowered car leaves its
+      // splitter and wing hanging in the air.
+      this.bodyMods.position.y = this.body.position.y - this.bodyBaseY;
     }
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Mods                                                              */
+  /* ---------------------------------------------------------------- */
+
+  /**
+   * Fit exactly this set of mods, replacing whatever was fitted before.
+   *
+   * Nothing here edits the car. A "replace" mod adds its own geometry and
+   * switches off the base nodes it stands in for, which is the only way to do
+   * it when the asset may not be cut up — see CONFORM_POSTMORTEM.md.
+   */
+  async setMods(mods: ModEntry[], generationId: string): Promise<void> {
+    this.modRequest = { mods, generationId };
+    // Nothing to bolt onto yet. `load()` re-applies the held request, so a
+    // selection made while the car is still downloading is not silently lost.
+    if (!this.body) return;
+
+    const key = mods.map((m) => m.id).sort().join(',');
+    if (key === this.modKey) return;
+    this.modKey = key;
+    this.clearMods();
+
+    for (const mod of mods) {
+      let instance: THREE.Group;
+      try {
+        instance = await this.modLoader.instance(mod, generationId);
+      } catch (error) {
+        console.warn(`[CarModel] could not load mod ${mod.id}:`, error);
+        continue;
+      }
+
+      if (mod.attachTo === 'wheel') {
+        for (const wheel of this.wheels) {
+          const copy = wheel === this.wheels[0] ? instance : instance.clone(true);
+          // Modelled for one side only. The other side is half a turn about the
+          // vertical, which is rigid — mirroring with a negative scale would
+          // invert the winding and light the wheel inside out.
+          copy.rotation.y = wheel.side === 1 ? 0 : Math.PI;
+          wheel.pivot.add(copy);
+          this.modInstances.push(copy);
+          for (const mesh of wheel.oem) this.hide(mesh);
+        }
+      } else {
+        this.bodyMods.add(instance);
+        this.modInstances.push(instance);
+      }
+
+      for (const name of mod.hides?.[generationId] ?? []) this.hideNode(name);
+    }
+
+    // Mod materials are in the shared table, so re-bucketing picks them up and
+    // the existing pickers colour them with no special case.
+    this.indexMaterials();
+    if (this.paintColor) this.setPaintColor(this.paintColor);
+    if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
+    if (this.stance) this.setStance(this.stance);
+  }
+
+  /** Detach every mod instance and switch the base parts back on. */
+  private clearMods(): void {
+    for (const instance of this.modInstances) instance.removeFromParent();
+    this.modInstances = [];
+    for (const node of this.hiddenByMods) node.visible = true;
+    this.hiddenByMods = [];
+  }
+
+  private hide(node: THREE.Object3D): void {
+    if (!node.visible) return;
+    node.visible = false;
+    this.hiddenByMods.push(node);
+  }
+
+  /**
+   * Switch off a base-asset node by its glTF name.
+   *
+   * GLTFLoader runs every name through `PropertyBinding.sanitizeNodeName`, so
+   * `Boot 6.001_157` in the file arrives as `Boot_6001_157` on the object and
+   * the original is kept on `userData.name`. Matching only what the catalogue
+   * says would silently hide nothing at all, and a "replacement" panel would
+   * sit inside the part it replaces.
+   */
+  private hideNode(name: string): void {
+    const sanitised = THREE.PropertyBinding.sanitizeNodeName(name);
+    let found = false;
+    this.body?.traverse((node) => {
+      if (node.userData?.name === name || node.name === name || node.name === sanitised) {
+        this.hide(node);
+        found = true;
+      }
+    });
+    if (!found) console.warn(`[CarModel] mod wants to hide "${name}", which is not in the asset`);
   }
 
   /* ---------------------------------------------------------------- */
