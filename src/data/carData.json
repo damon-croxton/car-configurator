@@ -80,7 +80,8 @@
           "stock_single",
           "oem_dual",
           "titanium_quad",
-          "big_bore_single"
+          "big_bore_single",
+          "twin_oval"
         ],
         "rollBar": [
           "none",
@@ -601,6 +602,15 @@
         "downforce": 0,
         "weight": -11,
         "power": 12
+      },
+      {
+        "id": "twin_oval",
+        "name": "Twin Oval Tips",
+        "node": "Exhaust_TwinOval",
+        "material": "chrome",
+        "downforce": 0,
+        "weight": -2.5,
+        "power": 6
       }
     ],
     "rollBar": [
