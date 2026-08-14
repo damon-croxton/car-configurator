@@ -31,6 +31,27 @@
   ],
   "mods": [
     {
+      "id": "DT08",
+      "gen": ["nd"],
+      "category": "detail",
+      "displayName": "Tow Strap",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["BumperR 6.001_146"] },
+      "materials": ["MOD_AccentPaint", "MOD_Chrome"],
+      "bboxMm": { "nd": { "min": [-503, 127, -1948], "max": [-457, 278, -1892] } },
+      "triangleBudget": 800,
+      "file": { "nd": "assets/mods/nd/DT08_tow_strap.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "A ribbon — two rows of vertices 45mm apart following a hand-placed hanging curve, solidified 3mm — rather than a swept tube. A tube squashed flat still catches light like a cylinder, and webbing does not. Sits at x -480, clear of the exhaust at -287. Needs a CarConfig field before it can ship."
+    },
+    {
       "id": "FA05",
       "gen": ["nd"],
       "category": "front_aero",
