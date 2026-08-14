@@ -547,6 +547,28 @@ def surface_y(obj, app_x, app_z, gen="nd", from_y=2400.0):
     return blender_to_app(obj.matrix_world @ loc, gen)[1]
 
 
+def surface_x(obj, app_y, app_z, gen="nd", side=1, from_x=1400.0):
+    """
+    Where `obj`'s skin is, cast inboard from outside the car, in app mm.
+
+    The sideways counterpart to `surface_y`, and just as necessary: the ND's
+    front bumper is 857 wide at its widest but only about 600 at z 1790, so
+    anything placed on a bumper corner from the overall bounding box floats in
+    mid-air. Anything that has to sit on, or bury itself into, a flank wants
+    this — canards, mirrors, over-fenders, skirts.
+
+    `side` is +1 for the vehicle's left (+X) and -1 for its right.
+    """
+    inv = obj.matrix_world.inverted()
+    origin = inv @ app_to_blender(side * abs(from_x), app_y, app_z, gen)
+    inward = (inv.to_3x3() @ (app_to_blender(0, 0, 0, gen)
+                              - app_to_blender(side * 1000.0, 0, 0, gen))).normalized()
+    hit, loc, _n, _i = obj.ray_cast(origin, inward)
+    if not hit:
+        raise RuntimeError(f"no skin at app (y {app_y}, z {app_z}) on {obj.name}")
+    return blender_to_app(obj.matrix_world @ loc, gen)[0]
+
+
 def solidify(obj, thickness_mm, gen="nd", offset=-1.0):
     """Give a single-skin panel real thickness, filling any open rims."""
     s, _ = _frame(gen)
