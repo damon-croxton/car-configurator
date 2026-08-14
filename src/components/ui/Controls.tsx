@@ -22,6 +22,8 @@ export interface Option {
   label: string;
   sublabel?: string;
   disabled?: boolean;
+  /** Short pill shown against the label — used to mark options with a 3D part. */
+  badge?: string;
 }
 
 export const OptionGrid: React.FC<{
@@ -48,7 +50,17 @@ export const OptionGrid: React.FC<{
               : 'border-slate-700/70 bg-slate-800/40 text-slate-300 hover:border-slate-500 hover:bg-slate-800'
           } ${option.disabled ? 'cursor-not-allowed opacity-35 hover:border-slate-700/70 hover:bg-slate-800/40' : ''}`}
         >
-          <span className="block text-xs font-medium leading-tight">{option.label}</span>
+          <span className="flex items-start justify-between gap-1.5">
+            <span className="block text-xs font-medium leading-tight">{option.label}</span>
+            {option.badge && (
+              <span
+                title="This part is modelled — selecting it changes the car"
+                className="mt-px shrink-0 rounded bg-emerald-400/15 px-1 py-px text-[9px] font-semibold uppercase leading-none tracking-wide text-emerald-300"
+              >
+                {option.badge}
+              </span>
+            )}
+          </span>
           {option.sublabel && (
             <span className="mt-0.5 block text-[10px] leading-tight text-slate-500">{option.sublabel}</span>
           )}

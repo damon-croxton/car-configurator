@@ -76,6 +76,10 @@ export function encodeConfigToParams(config: CarConfig): URLSearchParams {
   if (config.paintCustomHex !== DEFAULT_CONFIG.paintCustomHex) {
     params.set('hex', config.paintCustomHex.replace('#', ''));
   }
+  // Sorted so the same set of extras always produces the same link.
+  if (config.extraMods.length > 0) {
+    params.set('extras', [...config.extraMods].sort().join(','));
+  }
 
   for (const { key, field } of STRING_FIELDS) {
     const value = config[field] as string;
@@ -108,6 +112,12 @@ export function decodeConfigFromParams(params: URLSearchParams): CarConfig {
 
   const hex = params.get('hex');
   if (hex && /^#?[0-9a-f]{6}$/i.test(hex)) draft.paintCustomHex = `#${hex.replace('#', '')}`;
+
+  const extras = params.get('extras');
+  if (extras !== null) {
+    // reconcileConfig drops anything this generation has no asset for.
+    draft.extraMods = extras.split(',').map((s) => s.trim().toUpperCase()).filter(Boolean);
+  }
 
   for (const { key, field } of STRING_FIELDS) {
     const raw = params.get(key);

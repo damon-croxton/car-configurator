@@ -129,12 +129,15 @@ MATERIALS = {
     "MOD_BodyPaint":    ((0.78, 0.78, 0.80, 1), 0.90, 0.25),
     "MOD_AccentPaint":  ((0.55, 0.06, 0.06, 1), 0.35, 0.35),
     "MOD_Rim":          ((0.42, 0.43, 0.45, 1), 0.95, 0.28),
-    "MOD_Tyre":         ((0.03, 0.03, 0.03, 1), 0.00, 0.90),
+    # Base colours here are LINEAR, and the eye reads sRGB: 0.03 linear renders
+    # as #303030, which is a mid grey, not a tyre. Photographed rubber sits
+    # nearer #1a1a1a, so 0.010 linear.
+    "MOD_Tyre":         ((0.010, 0.010, 0.011, 1), 0.00, 0.94),
     "MOD_CaliperPaint": ((0.60, 0.05, 0.05, 1), 0.30, 0.40),
     "MOD_CarbonWeave":  ((0.045, 0.047, 0.052, 1), 0.35, 0.28),
     "MOD_GlossBlack":   ((0.02, 0.02, 0.02, 1), 0.20, 0.12),
     "MOD_SatinBlack":   ((0.03, 0.03, 0.03, 1), 0.10, 0.55),
-    "MOD_Rubber":       ((0.03, 0.03, 0.03, 1), 0.00, 0.88),
+    "MOD_Rubber":       ((0.012, 0.012, 0.013, 1), 0.00, 0.90),
     "MOD_Alloy":        ((0.62, 0.63, 0.65, 1), 1.00, 0.32),
     "MOD_Chrome":       ((0.90, 0.91, 0.93, 1), 1.00, 0.06),
     "MOD_Titanium":     ((0.38, 0.34, 0.45, 1), 1.00, 0.30),
@@ -145,14 +148,18 @@ MATERIALS = {
 
 
 def mat(name):
-    """Get-or-create a contract material. Refuses anything off-contract."""
+    """
+    Get-or-create a contract material, refreshing it from the table.
+
+    Deliberately re-applies the values to a material that already exists. The
+    table is the source of truth, and a session that has already built a mod
+    holds the old material — without this, editing a colour here and rebuilding
+    silently exports the previous one.
+    """
     if name not in MATERIALS:
         raise KeyError(f"{name!r} is not in the §3 material contract: {sorted(MATERIALS)}")
-    existing = bpy.data.materials.get(name)
-    if existing:
-        return existing
     colour, metallic, roughness = MATERIALS[name]
-    m = bpy.data.materials.new(name)
+    m = bpy.data.materials.get(name) or bpy.data.materials.new(name)
     m.use_nodes = True
     bsdf = m.node_tree.nodes["Principled BSDF"]
     bsdf.inputs["Base Color"].default_value = colour

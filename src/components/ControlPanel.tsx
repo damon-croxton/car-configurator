@@ -14,6 +14,7 @@ import {
   wheelOptionsFor,
   type AeroSlotId,
 } from '../data/schema';
+import { modForOption, optionalMods } from '../data/mods';
 import { OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
 
 type TabId = 'model' | 'paint' | 'wheels' | 'aero' | 'atmosphere';
@@ -269,6 +270,7 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
             id: wheel.id,
             label: `${wheel.brand} ${wheel.name}`,
             sublabel: `${wheel.weightPerCorner} kg/corner · ${wheel.description}`,
+            badge: modForOption(generation.id, 'wheelStyle', wheel.id) ? '3D' : undefined,
           }))}
         />
       </Section>
@@ -368,9 +370,22 @@ const AERO_SECTIONS: { slot: AeroSlotId; title: string; columns: 1 | 2 }[] = [
 
 const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const generation = getGeneration(config.generation);
+  const extras = optionalMods(generation.id);
+
+  const toggleExtra = (id: string, on: boolean) =>
+    onChange({
+      extraMods: on
+        ? [...config.extraMods, id]
+        : config.extraMods.filter((entry) => entry !== id),
+    });
 
   return (
     <>
+      <p className="rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
+        Options marked <span className="font-semibold text-emerald-300">3D</span> have a modelled
+        part and change the car. The rest still drive the spec sheet and pricing.
+      </p>
+
       {AERO_SECTIONS.map(({ slot, title, columns }) => (
         <Section key={slot} title={title}>
           <OptionGrid
@@ -380,6 +395,7 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
             options={aeroOptionsFor(generation, slot).map((part) => ({
               id: part.id,
               label: part.name,
+              badge: modForOption(generation.id, slot, part.id) ? '3D' : undefined,
               sublabel:
                 part.downforce > 0 || part.weight !== 0
                   ? `${part.downforce > 0 ? `+${part.downforce} kg downforce · ` : ''}${
@@ -390,6 +406,21 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           />
         </Section>
       ))}
+
+      {extras.length > 0 && (
+        <Section title="Additional parts" hint={`${extras.length} modelled`}>
+          <div className="space-y-2">
+            {extras.map((mod) => (
+              <ToggleRow
+                key={mod.id}
+                label={mod.displayName}
+                checked={config.extraMods.includes(mod.id)}
+                onChange={(on) => toggleExtra(mod.id, on)}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
 
       <Section title="Light mods">
         <div className="space-y-2">

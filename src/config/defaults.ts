@@ -8,6 +8,7 @@ import {
   wheelOptionsFor,
   type AeroSlotId,
 } from '../data/schema';
+import { optionalMods } from '../data/mods';
 
 export const AERO_SLOTS: AeroSlotId[] = [
   'frontLip',
@@ -32,19 +33,25 @@ export const DEFAULT_CONFIG: CarConfig = {
   clearcoat: 1.0,
   caliperColor: 'brembo_red',
 
+  // The car arrives stock. Before mods existed these defaults were a styling
+  // choice and only ever moved the spec sheet; now that the catalogue ids are
+  // wired to real geometry, a ducktail and twin tips here would mean the app
+  // opens on a modified car and gives you nothing to compare against.
   wheelStyle: 'oem_17_design',
   wheelFinish: 'gunmetal',
   wheelDiameter: 17,
-  rideHeight: -30,
-  camber: -1.6,
-  trackOffset: 8,
+  rideHeight: 0,
+  camber: -0.5,
+  trackOffset: 0,
+
+  extraMods: [],
 
   frontLip: 'stock',
   sideSkirts: 'stock',
   rearDiffuser: 'stock',
-  rearWing: 'oem_ducktail',
+  rearWing: 'wing_delete',
   hood: 'stock',
-  exhaust: 'oem_dual',
+  exhaust: 'stock_single',
   rollBar: 'none',
   smokedIndicators: false,
   tintedHeadlights: false,
@@ -111,6 +118,12 @@ export function reconcileConfig(config: CarConfig): CarConfig {
   if (!carData.cameraPresets.some((c) => c.id === next.cameraPreset)) {
     next.cameraPreset = carData.cameraPresets[0].id;
   }
+
+  // Drop extras this generation has no asset for, the same way a dangling aero
+  // id gets dropped — a hand-edited URL or a generation switch must not leave
+  // one pointing at nothing.
+  const offered = new Set(optionalMods(generation.id).map((mod) => mod.id));
+  next.extraMods = [...new Set(next.extraMods ?? [])].filter((id) => offered.has(id));
 
   next.paint = getPaintColor(next.paint).id;
   next.rideHeight = clamp(next.rideHeight, ...RANGES.rideHeight);

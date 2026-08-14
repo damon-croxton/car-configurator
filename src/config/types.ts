@@ -33,6 +33,13 @@ export interface CarConfig {
   /** Per-corner spacer / track width offset in millimetres. */
   trackOffset: number;
 
+  /**
+   * Additive mods with no catalogue slot of their own — bonnet pins, a tow
+   * hook, canards. Held as a list of mod ids rather than a field each, so a new
+   * one is a catalogue entry and needs no schema change. See `data/mods.ts`.
+   */
+  extraMods: string[];
+
   /* Aero & bodykit */
   frontLip: string;
   sideSkirts: string;

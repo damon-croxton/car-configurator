@@ -53,6 +53,30 @@ export function modById(id: string): ModEntry | undefined {
 }
 
 /**
+ * The mod that a given catalogue option actually renders as, if any.
+ *
+ * The panel uses this to mark which choices change the car and which only move
+ * the spec sheet. That distinction has always existed — most aero ids have
+ * never had geometry behind them — but until now there was no way to see it
+ * without selecting one and noticing nothing happened.
+ */
+export function modForOption(
+  generationId: string,
+  slot: string,
+  optionId: string,
+): ModEntry | undefined {
+  return modsFor(generationId).find((m) => m.slot === slot && m.optionId === optionId);
+}
+
+/**
+ * Mods with no catalogue slot of their own — additive bolt-ons that are simply
+ * on or off. They live in `CarConfig.extraMods`.
+ */
+export function optionalMods(generationId: string): ModEntry[] {
+  return modsFor(generationId).filter((m) => m.slot === null);
+}
+
+/**
  * Mod ids forced on by `?mods=BP04,DT07` in the address bar.
  *
  * Some finished assets have no `CarConfig` field yet — a boot lid and bonnet
@@ -99,6 +123,11 @@ export function activeMods(generationId: string, config: CarConfig, forced: stri
     if (!mod.slot || !mod.optionId) continue;
     const selected = (config as unknown as Record<string, unknown>)[mod.slot];
     if (selected === mod.optionId) chosen.set(mod.id, mod);
+  }
+
+  for (const id of config.extraMods ?? []) {
+    const mod = available.find((m) => m.id === id);
+    if (mod) chosen.set(mod.id, mod);
   }
 
   for (const id of forced) {
