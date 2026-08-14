@@ -59,7 +59,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   interiorTrim: 'black_leather',
   windowTint: 0.28,
 
-  environment: 'studio',
+  environment: 'salt_flats',
   headlights: true,
   taillights: true,
   drl: true,

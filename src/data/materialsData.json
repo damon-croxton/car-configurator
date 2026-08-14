@@ -430,7 +430,7 @@
       "hdri": "assets/hdri/studio.hdr",
       "exposure": 1.0,
       "envIntensity": 1.15,
-      "backgroundMode": "gradient",
+      "backgroundMode": "environment",
       "backgroundTop": "#171a1f",
       "backgroundBottom": "#05060a",
       "backgroundBlur": 0.35,
@@ -560,7 +560,7 @@
       "hdri": "assets/hdri/sunset.hdr",
       "exposure": 1.0,
       "envIntensity": 1.1,
-      "backgroundMode": "gradient",
+      "backgroundMode": "environment",
       "backgroundTop": "#1e2b52",
       "backgroundBottom": "#e8794a",
       "backgroundBlur": 0.15,
@@ -671,7 +671,7 @@
       "hdri": "assets/hdri/urban_night.hdr",
       "exposure": 1.3,
       "envIntensity": 1.0,
-      "backgroundMode": "gradient",
+      "backgroundMode": "environment",
       "backgroundTop": "#03040a",
       "backgroundBottom": "#0d0618",
       "backgroundBlur": 0.4,
@@ -801,7 +801,7 @@
       "hdri": "assets/hdri/warehouse.hdr",
       "exposure": 0.98,
       "envIntensity": 1.05,
-      "backgroundMode": "gradient",
+      "backgroundMode": "environment",
       "backgroundTop": "#1d2026",
       "backgroundBottom": "#0b0d10",
       "backgroundBlur": 0.3,
@@ -931,7 +931,7 @@
       "hdri": "assets/hdri/salt_flats.hdr",
       "exposure": 0.88,
       "envIntensity": 1.1,
-      "backgroundMode": "gradient",
+      "backgroundMode": "environment",
       "backgroundTop": "#4d8fd4",
       "backgroundBottom": "#e9eef2",
       "backgroundBlur": 0.1,
@@ -1013,6 +1013,98 @@
           -4,
           2,
           -5
+        ]
+      }
+    },
+    {
+      "id": "mountain_pass",
+      "name": "Mountain Pass",
+      "hint": "Alpine ridgeline, open sky",
+      "hdri": "assets/hdri/mountain_pass.hdr",
+      "exposure": 0.95,
+      "envIntensity": 1.15,
+      "backgroundMode": "environment",
+      "backgroundTop": "#3f7dc4",
+      "backgroundBottom": "#cddabb",
+      "backgroundBlur": 0.08,
+      "fogColor": "#a9c2a0",
+      "fogDensity": 0.006,
+      "groundHex": "#6b7a52",
+      "groundRoughness": 0.9,
+      "groundMetalness": 0.02,
+      "gridHex": "#8a9a6a",
+      "shadowOpacity": 0.5,
+      "practicalScale": 0.28,
+      "procedural": {
+        "skyTop": "#3f7dc4",
+        "skyHorizon": "#cfe0c8",
+        "skyBottom": "#e6ecd8",
+        "panels": [
+          {
+            "color": "#fff6e0",
+            "intensity": 5.0,
+            "position": [
+              6,
+              7.5,
+              3
+            ],
+            "size": [
+              4,
+              0.1,
+              4
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          },
+          {
+            "color": "#dcecff",
+            "intensity": 1.8,
+            "position": [
+              0,
+              0.05,
+              0
+            ],
+            "size": [
+              16,
+              0.1,
+              16
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ]
+          }
+        ]
+      },
+      "key": {
+        "color": "#fff2d8",
+        "intensity": 2.4,
+        "position": [
+          6,
+          9,
+          3
+        ]
+      },
+      "fill": {
+        "color": "#bcd4ee",
+        "intensity": 1.0,
+        "position": [
+          -5,
+          3,
+          -4
+        ]
+      },
+      "rim": {
+        "color": "#fff2d8",
+        "intensity": 0.9,
+        "position": [
+          -3,
+          2,
+          -6
         ]
       }
     }

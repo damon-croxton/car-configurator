@@ -43,6 +43,14 @@
       "credit": "Poly Haven — Kloofendal 43d Clear (CC0)"
     },
     {
+      "id": "hdri_mountain_pass",
+      "dest": "assets/hdri/mountain_pass.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/golden_gate_hills_1k.hdr",
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/golden_gate_hills",
+      "credit": "Poly Haven — Golden Gate Hills (CC0)"
+    },
+    {
       "id": "car_mx5_sketchfab",
       "dest": "assets/models/mx5_sketchfab/scene.gltf",
       "vendored": true,
