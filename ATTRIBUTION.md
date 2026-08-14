@@ -44,11 +44,12 @@ soft-top, interior and all four wheels. No part of it is generated, replaced or
 supplemented in code.
 
 **The vendored asset above is unmodified, but some mod assets are derived from
-it.** `BP01_vented_bonnet.glb` starts from this model's bonnet surface, so that
-a replacement panel matches the car's shut lines exactly rather than being
-modelled freehand. CC-BY permits that and requires the change be stated, which
-is what this paragraph does. Derived mods carry `derivedFromBaseMesh: true` in
-`src/data/modsData.json`; mods without that flag are original geometry.
+it.** The replacement bonnets and boot lid start from this model's own panels,
+and the boot spoilers are its rear deck lifted — so that each matches the car's
+shut lines exactly rather than being modelled freehand. CC-BY permits that and
+requires the change be stated, which is what this paragraph does. Derived mods
+carry `derivedFromBaseMesh: true` in `src/data/modsData.json`; mods without that
+flag are original geometry built from primitives.
 
 Required credit: *This work is based on "2016 Mazda MX-5 Miata"
 (https://sketchfab.com/3d-models/2016-mazda-mx-5-miata-922ff6fec90340ed8cf5aabe38dd1ad2)

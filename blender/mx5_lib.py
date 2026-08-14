@@ -246,6 +246,10 @@ def restore_base():
 
     Appends whole collections, so parenting and the exporter's helper armatures
     come across intact rather than as a bag of loose objects.
+
+    One consequence: the snapshot stays registered as a library in the restored
+    session, so `save_base()` cannot overwrite it until Blender is restarted. It
+    does not need to — the scene is the same car it was saved from.
     """
     if not os.path.exists(BASE_BLEND):
         raise FileNotFoundError(f"no base scene at {BASE_BLEND}; nothing to restore from")
