@@ -22,6 +22,28 @@
   ],
   "mods": [
     {
+      "id": "RB01",
+      "gen": ["nd"],
+      "category": "roll_bar",
+      "displayName": "Single-Hoop Roll Bar",
+      "slot": "rollBar",
+      "optionId": "style_bar",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["M_Interior_Max_19"] },
+      "materials": ["MOD_AccentPaint"],
+      "bboxMm": { "nd": { "min": [-520, 740, -1200], "max": [520, 1139, -900] } },
+      "triangleBudget": 5000,
+      "file": { "nd": "assets/mods/nd/RB01_single_hoop.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "38mm OD tube, every end on a 100x100x6 footplate at a probed deck height — 797 under the hoop legs, 753 under the stays. Station chosen by probing: at z -820 the cabin mesh is thin over the soft-top well and reports a deck of 853 from one ray height and nothing from any other, so the hoop would have stood on the well cover.",
+      "$clash": "Occupies the same space as the soft top when the roof is UP — the ND stows its top behind the seats, so this is a roof-down part. Not marked incompatible because the app has no way to express 'requires roof down' yet."
+    },
+    {
       "id": "DT07",
       "gen": ["nd"],
       "category": "detail",

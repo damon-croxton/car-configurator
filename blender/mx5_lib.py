@@ -235,6 +235,41 @@ def reset_mods(keep=()):
     return dropped
 
 
+def restore_base():
+    """
+    Append the saved base scene into the CURRENT file.
+
+    The recovery path to reach for, and the reason `save_base()` exists. Unlike
+    `reload_base()` this does not open a file, so the Python state — and with it
+    the MCP add-on's timers — survives, which matters when nobody is sitting in
+    front of Blender to reconnect the bridge.
+
+    Appends whole collections, so parenting and the exporter's helper armatures
+    come across intact rather than as a bag of loose objects.
+    """
+    if not os.path.exists(BASE_BLEND):
+        raise FileNotFoundError(f"no base scene at {BASE_BLEND}; nothing to restore from")
+
+    before = set(bpy.data.objects.keys())
+    with bpy.data.libraries.load(BASE_BLEND, link=False) as (src, dst):
+        dst.collections = list(src.collections)
+
+    scene = bpy.context.scene.collection
+    for coll in dst.collections:
+        if coll is not None and coll.name not in {c.name for c in scene.children}:
+            scene.children.link(coll)
+
+    # Essential, not hygiene: until the depsgraph is evaluated, `matrix_world`
+    # on the appended objects ignores their parents, so the exporter's 0.01
+    # helper armatures are missing and every measurement reads 100x too large.
+    # That is the same wrong number CONFORM_POSTMORTEM.md records chasing.
+    bpy.context.view_layer.update()
+
+    gained = len(set(bpy.data.objects.keys()) - before)
+    print(f"restored {gained} objects from {BASE_BLEND}")
+    return gained
+
+
 def reload_base():
     """
     Reload the saved base file, discarding everything in memory.
@@ -567,6 +602,99 @@ def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd", 
 
     mesh = bpy.data.meshes.new(name)
     mesh.from_pydata([v[:] for v in verts], [], faces)
+    mesh.validate()
+    mesh.update()
+    obj = bpy.data.objects.new(name, mesh)
+    put(obj, coll)
+    clean(obj)
+    return obj
+
+
+def rounded_path(corners, radius, per_corner=6):
+    """
+    Replace each interior corner of a polyline with a circular arc.
+
+    Roll-bar tube is bent, not mitred, and a hoop drawn as straight segments
+    meeting at a point reads as a wireframe. Corners are given as app-space
+    points; the returned polyline is ready for `sweep()`.
+    """
+    pts = [Vector(c) for c in corners]
+    if len(pts) < 3:
+        return [tuple(p) for p in pts]
+
+    out = [tuple(pts[0])]
+    for i in range(1, len(pts) - 1):
+        prev, here, nxt = pts[i - 1], pts[i], pts[i + 1]
+        into, away = (prev - here), (nxt - here)
+        # Never cut back further than half of either leg.
+        r = min(radius, into.length / 2.0, away.length / 2.0)
+        into.normalize()
+        away.normalize()
+        start, end = here + into * r, here + away * r
+        for s in range(per_corner + 1):
+            t = s / per_corner
+            # Quadratic Bezier through the corner: a clean, monotonic fillet.
+            a = start.lerp(here, t)
+            b = here.lerp(end, t)
+            out.append(tuple(a.lerp(b, t)))
+    out.append(tuple(pts[-1]))
+    return out
+
+
+def sweep(name, coll, path, radius_mm, segments=12, gen="nd", caps=True):
+    """
+    Sweep a circular section along an app-space polyline — tube, in other words.
+
+    The frame is parallel-transported rather than rebuilt per point, so the
+    section does not spin as the path bends and the tube keeps a consistent
+    silhouette through a hoop's corners.
+    """
+    pts = [Vector(p) for p in path]
+    tangents = []
+    for i in range(len(pts)):
+        if i == 0:
+            t = pts[1] - pts[0]
+        elif i == len(pts) - 1:
+            t = pts[-1] - pts[-2]
+        else:
+            t = pts[i + 1] - pts[i - 1]
+        tangents.append(t.normalized())
+
+    ref = Vector((0.0, 0.0, 1.0))
+    if abs(tangents[0].dot(ref)) > 0.9:
+        ref = Vector((1.0, 0.0, 0.0))
+    normal = (ref - tangents[0] * ref.dot(tangents[0])).normalized()
+
+    normals = [normal]
+    for i in range(1, len(pts)):
+        n = normals[-1].copy()
+        axis = tangents[i - 1].cross(tangents[i])
+        if axis.length > 1e-6:
+            angle = math.acos(max(-1.0, min(1.0, tangents[i - 1].dot(tangents[i]))))
+            n = Matrix.Rotation(angle, 3, axis.normalized()) @ n
+        n = (n - tangents[i] * n.dot(tangents[i])).normalized()
+        normals.append(n)
+
+    verts, faces = [], []
+    for i, centre in enumerate(pts):
+        n = normals[i]
+        b = tangents[i].cross(n)
+        for j in range(segments):
+            a = 2.0 * math.pi * j / segments
+            p = centre + (n * math.cos(a) + b * math.sin(a)) * radius_mm
+            verts.append(app_to_blender(p.x, p.y, p.z, gen)[:])
+
+    for i in range(len(pts) - 1):
+        for j in range(segments):
+            k = (j + 1) % segments
+            faces.append([i * segments + j, i * segments + k,
+                          (i + 1) * segments + k, (i + 1) * segments + j])
+    if caps:
+        faces.append(list(range(segments - 1, -1, -1)))
+        faces.append(list(range((len(pts) - 1) * segments, len(pts) * segments)))
+
+    mesh = bpy.data.meshes.new(name)
+    mesh.from_pydata(verts, [], faces)
     mesh.validate()
     mesh.update()
     obj = bpy.data.objects.new(name, mesh)
