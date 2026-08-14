@@ -170,8 +170,13 @@ the console and that surface simply never gets painted.
 `EnvironmentManager` loads `.hdr` files when present; otherwise it builds a
 graded sky dome plus emissive softbox panels from the environment's
 `procedural` block and pre-filters it with `PMREMGenerator`, and the viewport
-shows a `GENERATED IBL` badge. No HDRIs are committed, so this is the default
-path. See `public/assets/hdri/README.md`.
+shows a `GENERATED IBL` badge.
+
+The five environments all have a real `.hdr`. None is committed — git keeps
+every revision of a binary forever — so they are fetched by `npm run assets`,
+which `prebuild` runs, meaning CI has them too. Run it once after cloning and
+the badge disappears. The generated rig is the fallback for a failed or skipped
+fetch, not the normal path. See `public/assets/hdri/README.md`.
 
 ---
 
@@ -270,5 +275,5 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
 - **The NA's roof cannot go up.** The asset ships roof-down with no soft-top
   geometry, so the roof controls do nothing on it. Its aero and wheel-style
   options are inert for the same reason as the ND's.
-- No HDRIs are committed; every environment currently runs on its generated
-  lighting rig.
+- HDRIs are fetched, not committed — run `npm run assets` once after cloning, or
+  every environment falls back to its generated lighting rig.

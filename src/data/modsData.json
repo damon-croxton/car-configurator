@@ -27,9 +27,32 @@
     { "id": "RA01", "category": "rear aero", "displayName": "Ducktail Spoiler", "note": "same technique, more rise" },
     { "id": "FA06", "category": "front aero", "displayName": "Tow Hook", "note": "anodised, recolourable" },
     { "id": "FA05", "category": "front aero", "displayName": "Dive Planes", "note": "must intersect the bumper corner" },
-    { "id": "DT08", "category": "details", "displayName": "Tow Strap", "note": "rear, with sag" }
+    { "id": "DT08", "category": "details", "displayName": "Tow Strap", "note": "rear, with sag" },
+    { "id": "DT01", "category": "details", "displayName": "Stubby Antenna", "note": "replaces the OEM mast" }
   ],
   "mods": [
+    {
+      "id": "DT01",
+      "gen": ["nd"],
+      "category": "detail",
+      "displayName": "Stubby Antenna",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": { "nd": ["FendersR 6_39", "FendersR 6.002_41"] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["FendersR 6.001_40"] },
+      "materials": ["MOD_SatinBlack", "MOD_Rubber"],
+      "bboxMm": { "nd": { "min": [-601, 811, -1643], "max": [-561, 908, -1581] } },
+      "triangleBudget": 800,
+      "file": { "nd": "assets/mods/nd/DT01_stubby_antenna.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Sits where the OEM mast MEASURES — app x -581, on the vehicle's RIGHT. The brief's nominal position had it on the left. The mount height and the panel normal are both ray-cast; the quarter is 47 degrees off vertical there, so the axis is pulled most of the way back to upright and the gasket takes up the rest, which is what a real antenna base wedge does. 20 degrees of rearward rake on top.",
+      "$partial": "Grooves are turned rings rather than a true helix — invisible at this size, and a real helix costs a swept curve for nothing."
+    },
     {
       "id": "DT08",
       "gen": ["nd"],

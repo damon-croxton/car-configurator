@@ -549,13 +549,27 @@ def surface_y(obj, app_x, app_z, gen="nd", from_y=2400.0):
     rotated into it as well as the origin. Base-asset parts carry the exporter's
     helper-armature transforms, so skipping that quietly misses every time.
     """
+    return surface_hit(obj, app_x, app_z, gen, from_y)[0]
+
+
+def surface_hit(obj, app_x, app_z, gen="nd", from_y=2400.0):
+    """
+    As `surface_y`, but also returns the surface normal in Blender space.
+
+    Anything that has to stand ON a curved panel needs the normal, not just the
+    height: an antenna or a bonnet pin planted straight up through a cambered
+    quarter leans visibly against the panel it is supposed to be bolted to.
+    """
     inv = obj.matrix_world.inverted()
     origin = inv @ app_to_blender(app_x, from_y, app_z, gen)
     down = (inv.to_3x3() @ (app_to_blender(0, 0, 0, gen) - app_to_blender(0, 1000, 0, gen))).normalized()
-    hit, loc, _n, _i = obj.ray_cast(origin, down)
+    hit, loc, normal, _i = obj.ray_cast(origin, down)
     if not hit:
         raise RuntimeError(f"nothing under app ({app_x}, {app_z}) on {obj.name}")
-    return blender_to_app(obj.matrix_world @ loc, gen)[1]
+    world_normal = (obj.matrix_world.to_3x3() @ normal).normalized()
+    if world_normal.z < 0:
+        world_normal = -world_normal          # always point away from the body
+    return blender_to_app(obj.matrix_world @ loc, gen)[1], world_normal
 
 
 def surface_x(obj, app_y, app_z, gen="nd", side=1, from_x=1400.0):
@@ -619,6 +633,8 @@ def revolve(name, coll, profile, centre_app, segments=48, close=True, gen="nd", 
             c, s = r * math.cos(a), r * math.sin(a)
             if axis == "z":
                 ring.append(app_to_blender(cx + c, cy + s, cz + x, gen))
+            elif axis == "y":
+                ring.append(app_to_blender(cx + c, cy + x, cz + s, gen))
             else:
                 ring.append(app_to_blender(cx + x, cy + c, cz + s, gen))
         rings.append(ring)
