@@ -31,6 +31,28 @@
   ],
   "mods": [
     {
+      "id": "RB02",
+      "gen": ["nd"],
+      "category": "roll_bar",
+      "displayName": "Double-Hoop + Harness Bar",
+      "slot": "rollBar",
+      "optionId": "track_hoop",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": { "nd": [] },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": { "nd": ["M_Interior_Max_19"] },
+      "materials": ["MOD_AccentPaint"],
+      "bboxMm": { "nd": { "min": [-520, 734, -1200], "max": [520, 1139, -900] } },
+      "triangleBudget": 8000,
+      "file": { "nd": "assets/mods/nd/RB02_double_hoop.glb" },
+      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "derivedFromBaseMesh": false,
+      "$note": "Two hoops 140mm apart with crown spacers and a full-width harness bar at y 950. Both hoops sit inside z -950..-1090, the band where the cabin tub actually offers a surface — outside it the mesh has gaps and a probe returns nothing, which would put footplates at an assumed height.",
+      "$clash": "Same roof-down caveat as RB01."
+    },
+    {
       "id": "EX02",
       "gen": ["nd"],
       "category": "exhaust",
