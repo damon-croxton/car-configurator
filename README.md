@@ -172,11 +172,19 @@ graded sky dome plus emissive softbox panels from the environment's
 `procedural` block and pre-filters it with `PMREMGenerator`, and the viewport
 shows a `GENERATED IBL` badge.
 
-The five environments all have a real `.hdr`. None is committed — git keeps
-every revision of a binary forever — so they are fetched by `npm run assets`,
-which `prebuild` runs, meaning CI has them too. Run it once after cloning and
-the badge disappears. The generated rig is the fallback for a failed or skipped
+All six environments have a real `.hdr`. None is committed — git keeps every
+revision of a binary forever — so they are fetched by `npm run assets`, which
+`prebuild` runs, meaning CI has them too. Run it once after cloning and the
+badge disappears. The generated rig is the fallback for a failed or skipped
 fetch, not the normal path. See `public/assets/hdri/README.md`.
+
+Every environment also renders the photograph itself as the visible
+background (`backgroundMode: 'environment'` in `materialsData.json`), not just
+as the reflection/lighting source — `scene.background` is set to the same
+PMREM-prefiltered texture used for IBL, blurred per-environment via
+`backgroundBlurriness`. `mountain_pass` (Poly Haven's "Golden Gate Hills") is
+the most scenic of the six: open sky, cumulus cloud and distant hills behind
+the car rather than a studio cyclorama.
 
 ---
 
