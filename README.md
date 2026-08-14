@@ -252,11 +252,16 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   rim design in the model, so the TE37/RPF1-style catalogue entries change the
   spec sheet but not the render. Caliper colour is inert for the same reason —
   the model has no separate caliper.
-- **Body paint applies colour only, not finish.** A matte or chrome swatch
-  changes the hue; the surface keeps the model's authored metallic clearcoat.
-  Rim finishes *do* drive metalness and roughness, because that is what
-  separates matte black from chrome. Making paint consistent with that is a
-  deliberate next decision rather than an oversight.
+- **Metallic flake is an approximation.** Paint finish, clearcoat and flake all
+  reach the car now: the finish drives metalness, roughness, clearcoat, sheen
+  and iridescence, and the clearcoat slider scales the finish rather than
+  replacing it, so a matte wrap stays matte at full clearcoat. Flake has no
+  material equivalent in three.js, so it is approximated the way it reads —
+  more metallic, slightly sharper, hotter against the environment — with the
+  colour's own `flakeHex` tinting the sheen. There are no actual flakes.
+  Paintable materials that arrive as `MeshStandardMaterial` (mods exported
+  without a coat weight) are upgraded to `MeshPhysicalMaterial` on the way in,
+  so a matte body does not end up next to a glossy bonnet.
 - **Wheel sizing is not true plus-sizing** — see above; an 18" raises the car
   ~19mm.
 - Per-panel colour is not wired up. The data to do it is in

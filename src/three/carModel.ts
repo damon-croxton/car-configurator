@@ -16,6 +16,26 @@ const DEG2RAD = Math.PI / 180;
 /** Surface classes that mean "this mesh belongs to a wheel, not to the body". */
 const WHEEL_CLASSES = new Set(['rim', 'rim_badge', 'tyre']);
 
+/**
+ * Everything the body paint needs, already resolved from the catalogue.
+ *
+ * `SceneManager` folds the colour, the finish, the flake slider and the
+ * clearcoat slider into one of these, so the renderer applies a finished
+ * description rather than re-deriving it from four config fields.
+ */
+export interface PaintSpec {
+  hex: string;
+  /** Secondary tint the metallic flake sparkles toward. */
+  flakeHex: string;
+  metalness: number;
+  roughness: number;
+  clearcoat: number;
+  clearcoatRoughness: number;
+  sheen: number;
+  iridescence: number;
+  envIntensity: number;
+}
+
 /** Colour + surface properties for the rims. Mirrors `wheelFinishes` in materialsData. */
 export interface WheelFinish {
   hex: string;
@@ -172,7 +192,15 @@ export class CarModel {
   private liningCutY: number | null = null;
 
   // Held so values set before the model finished loading are not lost.
-  private paintColor: string | null = null;
+  private paint: PaintSpec | null = null;
+  /**
+   * Standard→physical upgrades, keyed by the original material's uuid.
+   *
+   * Cached so the same source material always maps to the same upgrade: mod
+   * instances are clones sharing their template's materials, and minting a new
+   * one per re-fit would leak a material per mod change.
+   */
+  private readonly physical = new Map<string, THREE.MeshPhysicalMaterial>();
   private wheelFinish: WheelFinish | null = null;
   private roofFabric: string | null = null;
   private interior: InteriorTrim | null = null;
@@ -238,7 +266,7 @@ export class CarModel {
     this.liningCutY = this.table.roofLining?.cutAboveY ?? null;
     this.rebuildLining();
 
-    if (this.paintColor) this.setPaintColor(this.paintColor);
+    if (this.paint) this.setPaint(this.paint);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.roofFabric) this.setRoofFabric(this.roofFabric);
     if (this.interior) this.setInterior(this.interior);
@@ -266,6 +294,7 @@ export class CarModel {
       child.removeFromParent();
     }
     this.byClass.clear();
+    this.physical.clear();
     this.cabin = [];
     this.liningMeshes = [];
     this.islandOverlays = [];
@@ -472,7 +501,7 @@ export class CarModel {
     // Mod materials are in the shared table, so re-bucketing picks them up and
     // the existing pickers colour them with no special case.
     this.indexMaterials();
-    if (this.paintColor) this.setPaintColor(this.paintColor);
+    if (this.paint) this.setPaint(this.paint);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.stance) this.setStance(this.stance);
   }
@@ -591,9 +620,96 @@ export class CarModel {
    * trim, glass, lenses, badges, rims and interior are untouched because they
    * are simply not in that class.
    */
-  setPaintColor(hex: string): void {
-    this.paintColor = hex;
-    this.tint('body_paint', { hex });
+  setPaint(spec: PaintSpec): void {
+    this.paint = spec;
+    this.upgradePaintMaterials();
+
+    const materials = this.byClass.get(this.table.paintableClass);
+    if (!materials) return;
+
+    for (const material of materials) {
+      const pbr = material as THREE.MeshPhysicalMaterial;
+      pbr.color?.set(spec.hex);
+      if (typeof pbr.metalness === 'number') pbr.metalness = spec.metalness;
+      if (typeof pbr.roughness === 'number') pbr.roughness = spec.roughness;
+
+      // Only MeshPhysicalMaterial carries these. Everything paintable is
+      // upgraded above, so in practice they all do — but a mod that shipped a
+      // plain standard material must degrade to colour and gloss, not throw.
+      if (pbr.isMeshPhysicalMaterial) {
+        pbr.clearcoat = spec.clearcoat;
+        pbr.clearcoatRoughness = spec.clearcoatRoughness;
+        pbr.sheen = spec.sheen;
+        pbr.sheenColor?.set(spec.flakeHex);
+        pbr.iridescence = spec.iridescence;
+      }
+      pbr.envMapIntensity = spec.envIntensity;
+
+      // clearcoat, sheen and iridescence are compiled in behind defines, so a
+      // value crossing zero changes the shader, not just a uniform. Without
+      // this, switching gloss→matte leaves the old program in place.
+      material.needsUpdate = true;
+    }
+  }
+
+  /**
+   * Replace paintable MeshStandardMaterials with MeshPhysicalMaterial.
+   *
+   * The ND's own paint already ships as physical, but a mod exported from
+   * Blender without a coat weight comes through as standard, where clearcoat
+   * and sheen simply do not exist. Left alone, a matte body would sit next to a
+   * glossy carbon-bonnet-shaped hole in the finish.
+   */
+  private upgradePaintMaterials(): void {
+    const paintable = this.table.paintableClass;
+    let changed = false;
+
+    this.group.traverse((child) => {
+      const mesh = child as THREE.Mesh;
+      if (!mesh.isMesh || !mesh.material) return;
+      const list = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+
+      const next = list.map((material) => {
+        if (!material || classOf(this.table, material.name) !== paintable) return material;
+        if ((material as THREE.MeshPhysicalMaterial).isMeshPhysicalMaterial) return material;
+
+        const cached = this.physical.get(material.uuid);
+        if (cached) return cached;
+
+        const from = material as THREE.MeshStandardMaterial;
+        // Constructed field by field rather than via copy(): MeshPhysicalMaterial's
+        // own copy() reads clearcoat/sheen off the source, which a standard
+        // material does not have, and writes undefined into them.
+        const upgraded = new THREE.MeshPhysicalMaterial({
+          name: from.name,
+          color: from.color,
+          map: from.map,
+          metalness: from.metalness,
+          roughness: from.roughness,
+          metalnessMap: from.metalnessMap,
+          roughnessMap: from.roughnessMap,
+          normalMap: from.normalMap,
+          normalScale: from.normalScale,
+          aoMap: from.aoMap,
+          aoMapIntensity: from.aoMapIntensity,
+          emissive: from.emissive,
+          emissiveMap: from.emissiveMap,
+          envMapIntensity: from.envMapIntensity,
+          side: from.side,
+          transparent: from.transparent,
+          opacity: from.opacity,
+          alphaTest: from.alphaTest,
+        });
+        this.physical.set(material.uuid, upgraded);
+        changed = true;
+        return upgraded;
+      });
+
+      mesh.material = Array.isArray(mesh.material) ? next : next[0];
+    });
+
+    // The bucket holds the materials we just replaced, so rebuild it.
+    if (changed) this.indexMaterials();
   }
 
   /**

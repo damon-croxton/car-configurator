@@ -6,12 +6,13 @@ import {
   getGeneration,
   getInteriorTrim,
   getPaintColor,
+  getPaintFinish,
   getRoofFabric,
   getWheelFinish,
 } from '../data/schema';
 import { activeMods, forcedModIds } from '../data/mods';
 import { CameraRig } from './cameraRig';
-import { CarModel, type IslandDebugResult, type ModelSpec } from './carModel';
+import { CarModel, type IslandDebugResult, type ModelSpec, type PaintSpec } from './carModel';
 import { ContactShadow } from './contactShadow';
 import { EnvironmentManager } from './environmentManager';
 import { PostProcessing } from './postProcessing';
@@ -198,8 +199,7 @@ export class SceneManager {
 
   /** Everything the config is allowed to change about the car itself. */
   private applyCarConfig(config: CarConfig): void {
-    const paint = getPaintColor(config.paint);
-    this.car.setPaintColor(paint.userColor ? config.paintCustomHex : paint.hex);
+    this.car.setPaint(paintSpecFor(config));
 
     const finish = getWheelFinish(config.wheelFinish);
     this.car.setWheelFinish(finish);
@@ -403,6 +403,41 @@ export class SceneManager {
     this.renderer.dispose();
     this.renderer.forceContextLoss();
   }
+}
+
+const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
+
+/**
+ * Fold the paint colour, its finish and the two sliders into one description.
+ *
+ * The finish comes from the colour unless the user has overridden it, which is
+ * what `paintFinishOverride` is for — an empty string means "whatever this
+ * colour ships with".
+ *
+ * Flake is the part with no direct material equivalent: three.js has no flake
+ * term, so it is approximated the way it actually reads, by pushing the surface
+ * more metallic, a little sharper and hotter against the environment. The
+ * colour's own `flakeHex` drives the sheen tint, which is what gives Soul Red
+ * its warm secondary glow rather than a grey one.
+ */
+function paintSpecFor(config: CarConfig): PaintSpec {
+  const colour = getPaintColor(config.paint);
+  const finish = getPaintFinish(config.paintFinishOverride || colour.finish);
+  const flake = finish.flake * config.flakeIntensity;
+
+  return {
+    hex: colour.userColor ? config.paintCustomHex : colour.hex,
+    flakeHex: colour.flakeHex ?? colour.hex,
+    metalness: clamp01(finish.metalness + flake * 0.25),
+    roughness: clamp01(Math.max(0.02, finish.roughness - flake * 0.06)),
+    // The slider scales the finish rather than replacing it, so a matte wrap
+    // stays matte at full clearcoat instead of turning glossy.
+    clearcoat: clamp01(finish.clearcoat * config.clearcoat),
+    clearcoatRoughness: finish.clearcoatRoughness,
+    sheen: finish.sheen,
+    iridescence: finish.iridescence,
+    envIntensity: finish.envIntensity * (1 + flake * 0.25),
+  };
 }
 
 /**

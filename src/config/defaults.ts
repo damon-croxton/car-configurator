@@ -23,7 +23,7 @@ export const AERO_SLOTS: AeroSlotId[] = [
 export const DEFAULT_CONFIG: CarConfig = {
   generation: 'nd',
   roofType: 'st',
-  roofState: 'down',
+  roofState: 'up',
   roofFabric: 'black',
 
   paint: 'soul_red',
