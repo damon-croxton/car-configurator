@@ -73,7 +73,11 @@ export function modForOption(
  * on or off. They live in `CarConfig.extraMods`.
  */
 export function optionalMods(generationId: string): ModEntry[] {
-  return modsFor(generationId).filter((m) => m.slot === null);
+  // 'test' mods (sourced-asset comparison pairs, decimation A/B tests) are
+  // real, loadable, validated entries — but they are not meant to be a
+  // permanent panel option, so they stay out of "Additional parts" and are
+  // only reachable by naming them explicitly in ?mods=.
+  return modsFor(generationId).filter((m) => m.slot === null && m.category !== 'test');
 }
 
 /**

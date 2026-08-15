@@ -85,6 +85,34 @@ built by inspecting which objects use each material. See
 
 ---
 
+## Sourced wheel models
+
+Mod wheels are usually built from primitives in Blender (see the mod brief),
+but some are real third-party models, conformed to the car rather than built
+from scratch. Same licence obligations as the cars above.
+
+| Field | Value |
+| --- | --- |
+| Title | Meister L1 3P |
+| Author | Wilbruh ([sketchfab.com/mirz1911](https://sketchfab.com/mirz1911)) |
+| Source | https://sketchfab.com/3d-models/meister-l1-3p-b4d1f40355b745049fe5990674b5910e |
+| Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Used as | `WS01` / `WS01D` (rim only — the tyre, disc, caliper and lug nuts are original geometry, same as every other wheel mod) |
+| Modified | Yes. Rescaled and re-origined to the car's contact-patch convention; two branded elements removed to satisfy the mod brief's "no trademarked names, badges or logos" rule — a WORK Wheels(R) logo decal (a separate small mesh, deleted outright) and a MEISTER wordmark baked into the centre-cap texture (texture stripped, replaced with a flat colour matching the rest of the polished face; the cap's own geometry is untouched). Materials renamed into the app's `MOD_*` contract; their original PBR values (metalness, roughness) were kept, not replaced. |
+
+Required credit: *This work is based on "Meister L1 3P"
+(https://sketchfab.com/3d-models/meister-l1-3p-b4d1f40355b745049fe5990674b5910e)
+by Wilbruh (https://sketchfab.com/mirz1911) licensed under CC-BY-4.0
+(http://creativecommons.org/licenses/by/4.0/). Modified: rescaled, two branded
+elements removed, materials renamed.*
+
+`WS01`/`WS01D` are catalogued under `category: "test"` — a full-resolution vs.
+decimated comparison pair, deliberately kept out of the normal control panel
+(`optionalMods()` filters the category out) until a decimation ratio is chosen.
+Reachable at `?mods=WS01` or `?mods=WS01D`.
+
+---
+
 ## Trademarks
 
 "Mazda", "MX-5" and "Miata" are trademarks of Mazda Motor Corporation. This is

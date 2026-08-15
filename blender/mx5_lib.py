@@ -427,10 +427,22 @@ def bevel_smooth(obj, width=0.0015, segments=2, angle=30):
 
 
 def clean(obj, merge=0.0001):
-    """Merge doubles and recalculate normals outward."""
+    """
+    Merge doubles, drop loose verts, recalculate normals outward.
+
+    The loose-vert pass matters most after a Decimate modifier: collapsing
+    triangles around a UV seam or material boundary routinely strands isolated
+    vertices with zero connected faces — the WS01 decimated wheel shipped 732 of
+    them on the first pass. remove_doubles doesn't touch these; a vertex with no
+    neighbour within `merge` distance survives it untouched no matter how
+    disconnected it is.
+    """
     bm = bmesh.new()
     bm.from_mesh(obj.data)
     bmesh.ops.remove_doubles(bm, verts=bm.verts, dist=merge)
+    loose = [v for v in bm.verts if not v.link_faces]
+    if loose:
+        bmesh.ops.delete(bm, geom=loose, context="VERTS")
     bmesh.ops.recalc_face_normals(bm, faces=bm.faces)
     bm.to_mesh(obj.data)
     bm.free()
