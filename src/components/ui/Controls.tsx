@@ -70,6 +70,62 @@ export const OptionGrid: React.FC<{
   </div>
 );
 
+export interface IconOption {
+  id: string;
+  label: string;
+  /** Path to a small square thumbnail — a real render, not a generic glyph. */
+  icon: string;
+}
+
+/**
+ * A dense grid of thumbnail buttons, for choices numerous enough (or visual
+ * enough) that OptionGrid's full-width label rows waste more space than they
+ * earn. Each tile is a real image, not a stand-in icon — the whole point is
+ * that a wheel's silhouette tells you more at a glance than its name does.
+ */
+export const IconOptionGrid: React.FC<{
+  options: IconOption[];
+  /** Empty string means "none selected" — only meaningful when allowDeselect. */
+  value: string;
+  onChange: (id: string) => void;
+  columns?: 3 | 4 | 5;
+  /** Clicking the already-active tile calls onChange('') instead of no-op. */
+  allowDeselect?: boolean;
+}> = ({ options, value, onChange, columns = 4, allowDeselect = false }) => (
+  <div
+    className={`grid gap-2 ${columns === 3 ? 'grid-cols-3' : columns === 5 ? 'grid-cols-5' : 'grid-cols-4'}`}
+  >
+    {options.map((option) => {
+      const active = option.id === value;
+      return (
+        <button
+          key={option.id}
+          type="button"
+          title={option.label}
+          onClick={() => onChange(active && allowDeselect ? '' : option.id)}
+          aria-pressed={active}
+          className={`group flex flex-col items-center gap-1 rounded-lg border p-1.5 transition-colors ${
+            active
+              ? 'border-red-500/70 bg-red-500/10'
+              : 'border-slate-700/70 bg-slate-800/40 hover:border-slate-500 hover:bg-slate-800'
+          }`}
+        >
+          <span className="aspect-square w-full overflow-hidden rounded-md bg-slate-950/40">
+            <img src={option.icon} alt="" className="h-full w-full object-contain" draggable={false} />
+          </span>
+          <span
+            className={`block w-full truncate text-center text-[9px] font-medium leading-tight ${
+              active ? 'text-slate-100' : 'text-slate-400 group-hover:text-slate-200'
+            }`}
+          >
+            {option.label}
+          </span>
+        </button>
+      );
+    })}
+  </div>
+);
+
 export const SegmentedControl: React.FC<{
   options: Option[];
   value: string;

@@ -15,7 +15,9 @@ import {
   type AeroSlotId,
 } from '../data/schema';
 import { modForOption, optionalMods } from '../data/mods';
-import { OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
+import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
+
+const WHEEL_ICON = (id: string) => `/assets/icons/wheels/${id}.png`;
 
 type TabId = 'model' | 'paint' | 'wheels' | 'aero' | 'atmosphere';
 
@@ -273,51 +275,11 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         : config.extraMods.filter((entry) => entry !== id),
     });
 
+  const sourcedActive = sourcedWheels.find((m) => config.extraMods.includes(m.id));
+
   return (
     <>
-      <Section title="Rim style">
-        <OptionGrid
-          columns={1}
-          value={config.wheelStyle}
-          onChange={(id) => onChange({ wheelStyle: id })}
-          options={wheels.map((wheel) => ({
-            id: wheel.id,
-            label: `${wheel.brand} ${wheel.name}`,
-            sublabel: `${wheel.weightPerCorner} kg/corner · ${wheel.description}`,
-            badge: modForOption(generation.id, 'wheelStyle', wheel.id) ? '3D' : undefined,
-          }))}
-        />
-      </Section>
-
-      {sourcedWheels.length > 0 && (
-        <Section title="Sourced wheel tests" hint="overrides rim style">
-          <p className="mb-2 rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
-            Real scanned/modelled wheels, not built from primitives. Switching
-            one on replaces whichever rim style is selected above.
-          </p>
-          <div className="space-y-2">
-            {sourcedWheels.map((mod) => (
-              <ToggleRow
-                key={mod.id}
-                label={mod.displayName}
-                hint={mod.uiHint}
-                checked={config.extraMods.includes(mod.id)}
-                onChange={(on) => toggleSourcedWheel(mod.id, on)}
-              />
-            ))}
-          </div>
-        </Section>
-      )}
-
-      <Section title="Wheel finish">
-        <SwatchGrid
-          value={config.wheelFinish}
-          onChange={(id) => onChange({ wheelFinish: id })}
-          swatches={materialsData.wheelFinishes}
-        />
-      </Section>
-
-      <Section title="Diameter">
+      <Section title="Wheel size">
         <SegmentedControl
           value={String(config.wheelDiameter)}
           onChange={(id) => onChange({ wheelDiameter: Number.parseInt(id, 10) })}
@@ -327,6 +289,59 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           }))}
         />
       </Section>
+
+      <Section title="Ride height">
+        <SliderRow
+          label="Drop"
+          value={config.rideHeight}
+          min={RANGES.rideHeight[0]}
+          max={RANGES.rideHeight[1]}
+          step={1}
+          format={(value) => `${value > 0 ? '+' : ''}${value} mm`}
+          onChange={(rideHeight) => onChange({ rideHeight })}
+        />
+      </Section>
+
+      <Section title="Rim style" hint="recolourable below">
+        <IconOptionGrid
+          value={sourcedActive ? '' : config.wheelStyle}
+          onChange={(id) => onChange({ wheelStyle: id, extraMods: config.extraMods.filter((e) => !sourcedWheels.some((m) => m.id === e)) })}
+          options={wheels.map((wheel) => ({
+            id: wheel.id,
+            label: `${wheel.brand} ${wheel.name}`,
+            icon: WHEEL_ICON(wheel.id),
+          }))}
+        />
+      </Section>
+
+      <Section title="Wheel finish">
+        <SwatchGrid
+          value={config.wheelFinish}
+          onChange={(id) => onChange({ wheelFinish: id })}
+          swatches={materialsData.wheelFinishes}
+        />
+      </Section>
+
+      {sourcedWheels.length > 0 && (
+        <Section title="Sourced wheels" hint="not recolourable — overrides rim style">
+          <p className="mb-2 rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
+            Real scanned/modelled wheels, not built from primitives — their own
+            finish is baked in, so the swatches above don't apply. Tap one to
+            fit it in place of the rim style above; tap it again to go back.
+          </p>
+          <IconOptionGrid
+            columns={5}
+            allowDeselect
+            value={sourcedActive?.id ?? ''}
+            onChange={(id) => (id ? toggleSourcedWheel(id, true) : sourcedActive && toggleSourcedWheel(sourcedActive.id, false))}
+            options={sourcedWheels.map((mod) => ({
+              id: mod.id,
+              label: mod.displayName,
+              icon: WHEEL_ICON(mod.id),
+            }))}
+          />
+        </Section>
+      )}
 
       <Section title="Stance presets" hint={describeStance(config)}>
         <OptionGrid
@@ -348,15 +363,6 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
 
       <Section title="Fine tuning">
         <div className="space-y-3">
-          <SliderRow
-            label="Ride height"
-            value={config.rideHeight}
-            min={RANGES.rideHeight[0]}
-            max={RANGES.rideHeight[1]}
-            step={1}
-            format={(value) => `${value > 0 ? '+' : ''}${value} mm`}
-            onChange={(rideHeight) => onChange({ rideHeight })}
-          />
           <SliderRow
             label="Camber"
             value={config.camber}
