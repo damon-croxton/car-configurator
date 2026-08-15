@@ -219,7 +219,14 @@ export class CarModel {
    * lands exactly where it was modelled.
    */
   private readonly bodyMods = new THREE.Group();
-  private readonly modLoader = new ModLoader(this.loadingManager);
+  /**
+   * Its own manager, deliberately not `this.loadingManager` — that one drives
+   * the app's full-viewport loading overlay (see `Viewport.tsx`), which is
+   * right for the initial car load but wrong for fitting a mod on a car
+   * that's already up: an uncached wheel asset would flash the WHOLE overlay
+   * on and off for what should be a quiet, in-place swap.
+   */
+  private readonly modLoader = new ModLoader(new THREE.LoadingManager());
   private modInstances: THREE.Object3D[] = [];
   /** Base-asset nodes a mod switched off, so they can be switched back on. */
   private hiddenByMods: THREE.Object3D[] = [];
@@ -498,17 +505,34 @@ export class CarModel {
     const key = mods.map((m) => m.id).sort().join(',');
     if (key === this.modKey) return;
     this.modKey = key;
-    this.clearMods();
 
+    // Load every new instance BEFORE touching what is currently fitted. What
+    // was here previously cleared the old mods first and only then started
+    // loading the new ones — for an asset not already cached, that opened a
+    // real gap where the car sat back at stock (OEM meshes un-hidden, nothing
+    // new attached yet) for as long as the fetch took, which read as the
+    // whole viewport flashing back to default and, since ModLoader shared
+    // this.loadingManager at the time, briefly showing the full loading
+    // overlay too. Loading first means the old wheel/part stays on screen
+    // right up until the new one is ready to swap in.
+    const loaded: { mod: ModEntry; instance: THREE.Group }[] = [];
     for (const mod of mods) {
-      let instance: THREE.Group;
       try {
-        instance = await this.modLoader.instance(mod, generationId);
+        const instance = await this.modLoader.instance(mod, generationId);
+        loaded.push({ mod, instance });
       } catch (error) {
         console.warn(`[CarModel] could not load mod ${mod.id}:`, error);
-        continue;
       }
+    }
 
+    // A second selection made while this one was still loading (fast
+    // wheel-to-wheel clicking) has already moved modKey on — attaching this
+    // now-stale result would flash the earlier pick back on top of it.
+    if (this.modKey !== key) return;
+
+    this.clearMods();
+
+    for (const { mod, instance } of loaded) {
       if (mod.attachTo === 'wheel') {
         for (const wheel of this.wheels) {
           const copy = wheel === this.wheels[0] ? instance : instance.clone(true);
