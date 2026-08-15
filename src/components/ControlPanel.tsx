@@ -261,6 +261,13 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
     Math.abs(preset.drop - config.rideHeight) < Math.abs(best.drop - config.rideHeight) ? preset : best,
   );
   const sourcedWheels = optionalMods(generation.id).filter((m) => m.attachTo === 'wheel');
+  // Meister and the Gramlights were renamed into the real MOD_Rim/MOD_SatinBlack
+  // contract, so the Wheel finish picker recolours them exactly like any other
+  // wheel — they belong with the recolourable styles, not the pack grid, where
+  // materialContractExempt marks the ones whose baked texture the picker can't
+  // touch (see mods.ts).
+  const recolourableSourced = sourcedWheels.filter((m) => !m.materialContractExempt);
+  const packWheels = sourcedWheels.filter((m) => m.materialContractExempt);
 
   // Radio-like by construction, not by hoping incompatibleWith resolves it:
   // these are alternative wheels, not independent toggles, and declaring them
@@ -276,6 +283,17 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
     });
 
   const sourcedActive = sourcedWheels.find((m) => config.extraMods.includes(m.id));
+  const rimStyleValue = recolourableSourced.some((m) => m.id === sourcedActive?.id)
+    ? (sourcedActive?.id ?? '')
+    : config.wheelStyle;
+
+  const selectRimStyle = (id: string) => {
+    if (recolourableSourced.some((m) => m.id === id)) {
+      toggleSourcedWheel(id, true);
+    } else {
+      onChange({ wheelStyle: id, extraMods: config.extraMods.filter((e) => !sourcedWheels.some((m) => m.id === e)) });
+    }
+  };
 
   return (
     <>
@@ -301,47 +319,6 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           onChange={(rideHeight) => onChange({ rideHeight })}
         />
       </Section>
-
-      <Section title="Rim style" hint="recolourable below">
-        <IconOptionGrid
-          value={sourcedActive ? '' : config.wheelStyle}
-          onChange={(id) => onChange({ wheelStyle: id, extraMods: config.extraMods.filter((e) => !sourcedWheels.some((m) => m.id === e)) })}
-          options={wheels.map((wheel) => ({
-            id: wheel.id,
-            label: `${wheel.brand} ${wheel.name}`,
-            icon: WHEEL_ICON(wheel.id),
-          }))}
-        />
-      </Section>
-
-      <Section title="Wheel finish">
-        <SwatchGrid
-          value={config.wheelFinish}
-          onChange={(id) => onChange({ wheelFinish: id })}
-          swatches={materialsData.wheelFinishes}
-        />
-      </Section>
-
-      {sourcedWheels.length > 0 && (
-        <Section title="Sourced wheels" hint="not recolourable — overrides rim style">
-          <p className="mb-2 rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
-            Real scanned/modelled wheels, not built from primitives — their own
-            finish is baked in, so the swatches above don't apply. Tap one to
-            fit it in place of the rim style above; tap it again to go back.
-          </p>
-          <IconOptionGrid
-            columns={5}
-            allowDeselect
-            value={sourcedActive?.id ?? ''}
-            onChange={(id) => (id ? toggleSourcedWheel(id, true) : sourcedActive && toggleSourcedWheel(sourcedActive.id, false))}
-            options={sourcedWheels.map((mod) => ({
-              id: mod.id,
-              label: mod.displayName,
-              icon: WHEEL_ICON(mod.id),
-            }))}
-          />
-        </Section>
-      )}
 
       <Section title="Stance presets" hint={describeStance(config)}>
         <OptionGrid
@@ -381,8 +358,70 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
             format={(value) => `${value} mm`}
             onChange={(trackOffset) => onChange({ trackOffset })}
           />
+          <SliderRow
+            label="Tyre width"
+            value={config.tyreWidth}
+            min={RANGES.tyreWidth[0]}
+            max={RANGES.tyreWidth[1]}
+            step={0.01}
+            format={(value) => `${Math.round(value * 100)}%`}
+            onChange={(tyreWidth) => onChange({ tyreWidth })}
+          />
+          <SliderRow
+            label="Tyre sidewall"
+            value={config.tyreSidewall}
+            min={RANGES.tyreSidewall[0]}
+            max={RANGES.tyreSidewall[1]}
+            step={0.01}
+            format={(value) => `${Math.round(value * 100)}%`}
+            onChange={(tyreSidewall) => onChange({ tyreSidewall })}
+          />
         </div>
       </Section>
+
+      <Section title="Rim style" hint="recolourable below">
+        <IconOptionGrid
+          value={rimStyleValue}
+          onChange={selectRimStyle}
+          options={[
+            ...recolourableSourced.map((mod) => ({ id: mod.id, label: mod.displayName, icon: WHEEL_ICON(mod.id) })),
+            ...wheels.map((wheel) => ({
+              id: wheel.id,
+              label: `${wheel.brand} ${wheel.name}`,
+              icon: WHEEL_ICON(wheel.id),
+            })),
+          ]}
+        />
+      </Section>
+
+      <Section title="Wheel finish">
+        <SwatchGrid
+          value={config.wheelFinish}
+          onChange={(id) => onChange({ wheelFinish: id })}
+          swatches={materialsData.wheelFinishes}
+        />
+      </Section>
+
+      {packWheels.length > 0 && (
+        <Section title="Wheel pack" hint="not recolourable — overrides rim style">
+          <p className="mb-2 rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
+            30 real scanned/modelled wheels, not built from primitives — their
+            own finish is baked in, so the swatches above don't apply. Tap one
+            to fit it in place of the rim style above; tap it again to go back.
+          </p>
+          <IconOptionGrid
+            columns={5}
+            allowDeselect
+            value={packWheels.some((m) => m.id === sourcedActive?.id) ? (sourcedActive?.id ?? '') : ''}
+            onChange={(id) => (id ? toggleSourcedWheel(id, true) : sourcedActive && toggleSourcedWheel(sourcedActive.id, false))}
+            options={packWheels.map((mod) => ({
+              id: mod.id,
+              label: mod.displayName,
+              icon: WHEEL_ICON(mod.id),
+            }))}
+          />
+        </Section>
+      )}
 
       <Section title="Motion">
         <ToggleRow

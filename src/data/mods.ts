@@ -40,6 +40,11 @@ export interface ModEntry {
    *  warning for a heavy comparison asset. Distinct from the JSON's `$note`
    *  fields, which are documentation for the catalogue file, not the UI. */
   uiHint?: string;
+  /** True for mods that keep their own baked-texture materials instead of
+   *  the flat §3 contract (the Wasi204 wheel pack) — the Wheel finish
+   *  picker has no effect on these, which the panel uses to decide whether
+   *  a sourced wheel belongs with the recolourable styles or the pack grid. */
+  materialContractExempt?: boolean;
   file: Record<string, string>;
   flags?: { requiresFenderRoll?: boolean; trackWidening?: number };
   derivedFromBaseMesh?: boolean;

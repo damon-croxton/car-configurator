@@ -109,7 +109,8 @@ elements removed, materials renamed.*
 `WS01` ships at the source model's full 12,376-tri resolution — a decimated
 comparison pass was tried and dropped as unnecessary. Catalogued under
 `category: "wheel_sourced"` and selectable in the panel itself (Wheels tab →
-"Sourced wheel tests"), not only via `?mods=`.
+"Rim style", since it was renamed into the real `MOD_*` contract and the
+Wheel finish picker recolours it like any other wheel), not only via `?mods=`.
 
 | Field | Value |
 | --- | --- |
@@ -117,26 +118,29 @@ comparison pass was tried and dropped as unnecessary. Catalogued under
 | Author | ilvskf ([sketchfab.com/ilvskf](https://sketchfab.com/ilvskf)) |
 | Source | https://sketchfab.com/3d-models/rays-gramlights-57dr-71a90d6c2d0a444d9d2ca7e3cf715c76 |
 | Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| Used as | `WS02` / `WS02D` (rim only — tyre, disc, caliper and lug nuts are original geometry) |
-| Modified | Yes. The source model's rotational axis is Blender Y, not the app's X convention, so every mesh is rotated 90° about Z before the usual rescale/re-origin to the contact-patch convention. Two branding meshes removed outright (a black sticker and a yellow/gold sticker, both off-axis badges). Materials renamed into the app's `MOD_*` contract, split `MOD_Rim`/`MOD_SatinBlack` by each mesh's own metallic factor. `WS02` is the raw 267,926-tri export (down from 338,167 raw once the two branding meshes are stripped); `WS02D` is a 95%-decimated pass at 17,116 tris for comparison. |
+| Used as | `WS02` (rim only — tyre, disc, caliper and lug nuts are original geometry) |
+| Modified | Yes. The source model's rotational axis is Blender Y, not the app's X convention, so every mesh is rotated 90° about Z before the usual rescale/re-origin to the contact-patch convention. Two branding meshes removed outright (a black sticker and a yellow/gold sticker, both off-axis badges). Materials renamed into the app's `MOD_*` contract, split `MOD_Rim`/`MOD_SatinBlack` by each mesh's own metallic factor. `WS02` is the raw 267,926-tri export, down from 338,167 raw once the two branding meshes are stripped. |
 
 Required credit: *This work is based on "RAYS GramLights 57DR"
 (https://sketchfab.com/3d-models/rays-gramlights-57dr-71a90d6c2d0a444d9d2ca7e3cf715c76)
 by ilvskf (https://sketchfab.com/ilvskf) licensed under CC-BY-4.0
 (http://creativecommons.org/licenses/by/4.0/). Modified: rotated to the app's
-axial convention, two branded elements removed, materials renamed, one
-variant decimated.*
+axial convention, two branded elements removed, materials renamed.*
 
 `WS02` is 15x the normal wheel triangle budget and is deliberately kept as an
 oversized comparison asset (`oversizeApproved: true` in `modsData.json`, an
-8+ MB `.glb`) rather than shipped as the only option — `WS02D` is the
-practical version. Both are catalogued under `category: "wheel_sourced"` and
-selectable in the panel (Wheels tab → "Sourced wheel tests"), same as `WS01`;
-the three are mutually exclusive, enforced by the panel itself rather than by
-the catalogue's `incompatibleWith` alone (see the comment on
-`toggleSourcedWheel` in `ControlPanel.tsx` for why: a symmetric
-`incompatibleWith` between two simultaneously-selected mods filters both out,
-not just one).
+8+ MB `.glb`) rather than decimated down — a 95%-decimated pass (`WS02D`) was
+built and shipped alongside it, then removed after judging the result in-app:
+the reduction reads as visibly softer at normal viewing distance, not a
+worthwhile tradeoff. Catalogued under `category: "wheel_sourced"` and
+selectable in the panel (Wheels tab → "Rim style", alongside `WS01` — both
+were renamed into the real `MOD_*` contract, so the Wheel finish picker
+recolours them same as any other wheel, unlike the sourced wheel pack below).
+`WS01` and `WS02` are mutually exclusive, enforced by the panel itself rather
+than by the catalogue's `incompatibleWith` alone (see the comment on
+`toggleSourcedWheel`/`selectRimStyle` in `ControlPanel.tsx` for why: a
+symmetric `incompatibleWith` between two simultaneously-selected mods filters
+both out, not just one).
 
 | Field | Value |
 | --- | --- |

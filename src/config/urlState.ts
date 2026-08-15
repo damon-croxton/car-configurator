@@ -43,6 +43,8 @@ const NUMBER_FIELDS: { key: string; field: keyof CarConfig; precision: number }[
   { key: 'camber', field: 'camber', precision: 1 },
   { key: 'track', field: 'trackOffset', precision: 0 },
   { key: 'dia', field: 'wheelDiameter', precision: 0 },
+  { key: 'tw', field: 'tyreWidth', precision: 2 },
+  { key: 'tsw', field: 'tyreSidewall', precision: 2 },
   { key: 'tint', field: 'windowTint', precision: 2 },
   { key: 'exp', field: 'exposure', precision: 2 },
   { key: 'flake', field: 'flakeIntensity', precision: 2 },

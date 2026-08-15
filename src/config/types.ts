@@ -35,6 +35,15 @@ export interface CarConfig {
   /** Every wheel mod ships a disc and caliper; off by default because they
    *  currently sit proud of the wheel face rather than tucked behind it. */
   wheelBrakes: boolean;
+  /** Tyre thickness multiplier, 1 = as modelled. A visual approximation —
+   *  scales the tyre mesh along its own axial direction, not a real tyre
+   *  size code. */
+  tyreWidth: number;
+  /** Tyre sidewall-height multiplier, 1 = as modelled. Another
+   *  approximation: reshapes the tyre radially outward from its bead (the
+   *  rim-mounting radius, held fixed) rather than computing a real aspect
+   *  ratio from width and rim diameter. */
+  tyreSidewall: number;
 
   /**
    * Additive mods with no catalogue slot of their own — bonnet pins, a tow

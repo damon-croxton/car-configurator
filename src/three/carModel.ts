@@ -235,6 +235,17 @@ export class CarModel {
    */
   private readonly brakeNodes: THREE.Object3D[] = [];
   private wheelBrakesVisible = false;
+  private tyreWidthFactor = 1;
+  private tyreSidewallFactor = 1;
+  /**
+   * Pristine vertex positions per tyre geometry, captured the first time
+   * `setTyreSidewall` touches it, so every later call reshapes from the
+   * original rather than compounding drift onto an already-reshaped mesh —
+   * and so the factor going back to 1 is an exact restore, not a guess.
+   * Keyed by `geometry.uuid`, alongside the bead radius (the smallest
+   * vertex radius in that original data) that the reshape holds fixed.
+   */
+  private readonly tyreOriginals = new Map<string, { positions: Float32Array; beadRadius: number }>();
   /** The last request, held so a selection made before the car finished
    *  loading is not lost — the same pattern as paint, finish and stance. */
   private modRequest: { mods: ModEntry[]; generationId: string } | null = null;
@@ -285,6 +296,8 @@ export class CarModel {
     if (this.interior) this.setInterior(this.interior);
     this.setRoofUp(this.roofUp);
     if (this.stance) this.setStance(this.stance);
+    this.setTyreWidth(this.tyreWidthFactor);
+    this.setTyreSidewall(this.tyreSidewallFactor);
     if (this.modRequest) {
       await this.setMods(this.modRequest.mods, this.modRequest.generationId);
     }
@@ -308,6 +321,7 @@ export class CarModel {
     }
     this.byClass.clear();
     this.physical.clear();
+    this.tyreOriginals.clear();
     this.cabin = [];
     this.liningMeshes = [];
     this.islandOverlays = [];
@@ -524,6 +538,8 @@ export class CarModel {
     if (this.paint) this.setPaint(this.paint);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.stance) this.setStance(this.stance);
+    this.setTyreWidth(this.tyreWidthFactor);
+    this.setTyreSidewall(this.tyreSidewallFactor);
   }
 
   /** Detach every mod instance and switch the base parts back on. */
@@ -539,6 +555,111 @@ export class CarModel {
   setWheelBrakes(visible: boolean): void {
     this.wheelBrakesVisible = visible;
     for (const node of this.brakeNodes) node.visible = visible;
+  }
+
+  /**
+   * A mesh classifies as a tyre either through the surface table (every
+   * built-from-primitives wheel and the OEM asset itself use `MOD_Tyre` /
+   * `M_Tire_Max`, which both classify as `'tyre'`) or by name suffix (the
+   * sourced wheel pack's own `wheel_NN_rubber` material shares a class with
+   * its rim — `static_textured`, deliberately untinted — so it can't be told
+   * apart from the rim by class alone; every pack wheel's tyre mesh is still
+   * named `..._tyre` by the export script, so that catches it instead).
+   */
+  private isTyreMesh(mesh: THREE.Mesh): boolean {
+    const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+    if (material && classOf(this.table, material.name) === 'tyre') return true;
+    return mesh.name.endsWith('_tyre');
+  }
+
+  private forEachTyreMesh(fn: (mesh: THREE.Mesh) => void): void {
+    for (const wheel of this.wheels) {
+      wheel.pivot.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (mesh.isMesh && this.isTyreMesh(mesh)) fn(mesh);
+      });
+    }
+  }
+
+  /**
+   * Tyre thickness, as a multiplier on the mesh's own modelled width — a
+   * visual approximation, not a real tyre size code. Every tyre mesh across
+   * every wheel variant is built (or, for the OEM asset, happens to sit)
+   * with its own local X as the axial direction, confirmed against the base
+   * car's own tyre mesh as well as every mod's — so a plain per-instance
+   * `scale.x` does the job with no geometry rewrite needed. `scale` is never
+   * shared even when geometry is (mod clones each get their own transform),
+   * so this only ever touches the instance actually on screen.
+   */
+  setTyreWidth(factor: number): void {
+    this.tyreWidthFactor = factor;
+    this.forEachTyreMesh((mesh) => {
+      if (mesh.userData.baseScaleX === undefined) mesh.userData.baseScaleX = mesh.scale.x;
+      mesh.scale.x = (mesh.userData.baseScaleX as number) * factor;
+    });
+  }
+
+  /**
+   * Tyre sidewall height, as a multiplier applied radially outward from the
+   * bead (the smallest-radius ring in the mesh, where the tyre meets the
+   * rim) — another approximation, standing in for what a real tyre would
+   * compute from width and rim diameter as an aspect ratio. Unlike width,
+   * this cannot be a single `scale` property: shrinking or growing the tyre
+   * uniformly around its own centre would drag the bead away from the rim
+   * it is supposed to seat against, opening a gap or pushing through it.
+   * Reshaping vertex-by-vertex keeps the bead fixed and moves the tread.
+   *
+   * Geometry CAN be shared across a mod's four wheel instances (see
+   * ModLoader), so this mutates the shared buffer once per unique geometry,
+   * from `tyreOriginals`' cached pristine copy — never from whatever shape
+   * is currently on screen, which would compound on every call.
+   */
+  setTyreSidewall(factor: number): void {
+    this.tyreSidewallFactor = factor;
+    const done = new Set<string>();
+    this.forEachTyreMesh((mesh) => {
+      const geometry = mesh.geometry;
+      if (done.has(geometry.uuid)) return;
+      done.add(geometry.uuid);
+      this.reshapeTyreSidewall(geometry, factor);
+    });
+  }
+
+  private reshapeTyreSidewall(geometry: THREE.BufferGeometry, factor: number): void {
+    const posAttr = geometry.attributes.position as THREE.BufferAttribute;
+    let cached = this.tyreOriginals.get(geometry.uuid);
+    if (!cached) {
+      const positions = Float32Array.from(posAttr.array);
+      let beadRadius = Infinity;
+      for (let i = 0; i < positions.length; i += 3) {
+        const radius = Math.hypot(positions[i + 1], positions[i + 2]);
+        if (radius < beadRadius) beadRadius = radius;
+      }
+      cached = { positions, beadRadius };
+      this.tyreOriginals.set(geometry.uuid, cached);
+    }
+
+    const { positions, beadRadius } = cached;
+    const array = posAttr.array as Float32Array;
+    for (let i = 0; i < positions.length; i += 3) {
+      const y = positions[i + 1];
+      const z = positions[i + 2];
+      const radius = Math.hypot(y, z);
+      array[i] = positions[i];
+      if (radius < 1e-6) {
+        array[i + 1] = y;
+        array[i + 2] = z;
+        continue;
+      }
+      const newRadius = beadRadius + (radius - beadRadius) * factor;
+      const scale = newRadius / radius;
+      array[i + 1] = y * scale;
+      array[i + 2] = z * scale;
+    }
+    posAttr.needsUpdate = true;
+    geometry.computeVertexNormals();
+    geometry.computeBoundingSphere();
+    geometry.computeBoundingBox();
   }
 
   private hide(node: THREE.Object3D): void {

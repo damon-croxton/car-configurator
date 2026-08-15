@@ -44,6 +44,8 @@ export const DEFAULT_CONFIG: CarConfig = {
   camber: -0.5,
   trackOffset: 0,
   wheelBrakes: false,
+  tyreWidth: 1,
+  tyreSidewall: 1,
 
   extraMods: [],
 
@@ -83,6 +85,8 @@ export const RANGES = {
   rideHeight: [-90, 15] as const,
   camber: [-5, 1] as const,
   trackOffset: [-10, 35] as const,
+  tyreWidth: [0.75, 1.35] as const,
+  tyreSidewall: [0.55, 1.35] as const,
   windowTint: [0, 0.85] as const,
   exposure: [0.4, 1.8] as const,
   flakeIntensity: [0, 1] as const,
