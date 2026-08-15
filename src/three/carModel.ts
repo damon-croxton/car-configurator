@@ -245,7 +245,10 @@ export class CarModel {
    * Keyed by `geometry.uuid`, alongside the bead radius (the smallest
    * vertex radius in that original data) that the reshape holds fixed.
    */
-  private readonly tyreOriginals = new Map<string, { positions: Float32Array; beadRadius: number }>();
+  private readonly tyreOriginals = new Map<
+    string,
+    { positions: Float32Array; centreY: number; centreZ: number; beadRadius: number }
+  >();
   /** The last request, held so a selection made before the car finished
    *  loading is not lost — the same pattern as paint, finish and stance. */
   private modRequest: { mods: ModEntry[]; generationId: string } | null = null;
@@ -572,6 +575,15 @@ export class CarModel {
     return mesh.name.endsWith('_tyre');
   }
 
+  /** Same idea as `isTyreMesh`: the rim's own surface class, or the export
+   *  script's `..._rim` suffix for the wheel pack (which shares the tyre's
+   *  `static_textured` class and so can't be told apart from it by class). */
+  private isRimMesh(mesh: THREE.Mesh): boolean {
+    const material = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+    if (material && classOf(this.table, material.name) === 'rim') return true;
+    return mesh.name.endsWith('_rim');
+  }
+
   private forEachTyreMesh(fn: (mesh: THREE.Mesh) => void): void {
     for (const wheel of this.wheels) {
       wheel.pivot.traverse((node) => {
@@ -590,13 +602,23 @@ export class CarModel {
    * `scale.x` does the job with no geometry rewrite needed. `scale` is never
    * shared even when geometry is (mod clones each get their own transform),
    * so this only ever touches the instance actually on screen.
+   *
+   * The rim gets the same factor on the same axis, so a wider tyre doesn't
+   * balloon out past a rim that stayed put — real width and offset changes
+   * move both together. Only the barrel/face surface (the `rim` class)
+   * moves; hub, cap, spoke and lug detail meshes are left alone, same as the
+   * Wheel finish picker only ever touches `rim`, not those.
    */
   setTyreWidth(factor: number): void {
     this.tyreWidthFactor = factor;
-    this.forEachTyreMesh((mesh) => {
-      if (mesh.userData.baseScaleX === undefined) mesh.userData.baseScaleX = mesh.scale.x;
-      mesh.scale.x = (mesh.userData.baseScaleX as number) * factor;
-    });
+    for (const wheel of this.wheels) {
+      wheel.pivot.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (!mesh.isMesh || !(this.isTyreMesh(mesh) || this.isRimMesh(mesh))) return;
+        if (mesh.userData.baseScaleX === undefined) mesh.userData.baseScaleX = mesh.scale.x;
+        mesh.scale.x = (mesh.userData.baseScaleX as number) * factor;
+      });
+    }
   }
 
   /**
@@ -630,21 +652,45 @@ export class CarModel {
     let cached = this.tyreOriginals.get(geometry.uuid);
     if (!cached) {
       const positions = Float32Array.from(posAttr.array);
+      // The wheel's own axle centre, not the mesh's local (0, 0) — those
+      // coincide for the OEM asset, but every mod exports with its origin at
+      // the CONTACT PATCH (ground level), which sidewall-around-(0,0) treats
+      // as the hub, scaling the tyre lopsided around the bottom of the tread
+      // instead of symmetrically around the true centre. A body of
+      // revolution's true centre is the midpoint of its own Y/Z extent
+      // regardless of where its origin was placed, so that needs no
+      // knowledge of any specific export convention to get right.
+      let minY = Infinity;
+      let maxY = -Infinity;
+      let minZ = Infinity;
+      let maxZ = -Infinity;
+      for (let i = 0; i < positions.length; i += 3) {
+        const y = positions[i + 1];
+        const z = positions[i + 2];
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+        if (z < minZ) minZ = z;
+        if (z > maxZ) maxZ = z;
+      }
+      const centreY = (minY + maxY) / 2;
+      const centreZ = (minZ + maxZ) / 2;
       let beadRadius = Infinity;
       for (let i = 0; i < positions.length; i += 3) {
-        const radius = Math.hypot(positions[i + 1], positions[i + 2]);
+        const radius = Math.hypot(positions[i + 1] - centreY, positions[i + 2] - centreZ);
         if (radius < beadRadius) beadRadius = radius;
       }
-      cached = { positions, beadRadius };
+      cached = { positions, centreY, centreZ, beadRadius };
       this.tyreOriginals.set(geometry.uuid, cached);
     }
 
-    const { positions, beadRadius } = cached;
+    const { positions, centreY, centreZ, beadRadius } = cached;
     const array = posAttr.array as Float32Array;
     for (let i = 0; i < positions.length; i += 3) {
       const y = positions[i + 1];
       const z = positions[i + 2];
-      const radius = Math.hypot(y, z);
+      const dy = y - centreY;
+      const dz = z - centreZ;
+      const radius = Math.hypot(dy, dz);
       array[i] = positions[i];
       if (radius < 1e-6) {
         array[i + 1] = y;
@@ -653,8 +699,8 @@ export class CarModel {
       }
       const newRadius = beadRadius + (radius - beadRadius) * factor;
       const scale = newRadius / radius;
-      array[i + 1] = y * scale;
-      array[i + 2] = z * scale;
+      array[i + 1] = centreY + dy * scale;
+      array[i + 2] = centreZ + dz * scale;
     }
     posAttr.needsUpdate = true;
     geometry.computeVertexNormals();
