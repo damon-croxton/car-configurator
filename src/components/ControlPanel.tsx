@@ -17,7 +17,12 @@ import {
 import { modForOption, optionalMods } from '../data/mods';
 import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
 
-const WHEEL_ICON = (id: string) => `/assets/icons/wheels/${id}.png`;
+// No leading slash: mod .glb paths follow the same convention (see
+// ModLoader.instance()) so they resolve relative to the page itself rather
+// than the domain root — with vite.config.ts's base: './', a root-relative
+// path 404s the moment the app is served from a subpath, e.g. GitHub Pages'
+// <user>.github.io/<repo>/ rather than the domain root.
+const WHEEL_ICON = (id: string) => `assets/icons/wheels/${id}.png`;
 
 type TabId = 'model' | 'paint' | 'wheels' | 'aero' | 'atmosphere';
 
