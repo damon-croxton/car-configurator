@@ -214,7 +214,17 @@ async function validate(mod, gen) {
   if (!existsSync(path)) return { label, failures: [`missing: ${rel}`], notes };
 
   const bytes = statSync(path).size;
-  if (bytes > MAX_BYTES) fail(`${(bytes / 1048576).toFixed(2)} MB exceeds the 2 MB budget`);
+  if (bytes > MAX_BYTES) {
+    // A mod may declare oversizeApproved (self-documenting in modsData.json,
+    // not a hidden script-side exception) for a deliberate comparison asset.
+    // Everything else about it still has to pass — this only changes how the
+    // size overage is reported, from a failure to a visible, named exception.
+    if (mod.oversizeApproved) {
+      notes.push(`⚠ ${(bytes / 1048576).toFixed(2)} MB — over the 2 MB budget, approved via oversizeApproved`);
+    } else {
+      fail(`${(bytes / 1048576).toFixed(2)} MB exceeds the 2 MB budget`);
+    }
+  }
 
   let glb;
   try {

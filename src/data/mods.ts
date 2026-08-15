@@ -36,6 +36,10 @@ export interface ModEntry {
   materials: string[];
   bboxMm?: Record<string, { min: number[]; max: number[] }>;
   triangleBudget?: number;
+  /** Short line shown under the toggle in the panel — e.g. a triangle-count
+   *  warning for a heavy comparison asset. Distinct from the JSON's `$note`
+   *  fields, which are documentation for the catalogue file, not the UI. */
+  uiHint?: string;
   file: Record<string, string>;
   flags?: { requiresFenderRoll?: boolean; trackWidening?: number };
   derivedFromBaseMesh?: boolean;

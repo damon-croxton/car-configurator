@@ -97,7 +97,7 @@ from scratch. Same licence obligations as the cars above.
 | Author | Wilbruh ([sketchfab.com/mirz1911](https://sketchfab.com/mirz1911)) |
 | Source | https://sketchfab.com/3d-models/meister-l1-3p-b4d1f40355b745049fe5990674b5910e |
 | Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| Used as | `WS01` / `WS01D` (rim only — the tyre, disc, caliper and lug nuts are original geometry, same as every other wheel mod) |
+| Used as | `WS01` (rim only — the tyre, disc, caliper and lug nuts are original geometry, same as every other wheel mod) |
 | Modified | Yes. Rescaled and re-origined to the car's contact-patch convention; two branded elements removed to satisfy the mod brief's "no trademarked names, badges or logos" rule — a WORK Wheels(R) logo decal (a separate small mesh, deleted outright) and a MEISTER wordmark baked into the centre-cap texture (texture stripped, replaced with a flat colour matching the rest of the polished face; the cap's own geometry is untouched). Materials renamed into the app's `MOD_*` contract; their original PBR values (metalness, roughness) were kept, not replaced. |
 
 Required credit: *This work is based on "Meister L1 3P"
@@ -106,10 +106,37 @@ by Wilbruh (https://sketchfab.com/mirz1911) licensed under CC-BY-4.0
 (http://creativecommons.org/licenses/by/4.0/). Modified: rescaled, two branded
 elements removed, materials renamed.*
 
-`WS01`/`WS01D` are catalogued under `category: "test"` — a full-resolution vs.
-decimated comparison pair, deliberately kept out of the normal control panel
-(`optionalMods()` filters the category out) until a decimation ratio is chosen.
-Reachable at `?mods=WS01` or `?mods=WS01D`.
+`WS01` ships at the source model's full 12,376-tri resolution — a decimated
+comparison pass was tried and dropped as unnecessary. Catalogued under
+`category: "wheel_sourced"` and selectable in the panel itself (Wheels tab →
+"Sourced wheel tests"), not only via `?mods=`.
+
+| Field | Value |
+| --- | --- |
+| Title | RAYS GramLights 57DR |
+| Author | ilvskf ([sketchfab.com/ilvskf](https://sketchfab.com/ilvskf)) |
+| Source | https://sketchfab.com/3d-models/rays-gramlights-57dr-71a90d6c2d0a444d9d2ca7e3cf715c76 |
+| Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Used as | `WS02` / `WS02D` (rim only — tyre, disc, caliper and lug nuts are original geometry) |
+| Modified | Yes. The source model's rotational axis is Blender Y, not the app's X convention, so every mesh is rotated 90° about Z before the usual rescale/re-origin to the contact-patch convention. Two branding meshes removed outright (a black sticker and a yellow/gold sticker, both off-axis badges). Materials renamed into the app's `MOD_*` contract, split `MOD_Rim`/`MOD_SatinBlack` by each mesh's own metallic factor. `WS02` is the raw 267,926-tri export (down from 338,167 raw once the two branding meshes are stripped); `WS02D` is a 95%-decimated pass at 17,116 tris for comparison. |
+
+Required credit: *This work is based on "RAYS GramLights 57DR"
+(https://sketchfab.com/3d-models/rays-gramlights-57dr-71a90d6c2d0a444d9d2ca7e3cf715c76)
+by ilvskf (https://sketchfab.com/ilvskf) licensed under CC-BY-4.0
+(http://creativecommons.org/licenses/by/4.0/). Modified: rotated to the app's
+axial convention, two branded elements removed, materials renamed, one
+variant decimated.*
+
+`WS02` is 15x the normal wheel triangle budget and is deliberately kept as an
+oversized comparison asset (`oversizeApproved: true` in `modsData.json`, an
+8+ MB `.glb`) rather than shipped as the only option — `WS02D` is the
+practical version. Both are catalogued under `category: "wheel_sourced"` and
+selectable in the panel (Wheels tab → "Sourced wheel tests"), same as `WS01`;
+the three are mutually exclusive, enforced by the panel itself rather than by
+the catalogue's `incompatibleWith` alone (see the comment on
+`toggleSourcedWheel` in `ControlPanel.tsx` for why: a symmetric
+`incompatibleWith` between two simultaneously-selected mods filters both out,
+not just one).
 
 ---
 

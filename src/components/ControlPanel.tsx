@@ -258,6 +258,20 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const nearestStance = carData.stancePresets.reduce((best, preset) =>
     Math.abs(preset.drop - config.rideHeight) < Math.abs(best.drop - config.rideHeight) ? preset : best,
   );
+  const sourcedWheels = optionalMods(generation.id).filter((m) => m.attachTo === 'wheel');
+
+  // Radio-like by construction, not by hoping incompatibleWith resolves it:
+  // these are alternative wheels, not independent toggles, and declaring them
+  // mutually incompatibleWith each other in the catalogue (so a stray
+  // ?mods= override still behaves) means turning two on at once cancels both
+  // out to nothing rather than one winning. Clearing the others here first
+  // means that state is never reachable from the panel at all.
+  const toggleSourcedWheel = (id: string, on: boolean) =>
+    onChange({
+      extraMods: on
+        ? [...config.extraMods.filter((entry) => !sourcedWheels.some((m) => m.id === entry)), id]
+        : config.extraMods.filter((entry) => entry !== id),
+    });
 
   return (
     <>
@@ -274,6 +288,26 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           }))}
         />
       </Section>
+
+      {sourcedWheels.length > 0 && (
+        <Section title="Sourced wheel tests" hint="overrides rim style">
+          <p className="mb-2 rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
+            Real scanned/modelled wheels, not built from primitives. Switching
+            one on replaces whichever rim style is selected above.
+          </p>
+          <div className="space-y-2">
+            {sourcedWheels.map((mod) => (
+              <ToggleRow
+                key={mod.id}
+                label={mod.displayName}
+                hint={mod.uiHint}
+                checked={config.extraMods.includes(mod.id)}
+                onChange={(on) => toggleSourcedWheel(mod.id, on)}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
 
       <Section title="Wheel finish">
         <SwatchGrid
@@ -370,7 +404,9 @@ const AERO_SECTIONS: { slot: AeroSlotId; title: string; columns: 1 | 2 }[] = [
 
 const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const generation = getGeneration(config.generation);
-  const extras = optionalMods(generation.id);
+  // Wheel-attached extras get their own section on the Wheels tab, next to
+  // the rim style picker they actually override.
+  const extras = optionalMods(generation.id).filter((m) => m.attachTo === 'body');
 
   const toggleExtra = (id: string, on: boolean) =>
     onChange({
@@ -414,6 +450,7 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
               <ToggleRow
                 key={mod.id}
                 label={mod.displayName}
+                hint={mod.uiHint}
                 checked={config.extraMods.includes(mod.id)}
                 onChange={(on) => toggleExtra(mod.id, on)}
               />
