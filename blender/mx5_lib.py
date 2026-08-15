@@ -833,8 +833,8 @@ def radial_copies(obj, count, centre_app, gen="nd", start_deg=0.0):
 
 def scale_wheel_face(coll, factor, axle_app, gen="nd", exclude=("tyre", "disc", "caliper")):
     """
-    Uniformly scale everything in `coll` EXCEPT the named exclusions, about
-    the axle centre.
+    Scale everything in `coll` EXCEPT the named exclusions, about the axle
+    centre, RADIALLY ONLY -- diameter grows, axial width does not.
 
     Exists to correct RIM_R without reworking every wheel's own hand-tuned
     spoke/hub/lug numbers: those are absolute offsets from RIM_R (a spoke
@@ -849,15 +849,26 @@ def scale_wheel_face(coll, factor, axle_app, gen="nd", exclude=("tyre", "disc", 
     components have nothing to do with rim size), so the default exclusion
     list leaves them untouched regardless of what the rest of a given
     wheel's parts happen to be named.
+
+    A first version scaled all three axes uniformly, which took the rim's
+    OUTER LIP with it -- built to the same HALF_W as the tyre, so lip and
+    tread bead sat flush by construction, until the axial dimension grew by
+    the same factor as the radius and pushed the lip ~12mm past the tyre on
+    both sides. Local X is the axial direction (confirmed empirically, see
+    WP_wheelpack.py's own docstring for the same finding on a different
+    asset), so scaling only Y and Z grows the diameter the fix is actually
+    about and leaves the width -- and the flush fit -- exactly where each
+    wheel's own designer put it.
     """
     pivot = app_to_blender(*axle_app, gen=gen)
+    radial_scale = Matrix.Diagonal((1.0, factor, factor, 1.0))
     scaled = []
     for obj in list(coll.objects):
         if obj.type != "MESH" or obj.name.endswith(exclude):
             continue
         obj.matrix_world = (
             Matrix.Translation(pivot)
-            @ Matrix.Scale(factor, 4)
+            @ radial_scale
             @ Matrix.Translation(-pivot)
             @ obj.matrix_world
         )
