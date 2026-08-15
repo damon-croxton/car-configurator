@@ -23,8 +23,21 @@ instead in each Wheel_NN node's OWN local frame
 (`node.matrix_world.inverted() @ mesh.matrix_world`) recovers a clean
 body-of-revolution: thin along local X, matched diameters on Y and Z. Checked
 against wheels 1-3: rim and brake meshes both sit on the +X side in that
-frame, tyre spans symmetric -- so, like WS01, no extra rotation is needed,
-only the un-tilt, then the usual translate-and-scale.
+frame, tyre spans symmetric.
+
+That +X clustering turned out to be the WRONG face, not just an axis that
+needed no correction: WP01-WP03 shipped showing the back of the disc (the
+hub-mount side) rather than the finished face a spoke gap should reveal. The
+confirmed-correct convention is rim-and-brakes-on-the--X-side.
+
+The pack is NOT uniformly authored to one convention, though -- wheel 6 sits
+the opposite way round from wheels 1-3 in its own local frame, discovered by
+a hard assertion once wheels 1-3's fix was applied as a blanket correction to
+every wheel. So the flip cannot be baked into `inv` up front; build_wp()
+measures each wheel's OWN raw (unflipped) local frame first, decides whether
+THIS wheel needs the 180-degree turn about local Z to land rim-and-brakes on
+-X, and only then places it. Logged per wheel so it stays visible which ones
+needed it.
 
 Same bug WS01 found the hard way: a selected mesh whose parent chain is not
 also selected/exported gets a non-identity root transform in the glTF, because
@@ -38,6 +51,7 @@ children first, then clears parents once for the whole pack.
 """
 
 import bpy
+import math
 from mathutils import Vector, Matrix
 
 GEN = "nd"
@@ -47,6 +61,10 @@ SRC_COLL = "SRC_wheelpack"
 PATCH = (734.0, 0.0, 1194.0)
 TYRE_R = 320.5
 AXLE = (PATCH[0], TYRE_R, PATCH[2])
+
+# See module docstring: rim-and-brakes must land on -X. Applied per wheel,
+# only when that wheel's own raw measurement says it needs it.
+FLIP = Matrix.Rotation(math.pi, 4, "Z")
 
 # Populated by import_pack(): wheel index -> {"inv": Matrix, "meshes": [...]}.
 WHEELS = {}
@@ -87,7 +105,7 @@ def import_pack():
         if src is None:
             continue
         meshes = [o for o in src.children_recursive if o.type == "MESH"]
-        WHEELS[n] = {"inv": src.matrix_world.inverted().copy(), "meshes": meshes}
+        WHEELS[n] = {"inv": src.matrix_world.inverted(), "meshes": meshes}
 
     # Same bug WS01 found: a selected mesh whose parent chain is not also
     # selected/exported gets a non-identity root transform in the glTF. Clear
@@ -122,8 +140,10 @@ def build_wp(n, mod_id):
     if not (rim and tyre and brakes):
         raise RuntimeError(f"Wheel_{n:02d}: could not identify rim/tyre/brakes among {[o.name for o in meshes]}")
 
-    # Undo the pack's own display-tray placement: measure in Wheel_NN's local
-    # frame, not raw import-world space. See module docstring.
+    # Undo the pack's own display-tray placement: measure in Wheel_NN's own
+    # raw (unflipped) local frame, not raw import-world space. See module
+    # docstring -- this pack mixes both conventions, so the flip decision is
+    # made per wheel from this measurement, not assumed.
     tyre_pts = [inv @ (tyre.matrix_world @ Vector(c)) for c in tyre.bound_box]
     rim_pts = [inv @ (rim.matrix_world @ Vector(c)) for c in rim.bound_box]
     xs = [p.x for p in tyre_pts]
@@ -131,23 +151,25 @@ def build_wp(n, mod_id):
     raw_radius = max(max(abs(p.y), abs(p.z)) for p in tyre_pts)
 
     rim_xs = [p.x for p in rim_pts]
-    if (sum(rim_xs) / len(rim_xs)) < centre_x:
-        raise RuntimeError(
-            f"Wheel_{n:02d}: rim sits on the -X side of the tyre centre in its own local "
-            f"frame -- this wheel is authored backwards relative to 1-3, which were all "
-            f"+X-outward. Needs a 180 flip before shipping, not a silent wrong export."
-        )
+    needs_flip = (sum(rim_xs) / len(rim_xs)) > centre_x
+    print(f"Wheel_{n:02d}: rim on the {'+X (needs flip)' if needs_flip else '-X (already correct)'} side")
 
     n_name = f"MOD_{GEN.upper()}_{mod_id}_"
     coll = start_mod(GEN, mod_id)
 
     scale = (TYRE_R / 1000.0) / raw_radius
     pivot = app_to_blender(*AXLE, gen=GEN)
-    centre_offset = Vector((centre_x, 0.0, 0.0))
+    # centre_offset was measured in the UNFLIPPED frame; if this wheel gets
+    # flipped, the offset needs the same 180-about-Z turn so it still cancels
+    # the right point (a flipped mesh's centre sits at -centre_x, not
+    # centre_x). FLIP has no translation, so negating x/y directly is exact.
+    centre_offset = Vector((-centre_x, 0.0, 0.0)) if needs_flip else Vector((centre_x, 0.0, 0.0))
 
     kind = {rim: "rim", tyre: "tyre", brakes: "brakes"}
     for o in meshes:
         local = inv @ o.matrix_world
+        if needs_flip:
+            local = FLIP @ local
         dup = o.copy()
         dup.data = o.data.copy()
         dup.parent = None
@@ -170,6 +192,6 @@ def build_wp(n, mod_id):
 
 
 import_pack()
-PILOT = {1: "WP01", 2: "WP02", 3: "WP03"}
-for n, mod_id in PILOT.items():
+BATCH = {n: f"WP{n:02d}" for n in range(1, 14)}  # WP01-WP13: 3 orientation-fixed + 10 new
+for n, mod_id in BATCH.items():
     build_wp(n, mod_id)

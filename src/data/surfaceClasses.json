@@ -35,7 +35,27 @@
       "wheel_02_metal": "static_textured",
       "wheel_02_rubber": "static_textured",
       "wheel_03_metal": "static_textured",
-      "wheel_03_rubber": "static_textured"
+      "wheel_03_rubber": "static_textured",
+      "wheel_04_metal": "static_textured",
+      "wheel_04_rubber": "static_textured",
+      "wheel_05_metal": "static_textured",
+      "wheel_05_rubber": "static_textured",
+      "wheel_06_metal": "static_textured",
+      "wheel_06_rubber": "static_textured",
+      "wheel_07_metal": "static_textured",
+      "wheel_07_rubber": "static_textured",
+      "wheel_08_metal": "static_textured",
+      "wheel_08_rubber": "static_textured",
+      "wheel_09_metal": "static_textured",
+      "wheel_09_rubber": "static_textured",
+      "wheel_10_metal": "static_textured",
+      "wheel_10_rubber": "static_textured",
+      "wheel_11_metal": "static_textured",
+      "wheel_11_rubber": "static_textured",
+      "wheel_12_metal": "static_textured",
+      "wheel_12_rubber": "static_textured",
+      "wheel_13_metal": "static_textured",
+      "wheel_13_rubber": "static_textured"
     }
   },
   "models": {
