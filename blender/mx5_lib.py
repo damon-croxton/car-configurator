@@ -831,6 +831,43 @@ def radial_copies(obj, count, centre_app, gen="nd", start_deg=0.0):
     return joined
 
 
+def scale_wheel_face(coll, factor, axle_app, gen="nd", exclude=("tyre", "disc", "caliper")):
+    """
+    Uniformly scale everything in `coll` EXCEPT the named exclusions, about
+    the axle centre.
+
+    Exists to correct RIM_R without reworking every wheel's own hand-tuned
+    spoke/hub/lug numbers: those are absolute offsets from RIM_R (a spoke
+    built to reach "r68..r213", a hub disc at a fixed 104 mm), not formulas
+    that would follow RIM_R if it changed, so editing RIM_R directly leaves
+    spokes short of a barrel that just got bigger. Scaling the whole
+    already-built face as one rigid unit keeps each design's own
+    proportions intact and grows it around the one point that must not
+    move -- the axle -- so the tyre it seats against needs no equivalent
+    correction. `tyre`/`disc`/`caliper` are real independent parts (tyre
+    profile is anchored to the actual measured TYRE_R and the brake
+    components have nothing to do with rim size), so the default exclusion
+    list leaves them untouched regardless of what the rest of a given
+    wheel's parts happen to be named.
+    """
+    pivot = app_to_blender(*axle_app, gen=gen)
+    scaled = []
+    for obj in list(coll.objects):
+        if obj.type != "MESH" or obj.name.endswith(exclude):
+            continue
+        obj.matrix_world = (
+            Matrix.Translation(pivot)
+            @ Matrix.Scale(factor, 4)
+            @ Matrix.Translation(-pivot)
+            @ obj.matrix_world
+        )
+        activate(obj)
+        bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+        scaled.append(obj.name)
+    print(f"scale_wheel_face: {factor}x on {len(scaled)} objects: {scaled}")
+    return scaled
+
+
 # ---------------------------------------------------------------- stats ----
 
 def stats(objs, gen="nd"):

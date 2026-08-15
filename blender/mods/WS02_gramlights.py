@@ -43,7 +43,12 @@ SRC_COLL = "SRC_gramlights"
 PATCH = (734.0, 0.0, 1194.0)
 TYRE_R = 320.5
 AXLE = (PATCH[0], TYRE_R, PATCH[2])
-RIM_R = 215.9
+RIM_R = 215.9            # theoretical bead-seat radius
+# See W01_race_7spoke.py: the OEM asset's own rim reads out to ~258mm, not a
+# bare 17in bead-seat conversion. Corrected by scaling the finished face
+# afterward (scale_wheel_face) rather than baking a different target radius
+# into the rescale-to-RIM_R step above.
+RIM_SCALE = 258.0 / RIM_R
 HALF_W = 114.3
 
 # Identified by mesh position, not by name — see the module docstring. Matched
@@ -251,6 +256,8 @@ def build_rim(mod_id, decimate_ratio=None):
             box_uv(o, scale=0.05)
         activate(o)
         bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+
+    scale_wheel_face(coll, RIM_SCALE, AXLE, GEN)
 
     finalise_names(coll)
     print(f"--- {mod_id} stats ---")

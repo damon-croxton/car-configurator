@@ -28,7 +28,12 @@ PATCH = (734.0, 0.0, 1194.0)
 TYRE_R = 320.5
 AXLE = (PATCH[0], TYRE_R, PATCH[2])
 
-RIM_R = 215.9
+RIM_R = 215.9            # theoretical bead-seat radius
+# See W01_race_7spoke.py: the OEM asset's own rim reads out to ~258mm, not a
+# bare 17in bead-seat conversion. Corrected by scaling the finished face
+# afterward (scale_wheel_face) rather than reworking every absolute spoke
+# number in this file.
+RIM_SCALE = 258.0 / RIM_R
 HALF_W = 114.3
 FACE_X = 30.0
 SPOKES = 12
@@ -155,6 +160,8 @@ bevel_smooth(spokes, width=0.0012, segments=1)
 for obj in coll.objects:
     activate(obj)
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+
+scale_wheel_face(coll, RIM_SCALE, AXLE, GEN)
 
 finalise_names(coll)
 print("--- W05 stats ---")

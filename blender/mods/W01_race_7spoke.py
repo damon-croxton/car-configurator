@@ -32,8 +32,16 @@ PATCH = (734.0, 0.0, 1194.0)          # contact patch: the export origin
 TYRE_R = 320.5                        # measured, not from the tyre code
 AXLE = (PATCH[0], TYRE_R, PATCH[2])
 
-RIM_R = 215.9                         # 17 inch
+RIM_R = 215.9                         # 17 inch, theoretical bead-seat radius
 HALF_W = 114.3                        # 9 inch
+# The OEM asset's own rim measures its visible face out to ~258mm, not the
+# 215.9mm a bare bead-seat conversion gives -- the metal reads further out
+# and the tyre sidewall correspondingly shorter than that theoretical figure
+# on every built wheel. Correcting RIM_R itself would leave the spokes (built
+# to fixed absolute lengths, not a RIM_R-relative formula) short of a barrel
+# that just grew, so the whole already-built face is scaled as one rigid
+# unit afterward instead — see scale_wheel_face() in mx5_lib.py.
+RIM_SCALE = 258.0 / RIM_R
 ET = 35.0                             # hub face this far outboard of centreline
 FACE_X = ET                           # +X is outboard on the left-hand wheel
 SPOKES = 7
@@ -165,6 +173,8 @@ bevel_smooth(caliper, width=0.002, segments=1)
 for obj in coll.objects:
     activate(obj)
     bpy.ops.object.transform_apply(location=True, rotation=True, scale=True)
+
+scale_wheel_face(coll, RIM_SCALE, AXLE, GEN)
 
 finalise_names(coll)
 print("--- W01 stats ---")
