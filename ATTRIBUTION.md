@@ -144,8 +144,8 @@ not just one).
 | Author | Wasi204 ([sketchfab.com/hafizzwaseem88](https://sketchfab.com/hafizzwaseem88)) |
 | Source | https://sketchfab.com/3d-models/wheels-2feccdb562f5417c8dff4d5b5623de50 |
 | Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
-| Used as | `WP01`-`WP13` so far (13 of a 30-wheel pack; `Wheel_14`-`Wheel_30` remain in `Models/wheels/` for later) |
-| Modified | Yes, but less than WS01/WS02: this source is a complete self-contained assembly per wheel — rim, tyre and an already-modelled disc+caliper — so no tyre/disc/caliper/lug geometry was built from primitives around it. Each `Wheel_NN` sat on an arbitrary display-tray rotation in the source scene; that placement was undone (measuring in the wheel's own local frame, not raw import-world space) before the usual rescale to the app's `TYRE_R` and re-origin to the contact-patch convention. Nothing was rotated, cut or retextured beyond that — no trademarked names or badges were present to remove. The pack turned out not to be uniformly authored: most wheels needed a 180-degree turn to put the finished face outward rather than the disc's hub-mount back, but three (`WP06`, `WP07`, `WP13`) already sat the right way round — the first three exports (`WP01`-`WP03`) shipped backwards before that was caught (by looking at the result, not by any automated check) and fixed. |
+| Used as | `WP01`-`WP30` — the whole pack |
+| Modified | Yes, but less than WS01/WS02: this source is a complete self-contained assembly per wheel — rim, tyre and an already-modelled disc+caliper — so no tyre/disc/caliper/lug geometry was built from primitives around it. Each `Wheel_NN` sat on an arbitrary display-tray rotation in the source scene; that placement was undone (measuring in the wheel's own local frame, not raw import-world space) before the usual rescale to the app's `TYRE_R` and re-origin to the contact-patch convention. Nothing was rotated, cut or retextured beyond that — no trademarked names or badges were present to remove. Every wheel gets the same 180-degree turn about local Z to put the finished face outward rather than the disc's hub-mount back — see `WP01`'s `$bugs` note in `modsData.json` for how that landed on "unconditional" only after a per-wheel heuristic was tried and confirmed wrong twice over. |
 
 Required credit: *This work is based on "Wheels"
 (https://sketchfab.com/3d-models/wheels-2feccdb562f5417c8dff4d5b5623de50)
@@ -153,7 +153,7 @@ by Wasi204 (https://sketchfab.com/hafizzwaseem88) licensed under CC-BY-4.0
 (http://creativecommons.org/licenses/by/4.0/). Modified: rescaled and
 re-origined to the contact-patch convention, display-tray placement removed.*
 
-Unlike every other mod, `WP01`-`WP13` keep their source materials
+Unlike every other mod, `WP01`-`WP30` keep their source materials
 (`wheel_NN_metal`, `wheel_NN_rubber`) rather than the flat-PBR `MOD_*`
 contract — each wheel ships a small baked texture (AO/highlight detail) that
 is very likely why it reads as a real wheel at under 1,000 triangles, and the
