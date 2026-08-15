@@ -1,5 +1,5 @@
 {
-  "$comment": "Permissions for the Blender mod pipeline (see mx5-mod-modelling-brief.md). The point is to let a long mod-building session run unattended: everything the per-mod loop does — run a build script in Blender, screenshot it, validate the export, commit it — is pre-approved. Deliberately NOT allowed: the Blender MCP asset-generation and download tools (download_sketchfab_model, download_polyhaven_asset, generate_hyper3d_*, generate_hunyuan3d_*), which make network calls and can cost money, and any write outside the pipeline's own directories. Those still prompt.",
+  "$comment": "Permissions for the Blender mod pipeline (see mx5-mod-modelling-brief.md). The point is to let a long mod-building session run unattended: everything the per-mod loop does — run a build script in Blender, screenshot it, validate the export, commit it, push it — is pre-approved. Deliberately NOT allowed: the Blender MCP asset-generation and download tools (download_sketchfab_model, download_polyhaven_asset, generate_hyper3d_*, generate_hunyuan3d_*), which make network calls and can cost money, and any write outside the pipeline's own directories. Those still prompt.",
   "$note_execute_blender_code": "execute_blender_code is arbitrary Python inside Blender, so it can read and write anywhere the Blender process can. That is unavoidable for this workflow — it is how every mod gets built — but it is worth knowing it is the broadest grant here.",
   "permissions": {
     "allow": [
@@ -46,6 +46,7 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git restore:*)",
+      "Bash(git push:*)",
 
       "Write(blender/**)",
       "Edit(blender/**)",
@@ -64,7 +65,6 @@
       "mcp__Claude_Browser__resize_window"
     ],
     "deny": [
-      "Bash(git push:*)",
       "Edit(public/assets/models/**)",
       "Write(public/assets/models/**)"
     ]
