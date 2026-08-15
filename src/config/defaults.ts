@@ -43,6 +43,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   rideHeight: 0,
   camber: -0.5,
   trackOffset: 0,
+  wheelBrakes: false,
 
   extraMods: [],
 

@@ -220,6 +220,8 @@ export class SceneManager {
       camber: config.camber,
       trackOffset: config.trackOffset,
     });
+
+    this.car.setWheelBrakes(config.wheelBrakes);
   }
 
   private applyRenderSettings(config: CarConfig): void {

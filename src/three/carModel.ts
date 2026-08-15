@@ -16,6 +16,9 @@ const DEG2RAD = Math.PI / 180;
 /** Surface classes that mean "this mesh belongs to a wheel, not to the body". */
 const WHEEL_CLASSES = new Set(['rim', 'rim_badge', 'tyre']);
 
+/** Every wheel mod script names its disc/caliper meshes with this suffix. */
+const isBrakeNode = (name: string) => name.endsWith('_disc') || name.endsWith('_caliper');
+
 /**
  * Everything the body paint needs, already resolved from the catalogue.
  *
@@ -222,6 +225,16 @@ export class CarModel {
   private hiddenByMods: THREE.Object3D[] = [];
   /** Which mods are fitted, so an unchanged selection is a no-op. */
   private modKey = '';
+  /**
+   * Brake discs and calipers baked into every wheel mod's own geometry — not a
+   * mod in their own right, just a part every wheel-mod script happens to
+   * build (see `mx5_lib.py` naming: every mesh named `..._disc`/`..._caliper`).
+   * They currently sit proud of the wheel face rather than tucked behind the
+   * spokes, so they default to hidden until that's fixed, with one toggle to
+   * see them anyway.
+   */
+  private readonly brakeNodes: THREE.Object3D[] = [];
+  private wheelBrakesVisible = false;
   /** The last request, held so a selection made before the car finished
    *  loading is not lost — the same pattern as paint, finish and stance. */
   private modRequest: { mods: ModEntry[]; generationId: string } | null = null;
@@ -489,6 +502,13 @@ export class CarModel {
           wheel.pivot.add(copy);
           this.modInstances.push(copy);
           for (const mesh of wheel.oem) this.hide(mesh);
+
+          copy.traverse((node) => {
+            if (isBrakeNode(node.name)) {
+              node.visible = this.wheelBrakesVisible;
+              this.brakeNodes.push(node);
+            }
+          });
         }
       } else {
         this.bodyMods.add(instance);
@@ -512,6 +532,13 @@ export class CarModel {
     this.modInstances = [];
     for (const node of this.hiddenByMods) node.visible = true;
     this.hiddenByMods = [];
+    this.brakeNodes.length = 0;
+  }
+
+  /** Show or hide the brake discs/calipers baked into every wheel mod. */
+  setWheelBrakes(visible: boolean): void {
+    this.wheelBrakesVisible = visible;
+    for (const node of this.brakeNodes) node.visible = visible;
   }
 
   private hide(node: THREE.Object3D): void {

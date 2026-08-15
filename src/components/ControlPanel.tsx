@@ -443,21 +443,25 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         </Section>
       ))}
 
-      {extras.length > 0 && (
-        <Section title="Additional parts" hint={`${extras.length} modelled`}>
-          <div className="space-y-2">
-            {extras.map((mod) => (
-              <ToggleRow
-                key={mod.id}
-                label={mod.displayName}
-                hint={mod.uiHint}
-                checked={config.extraMods.includes(mod.id)}
-                onChange={(on) => toggleExtra(mod.id, on)}
-              />
-            ))}
-          </div>
-        </Section>
-      )}
+      <Section title="Additional parts" hint={extras.length > 0 ? `${extras.length} modelled` : undefined}>
+        <div className="space-y-2">
+          {extras.map((mod) => (
+            <ToggleRow
+              key={mod.id}
+              label={mod.displayName}
+              hint={mod.uiHint}
+              checked={config.extraMods.includes(mod.id)}
+              onChange={(on) => toggleExtra(mod.id, on)}
+            />
+          ))}
+          <ToggleRow
+            label="Brake discs & calipers"
+            hint="Every wheel mod ships these, but they currently sit proud of the wheel face — off until that's fixed."
+            checked={config.wheelBrakes}
+            onChange={(wheelBrakes) => onChange({ wheelBrakes })}
+          />
+        </div>
+      </Section>
 
       <Section title="Light mods">
         <div className="space-y-2">

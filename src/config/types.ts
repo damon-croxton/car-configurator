@@ -32,6 +32,9 @@ export interface CarConfig {
   camber: number;
   /** Per-corner spacer / track width offset in millimetres. */
   trackOffset: number;
+  /** Every wheel mod ships a disc and caliper; off by default because they
+   *  currently sit proud of the wheel face rather than tucked behind it. */
+  wheelBrakes: boolean;
 
   /**
    * Additive mods with no catalogue slot of their own — bonnet pins, a tow
