@@ -244,7 +244,7 @@ async function validate(mod, gen) {
   // --- materials ---------------------------------------------------
   for (const name of glb.materials) {
     const base = normalise(name);
-    if (!MATERIAL_CONTRACT.includes(base)) {
+    if (!mod.materialContractExempt && !MATERIAL_CONTRACT.includes(base)) {
       fail(`material "${name}" is not in the §3 contract`);
     } else if (!CLASSES.has(base)) {
       fail(`material "${base}" has no surfaceClasses.json entry — the app will never touch it`);

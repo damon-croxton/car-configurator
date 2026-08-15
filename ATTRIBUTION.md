@@ -138,6 +138,31 @@ the catalogue's `incompatibleWith` alone (see the comment on
 `incompatibleWith` between two simultaneously-selected mods filters both out,
 not just one).
 
+| Field | Value |
+| --- | --- |
+| Title | Wheels |
+| Author | Wasi204 ([sketchfab.com/hafizzwaseem88](https://sketchfab.com/hafizzwaseem88)) |
+| Source | https://sketchfab.com/3d-models/wheels-2feccdb562f5417c8dff4d5b5623de50 |
+| Licence | [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Used as | `WP01`-`WP03` so far (pilot 3 of a 30-wheel pack; `Wheel_04`-`Wheel_30` remain in `Models/wheels/` for later) |
+| Modified | Yes, but less than WS01/WS02: this source is a complete self-contained assembly per wheel — rim, tyre and an already-modelled disc+caliper — so no tyre/disc/caliper/lug geometry was built from primitives around it. Each `Wheel_NN` sat on an arbitrary display-tray rotation in the source scene; that placement was undone (measuring in the wheel's own local frame, not raw import-world space) before the usual rescale to the app's `TYRE_R` and re-origin to the contact-patch convention. Nothing was rotated, cut or retextured beyond that — no trademarked names or badges were present to remove. |
+
+Required credit: *This work is based on "Wheels"
+(https://sketchfab.com/3d-models/wheels-2feccdb562f5417c8dff4d5b5623de50)
+by Wasi204 (https://sketchfab.com/hafizzwaseem88) licensed under CC-BY-4.0
+(http://creativecommons.org/licenses/by/4.0/). Modified: rescaled and
+re-origined to the contact-patch convention, display-tray placement removed.*
+
+Unlike every other mod, `WP01`-`WP03` keep their source materials
+(`wheel_NN_metal`, `wheel_NN_rubber`) rather than the flat-PBR `MOD_*`
+contract — each wheel ships a small baked texture (AO/highlight detail) that
+is very likely why it reads as a real wheel at under 1,000 triangles, and the
+`MOD_Rim` flat colour would have replaced it. `materialContractExempt: true`
+in `modsData.json` lets `validate-mod.mjs` pass them without that renaming,
+and `wheel_NN_metal`/`wheel_NN_rubber` map to a `static_textured` class in
+`surfaceClasses.json` that nothing tints — the Wheel finish picker has no
+effect on these wheels, by design.
+
 ---
 
 ## Trademarks
