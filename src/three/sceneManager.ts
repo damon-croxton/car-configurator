@@ -199,9 +199,21 @@ export class SceneManager {
 
   /** Everything the config is allowed to change about the car itself. */
   private applyCarConfig(config: CarConfig): void {
-    this.car.setPaint(paintSpecFor(config));
+    const paintSpec = paintSpecFor(config);
+    this.car.setPaint(paintSpec);
 
-    const finish = getWheelFinish(config.wheelFinish);
+    const rawFinish = getWheelFinish(config.wheelFinish);
+    // "Body Colour Match" has no fixed hex of its own — it borrows whatever
+    // the body is wearing right now, already computed above for setPaint.
+    const finish = rawFinish.matchBody
+      ? {
+          ...rawFinish,
+          hex: paintSpec.hex,
+          metalness: paintSpec.metalness,
+          roughness: paintSpec.roughness,
+          clearcoat: paintSpec.clearcoat,
+        }
+      : rawFinish;
     this.car.setWheelFinish(finish);
 
     this.car.setRoofFabric(getRoofFabric(config.roofFabric).hex);

@@ -192,6 +192,9 @@ export interface WheelFinishDef {
   metalness: number;
   roughness: number;
   clearcoat: number;
+  /** Dynamic finish: hex/metalness/roughness/clearcoat are placeholders,
+   *  overridden at apply time with the car's current body paint. */
+  matchBody?: boolean;
 }
 
 export interface CaliperColorDef {

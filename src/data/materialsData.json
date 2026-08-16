@@ -265,6 +265,15 @@
   ],
   "wheelFinishes": [
     {
+      "id": "match_body",
+      "name": "Body Colour Match",
+      "hex": "#c3c8cc",
+      "metalness": 0.6,
+      "roughness": 0.25,
+      "clearcoat": 0.6,
+      "matchBody": true
+    },
+    {
       "id": "hyper_silver",
       "name": "Hyper Silver",
       "hex": "#c3c8cc",
@@ -319,6 +328,86 @@
       "metalness": 0.3,
       "roughness": 0.12,
       "clearcoat": 1.0
+    },
+    {
+      "id": "anthracite",
+      "name": "Anthracite",
+      "hex": "#2b2e33",
+      "metalness": 0.85,
+      "roughness": 0.35,
+      "clearcoat": 0.2
+    },
+    {
+      "id": "titanium",
+      "name": "Titanium",
+      "hex": "#8a8d90",
+      "metalness": 0.88,
+      "roughness": 0.3,
+      "clearcoat": 0.25
+    },
+    {
+      "id": "brushed_aluminium",
+      "name": "Brushed Aluminium",
+      "hex": "#b7bcbf",
+      "metalness": 0.7,
+      "roughness": 0.45,
+      "clearcoat": 0.05
+    },
+    {
+      "id": "racing_gold",
+      "name": "Racing Gold",
+      "hex": "#c9a441",
+      "metalness": 0.85,
+      "roughness": 0.28,
+      "clearcoat": 0.3
+    },
+    {
+      "id": "rose_gold",
+      "name": "Rose Gold",
+      "hex": "#caa298",
+      "metalness": 0.85,
+      "roughness": 0.25,
+      "clearcoat": 0.4
+    },
+    {
+      "id": "copper",
+      "name": "Copper",
+      "hex": "#b56a3c",
+      "metalness": 0.9,
+      "roughness": 0.3,
+      "clearcoat": 0.25
+    },
+    {
+      "id": "candy_red",
+      "name": "Candy Red",
+      "hex": "#a10f1f",
+      "metalness": 0.5,
+      "roughness": 0.15,
+      "clearcoat": 1.0
+    },
+    {
+      "id": "brg",
+      "name": "British Racing Green",
+      "hex": "#0d3b2e",
+      "metalness": 0.55,
+      "roughness": 0.2,
+      "clearcoat": 0.8
+    },
+    {
+      "id": "deep_blue",
+      "name": "Deep Blue",
+      "hex": "#16305c",
+      "metalness": 0.6,
+      "roughness": 0.2,
+      "clearcoat": 0.8
+    },
+    {
+      "id": "purple_haze",
+      "name": "Purple Haze",
+      "hex": "#4b2560",
+      "metalness": 0.55,
+      "roughness": 0.22,
+      "clearcoat": 0.7
     }
   ],
   "caliperColors": [

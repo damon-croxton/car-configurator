@@ -164,13 +164,54 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
 
 const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const paint = getPaintColor(config.paint);
+  const customColor = materialsData.wrapColors.find((color) => color.userColor);
+  const customActive = paint.userColor;
 
   return (
     <>
+      {customColor && (
+        <Section title="Custom colour" hint="Any colour, no preset">
+          <label
+            className={`flex cursor-pointer items-center gap-3 rounded-lg border-2 px-3 py-2.5 transition-colors ${
+              customActive
+                ? 'border-red-500 bg-red-500/10'
+                : 'border-dashed border-slate-600 bg-slate-800/40 hover:border-slate-500'
+            }`}
+          >
+            <span
+              className="relative block h-10 w-10 shrink-0 overflow-hidden rounded-full border border-black/20 shadow-inner"
+              style={{
+                background: `linear-gradient(150deg, ${config.paintCustomHex} 0%, ${config.paintCustomHex} 55%, rgba(255,255,255,0.28) 100%)`,
+              }}
+            >
+              <input
+                type="color"
+                value={config.paintCustomHex}
+                onChange={(event) => onChange({ paint: customColor.id, paintCustomHex: event.target.value })}
+                className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              />
+            </span>
+            <span className="flex-1">
+              <span className="block text-xs font-medium text-slate-100">{customColor.name}</span>
+              <span className="block font-mono text-[10px] uppercase text-slate-500">{config.paintCustomHex}</span>
+            </span>
+            {!customActive && (
+              <button
+                type="button"
+                onClick={() => onChange({ paint: customColor.id })}
+                className="shrink-0 rounded-md border border-slate-600 px-2 py-1 text-[10px] font-medium uppercase tracking-wide text-slate-300 hover:border-slate-400 hover:text-slate-100"
+              >
+                Use
+              </button>
+            )}
+          </label>
+        </Section>
+      )}
+
       <Section title="OEM factory colours" hint={paint.code ? `Code ${paint.code}` : undefined}>
         <SwatchGrid
           value={config.paint}
-          onChange={(id) => onChange({ paint: id, paintFinishOverride: '' })}
+          onChange={(id) => onChange({ paint: id })}
           swatches={materialsData.oemColors.map((color) => ({
             id: color.id,
             name: color.name,
@@ -183,13 +224,15 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
       <Section title="Wraps & aftermarket">
         <SwatchGrid
           value={config.paint}
-          onChange={(id) => onChange({ paint: id, paintFinishOverride: '' })}
-          swatches={materialsData.wrapColors.map((color) => ({
-            id: color.id,
-            name: color.name,
-            hex: color.userColor ? config.paintCustomHex : color.hex,
-            caption: color.finish,
-          }))}
+          onChange={(id) => onChange({ paint: id })}
+          swatches={materialsData.wrapColors
+            .filter((color) => !color.userColor)
+            .map((color) => ({
+              id: color.id,
+              name: color.name,
+              hex: color.hex,
+              caption: color.finish,
+            }))}
         />
       </Section>
 
@@ -199,20 +242,6 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           {paint.premium > 0 ? `+${paint.premium.toLocaleString()} premium` : 'No cost option'}
         </p>
       </div>
-
-      {paint.userColor && (
-        <Section title="Custom colour">
-          <label className="flex items-center gap-3 rounded-lg border border-slate-700/70 bg-slate-800/40 px-3 py-2">
-            <input
-              type="color"
-              value={config.paintCustomHex}
-              onChange={(event) => onChange({ paintCustomHex: event.target.value })}
-              className="h-8 w-12 cursor-pointer rounded border-0 bg-transparent"
-            />
-            <span className="font-mono text-xs uppercase text-slate-300">{config.paintCustomHex}</span>
-          </label>
-        </Section>
-      )}
 
       <Section title="Finish type" hint="Overrides the colour's default">
         <OptionGrid
@@ -262,6 +291,8 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
 const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const generation = getGeneration(config.generation);
   const wheels = wheelOptionsFor(generation);
+  const bodyPaint = getPaintColor(config.paint);
+  const bodyHex = bodyPaint.userColor ? config.paintCustomHex : bodyPaint.hex;
   const nearestStance = carData.stancePresets.reduce((best, preset) =>
     Math.abs(preset.drop - config.rideHeight) < Math.abs(best.drop - config.rideHeight) ? preset : best,
   );
@@ -409,7 +440,9 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         <SwatchGrid
           value={config.wheelFinish}
           onChange={(id) => onChange({ wheelFinish: id })}
-          swatches={materialsData.wheelFinishes}
+          swatches={materialsData.wheelFinishes.map((finish) =>
+            finish.matchBody ? { ...finish, hex: bodyHex } : finish,
+          )}
         />
       </Section>
 
