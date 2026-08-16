@@ -60,6 +60,7 @@ const BOOL_FIELDS: { key: string; field: keyof CarConfig }[] = [
   { key: 'ssao', field: 'ssao' },
   { key: 'shadow', field: 'contactShadow' },
   { key: 'brakes', field: 'wheelBrakes' },
+  { key: 'tyre', field: 'tyreVisible' },
   { key: 'smoked', field: 'smokedIndicators' },
   { key: 'tinthl', field: 'tintedHeadlights' },
   { key: 'spin', field: 'wheelSpin' },

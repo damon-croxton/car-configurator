@@ -242,6 +242,7 @@ export class CarModel {
   private wheelBrakesVisible = false;
   private tyreWidthFactor = 1;
   private tyreSidewallFactor = 1;
+  private tyreVisibleFlag = true;
   /**
    * Rim diameter, as a multiplier on the mesh's own modelled radius — driven
    * by the "Wheel size" stance control, see `setRimSize`.
@@ -318,6 +319,7 @@ export class CarModel {
     if (this.stance) this.setStance(this.stance);
     this.setTyreWidth(this.tyreWidthFactor);
     this.setTyreSidewall(this.tyreSidewallFactor);
+    this.setTyreVisible(this.tyreVisibleFlag);
     if (this.modRequest) {
       await this.setMods(this.modRequest.mods, this.modRequest.generationId);
     }
@@ -582,6 +584,7 @@ export class CarModel {
     if (this.stance) this.setStance(this.stance);
     this.setTyreWidth(this.tyreWidthFactor);
     this.setTyreSidewall(this.tyreSidewallFactor);
+    this.setTyreVisible(this.tyreVisibleFlag);
   }
 
   /** Detach every mod instance and switch the base parts back on. */
@@ -648,6 +651,14 @@ export class CarModel {
    * moves; hub, cap, spoke and lug detail meshes are left alone, same as the
    * Wheel finish picker only ever touches `rim`, not those.
    */
+  /** Debug aid: hide every tyre mesh so the rim underneath is easy to inspect. */
+  setTyreVisible(visible: boolean): void {
+    this.tyreVisibleFlag = visible;
+    this.forEachTyreMesh((mesh) => {
+      mesh.visible = visible;
+    });
+  }
+
   setTyreWidth(factor: number): void {
     this.tyreWidthFactor = factor;
     for (const wheel of this.wheels) {

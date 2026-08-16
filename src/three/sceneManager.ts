@@ -224,6 +224,7 @@ export class SceneManager {
     this.car.setWheelBrakes(config.wheelBrakes);
     this.car.setTyreWidth(config.tyreWidth);
     this.car.setTyreSidewall(config.tyreSidewall);
+    this.car.setTyreVisible(config.tyreVisible);
   }
 
   private applyRenderSettings(config: CarConfig): void {

@@ -381,6 +381,12 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
             format={(value) => `${Math.round(value * 100)}%`}
             onChange={(tyreSidewall) => onChange({ tyreSidewall })}
           />
+          <ToggleRow
+            label="Show tyre"
+            hint="Hide the tyre to inspect the rim underneath"
+            checked={config.tyreVisible}
+            onChange={(tyreVisible) => onChange({ tyreVisible })}
+          />
         </div>
       </Section>
 

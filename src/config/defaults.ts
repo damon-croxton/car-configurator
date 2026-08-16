@@ -46,6 +46,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   wheelBrakes: false,
   tyreWidth: 1,
   tyreSidewall: 1,
+  tyreVisible: true,
 
   extraMods: [],
 

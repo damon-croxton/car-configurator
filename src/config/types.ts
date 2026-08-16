@@ -44,6 +44,8 @@ export interface CarConfig {
    *  rim-mounting radius, held fixed) rather than computing a real aspect
    *  ratio from width and rim diameter. */
   tyreSidewall: number;
+  /** Debug aid: hide the tyre mesh to inspect the rim underneath. */
+  tyreVisible: boolean;
 
   /**
    * Additive mods with no catalogue slot of their own — bonnet pins, a tow
