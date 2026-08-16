@@ -126,19 +126,22 @@ def rename_to_contract(meshes):
     mesh rather than searching bpy.data.materials by the original glTF name.
     Everything here is flat-shaded chrome/black/gold with no texture, so
     there is no cap-texture case to handle this time.
+
+    Every mesh goes on MOD_Rim, including the near-black low-metal parts of
+    the set (a valve-stem-ish rubber/plastic material) that an earlier
+    version routed to MOD_SatinBlack instead. MOD_SatinBlack isn't itself
+    wrong, but it's a class the wheel-finish picker never touches, and
+    leaving that split in place meant those meshes stayed whatever colour
+    they were scanned in at — a real wheel's small black hardware bits, not
+    a deliberate two-tone styling choice — regardless of the user's finish
+    selection. Simpler and more predictable to let the whole wheel follow
+    finish colour uniformly.
     """
     for m in meshes:
         mat = m.material_slots[0].material if m.material_slots else None
         if not mat:
             continue
-        # The near-black rubber/plastic valve material is the one dark,
-        # low-metal material in the set; everything else is polished metal.
-        new_name = "MOD_Rim"
-        if mat.node_tree:
-            bsdf = mat.node_tree.nodes.get("Principled BSDF")
-            if bsdf and bsdf.inputs["Metallic"].default_value < 0.5:
-                new_name = "MOD_SatinBlack"
-        mat.name = new_name
+        mat.name = "MOD_Rim"
         print(f"  {m.name} material -> {mat.name}")
 
 

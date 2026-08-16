@@ -9,9 +9,12 @@ ET0 puts the mounting face on the wheel's centreline, which is the entire point:
 114 mm of barrel sits outboard of the spoke face and reads as the deep polished
 lip the design is known for. Two things follow from that:
 
-  * The lip is a SEPARATE object on MOD_Alloy while the face is MOD_Rim, so the
-    app's wheel-finish picker recolours the face and leaves the lip polished —
-    the "bronze face, polished lip" combination.
+  * The lip is a SEPARATE object, kept off the face's own mesh so the bolt
+    ring (below) has somewhere distinct to sit — but both are on MOD_Rim, so
+    the wheel-finish picker recolours the whole face+lip together. An earlier
+    version put the lip on MOD_Alloy for a fixed "bronze face, polished lip"
+    look; dropped because it left the lip chrome regardless of the user's
+    wheel-finish choice, which read as a bug rather than a styling feature.
   * 24 exposed bolts run round the lip, because a lip that deep on a one-piece
     wheel does not read as a three-piece without them.
 
@@ -148,7 +151,7 @@ caliper = block(N + "caliper", coll,
 
 for obj, material in (
     (rim, "MOD_Rim"), (spokes, "MOD_Rim"), (hub, "MOD_Rim"), (cap, "MOD_Rim"),
-    (lip, "MOD_Alloy"), (bolts, "MOD_Chrome"), (lugs, "MOD_Chrome"),
+    (lip, "MOD_Rim"), (bolts, "MOD_Chrome"), (lugs, "MOD_Chrome"),
     (tyre, "MOD_Tyre"), (disc, "MOD_Chrome"), (caliper, "MOD_CaliperPaint"),
 ):
     assign(obj, material)
