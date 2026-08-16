@@ -561,6 +561,26 @@ export class CarModel {
           this.modInstances.push(copy);
           for (const mesh of wheel.oem) this.hide(mesh);
 
+          // Every built-from-primitives and sourced wheel (the recolourable
+          // ones — the 30-wheel pack is exempt, see materialContractExempt)
+          // ships its own flat, untextured tyre. The OEM's real, textured
+          // tyre looks a lot better, so it stands in for all of them: un-
+          // hide the OEM tyre hide() just hid above (dropping it from
+          // hiddenByMods too, so setTyreVisible's toggle still affects it
+          // correctly) and hide the mod's own tyre via hide() so it stays
+          // hidden the same way the OEM rim and badge normally do.
+          if (!mod.materialContractExempt) {
+            const oemTyre = wheel.oem.find((mesh) => this.isTyreMesh(mesh));
+            if (oemTyre) {
+              oemTyre.visible = true;
+              this.hiddenByMods = this.hiddenByMods.filter((node) => node !== oemTyre);
+            }
+            copy.traverse((node) => {
+              const mesh = node as THREE.Mesh;
+              if (mesh.isMesh && this.isTyreMesh(mesh)) this.hide(mesh);
+            });
+          }
+
           copy.traverse((node) => {
             if (isBrakeNode(node.name)) {
               node.visible = this.wheelBrakesVisible;
