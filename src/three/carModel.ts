@@ -138,8 +138,6 @@ interface Wheel {
   pivot: THREE.Group;
   /** Contact patch in car-group space, before spacers are applied. */
   base: THREE.Vector3;
-  /** Outer (tyre) radius at native size, in car-group units. */
-  radius: number;
   /** +1 on the right-hand side of the car, -1 on the left. */
   side: 1 | -1;
   /** The asset's own wheel meshes, so a wheel mod can hide exactly these. */
@@ -245,16 +243,28 @@ export class CarModel {
   private tyreWidthFactor = 1;
   private tyreSidewallFactor = 1;
   /**
+   * Rim diameter, as a multiplier on the mesh's own modelled radius — driven
+   * by the "Wheel size" stance control, see `setRimSize`.
+   */
+  private rimSizeFactor = 1;
+  /**
    * Pristine vertex positions per tyre geometry, captured the first time
-   * `setTyreSidewall` touches it, so every later call reshapes from the
-   * original rather than compounding drift onto an already-reshaped mesh —
-   * and so the factor going back to 1 is an exact restore, not a guess.
-   * Keyed by `geometry.uuid`, alongside the bead radius (the smallest
-   * vertex radius in that original data) that the reshape holds fixed.
+   * `setTyreSidewall` or `setRimSize` touches it, so every later call
+   * reshapes from the original rather than compounding drift onto an
+   * already-reshaped mesh — and so both factors going back to 1 is an exact
+   * restore, not a guess. Keyed by `geometry.uuid`, alongside the bead
+   * radius (the smallest vertex radius in that original data, where the
+   * tyre meets the rim) and the tread radius (the largest), which together
+   * describe the sidewall band `setTyreSidewall` and `setRimSize` reshape.
    */
   private readonly tyreOriginals = new Map<
     string,
-    { positions: Float32Array; centreY: number; centreZ: number; beadRadius: number }
+    { positions: Float32Array; centreY: number; centreZ: number; beadRadius: number; treadRadius: number }
+  >();
+  /** Same idea as `tyreOriginals`, for the rim meshes `setRimSize` reshapes. */
+  private readonly rimOriginals = new Map<
+    string,
+    { positions: Float32Array; centreY: number; centreZ: number }
   >();
   /** The last request, held so a selection made before the car finished
    *  loading is not lost — the same pattern as paint, finish and stance. */
@@ -332,6 +342,7 @@ export class CarModel {
     this.byClass.clear();
     this.physical.clear();
     this.tyreOriginals.clear();
+    this.rimOriginals.clear();
     this.cabin = [];
     this.liningMeshes = [];
     this.islandOverlays = [];
@@ -433,7 +444,6 @@ export class CarModel {
       this.wheels.push({
         pivot,
         base,
-        radius: (union.max.y - union.min.y) / 2,
         side: centre.x > 0 ? 1 : -1,
         // Captured now, before any mod is fitted, so hiding "the OEM wheel"
         // later cannot accidentally catch a mod's own rim or tyre — which share
@@ -452,32 +462,37 @@ export class CarModel {
   /**
    * Apply wheel size, ride height, camber and track.
    *
-   * Order matters and is handled by three.js composing translate → rotate →
-   * scale: the wheel scales about its contact patch (so it stays on the
-   * ground), then tilts about that same point (so camber does not lift it),
-   * then slides outboard for spacers.
+   * Wheel size does NOT scale the wheel pivot — an earlier version grew the
+   * whole wheel (rim and tyre together) about the contact patch, which
+   * raised the hub the same way fitting a genuinely bigger wheel-and-tyre
+   * package does. That reads wrong for "plus sizing": picking an 18in wheel
+   * over a 15in one grows the rim and lowers the tyre's profile to suit, but
+   * the overall rolling diameter — and so the car's ride height — barely
+   * changes. `setRimSize` below reshapes just the rim, and compensates the
+   * tyre's sidewall so its outer (tread) radius holds roughly steady, which
+   * is why the body's height here only ever carries the ride-height slider.
    *
-   * The body's height carries both effects: a bigger wheel raises the hubs and
-   * therefore the car, and the ride-height slider lowers it from there.
+   * Camber and track still apply to the pivot: it tilts about the contact
+   * patch (so camber does not lift the wheel), then slides outboard for
+   * spacers.
    */
   setStance(stance: Stance): void {
     this.stance = stance;
     if (this.wheels.length === 0) return;
 
-    const scale = stance.wheelDiameter / (this.spec?.nativeWheelInches ?? stance.wheelDiameter);
     const spacer = stance.trackOffset / 1000;
     // Negative camber (a negative config value) tilts the wheel tops inboard.
     const camber = -stance.camber * DEG2RAD;
 
     for (const wheel of this.wheels) {
-      wheel.pivot.scale.setScalar(scale);
       wheel.pivot.position.set(wheel.base.x + wheel.side * spacer, wheel.base.y, wheel.base.z);
       wheel.pivot.rotation.z = wheel.side * camber;
     }
 
+    this.setRimSize(stance.wheelDiameter / (this.spec?.nativeWheelInches ?? stance.wheelDiameter));
+
     if (this.body) {
-      const hubRise = this.wheels[0].radius * (scale - 1);
-      this.body.position.y = this.bodyBaseY + hubRise + stance.rideHeight / 1000;
+      this.body.position.y = this.bodyBaseY + stance.rideHeight / 1000;
       // Body mods were modelled against the car at its base height, so they
       // have to carry the same delta. Without this a lowered car leaves its
       // splitter and wing hanging in the air.
@@ -646,14 +661,16 @@ export class CarModel {
   }
 
   /**
-   * Tyre sidewall height, as a multiplier applied radially outward from the
-   * bead (the smallest-radius ring in the mesh, where the tyre meets the
-   * rim) — another approximation, standing in for what a real tyre would
-   * compute from width and rim diameter as an aspect ratio. Unlike width,
-   * this cannot be a single `scale` property: shrinking or growing the tyre
-   * uniformly around its own centre would drag the bead away from the rim
-   * it is supposed to seat against, opening a gap or pushing through it.
-   * Reshaping vertex-by-vertex keeps the bead fixed and moves the tread.
+   * Tyre sidewall height, as a multiplier applied to the sidewall band
+   * between the bead (the smallest-radius ring in the mesh, where the tyre
+   * meets the rim) and the tread (the largest) — another approximation,
+   * standing in for what a real tyre would compute from width and rim
+   * diameter as an aspect ratio. Unlike width, this cannot be a single
+   * `scale` property: shrinking or growing the tyre uniformly around its
+   * own centre would drag the bead away from the rim it is supposed to seat
+   * against, opening a gap or pushing through it. Reshaping vertex-by-vertex
+   * keeps the bead anchored to the rim's current size (see `setRimSize`) and
+   * moves the tread.
    *
    * Geometry CAN be shared across a mod's four wheel instances (see
    * ModLoader), so this mutates the shared buffer once per unique geometry,
@@ -667,11 +684,69 @@ export class CarModel {
       const geometry = mesh.geometry;
       if (done.has(geometry.uuid)) return;
       done.add(geometry.uuid);
-      this.reshapeTyreSidewall(geometry, factor);
+      this.reshapeTyreSidewall(geometry, factor, this.rimSizeFactor);
     });
   }
 
-  private reshapeTyreSidewall(geometry: THREE.BufferGeometry, factor: number): void {
+  /**
+   * Rim diameter, as a multiplier on the mesh's own modelled radius — driven
+   * by the "Wheel size" stance control (`setStance`), not a user-facing
+   * slider of its own. Reshaped the same way as sidewall height —
+   * vertex-by-vertex around the mesh's own bbox centre, not a plain object
+   * `scale` — for the same reason: these meshes export with their local
+   * origin at the ground contact patch, not the axle centre, so a uniform
+   * object-level scale would grow the rim asymmetrically instead of about
+   * its own middle.
+   *
+   * A rim that resized on its own would leave the tyre's bead sitting where
+   * the old rim ended — a gap if the rim shrank, clipping through the tyre
+   * if it grew — so this also re-drives the tyre reshape, whose bead now
+   * tracks the new rim size while its tread radius holds still. That pairing
+   * is the whole mechanism behind "bigger wheel size trades rim for
+   * sidewall, near enough the same overall rolling diameter" — see the
+   * comment on `setStance` for why that matters for ride height.
+   */
+  setRimSize(factor: number): void {
+    this.rimSizeFactor = factor;
+    const done = new Set<string>();
+    for (const wheel of this.wheels) {
+      wheel.pivot.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (!mesh.isMesh || !this.isRimMesh(mesh)) return;
+        const geometry = mesh.geometry;
+        if (done.has(geometry.uuid)) return;
+        done.add(geometry.uuid);
+        this.reshapeRimSize(geometry, factor);
+      });
+    }
+    // Re-seat the tyre's bead against the rim's new size.
+    this.setTyreSidewall(this.tyreSidewallFactor);
+  }
+
+  /**
+   * Shared by `setTyreSidewall` and `setRimSize`: find the true centre of a
+   * body-of-revolution mesh from its own Y/Z bounding box, regardless of
+   * where the exporter happened to place the mesh's local origin. See
+   * `reshapeTyreSidewall`'s cache comment for why that origin cannot be
+   * trusted to be the axle centre.
+   */
+  private meshRadialCentre(positions: Float32Array): { centreY: number; centreZ: number } {
+    let minY = Infinity;
+    let maxY = -Infinity;
+    let minZ = Infinity;
+    let maxZ = -Infinity;
+    for (let i = 0; i < positions.length; i += 3) {
+      const y = positions[i + 1];
+      const z = positions[i + 2];
+      if (y < minY) minY = y;
+      if (y > maxY) maxY = y;
+      if (z < minZ) minZ = z;
+      if (z > maxZ) maxZ = z;
+    }
+    return { centreY: (minY + maxY) / 2, centreZ: (minZ + maxZ) / 2 };
+  }
+
+  private reshapeTyreSidewall(geometry: THREE.BufferGeometry, sidewallFactor: number, rimFactor: number): void {
     const posAttr = geometry.attributes.position as THREE.BufferAttribute;
     let cached = this.tyreOriginals.get(geometry.uuid);
     if (!cached) {
@@ -684,30 +759,21 @@ export class CarModel {
       // revolution's true centre is the midpoint of its own Y/Z extent
       // regardless of where its origin was placed, so that needs no
       // knowledge of any specific export convention to get right.
-      let minY = Infinity;
-      let maxY = -Infinity;
-      let minZ = Infinity;
-      let maxZ = -Infinity;
-      for (let i = 0; i < positions.length; i += 3) {
-        const y = positions[i + 1];
-        const z = positions[i + 2];
-        if (y < minY) minY = y;
-        if (y > maxY) maxY = y;
-        if (z < minZ) minZ = z;
-        if (z > maxZ) maxZ = z;
-      }
-      const centreY = (minY + maxY) / 2;
-      const centreZ = (minZ + maxZ) / 2;
+      const { centreY, centreZ } = this.meshRadialCentre(positions);
       let beadRadius = Infinity;
+      let treadRadius = -Infinity;
       for (let i = 0; i < positions.length; i += 3) {
         const radius = Math.hypot(positions[i + 1] - centreY, positions[i + 2] - centreZ);
         if (radius < beadRadius) beadRadius = radius;
+        if (radius > treadRadius) treadRadius = radius;
       }
-      cached = { positions, centreY, centreZ, beadRadius };
+      cached = { positions, centreY, centreZ, beadRadius, treadRadius };
       this.tyreOriginals.set(geometry.uuid, cached);
     }
 
-    const { positions, centreY, centreZ, beadRadius } = cached;
+    const { positions, centreY, centreZ, beadRadius, treadRadius } = cached;
+    const newBead = beadRadius * rimFactor;
+    const span = treadRadius - beadRadius;
     const array = posAttr.array as Float32Array;
     for (let i = 0; i < positions.length; i += 3) {
       const y = positions[i + 1];
@@ -721,10 +787,39 @@ export class CarModel {
         array[i + 2] = z;
         continue;
       }
-      const newRadius = beadRadius + (radius - beadRadius) * factor;
+      // How far outward this vertex sits in the ORIGINAL profile, 0 at the
+      // bead and 1 at the tread — independent of either factor, so the bead
+      // can move (rim size) and the band can stretch (sidewall) separately.
+      const t = span > 1e-6 ? (radius - beadRadius) / span : 0;
+      const newRadius = newBead + t * (treadRadius - newBead) * sidewallFactor;
       const scale = newRadius / radius;
       array[i + 1] = centreY + dy * scale;
       array[i + 2] = centreZ + dz * scale;
+    }
+    posAttr.needsUpdate = true;
+    geometry.computeVertexNormals();
+    geometry.computeBoundingSphere();
+    geometry.computeBoundingBox();
+  }
+
+  private reshapeRimSize(geometry: THREE.BufferGeometry, factor: number): void {
+    const posAttr = geometry.attributes.position as THREE.BufferAttribute;
+    let cached = this.rimOriginals.get(geometry.uuid);
+    if (!cached) {
+      const positions = Float32Array.from(posAttr.array);
+      const { centreY, centreZ } = this.meshRadialCentre(positions);
+      cached = { positions, centreY, centreZ };
+      this.rimOriginals.set(geometry.uuid, cached);
+    }
+
+    const { positions, centreY, centreZ } = cached;
+    const array = posAttr.array as Float32Array;
+    for (let i = 0; i < positions.length; i += 3) {
+      const dy = positions[i + 1] - centreY;
+      const dz = positions[i + 2] - centreZ;
+      array[i] = positions[i];
+      array[i + 1] = centreY + dy * factor;
+      array[i + 2] = centreZ + dz * factor;
     }
     posAttr.needsUpdate = true;
     geometry.computeVertexNormals();
