@@ -16,6 +16,12 @@ const DEG2RAD = Math.PI / 180;
 /** Surface classes that mean "this mesh belongs to a wheel, not to the body". */
 const WHEEL_CLASSES = new Set(['rim', 'rim_badge', 'tyre']);
 
+/**
+ * How strongly `setWheelPackTint` blends toward its target hue, 0-1. Kept
+ * well short of a full recolour — see that method's own comment for why.
+ */
+const PACK_TINT_STRENGTH = 0.35;
+
 /** Every wheel mod script names its disc/caliper meshes with this suffix. */
 const isBrakeNode = (name: string) => name.endsWith('_disc') || name.endsWith('_caliper');
 
@@ -203,6 +209,15 @@ export class CarModel {
    */
   private readonly physical = new Map<string, THREE.MeshPhysicalMaterial>();
   private wheelFinish: WheelFinish | null = null;
+  /**
+   * The 30-wheel pack's rim materials, cloned the first time a tint touches
+   * them — see `setWheelPackTint`. Keyed by the ORIGINAL (pre-clone)
+   * material's uuid, so every wheel corner's rim mesh converges on the same
+   * one clone instead of minting a fresh one each, and so a second tint call
+   * still finds it after `mesh.material` itself has moved on to the clone.
+   */
+  private readonly packTintMaterials = new Map<string, THREE.Material>();
+  private packTintHex: string | null = null;
   private roofFabric: string | null = null;
   private interior: InteriorTrim | null = null;
   private roofUp = true;
@@ -320,6 +335,7 @@ export class CarModel {
     this.setTyreWidth(this.tyreWidthFactor);
     this.setTyreSidewall(this.tyreSidewallFactor);
     this.setTyreVisible(this.tyreVisibleFlag);
+    this.setWheelPackTint(this.packTintHex);
     if (this.modRequest) {
       await this.setMods(this.modRequest.mods, this.modRequest.generationId);
     }
@@ -345,6 +361,7 @@ export class CarModel {
     this.physical.clear();
     this.tyreOriginals.clear();
     this.rimOriginals.clear();
+    this.packTintMaterials.clear();
     this.cabin = [];
     this.liningMeshes = [];
     this.islandOverlays = [];
@@ -605,6 +622,7 @@ export class CarModel {
     this.setTyreWidth(this.tyreWidthFactor);
     this.setTyreSidewall(this.tyreSidewallFactor);
     this.setTyreVisible(this.tyreVisibleFlag);
+    this.setWheelPackTint(this.packTintHex);
   }
 
   /** Detach every mod instance and switch the base parts back on. */
@@ -1078,6 +1096,64 @@ export class CarModel {
       roughness: finish.roughness,
       clearcoat: finish.clearcoat,
     });
+  }
+
+  /**
+   * A light colour cast on the 30-wheel pack's rim, leaving the brake disc
+   * alone. Those wheels ship one baked-texture "_metal" material shared by
+   * BOTH the rim and disc mesh (see the `$wheelPack` note in
+   * surfaceClasses.json) — same class, same material, so the ordinary
+   * class-based `tint()` above cannot touch one without the other. What it
+   * CAN rely on is that the rim and disc are still separate mesh objects
+   * (the disc geometry is a fixed 132-vertex part reused across the whole
+   * pack, the rim varies per wheel) — the export script even names them
+   * `..._rim` / `..._brakes`, the same suffix `isRimMesh` already checks
+   * for this pack. So: clone the rim mesh's OWN material (once per distinct
+   * source, cached in `packTintMaterials`) and recolour only the clone,
+   * leaving the disc mesh on the untouched original.
+   *
+   * `null` clears the tint back to the material's own baked colours.
+   *
+   * Deliberately a LIGHT blend (`PACK_TINT_STRENGTH`) toward the target hue
+   * rather than replacing the colour outright — these are baked AO/highlight
+   * textures doing real work at ~1,000 triangles, and a full recolour would
+   * both flatten that shading and read as a much bigger change bleeding
+   * near the disc than a gentle cast would.
+   */
+  setWheelPackTint(hex: string | null): void {
+    this.packTintHex = hex;
+    const target = hex ? new THREE.Color(hex) : null;
+
+    for (const wheel of this.wheels) {
+      wheel.pivot.traverse((node) => {
+        const mesh = node as THREE.Mesh;
+        if (!mesh.isMesh || !mesh.name.endsWith('_rim')) return;
+        const current = Array.isArray(mesh.material) ? mesh.material[0] : mesh.material;
+        if (!current) return;
+        // A real §3-contract rim (already MOD_Rim, already tintable via
+        // setWheelFinish above) has no baked disc sharing its material, so
+        // it needs none of this — and re-tinting it here would just fight
+        // the wheel-finish picker over the same colour.
+        if (classOf(this.table, current.name) === 'rim') return;
+
+        const original = (mesh.userData.packTintOriginal as THREE.Material | undefined) ?? current;
+        mesh.userData.packTintOriginal = original;
+
+        let clone = this.packTintMaterials.get(original.uuid);
+        if (!clone) {
+          clone = original.clone();
+          this.packTintMaterials.set(original.uuid, clone);
+        }
+        mesh.material = clone;
+
+        const pbr = clone as THREE.Material & { color?: THREE.Color };
+        if (pbr.color) {
+          pbr.color.set(0xffffff);
+          if (target) pbr.color.lerp(target, PACK_TINT_STRENGTH);
+        }
+        clone.needsUpdate = true;
+      });
+    }
   }
 
   /** Colour the soft top. The stitching decal follows the canvas. */

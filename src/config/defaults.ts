@@ -39,6 +39,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   // opens on a modified car and gives you nothing to compare against.
   wheelStyle: 'oem_17_design',
   wheelFinish: 'gunmetal',
+  wheelPackTint: '',
   wheelDiameter: 17,
   rideHeight: 0,
   camber: -0.5,

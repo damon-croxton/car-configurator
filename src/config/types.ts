@@ -25,6 +25,11 @@ export interface CarConfig {
   /* Wheels & stance */
   wheelStyle: string;
   wheelFinish: string;
+  /** Light rim-only colour cast for the 30-wheel pack, '' = none. A
+   *  materialsData.wheelFinishes id, same catalogue as wheelFinish — those
+   *  wheels' baked texture can't take the real wheel-finish tint (see
+   *  CarModel.setWheelPackTint), so this is a separate, gentler control. */
+  wheelPackTint: string;
   wheelDiameter: number;
   /** Ride-height delta in millimetres (0 = stock, negative = lowered). */
   rideHeight: number;

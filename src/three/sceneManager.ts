@@ -216,6 +216,13 @@ export class SceneManager {
       : rawFinish;
     this.car.setWheelFinish(finish);
 
+    if (config.wheelPackTint) {
+      const rawTint = getWheelFinish(config.wheelPackTint);
+      this.car.setWheelPackTint(rawTint.matchBody ? paintSpec.hex : rawTint.hex);
+    } else {
+      this.car.setWheelPackTint(null);
+    }
+
     this.car.setRoofFabric(getRoofFabric(config.roofFabric).hex);
     this.car.setRoofUp(config.roofState === 'up');
 

@@ -319,6 +319,7 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
     });
 
   const sourcedActive = sourcedWheels.find((m) => config.extraMods.includes(m.id));
+  const packWheelActive = packWheels.some((m) => m.id === sourcedActive?.id);
   const rimStyleValue = recolourableSourced.some((m) => m.id === sourcedActive?.id)
     ? (sourcedActive?.id ?? '')
     : config.wheelStyle;
@@ -456,13 +457,28 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           <IconOptionGrid
             columns={5}
             allowDeselect
-            value={packWheels.some((m) => m.id === sourcedActive?.id) ? (sourcedActive?.id ?? '') : ''}
+            value={packWheelActive ? (sourcedActive?.id ?? '') : ''}
             onChange={(id) => (id ? toggleSourcedWheel(id, true) : sourcedActive && toggleSourcedWheel(sourcedActive.id, false))}
             options={packWheels.map((mod) => ({
               id: mod.id,
               label: mod.displayName,
               icon: WHEEL_ICON(mod.id),
             }))}
+          />
+        </Section>
+      )}
+
+      {packWheelActive && (
+        <Section title="Rim tint" hint="Light colour cast, rim only — disc stays original">
+          <SwatchGrid
+            value={config.wheelPackTint}
+            onChange={(id) => onChange({ wheelPackTint: id })}
+            swatches={[
+              { id: '', name: 'None', hex: '#4b5563' },
+              ...materialsData.wheelFinishes.map((finish) =>
+                finish.matchBody ? { ...finish, hex: bodyHex } : finish,
+              ),
+            ]}
           />
         </Section>
       )}
