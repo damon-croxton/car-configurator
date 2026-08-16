@@ -651,10 +651,19 @@ export class CarModel {
    * moves; hub, cap, spoke and lug detail meshes are left alone, same as the
    * Wheel finish picker only ever touches `rim`, not those.
    */
-  /** Debug aid: hide every tyre mesh so the rim underneath is easy to inspect. */
+  /**
+   * Debug aid: hide every tyre mesh so the rim underneath is easy to
+   * inspect. Skips anything in `hiddenByMods` — the OEM tyre stays hidden
+   * once a wheel mod is fitted, same as `hide()` left it. Without this
+   * check, switching the toggle back on force-revived the OEM tyre
+   * alongside the mod's own one, since both are wheel-pivot children
+   * classed `tyre` and `forEachTyreMesh` cannot otherwise tell "hidden
+   * because a mod replaced it" apart from "hidden by this toggle".
+   */
   setTyreVisible(visible: boolean): void {
     this.tyreVisibleFlag = visible;
     this.forEachTyreMesh((mesh) => {
+      if (this.hiddenByMods.includes(mesh)) return;
       mesh.visible = visible;
     });
   }
