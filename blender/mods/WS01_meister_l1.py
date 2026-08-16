@@ -242,24 +242,7 @@ def build_rim(mod_id, decimate_ratio=None):
         print(f"decimated: {total_before} -> {total_after} faces (ratio {decimate_ratio})")
 
     # -- our own tyre, disc, caliper and lugs, exactly as every other wheel --
-    tyre = revolve(n + "tyre", coll, [
-        (-HALF_W,      RIM_R),
-        (-HALF_W - 10, RIM_R + 50),
-        (-HALF_W - 10, RIM_R + 82),
-        (-118,         TYRE_R - 3),
-        (-96,          TYRE_R),
-        (-52,          TYRE_R),
-        (-48,          TYRE_R - 2),
-        (-44,          TYRE_R),
-        (44,           TYRE_R),
-        (48,           TYRE_R - 2),
-        (52,           TYRE_R),
-        (96,           TYRE_R),
-        (118,          TYRE_R - 3),
-        (HALF_W + 10,  RIM_R + 82),
-        (HALF_W + 10,  RIM_R + 50),
-        (HALF_W,       RIM_R),
-    ], AXLE, segments=56, gen=GEN)
+    tyre = revolve(n + "tyre", coll, tyre_profile(RIM_R, TYRE_R, HALF_W, RIM_SCALE), AXLE, segments=56, gen=GEN)
     for v in tyre.data.vertices:
         app = blender_to_app(tyre.matrix_world @ v.co, GEN)
         if app[1] < 8:

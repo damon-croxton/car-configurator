@@ -879,6 +879,60 @@ def scale_wheel_face(coll, factor, axle_app, gen="nd", exclude=("tyre", "disc", 
     return scaled
 
 
+def tyre_profile(rim_r, tyre_r, half_w, rim_scale):
+    """
+    (x, radius) control points for the standard 7-wheel tyre revolve profile
+    -- every one of W01/W04/W05/W07/W09/WS01/WS02 built this exact shape from
+    the same literal points, anchored to the bead-seat constant RIM_R.
+
+    That was fine until `scale_wheel_face` started growing each wheel's rim
+    by RIM_SCALE (~1.195x, to 258mm) while deliberately excluding the tyre --
+    right call for the tyre's own tread and width, wrong for its BEAD, which
+    stayed at the un-scaled RIM_R. The rim's outer edge then sat ~42mm
+    outside the tyre's inner wall: not an overlap so much as a hole, which
+    reads on screen as the rim barrel clipping straight through the tyre's
+    sidewall.
+
+    Fix: anchor the bead to `rim_r * rim_scale` -- the rim's actual grown
+    radius -- and proportionally interpolate the two intermediate sidewall
+    points (RIM_R+50, RIM_R+82) between the new bead and the UNCHANGED tread
+    radius, rather than shifting them by the same flat 50mm/82mm. A flat
+    shift would push the sidewall's widest point past the tread itself, since
+    changing the shape by a constant offset when the shape here is not one
+    just doesn't work; proportional interpolation keeps the tread -- and so
+    tread width and ground contact -- exactly where every wheel's own numbers
+    were tuned against, and only shortens the sidewall, which is the correct
+    consequence of seating a tyre on a bigger rim.
+    """
+    bead = rim_r * rim_scale
+    span = tyre_r - rim_r
+
+    def lerp(r):
+        t = (r - rim_r) / span
+        return bead + t * (tyre_r - bead)
+
+    shoulder_near = lerp(rim_r + 50)
+    shoulder_far = lerp(rim_r + 82)
+    return [
+        (-half_w, bead),
+        (-half_w - 10, shoulder_near),
+        (-half_w - 10, shoulder_far),
+        (-118, tyre_r - 3),
+        (-96, tyre_r),
+        (-52, tyre_r),
+        (-48, tyre_r - 2),
+        (-44, tyre_r),
+        (44, tyre_r),
+        (48, tyre_r - 2),
+        (52, tyre_r),
+        (96, tyre_r),
+        (118, tyre_r - 3),
+        (half_w + 10, shoulder_far),
+        (half_w + 10, shoulder_near),
+        (half_w, bead),
+    ]
+
+
 # ---------------------------------------------------------------- stats ----
 
 def stats(objs, gen="nd"):

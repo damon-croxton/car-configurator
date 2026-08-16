@@ -53,24 +53,7 @@ coll = start_mod(GEN, MOD)
 # Circumferential grooves come free from the profile: stepping the tread radius
 # down 2 mm and back gives real grooves all the way round for four extra rings,
 # where modelling tread blocks would cost thousands of triangles nobody sees.
-tyre = revolve(N + "tyre", coll, [
-    (-HALF_W,      RIM_R),
-    (-HALF_W - 10, RIM_R + 50),
-    (-HALF_W - 10, RIM_R + 82),
-    (-118,         TYRE_R - 3),
-    (-96,          TYRE_R),
-    (-52,          TYRE_R),
-    (-48,          TYRE_R - 2),        # groove
-    (-44,          TYRE_R),
-    (44,           TYRE_R),
-    (48,           TYRE_R - 2),        # groove
-    (52,           TYRE_R),
-    (96,           TYRE_R),
-    (118,          TYRE_R - 3),
-    (HALF_W + 10,  RIM_R + 82),
-    (HALF_W + 10,  RIM_R + 50),
-    (HALF_W,       RIM_R),
-], AXLE, segments=56, gen=GEN)
+tyre = revolve(N + "tyre", coll, tyre_profile(RIM_R, TYRE_R, HALF_W, RIM_SCALE), AXLE, segments=56, gen=GEN)
 
 # Flatten the contact patch. A perfectly round tyre reads as hovering even when
 # it is touching, because nothing deforms.

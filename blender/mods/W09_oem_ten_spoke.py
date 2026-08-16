@@ -40,24 +40,7 @@ R_IN, R_OUT = 60.0, 208.0
 reset_mods()
 coll = start_mod(GEN, MOD)
 
-tyre = revolve(N + "tyre", coll, [
-    (-HALF_W,      RIM_R),
-    (-HALF_W - 10, RIM_R + 50),
-    (-HALF_W - 10, RIM_R + 82),
-    (-118,         TYRE_R - 3),
-    (-96,          TYRE_R),
-    (-52,          TYRE_R),
-    (-48,          TYRE_R - 2),
-    (-44,          TYRE_R),
-    (44,           TYRE_R),
-    (48,           TYRE_R - 2),
-    (52,           TYRE_R),
-    (96,           TYRE_R),
-    (118,          TYRE_R - 3),
-    (HALF_W + 10,  RIM_R + 82),
-    (HALF_W + 10,  RIM_R + 50),
-    (HALF_W,       RIM_R),
-], AXLE, segments=56, gen=GEN)
+tyre = revolve(N + "tyre", coll, tyre_profile(RIM_R, TYRE_R, HALF_W, RIM_SCALE), AXLE, segments=56, gen=GEN)
 
 for v in tyre.data.vertices:
     app = blender_to_app(tyre.matrix_world @ v.co, GEN)
