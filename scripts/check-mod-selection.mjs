@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import { build } from 'esbuild';
 
 // Bundle the app's real selection code, including JSON catalogues, for Node.
@@ -23,3 +24,16 @@ assert.deepEqual(forced.map((m) => m.id),['DT02']);
 assert.deepEqual(activeMods('nd',DEFAULT_CONFIG),[]);
 assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods:['unknown','DT01','DT01'] }).extraMods,['DT01']);
 console.log('PASS: antenna conflicts, unrelated extras, sourced wheel override, forced override, stock reset and duplicate/unknown IDs');
+const catalogue = JSON.parse(readFileSync('src/data/modsData.json','utf8')).mods;
+for (const id of ['FA20','FA21','RA20','RA21','RA22','RA23','RA24','RA25']) {
+  const mod = catalogue.find(m => m.id === id);
+  const config = reconcileConfig({ ...DEFAULT_CONFIG, [mod.slot]: mod.optionId });
+  assert.equal(config[mod.slot], mod.optionId);
+  assert.ok(activeMods('nd',config).some(m => m.id === id), `${id} must be selectable`);
+}
+for (const ids of [['FA05','FA22'],['FA22','FA05']]) {
+  const config = reconcileConfig({ ...DEFAULT_CONFIG, extraMods:['RA26',...ids] });
+  assert.deepEqual(config.extraMods, ['RA26',ids.at(-1)]);
+  assert.equal(activeMods('nd',config).filter(m => ids.includes(m.id)).length, 1);
+}
+console.log('PASS: all new aero slots, additive rear spats and mutually exclusive canard sets');

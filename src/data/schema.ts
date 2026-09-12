@@ -111,6 +111,7 @@ export interface AeroPartDef {
   downforce: number;
   weight: number;
   power?: number;
+  description?: string;
 }
 
 export interface StancePreset {
@@ -251,6 +252,10 @@ export interface EnvironmentDef {
   name: string;
   hint: string;
   hdri: string;
+  /** Sharp panorama, separate from the low-resolution lighting map. */
+  panorama?: string;
+  panoramaHeight?: number;
+  panoramaRotation?: number;
   exposure: number;
   envIntensity: number;
   backgroundMode: 'gradient' | 'environment' | 'color';

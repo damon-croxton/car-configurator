@@ -65,7 +65,7 @@ for mod in catalogue:
         if icons:scale=0.78
     elif ident.startswith('FA'):
         pos, target, scale = (1900, 1100, 4200), (0, 350, 1700), 2.3
-    elif ident.startswith('EX') or ident.startswith('RA04') or ident == 'DT08':
+    elif ident.startswith('EX') or mod.get('slot') == 'rearDiffuser' or ident in ['DT08','RA26']:
         pos, target, scale = (-1100, 550, -3900), (-160, 250, -1720), 1.9
     elif ident.startswith('RB'):
         pos, target, scale = (2100, 2300, -2800), (0, 950, -870), 2.1
@@ -73,7 +73,7 @@ for mod in catalogue:
         pos, target, scale = (1800, 3200, 3300), (0, 750, 1130), 2.1
     elif ident in ['DT01', 'DT02']:
         pos, target, scale = (-2500, 1900, -3000), (-560, 890, -1560), 0.9
-    elif ident.startswith('RA06'):
+    elif mod.get('slot') == 'sideSkirts':
         pos, target, scale = (4000, 650, 200), (0, 260, 0), 3.8
     else:
         pos, target, scale = (-2600, 1800, -4000), (0, 950, -1570), 2.2

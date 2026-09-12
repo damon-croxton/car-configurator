@@ -2,6 +2,32 @@ import type { PresetBuild } from './types';
 
 export const PRESET_BUILDS: PresetBuild[] = [
   {
+    id: 'nd_msr_inspired', name: 'ND MSR-inspired',
+    subtitle: 'Split lip, carbon steps and a blade spoiler', badge: 'New aero',
+    description: 'A coordinated street build with the MSR-style split lip, side blades and stepped rear spoiler. These are original visual approximations inspired by real ND accessories.',
+    config: {
+      generation: 'nd', roofType: 'st', roofState: 'up', paint: 'soft_white',
+      wheelStyle: 'rays_te37', wheelFinish: 'gloss_black', wheelDiameter: 17,
+      rideHeight: -20, camber: -.8, trackOffset: 0,
+      frontLip: 'msr_split_lip', sideSkirts: 'msr_side_blades', rearWing: 'msr_blade_spoiler',
+      rearDiffuser: 'mp_street_diffuser', exhaust: 'oem_dual',
+      environment: 'sunset', cameraPreset: 'exterior_360',
+    },
+  },
+  {
+    id: 'nd_club_aero', name: 'ND Club Aero',
+    subtitle: 'Sculpted skirts, low wing and stacked canards', badge: 'New aero',
+    description: 'A more assertive aero combination with a three-piece front lip, RS-style skirts, a low swan-neck wing, a street diffuser and rear spats.',
+    config: {
+      generation: 'nd', roofType: 'st', roofState: 'down', paint: 'zircon_sand',
+      wheelStyle: 'enkei_rpf1', wheelFinish: 'satin_bronze', wheelDiameter: 17,
+      rideHeight: -25, camber: -1.2, trackOffset: 0, wheelBrakes: true,
+      frontLip: 'three_piece_lip', sideSkirts: 'rs_sculpted_skirts', rearWing: 'swan_neck_wing',
+      rearDiffuser: 'mp_street_diffuser', exhaust: 'twin_oval', extraMods: ['FA22','RA26'],
+      environment: 'warehouse', cameraPreset: 'exterior_360',
+    },
+  },
+  {
     id: 'nd_street_kit',
     name: 'ND Street Kit',
     subtitle: 'Sculpted lip, slim skirts, low spoiler',

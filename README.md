@@ -178,13 +178,17 @@ revision of a binary forever — so they are fetched by `npm run assets`, which
 badge disappears. The generated rig is the fallback for a failed or skipped
 fetch, not the normal path. See `public/assets/hdri/README.md`.
 
-Every environment also renders the photograph itself as the visible
-background (`backgroundMode: 'environment'` in `materialsData.json`), not just
-as the reflection/lighting source — `scene.background` is set to the same
-PMREM-prefiltered texture used for IBL, blurred per-environment via
-`backgroundBlurriness`. `mountain_pass` (Poly Haven's "Golden Gate Hills") is
-the most scenic of the six: open sky, cumulus cloud and distant hills behind
-the car rather than a studio cyclorama.
+Each environment also has a sharp 8K WebP panorama, converted from Poly Haven's
+tonemapped JPG by the asset fetcher. `GroundedSkybox` projects the photograph
+onto the floor and surrounding sky; the contact shadow anchors the car without
+an opaque grid floor hiding the scenery. The 1K HDR stays separate for lighting.
+The source HDR remains a visible fallback if the panorama fails to load.
+
+The ND catalogue includes ten additional supplier-inspired aero concepts and
+two coordinated presets, **ND MSR-inspired** and **ND Club Aero**. See
+[the modelling references](blender/ND-AERO-REFERENCES.md) for sources, design
+scope and rebuild instructions. All eight main aero options are shareable;
+stacked canards and rear spats are available under Additional parts.
 
 ---
 

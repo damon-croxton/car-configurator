@@ -174,6 +174,7 @@ export class SceneManager {
     if (!previous || previous.generation !== next.generation) {
       this.options.onLoadingChange?.({ progress: 0.1, label: 'Loading model', done: false });
       await this.car.load(modelSpecFor(next.generation));
+      if (this.config !== next) return;
       this.options.onLoadingChange?.({ progress: 1, label: 'Ready', done: true });
     }
 
@@ -182,10 +183,15 @@ export class SceneManager {
     // Mods come after the rest of the car config: fitting one re-buckets the
     // materials and re-applies paint, so it has to see the final colours.
     await this.car.setMods(activeMods(next.generation, next, forcedModIds()), next.generation);
+    if (this.config !== next) return;
 
-    if (!previous || previous.environment !== next.environment || previous.groundReflection !== next.groundReflection) {
+    if (!previous || previous.environment !== next.environment ||
+        this.environment.environmentId !== next.environment ||
+        previous.groundReflection !== next.groundReflection) {
       await this.environment.apply(getEnvironment(next.environment), next.groundReflection);
     }
+
+    if (this.config !== next) return;
 
     this.applyRenderSettings(next);
 

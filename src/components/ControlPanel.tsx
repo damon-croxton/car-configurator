@@ -525,6 +525,7 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
       <p className="rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
         Options marked <span className="font-semibold text-emerald-300">3D</span> have a modelled
         part and change the car. The rest still drive the spec sheet and pricing.
+        {' '}Supplier-inspired designs are visual approximations.
       </p>
 
       {AERO_SECTIONS.map(({ slot, title, columns }) => (
@@ -537,12 +538,12 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
               id: part.id,
               label: part.name,
               badge: modForOption(generation.id, slot, part.id) ? '3D' : undefined,
-              sublabel:
+              sublabel: part.description ?? (
                 part.downforce > 0 || part.weight !== 0
                   ? `${part.downforce > 0 ? `+${part.downforce} kg downforce · ` : ''}${
                       part.weight > 0 ? '+' : ''
                     }${part.weight} kg`
-                  : undefined,
+                  : undefined),
             }))}
           />
         </Section>
@@ -621,15 +622,6 @@ const AtmosphereTab: React.FC<ControlPanelProps> = ({ config, onChange }) => (
           step={0.01}
           format={(value) => `${value.toFixed(2)}×`}
           onChange={(exposure) => onChange({ exposure })}
-        />
-        <SliderRow
-          label="Floor reflection"
-          value={config.groundReflection}
-          min={RANGES.groundReflection[0]}
-          max={RANGES.groundReflection[1]}
-          step={0.01}
-          format={(value) => `${Math.round(value * 100)}%`}
-          onChange={(groundReflection) => onChange({ groundReflection })}
         />
       </div>
     </Section>

@@ -19,15 +19,19 @@ public domain. No attribution is required; these are credited anyway.
 | --- | --- | --- |
 | `studio` | Studio Small 03 | https://polyhaven.com/a/studio_small_03 |
 | `sunset` | Venice Sunset | https://polyhaven.com/a/venice_sunset |
-| `urban_night` | Dikhololo Night | https://polyhaven.com/a/dikhololo_night |
+| `urban_night` | Shanghai Bund | https://polyhaven.com/a/shanghai_bund |
 | `warehouse` | Autoshop 01 | https://polyhaven.com/a/autoshop_01 |
 | `salt_flats` | Kloofendal 43d Clear | https://polyhaven.com/a/kloofendal_43d_clear |
-| `mountain_pass` | Golden Gate Hills | https://polyhaven.com/a/golden_gate_hills |
+| `mountain_pass` | Camdeboo Road | https://polyhaven.com/a/camdeboo_road |
 
-Downloaded at 1K. We consume them through `PMREMGenerator`, which pre-filters to
-a small cubemap, so higher resolutions cost bandwidth for detail the renderer
-discards. All six now render as the actual visible background as well as the
-lighting — see the note in `README.md` on `backgroundMode`.
+The 1K HDR files supply prefiltered lighting. Separate tonemapped panoramas
+from the same CC0 assets are converted to 8K WebP at build time and displayed
+as ground-projected scenery. The panorama is not blurred by PMREM. Names in
+the scene picker describe the actual photographs; URL identifiers remain stable.
+
+The ten original ND aero concepts FA20–FA22 and RA20–RA26 use supplier photos
+only as shape references. No supplier photographs or CAD files are included.
+See [the reference ledger](blender/ND-AERO-REFERENCES.md) for sources and scope.
 
 ---
 

@@ -20,11 +20,11 @@
     },
     {
       "id": "hdri_urban_night",
-      "dest": "assets/hdri/urban_night.hdr",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dikhololo_night_1k.hdr",
+      "dest": "assets/hdri/shanghai_bund.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/shanghai_bund_1k.hdr",
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/dikhololo_night",
-      "credit": "Poly Haven — Dikhololo Night (CC0)"
+      "source": "https://polyhaven.com/a/shanghai_bund",
+      "credit": "Poly Haven — Shanghai Bund (CC0)"
     },
     {
       "id": "hdri_warehouse",
@@ -44,11 +44,11 @@
     },
     {
       "id": "hdri_mountain_pass",
-      "dest": "assets/hdri/mountain_pass.hdr",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/golden_gate_hills_1k.hdr",
+      "dest": "assets/hdri/camdeboo_road.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/camdeboo_road_1k.hdr",
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/golden_gate_hills",
-      "credit": "Poly Haven — Golden Gate Hills (CC0)"
+      "source": "https://polyhaven.com/a/camdeboo_road",
+      "credit": "Poly Haven — Camdeboo Road (CC0)"
     },
     {
       "id": "car_mx5_sketchfab",
@@ -65,6 +65,60 @@
       "licence": "CC-BY 4.0",
       "source": "https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5",
       "credit": "\"1990 Mazda Miata NA\" by Ricy (https://sketchfab.com/ngon_3d), licensed under CC-BY 4.0. Used unmodified."
+    },
+    {
+      "id": "panorama_studio",
+      "dest": "assets/hdri/studio_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/studio_small_03.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/studio_small_03",
+      "credit": "Poly Haven — Studio Small 03 (CC0)"
+    },
+    {
+      "id": "panorama_sunset",
+      "dest": "assets/hdri/sunset_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/venice_sunset.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/venice_sunset",
+      "credit": "Poly Haven — Venice Sunset (CC0)"
+    },
+    {
+      "id": "panorama_urban_night",
+      "dest": "assets/hdri/shanghai_bund_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/shanghai_bund.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/shanghai_bund",
+      "credit": "Poly Haven — Shanghai Bund (CC0)"
+    },
+    {
+      "id": "panorama_warehouse",
+      "dest": "assets/hdri/warehouse_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/autoshop_01.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/autoshop_01",
+      "credit": "Poly Haven — Autoshop 01 (CC0)"
+    },
+    {
+      "id": "panorama_salt_flats",
+      "dest": "assets/hdri/salt_flats_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/kloofendal_43d_clear.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/kloofendal_43d_clear",
+      "credit": "Poly Haven — Kloofendal 43d Clear (CC0)"
+    },
+    {
+      "id": "panorama_mountain_pass",
+      "dest": "assets/hdri/camdeboo_road_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/camdeboo_road.jpg",
+      "resizeWidth": 8192,
+      "licence": "CC0",
+      "source": "https://polyhaven.com/a/camdeboo_road",
+      "credit": "Poly Haven — Camdeboo Road (CC0)"
     }
   ]
 }

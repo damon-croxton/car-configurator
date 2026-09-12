@@ -12,6 +12,7 @@ coverage/
 # rather than committed — git keeps every revision of a binary forever.
 # The README.md in each directory documents the contract and stays tracked.
 public/assets/**/*.hdr
+public/assets/hdri/*.webp
 public/assets/**/*.exr
 public/assets/**/*.glb
 public/assets/**/*.gltf

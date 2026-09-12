@@ -53,23 +53,31 @@
         "frontLip": [
           "stock",
           "club_lip",
-          "aggressive_splitter"
+          "aggressive_splitter",
+          "msr_split_lip",
+          "three_piece_lip"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
-          "carbon_extenders"
+          "carbon_extenders",
+          "msr_side_blades",
+          "rs_sculpted_skirts"
         ],
         "rearDiffuser": [
           "stock",
           "oem_diffuser",
-          "track_diffuser"
+          "track_diffuser",
+          "mp_street_diffuser"
         ],
         "rearWing": [
           "wing_delete",
           "oem_ducktail",
           "oem_lip",
-          "gt_wing"
+          "gt_wing",
+          "msr_blade_spoiler",
+          "touring_ducktail",
+          "swan_neck_wing"
         ],
         "hood": [
           "stock",
@@ -439,7 +447,7 @@
       },
       {
         "id": "club_lip",
-          "name": "Street Front Lip",
+        "name": "Street Front Lip",
         "node": "FrontLip_Club",
         "material": "trim",
         "downforce": 6,
@@ -452,6 +460,24 @@
         "material": "carbon",
         "downforce": 24,
         "weight": 3.6
+      },
+      {
+        "id": "msr_split_lip",
+        "name": "MSR-style Split Lip",
+        "node": "MOD_ND_FA20",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Two carbon halves with a centre gap and raised corner edges."
+      },
+      {
+        "id": "three_piece_lip",
+        "name": "Three-piece Street Lip",
+        "node": "MOD_ND_FA21",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Deep satin corner blades, a centre bridge and three small ribs."
       }
     ],
     "sideSkirts": [
@@ -465,7 +491,7 @@
       },
       {
         "id": "oem_extensions",
-          "name": "Slim Side Extensions",
+        "name": "Slim Side Extensions",
         "node": "SideSkirts_OEM",
         "material": "trim",
         "downforce": 2,
@@ -478,6 +504,24 @@
         "material": "carbon",
         "downforce": 5,
         "weight": 1.8
+      },
+      {
+        "id": "msr_side_blades",
+        "name": "MSR-style Side Blades",
+        "node": "MOD_ND_RA20",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Slim carbon steps with a raised rear shoulder."
+      },
+      {
+        "id": "rs_sculpted_skirts",
+        "name": "RS-style Sculpted Skirts",
+        "node": "MOD_ND_RA21",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Deep, curved carbon sill panels with tapered ends."
       }
     ],
     "rearDiffuser": [
@@ -504,6 +548,15 @@
         "material": "carbon",
         "downforce": 22,
         "weight": 3.4
+      },
+      {
+        "id": "mp_street_diffuser",
+        "name": "MP-style Street Diffuser",
+        "node": "MOD_ND_RA25",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Curved satin valance and four fins, with clearance for side-exit tips."
       }
     ],
     "rearWing": [
@@ -517,7 +570,7 @@
       },
       {
         "id": "oem_ducktail",
-          "name": "Low Boot Spoiler",
+        "name": "Low Boot Spoiler",
         "node": "RearWing_Ducktail",
         "material": "paint",
         "downforce": 5,
@@ -538,6 +591,33 @@
         "material": "carbon",
         "downforce": 58,
         "weight": 6.8
+      },
+      {
+        "id": "msr_blade_spoiler",
+        "name": "MSR-style Blade Spoiler",
+        "node": "MOD_ND_RA22",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Thin upright carbon blade with a lower centre section."
+      },
+      {
+        "id": "touring_ducktail",
+        "name": "Touring Ducktail",
+        "node": "MOD_ND_RA23",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A broad, rounded body-colour spoiler with a swept trailing edge."
+      },
+      {
+        "id": "swan_neck_wing",
+        "name": "Low Swan-neck Wing",
+        "node": "MOD_ND_RA24",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Curved carbon airfoil on low top-mounted supports."
       }
     ],
     "hood": [

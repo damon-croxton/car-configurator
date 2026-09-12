@@ -1,28 +1,30 @@
 import * as THREE from 'three';
 // HDRLoader is the current name of three's RGBE (.hdr) loader.
 import { HDRLoader } from 'three/examples/jsm/loaders/HDRLoader.js';
+import { GroundedSkybox } from 'three/examples/jsm/objects/GroundedSkybox.js';
 import type { EnvironmentDef } from '../data/schema';
-import { DisposalBin, removeAndDispose } from './disposal';
+import { removeAndDispose } from './disposal';
 
 /**
- * Image-based lighting + practical lights + ground plane.
- *
- * HDRIs are loaded with three's RGBE loader when the environment declares one and the
- * file is actually present. When it is not (the default for this repo — no
- * binary assets are committed) a matching lighting rig is generated in code and
- * pre-filtered with `PMREMGenerator`, so reflections and IBL still look right.
+ * Separate sharp photographic scenery from prefiltered image-based lighting.
+ * Assets arrive through the build manifest; missing files fall back to the
+ * source HDR, then a gradient and generated lighting rig.
  */
 export class EnvironmentManager {
   private readonly pmrem: THREE.PMREMGenerator;
-  private readonly bin = new DisposalBin();
-
-  private envTexture: THREE.Texture | null = null;
+  private envTarget: THREE.WebGLRenderTarget | null = null;
   private backgroundTexture: THREE.Texture | null = null;
+  private panorama: GroundedSkybox | null = null;
   private lightRig: THREE.Group | null = null;
   private ground: THREE.Mesh | null = null;
   private grid: THREE.GridHelper | null = null;
   private current: EnvironmentDef | null = null;
   private token = 0;
+  private pendingId: string | null = null;
+  private pendingLoad: Promise<void> | null = null;
+  private reflection = 0;
+  private gridVisible = false;
+  private shadowSize = 1024;
   /** True when the active IBL came from a real .hdr rather than the code rig. */
   private usingHdri = false;
 
@@ -46,44 +48,75 @@ export class EnvironmentManager {
 
   /** Swap to a new environment. Concurrent calls resolve to the last one. */
   async apply(def: EnvironmentDef, groundReflection: number): Promise<void> {
-    const isSameEnvironment = this.current?.id === def.id;
-    this.current = def;
-
-    if (!isSameEnvironment) {
-      const requestToken = ++this.token;
-      const texture = await this.buildEnvironmentTexture(def);
+    this.reflection = groundReflection;
+    if (this.current?.id === def.id) {
+      // Returning to the active scene cancels an unfinished scene switch.
+      ++this.token;
+      this.pendingId = null;
+      this.pendingLoad = null;
+      this.applyGround(def, this.reflection);
+      return;
+    }
+    if (this.pendingId === def.id && this.pendingLoad) return this.pendingLoad;
+    const requestToken = ++this.token;
+    this.pendingId = def.id;
+    this.pendingLoad = (async () => {
+      const { target, background, usingHdri } = await this.buildEnvironmentTexture(def);
       if (requestToken !== this.token) {
-        texture?.dispose();
+        target.dispose();
+        background?.dispose();
         return;
       }
-
-      this.envTexture?.dispose();
-      this.envTexture = texture;
-      this.scene.environment = texture;
+      this.clearBackground();
+      this.envTarget?.dispose();
+      this.envTarget = target;
+      this.backgroundTexture = background;
+      this.usingHdri = usingHdri;
+      this.current = def;
+      this.scene.environment = target.texture;
       this.scene.environmentIntensity = def.envIntensity;
-
+      this.scene.environmentRotation.y = THREE.MathUtils.degToRad(def.panoramaRotation ?? 0);
       this.applyBackground(def);
       this.applyLights(def);
+      this.setShadowQuality(this.shadowSize);
+      this.applyGround(def, this.reflection);
+    })();
+    await this.pendingLoad;
+    if (requestToken === this.token) {
+      this.pendingId = null;
+      this.pendingLoad = null;
     }
-
-    this.applyGround(def, groundReflection);
   }
 
-  private async buildEnvironmentTexture(def: EnvironmentDef): Promise<THREE.Texture | null> {
-    const hdr = await this.tryLoadHdri(def.hdri);
+  private async buildEnvironmentTexture(def: EnvironmentDef) {
+    const [hdr, panorama] = await Promise.all([
+      this.tryLoadHdri(def.hdri), this.tryLoadPanorama(def.panorama),
+    ]);
     if (hdr) {
       hdr.mapping = THREE.EquirectangularReflectionMapping;
       const target = this.pmrem.fromEquirectangular(hdr);
-      hdr.dispose();
-      this.usingHdri = true;
-      return target.texture;
+      // Keep the source HDR as a sharp fallback if the panorama is missing.
+      if (panorama) hdr.dispose();
+      return { target, background: panorama ?? hdr, usingHdri: true };
     }
 
     const rigScene = this.buildProceduralEnvScene(def);
     const target = this.pmrem.fromScene(rigScene, 0, 0.1, 120);
     removeAndDispose(rigScene);
-    this.usingHdri = false;
-    return target.texture;
+    return { target, background: panorama, usingHdri: false };
+  }
+
+  private async tryLoadPanorama(url?: string): Promise<THREE.Texture | null> {
+    if (!url) return null;
+    try {
+      const texture = await new THREE.TextureLoader(this.loadingManager).loadAsync(url);
+      texture.colorSpace = THREE.SRGBColorSpace;
+      texture.mapping = THREE.EquirectangularReflectionMapping;
+      texture.anisotropy = 4;
+      return texture;
+    } catch {
+      return null;
+    }
   }
 
   private async tryLoadHdri(url: string): Promise<THREE.DataTexture | null> {
@@ -112,9 +145,9 @@ export class EnvironmentManager {
       side: THREE.BackSide,
       depthWrite: false,
       uniforms: {
-        topColor: { value: new THREE.Color(skyTop).convertSRGBToLinear() },
-        horizonColor: { value: new THREE.Color(skyHorizon).convertSRGBToLinear() },
-        bottomColor: { value: new THREE.Color(skyBottom).convertSRGBToLinear() },
+        topColor: { value: new THREE.Color(skyTop) },
+        horizonColor: { value: new THREE.Color(skyHorizon) },
+        bottomColor: { value: new THREE.Color(skyBottom) },
       },
       vertexShader: /* glsl */ `
         varying float vHeight;
@@ -143,7 +176,7 @@ export class EnvironmentManager {
     for (const panel of panels) {
       const geometry = new THREE.BoxGeometry(panel.size[0], panel.size[1], panel.size[2]);
       const material = new THREE.MeshBasicMaterial({
-        color: new THREE.Color(panel.color).convertSRGBToLinear().multiplyScalar(panel.intensity),
+        color: new THREE.Color(panel.color).multiplyScalar(panel.intensity),
       });
       const box = new THREE.Mesh(geometry, material);
       box.position.fromArray(panel.position);
@@ -155,25 +188,45 @@ export class EnvironmentManager {
   }
 
   private applyBackground(def: EnvironmentDef): void {
-    this.backgroundTexture?.dispose();
-    this.backgroundTexture = null;
-
-    if (def.backgroundMode === 'environment' && this.envTexture) {
-      this.scene.background = this.envTexture;
-      this.scene.backgroundBlurriness = def.backgroundBlur;
-    } else if (def.backgroundMode === 'gradient') {
+    this.scene.backgroundBlurriness = 0;
+    if (def.backgroundMode === 'environment' && this.backgroundTexture) {
+      const height = def.panoramaHeight ?? 6;
+      const sky = new GroundedSkybox(this.backgroundTexture, height, 80);
+      sky.name = 'ScenePanorama';
+      sky.position.y = height - 0.012;
+      sky.rotation.y = THREE.MathUtils.degToRad(def.panoramaRotation ?? 0);
+      sky.material.fog = false;
+      // Photographic WebPs are already tone mapped; HDR fallbacks are not.
+      sky.material.toneMapped = this.backgroundTexture.colorSpace !== THREE.SRGBColorSpace;
+      sky.renderOrder = -10;
+      this.scene.add(sky);
+      this.panorama = sky;
+      this.scene.background = new THREE.Color(def.backgroundBottom);
+    } else if (def.backgroundMode !== 'color') {
+      this.backgroundTexture?.dispose();
       this.backgroundTexture = createGradientTexture(def.backgroundTop, def.backgroundBottom);
       this.scene.background = this.backgroundTexture;
-      this.scene.backgroundBlurriness = 0;
     } else {
       this.scene.background = new THREE.Color(def.backgroundBottom);
     }
 
-    this.scene.fog = new THREE.FogExp2(new THREE.Color(def.fogColor).getHex(), def.fogDensity);
+    this.scene.fog = this.panorama ? null : new THREE.FogExp2(def.fogColor, def.fogDensity);
+  }
+
+  private clearBackground(): void {
+    if (this.panorama) {
+      this.panorama.removeFromParent();
+      this.panorama.geometry.dispose();
+      // The texture is owned by the manager, not this material.
+      this.panorama.material.dispose();
+      this.panorama = null;
+    }
+    this.backgroundTexture?.dispose();
+    this.backgroundTexture = null;
   }
 
   private applyLights(def: EnvironmentDef): void {
-    removeAndDispose(this.lightRig);
+    this.clearLights();
     const rig = new THREE.Group();
     rig.name = 'EnvironmentLights';
 
@@ -208,8 +261,18 @@ export class EnvironmentManager {
     this.lightRig = rig;
   }
 
+  private clearLights(): void {
+    this.lightRig?.traverse((child) => {
+      const light = child as THREE.DirectionalLight;
+      if (light.isDirectionalLight) light.dispose();
+    });
+    removeAndDispose(this.lightRig);
+    this.lightRig = null;
+  }
+
   /** Shadow map resolution follows the device pixel ratio, per the perf budget. */
   setShadowQuality(size: number): void {
+    this.shadowSize = size;
     this.lightRig?.traverse((child) => {
       const light = child as THREE.DirectionalLight;
       if (light.isDirectionalLight && light.castShadow) {
@@ -224,9 +287,7 @@ export class EnvironmentManager {
     if (!this.ground) {
       const geometry = new THREE.PlaneGeometry(80, 80);
       geometry.rotateX(-Math.PI / 2);
-      const material = this.bin.add(
-        new THREE.MeshStandardMaterial({ name: 'Ground', color: '#0b0d11', roughness: 0.4, metalness: 0.4 }),
-      );
+      const material = new THREE.MeshStandardMaterial({ name: 'Ground', color: '#0b0d11', roughness: 0.4, metalness: 0.4 });
       this.ground = new THREE.Mesh(geometry, material);
       this.ground.name = 'Ground';
       this.ground.receiveShadow = true;
@@ -235,7 +296,10 @@ export class EnvironmentManager {
     }
 
     const material = this.ground.material as THREE.MeshStandardMaterial;
-    material.color.set(def.groundHex).convertSRGBToLinear();
+    material.color.set(def.groundHex);
+    // A real panorama supplies its own floor. The contact shadow still grounds
+    // the tyres, without a giant opaque plane covering the photograph.
+    this.ground.visible = !this.panorama;
     // The reflection slider blends between the environment's matte and mirror
     // extremes rather than replacing the ground's own character.
     material.roughness = THREE.MathUtils.lerp(def.groundRoughness, 0.04, reflection);
@@ -249,27 +313,30 @@ export class EnvironmentManager {
     gridMaterial.transparent = true;
     gridMaterial.opacity = 0.18;
     grid.position.y = 0.0015;
+    grid.visible = this.gridVisible && !this.panorama;
     this.scene.add(grid);
     this.grid = grid;
   }
 
   setGridVisible(visible: boolean): void {
-    if (this.grid) this.grid.visible = visible;
+    this.gridVisible = visible;
+    if (this.grid) this.grid.visible = visible && !this.panorama;
   }
 
   /** Hide the backdrop so it does not occlude the contact-shadow depth pass. */
   setBackdropVisible(visible: boolean): void {
-    if (this.ground) this.ground.visible = visible;
-    if (this.grid) this.grid.visible = visible;
+    if (this.panorama) this.panorama.visible = visible;
+    if (this.ground) this.ground.visible = visible && !this.panorama;
+    if (this.grid) this.grid.visible = visible && this.gridVisible && !this.panorama;
   }
 
   dispose(): void {
-    removeAndDispose(this.lightRig);
+    ++this.token;
+    this.clearLights();
     removeAndDispose(this.grid);
     removeAndDispose(this.ground);
-    this.envTexture?.dispose();
-    this.backgroundTexture?.dispose();
-    this.bin.flush();
+    this.envTarget?.dispose();
+    this.clearBackground();
     this.pmrem.dispose();
     this.scene.environment = null;
     this.scene.background = null;

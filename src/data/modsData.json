@@ -1732,6 +1732,510 @@
       "derivedFromBaseMesh": true,
       "$note": "Original bonnet perimeter with clean bounded apertures, fitted louvres and embedded carbon weave. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "uiHint": "Original bonnet perimeter with clean bounded apertures, fitted louvres and embedded carbon weave."
+    },
+    {
+      "id": "FA20",
+      "gen": [
+        "nd"
+      ],
+      "category": "front aero",
+      "displayName": "MSR-style Split Lip",
+      "slot": "frontLip",
+      "optionId": "msr_split_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -775,
+            157,
+            1577
+          ],
+          "max": [
+            775,
+            187,
+            1933
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Two carbon halves with a centre gap and raised corner edges.",
+      "file": {
+        "nd": "assets/mods/nd/FA20_msr_split_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "FA21",
+      "gen": [
+        "nd"
+      ],
+      "category": "front aero",
+      "displayName": "Three-piece Street Lip",
+      "slot": "frontLip",
+      "optionId": "three_piece_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -775,
+            145,
+            1577
+          ],
+          "max": [
+            775,
+            186,
+            1954
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Deep satin corner blades, a centre bridge and three small ribs.",
+      "file": {
+        "nd": "assets/mods/nd/FA21_three_piece_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "FA22",
+      "gen": [
+        "nd"
+      ],
+      "category": "front aero",
+      "displayName": "Stacked Carbon Canards",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [
+        "FA05"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -806,
+            392,
+            1620
+          ],
+          "max": [
+            806,
+            500,
+            1780
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Two curved dive planes per side; replaces the single canards.",
+      "file": {
+        "nd": "assets/mods/nd/FA22_stacked_canards.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA20",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "MSR-style Side Blades",
+      "slot": "sideSkirts",
+      "optionId": "msr_side_blades",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -830,
+            143,
+            -743
+          ],
+          "max": [
+            830,
+            206,
+            812
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Slim carbon steps with a raised rear shoulder.",
+      "file": {
+        "nd": "assets/mods/nd/RA20_msr_side_blades.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA21",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "RS-style Sculpted Skirts",
+      "slot": "sideSkirts",
+      "optionId": "rs_sculpted_skirts",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -815,
+            137,
+            -743
+          ],
+          "max": [
+            815,
+            262,
+            812
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Deep, curved carbon sill panels with tapered ends.",
+      "file": {
+        "nd": "assets/mods/nd/RA21_rs_sculpted_skirts.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA22",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "MSR-style Blade Spoiler",
+      "slot": "rearWing",
+      "optionId": "msr_blade_spoiler",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -480,
+            829,
+            -1856
+          ],
+          "max": [
+            480,
+            904,
+            -1703
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Thin upright carbon blade with a lower centre section.",
+      "file": {
+        "nd": "assets/mods/nd/RA22_msr_blade_spoiler.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA23",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Touring Ducktail",
+      "slot": "rearWing",
+      "optionId": "touring_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -480,
+            829,
+            -1834
+          ],
+          "max": [
+            480,
+            925,
+            -1705
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "A broad, rounded body-colour spoiler with a swept trailing edge.",
+      "file": {
+        "nd": "assets/mods/nd/RA23_touring_ducktail.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA24",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Low Swan-neck Wing",
+      "slot": "rearWing",
+      "optionId": "swan_neck_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -716,
+            851,
+            -1900
+          ],
+          "max": [
+            716,
+            1122,
+            -1570
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Curved carbon airfoil on low top-mounted supports.",
+      "file": {
+        "nd": "assets/mods/nd/RA24_swan_neck_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA25",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "MP-style Street Diffuser",
+      "slot": "rearDiffuser",
+      "optionId": "mp_street_diffuser",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -680,
+            184,
+            -1918
+          ],
+          "max": [
+            680,
+            305,
+            -1575
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Curved satin valance and four fins, with clearance for side-exit tips.",
+      "file": {
+        "nd": "assets/mods/nd/RA25_mp_street_diffuser.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "RA26",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Carbon Rear Spats",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -752,
+            181,
+            -1755
+          ],
+          "max": [
+            752,
+            260,
+            -1490
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Small fitted corner extensions behind both rear wheels.",
+      "file": {
+        "nd": "assets/mods/nd/RA26_rear_spats.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
     }
   ]
 }

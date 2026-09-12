@@ -16,6 +16,7 @@ import { createHash } from 'node:crypto';
 import { mkdir, readFile, stat, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import sharp from 'sharp';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const MANIFEST = resolve(ROOT, 'src/data/assetManifest.json');
@@ -67,14 +68,17 @@ async function fetchAsset(asset) {
     const bytes = Buffer.from(await response.arrayBuffer());
     if (bytes.length === 0) throw new Error('empty response');
 
-    if (asset.sha256 && sha256(bytes) !== asset.sha256) {
-      throw new Error(`sha256 mismatch (got ${sha256(bytes)})`);
+    const output = asset.resizeWidth
+      ? await sharp(bytes).resize({ width: asset.resizeWidth, withoutEnlargement: true }).webp({ quality: 90 }).toBuffer()
+      : bytes;
+    // Checksums describe the stored asset, including any image conversion.
+    if (asset.sha256 && sha256(output) !== asset.sha256) {
+      throw new Error(`sha256 mismatch (got ${sha256(output)})`);
     }
-
     await mkdir(dirname(destination), { recursive: true });
-    await writeFile(destination, bytes);
-    console.log(`  ✓ ${asset.dest} (${human(bytes.length)}${asset.sha256 ? '' : `, sha256 ${sha256(bytes)}`})`);
-    return { id: asset.id, status: 'fetched', bytes: bytes.length };
+    await writeFile(destination, output);
+    console.log(`  ✓ ${asset.dest} (${human(output.length)}${asset.resizeWidth ? `, resized to ${asset.resizeWidth}px` : ''}${asset.sha256 ? '' : `, sha256 ${sha256(output)}`})`);
+    return { id: asset.id, status: 'fetched', bytes: output.length };
   } catch (error) {
     console.warn(`  ✗ ${asset.dest} — ${error.message}`);
     return { id: asset.id, status: 'failed', error: error.message };
