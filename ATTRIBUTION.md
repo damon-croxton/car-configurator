@@ -46,12 +46,12 @@ soft-top, interior and all four wheels. No part of it is generated, replaced or
 supplemented in code.
 
 **The vendored asset above is unmodified, but some mod assets are derived from
-it.** The replacement bonnets and boot lid start from this model's own panels,
-the boot spoilers are its rear deck lifted, the side skirts are its rocker sill
-extended, and the front lip is its lower bumper trim extended — so that each
-matches the car's shut lines exactly rather than being modelled freehand. CC-BY
-permits that and requires the change be stated, which is what this paragraph
-does. Derived mods carry `derivedFromBaseMesh: true` in
+it.** BP01 and BP03 reuse the bonnet perimeter and surface, cut bounded vent
+openings and add louvres or a recessed inlet. BP04 reuses the boot surface with
+a thin carbon skin. These panels receive new materials and UV coordinates.
+The current front lips, side extensions and boot spoilers are independently
+modelled geometry fitted against the reference surface. Derived mods carry
+`derivedFromBaseMesh: true` in
 `src/data/modsData.json`; mods without that flag are original geometry built
 from primitives.
 

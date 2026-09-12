@@ -37,8 +37,7 @@ export interface CarConfig {
   camber: number;
   /** Per-corner spacer / track width offset in millimetres. */
   trackOffset: number;
-  /** Every wheel mod ships a disc and caliper; off by default because they
-   *  currently sit proud of the wheel face rather than tucked behind it. */
+  /** Show the brake hardware supplied with a fitted wheel mod. */
   wheelBrakes: boolean;
   /** Tyre thickness multiplier, 1 = as modelled. A visual approximation —
    *  scales the tyre mesh along its own axial direction, not a real tyre

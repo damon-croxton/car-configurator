@@ -121,6 +121,18 @@ export function forcedModIds(): string[] {
   return FORCED;
 }
 
+/** Keep the most recently selected part when two accessories cannot coexist. */
+export function resolveModConflicts(picked: ModEntry[]): ModEntry[] {
+  const accepted: ModEntry[] = [];
+  for (const mod of [...picked].reverse()) {
+    if (accepted.some((other) =>
+      other.incompatibleWith?.includes(mod.id) || mod.incompatibleWith?.includes(other.id)
+    )) continue;
+    accepted.push(mod);
+  }
+  return accepted.reverse();
+}
+
 /**
  * The mods a build should be showing.
  *
@@ -148,10 +160,7 @@ export function activeMods(generationId: string, config: CarConfig, forced: stri
     if (mod) chosen.set(mod.id, mod);
   }
 
-  // A mod that declares an incompatibility wins over the one it excludes only
-  // if it was selected later, so resolve deterministically by catalogue order.
-  const picked = [...chosen.values()];
-  return picked.filter(
-    (mod) => !picked.some((other) => other !== mod && other.incompatibleWith?.includes(mod.id)),
-  );
+  // Slot choices are added first, then extras and explicit review overrides.
+  // Removing both sides of a mutual conflict would silently restore stock.
+  return resolveModConflicts([...chosen.values()]);
 }

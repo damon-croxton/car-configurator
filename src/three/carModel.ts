@@ -23,7 +23,7 @@ const WHEEL_CLASSES = new Set(['rim', 'rim_badge', 'tyre']);
 const PACK_TINT_STRENGTH = 0.35;
 
 /** Every wheel mod script names its disc/caliper meshes with this suffix. */
-const isBrakeNode = (name: string) => name.endsWith('_disc') || name.endsWith('_caliper');
+const isBrakeNode = (name: string) => /_(disc|caliper|brakes)$/.test(name);
 
 /**
  * Everything the body paint needs, already resolved from the catalogue.
@@ -249,9 +249,8 @@ export class CarModel {
    * Brake discs and calipers baked into every wheel mod's own geometry — not a
    * mod in their own right, just a part every wheel-mod script happens to
    * build (see `mx5_lib.py` naming: every mesh named `..._disc`/`..._caliper`).
-   * They currently sit proud of the wheel face rather than tucked behind the
-   * spokes, so they default to hidden until that's fixed, with one toggle to
-   * see them anyway.
+   * The wheel-pack assets use `_brakes` for their combined hardware. All three
+   * naming conventions follow the same visibility control.
    */
   private readonly brakeNodes: THREE.Object3D[] = [];
   private wheelBrakesVisible = false;

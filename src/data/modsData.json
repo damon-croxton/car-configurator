@@ -91,15 +91,15 @@
       "incompatibleWith": ["WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_SatinBlack", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-129, 0, -320], "max": [129, 641, 321] } },
+      "materials": ["MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_SatinBlack", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-129, 0, -320], "max": [129, 641, 321]}},
       "triangleBudget": 18000,
-      "uiHint": "12,376 tris — kept at full resolution, no decimation was needed",
+      "uiHint": "Original sourced rim retained; brake hardware recessed behind its spokes.",
       "file": { "nd": "assets/mods/nd/WS01_meister_l1_full.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
       "$sourced": "Derived from a THIRD-PARTY sourced asset, not built by this pipeline. Models/meister_l1_3p/scene.gltf, \"Meister L1 3P\" by Wilbruh (sketchfab.com/mirz1911), CC-BY-4.0. See ATTRIBUTION.md.",
-      "$note": "First test of importing a real wheel model rather than building one from primitives. Rim only (paired with our own tyre/disc/caliper). Both source textures carried real trademarks — a WORK Wheels(R) logo decal and a MEISTER wordmark baked into the cap texture — the decal mesh was deleted outright and the cap retextured flat, per brief §2 (no trademarked names, badges or logos). Scaled from its own measured outer radius (227.9mm raw) to match RIM_R. Materials were renamed into the MOD_* contract rather than recreated from scratch, but this makes less difference at runtime than it sounds: CarModel.setWheelFinish() unconditionally overwrites colour, metalness, roughness and clearcoat on the whole 'rim' class on every config apply, the same as it does for every other wheel — verified live, selecting 'Chrome' repaints it to #eef2f4 like any other wheel. What actually carries over untouched is the mesh geometry and topology — the real point of this comparison — not the material values.",
+      "$note": "Original sourced rim retained; brake hardware recessed behind its spokes. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "$decision": "12,376 tris was already comfortably within the normal 18,000 wheel budget on import, so the decimated comparison pass was dropped rather than kept — decided after visual comparison in-app.",
       "$bugs": "Building this found and fixed three real pipeline bugs, all now in mx5_lib.py: (1) a radius measured from bounding-box CORNERS combines the y-extreme and z-extreme as if the same point, measuring the box's diagonal rather than the true circular radius — scaled the wheel ~30% too small on the first attempt; (2) the imported mesh's parent chain (Sketchfab_model -> fbx -> RootNode -> Circle -> mesh) was left intact, and once the scratch import collection was deleted those parent Empties became collection-orphaned — the glTF exporter then silently dropped every mesh with an unresolvable parent from a use_selection export, no error, just six missing primitives; (3) clean()'s remove_doubles does not touch truly loose vertices, which a Decimate modifier routinely strands at UV seams — the decimated pass shipped 732 of them before clean() gained an explicit loose-vertex pass."
     },
@@ -118,16 +118,16 @@
       "incompatibleWith": ["WS01", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_SatinBlack", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-124, 0, -320], "max": [124, 641, 321]}},
       "triangleBudget": 270000,
       "oversizeApproved": true,
-      "uiHint": "267,926 tris — 15x the normal wheel budget. Comparison only; expect a real performance hit, especially at 4 wheels.",
+      "uiHint": "Original sourced rim retained; brake hardware recessed behind its spokes.",
       "file": { "nd": "assets/mods/nd/WS02_gramlights_full.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
       "$sourced": "Derived from a THIRD-PARTY sourced asset. Models/rays_gramlights_57dr/scene.gltf, \"RAYS GramLights 57DR\" by ilvskf (sketchfab.com/ilvskf), CC-BY-4.0. See ATTRIBUTION.md.",
-      "$note": "Second sourced-wheel test, and a genuinely different problem from WS01: 338,167 raw triangles (a hard-surface CAD-style export, no textures at all — every material is a flat PBR factor, so any branding has to be geometry, not an image), and its rotational axis is raw Blender Y, not X like Meister. Confirmed numerically rather than visually: Blender's viewport stopped compositing partway through this session (stale frames regardless of camera state), so orientation rests on mesh position analysis — both branding meshes and the shallow barrel shells sit in the same narrow negative-Y band, while a deep structural mesh extends to positive Y, putting the outward face at -Y. A +90-degree rotation about Z before the usual translate-and-scale corrects it. Two branded meshes (a black sticker and a yellow/gold badge, both off-axis at one clock position) are deleted outright, same rule as WS01.",
+      "$note": "Original sourced rim retained; brake hardware recessed behind its spokes. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "$budget": "triangleBudget is set to reflect reality (270000), not the normal 18000 wheel figure — validate-mod.mjs would otherwise fail this honestly, which is correct behaviour for every OTHER wheel; this one is deliberately over budget for a side-by-side look, not a shipping recommendation.",
       "$bugs": "The sticker-removal step matched by exact original name and silently removed nothing on the first attempt — the glTF importer auto-suffixes on every re-run (Object_11.001 -> Object_11.002), so an exact match works once and then matches nothing forever after. Fixed by matching on the base name with the suffix stripped, and by turning the failure into a hard error (RuntimeError if the removed count doesn't match the expected count) rather than a silent no-op — the same bug in a different guise very nearly shipped both trademarks a second time.",
       "$decision": "A decimated comparison pass (WS02D, ratio 0.05, 17,116 tris) was built and shipped alongside this one, then removed after user judgement in-app: the reduction reads as a genuinely softer, less defined dish at normal viewing distance, not an acceptable-tradeoff kind of soft — worse than WS01's decision to skip decimation entirely, not a wash. Kept only the full-resolution version rather than a decimated fallback nobody should actually pick."
@@ -944,13 +944,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
       "triangleBudget": 18000,
       "file": { "nd": "assets/mods/nd/W05_classic_mesh.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "12-spoke cross-mesh, matching carData's bbs_mesh spokeCount rather than the brief's nominal 8 for this design. One wedge — a radial spoke plus a diagonal brace to the next spoke's root — circular-arrayed 12x, per the brief's own instruction never to model individual struts. The brace is what makes it read as lattice rather than spokes with lines on them."
+      "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "W09",
@@ -967,13 +968,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
       "triangleBudget": 18000,
       "file": { "nd": "assets/mods/nd/W09_oem_ten_spoke.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Not in the brief's catalogue, which only specifies aftermarket designs. oem_16_silver has been a real carData.json wheelStyle id since before this pipeline existed, and like every unmapped aero id before it, selecting it did nothing — it silently showed the same 17in Design wheel. Thin flat spokes, a 25mm lip (the catalogue's own lipDepth figure), near-flush dish: deliberately the plainest wheel in the set. Fixes one more line of README's 'Wheel style is inert' limitation. The default wheel (oem_17_design) is deliberately left unmapped so the stock render keeps using the real authored OEM wheel rather than an approximation."
+      "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "RA06",
@@ -1089,12 +1091,13 @@
       "requires": [],
       "anchors": { "nd": ["BumperR 6.002_147"] },
       "materials": ["MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-565, 251, -1949], "max": [565, 360, -1790] } },
+      "bboxMm": {"nd": {"min": [-576, 162, -1914], "max": [576, 245, -1550]}},
       "triangleBudget": 4000,
       "file": { "nd": "assets/mods/nd/RA04_rear_diffuser.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "New panel, not derived — the rear valance has no diffuser insert to lift. Mount height is a ray-cast of the valance underside (270..300mm across x -300..300, not the brief's nominal figure), kicking up 12deg to the trailing edge. Four strakes at x 0/+-280/+-560. A 40mm cut-out at x -354..-220 clears the measured exhaust tip position."
+      "$note": "Underbody tray with downward strakes and open side-exit exhaust clearance. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Underbody tray with downward strakes and open side-exit exhaust clearance."
     },
     {
       "id": "RA04B",
@@ -1110,12 +1113,13 @@
       "requires": [],
       "anchors": { "nd": ["BumperR 6.002_147"] },
       "materials": ["MOD_CarbonWeave", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-565, 251, -1949], "max": [565, 360, -1790] } },
+      "bboxMm": {"nd": {"min": [-576, 162, -1914], "max": [576, 245, -1550]}},
       "triangleBudget": 4000,
       "file": { "nd": "assets/mods/nd/RA04B_rear_diffuser_carbon.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Same geometry as RA04, carbon finish, matching track_diffuser already in carData.json."
+      "$note": "Carbon underbody tray with downward strakes and open side-exit exhaust clearance. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Carbon underbody tray with downward strakes and open side-exit exhaust clearance."
     },
     {
       "id": "FA01",
@@ -1176,7 +1180,7 @@
       "id": "EX03",
       "gen": ["nd"],
       "category": "exhaust",
-      "displayName": "Quad Centre-Exit",
+      "displayName": "Quad Titanium Tips",
       "slot": "exhaust",
       "optionId": "titanium_quad",
       "attachType": "replace",
@@ -1185,13 +1189,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_Titanium", "MOD_GlossBlack", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-547, 129, -1830], "max": [-27, 329, -1460] } },
+      "materials": ["MOD_Alloy", "MOD_SatinBlack", "MOD_Titanium"],
+      "bboxMm": {"nd": {"min": [-365, 175, -1868], "max": [365, 267, -1285]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/EX03_quad_centre_exit.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Four 76mm tips 2x2 at x +/-95 / +/-195 offset from the measured OEM centreline (x -287, not the vehicle centreline), in a gloss-black surround valance. MOD_Titanium is a static purple-blue tint, not the gradient the brief describes — no bake step in this pipeline yet."
+      "$note": "Four titanium tips in two symmetric pairs, with recessed open bores. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Four titanium tips in two symmetric pairs, with recessed open bores."
     },
     {
       "id": "DT02",
@@ -1206,13 +1211,14 @@
       "incompatibleWith": ["DT01"],
       "requires": [],
       "anchors": { "nd": ["FendersR 6.001_40"] },
-      "materials": ["MOD_BodyPaint"],
-      "bboxMm": { "nd": { "min": [-599, 821, -1618], "max": [-563, 825, -1582] } },
+      "materials": ["MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-598, 806, -1617], "max": [-564, 837, -1583]}},
       "triangleBudget": 200,
       "file": { "nd": "assets/mods/nd/DT02_antenna_delete.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "A domed disc conformed to the quarter panel at the same measured mount point as DT01, 4mm proud. Needs the Phase 3 schema extension before it can ship; marked incompatible with DT01 since both replace the same OEM mast."
+      "$note": "Small black delete cap fitted to the quarter-panel slope. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Small black delete cap fitted to the quarter-panel slope."
     },
     {
       "id": "DT01",
@@ -1227,14 +1233,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["FendersR 6.001_40"] },
-      "materials": ["MOD_SatinBlack", "MOD_Rubber"],
-      "bboxMm": { "nd": { "min": [-601, 811, -1643], "max": [-561, 908, -1581] } },
+      "materials": ["MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-598, 806, -1617], "max": [-564, 905, -1583]}},
       "triangleBudget": 800,
       "file": { "nd": "assets/mods/nd/DT01_stubby_antenna.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Sits where the OEM mast MEASURES — app x -581, on the vehicle's RIGHT. The brief's nominal position had it on the left. The mount height and the panel normal are both ray-cast; the quarter is 47 degrees off vertical there, so the axis is pulled most of the way back to upright and the gasket takes up the rest, which is what a real antenna base wedge does. 20 degrees of rearward rake on top.",
-      "$partial": "Grooves are turned rings rather than a true helix — invisible at this size, and a real helix costs a swept curve for nothing."
+      "$note": "Slim 80 mm mast with a foot fitted to the quarter-panel slope. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "Grooves are turned rings rather than a true helix — invisible at this size, and a real helix costs a swept curve for nothing.",
+      "uiHint": "Slim 80 mm mast with a foot fitted to the quarter-panel slope."
     },
     {
       "id": "DT08",
@@ -1249,13 +1256,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_AccentPaint", "MOD_Chrome"],
-      "bboxMm": { "nd": { "min": [-503, 127, -1948], "max": [-457, 278, -1892] } },
+      "materials": ["MOD_AccentPaint", "MOD_Alloy", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-498, 143, -1905], "max": [-462, 263, -1830]}},
       "triangleBudget": 800,
       "file": { "nd": "assets/mods/nd/DT08_tow_strap.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "A ribbon — two rows of vertices 45mm apart following a hand-placed hanging curve, solidified 3mm — rather than a swept tube. A tube squashed flat still catches light like a cylinder, and webbing does not. Sits at x -480, clear of the exhaust at -287. Needs a CarConfig field before it can ship."
+      "$note": "Rounded fabric loop attached at its upper bolt. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Rounded fabric loop attached at its upper bolt."
     },
     {
       "id": "FA05",
@@ -1271,13 +1279,14 @@
       "requires": [],
       "anchors": { "nd": ["BumperF 6.003_111"] },
       "materials": ["MOD_CarbonWeave"],
-      "bboxMm": { "nd": { "min": [-859, 398, 1678], "max": [859, 504, 1762] } },
+      "bboxMm": {"nd": {"min": [-803, 392, 1620], "max": [803, 439, 1780]}},
       "triangleBudget": 1500,
       "file": { "nd": "assets/mods/nd/FA05_dive_planes.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Each canard's inboard end is placed off a ray-cast of the bumper's flank, not off its bounding box. The bumper is 857 wide at its widest and about 600 at z 1790, so the first attempt put all four canards in mid-air with daylight behind them. They now bury 25mm into a skin measured at 683 and 694. Needs a CarConfig field before it can ship.",
-      "$partial": "No 25-degree rearward sweep — block() rotates about the lateral axis only."
+      "$note": "One curved carbon canard per corner, fitted along the bumper surface. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "No 25-degree rearward sweep — block() rotates about the lateral axis only.",
+      "uiHint": "One curved carbon canard per corner, fitted along the bumper surface."
     },
     {
       "id": "FA06",
@@ -1292,13 +1301,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperF 6.003_111"] },
-      "materials": ["MOD_AccentPaint"],
-      "bboxMm": { "nd": { "min": [-454, 371, 1813], "max": [-427, 459, 2041] } },
+      "materials": ["MOD_AccentPaint", "MOD_Alloy", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-530, 412, 1866], "max": [-450, 502, 1925]}},
       "triangleBudget": 1200,
       "file": { "nd": "assets/mods/nd/FA06_tow_hook.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "The eye is an annulus revolved about the lateral axis rather than a block with a boolean hole — a spun ring has the hole by construction and cannot fail the way a boolean can. Protrudes to z 2041 against a nose at 1958, with its mounting boss buried at 1813. MOD_AccentPaint because these are always anodised. Needs a CarConfig field before it can ship."
+      "$note": "Forward-facing tow eye with a threaded shaft and bumper socket. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Forward-facing tow eye with a threaded shaft and bumper socket."
     },
     {
       "id": "RA01",
@@ -1404,7 +1414,7 @@
       "id": "RB02",
       "gen": ["nd"],
       "category": "roll_bar",
-      "displayName": "Double-Hoop + Harness Bar",
+      "displayName": "Braced Hoop + Harness Bar",
       "slot": "rollBar",
       "optionId": "track_hoop",
       "attachType": "bolt_on",
@@ -1413,14 +1423,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["M_Interior_Max_19"] },
-      "materials": ["MOD_AccentPaint"],
-      "bboxMm": { "nd": { "min": [-520, 734, -1200], "max": [520, 1139, -900] } },
+      "materials": ["MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-513, 727, -1067], "max": [513, 1110, -692]}},
       "triangleBudget": 8000,
       "file": { "nd": "assets/mods/nd/RB02_double_hoop.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Two hoops 140mm apart with crown spacers and a full-width harness bar at y 950. Both hoops sit inside z -950..-1090, the band where the cabin tub actually offers a surface — outside it the mesh has gaps and a probe returns nothing, which would put footplates at an assumed height.",
-      "$clash": "Same roof-down caveat as RB01."
+      "$note": "Single bent hoop with a diagonal and harness crossbar; clears the soft top. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$clash": "Same roof-down caveat as RB01.",
+      "uiHint": "Single bent hoop with a diagonal and harness crossbar; clears the soft top."
     },
     {
       "id": "EX02",
@@ -1435,13 +1446,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_Chrome", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-387, 184, -1880], "max": [-187, 274, -880] } },
+      "materials": ["MOD_Alloy", "MOD_Chrome", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-368, 175, -1868], "max": [-206, 267, -1285]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/EX02_twin_tips.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Built from the same script as EX06 so the pair stay consistent — the brief's warning here is that misaligned twin tips are instantly visible, and two scripts drift."
+      "$note": "Compact twin round tips with recessed open bores. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Compact twin round tips with recessed open bores."
     },
     {
       "id": "EX06",
@@ -1456,14 +1468,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_Chrome", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-422, 181, -1880], "max": [-152, 277, -840] } },
+      "materials": ["MOD_Alloy", "MOD_Chrome", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-386, 175, -1868], "max": [-188, 267, -1285]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/EX06_twin_oval.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "The oval mouth is a squashed revolve, so the bore stays a real tube rather than a flat plate with a dark decal. Needed a new `twin_oval` id in carData.json — the exhaust catalogue had four and three were taken, and the remaining one is titanium, which this is not.",
-      "$partial": "Offered on the ND only, because that is the only generation with the asset."
+      "$note": "Compact twin oval tips with recessed open bores. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "Offered on the ND only, because that is the only generation with the asset.",
+      "uiHint": "Compact twin oval tips with recessed open bores."
     },
     {
       "id": "RB01",
@@ -1478,14 +1491,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["M_Interior_Max_19"] },
-      "materials": ["MOD_AccentPaint"],
-      "bboxMm": { "nd": { "min": [-520, 740, -1200], "max": [520, 1139, -900] } },
+      "materials": ["MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-513, 727, -1067], "max": [513, 1110, -692]}},
       "triangleBudget": 5000,
       "file": { "nd": "assets/mods/nd/RB01_single_hoop.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "38mm OD tube, every end on a 100x100x6 footplate at a probed deck height — 797 under the hoop legs, 753 under the stays. Station chosen by probing: at z -820 the cabin mesh is thin over the soft-top well and reports a deck of 853 from one ray height and nothing from any other, so the hoop would have stood on the well cover.",
-      "$clash": "Occupies the same space as the soft top when the roof is UP — the ND stows its top behind the seats, so this is a roof-down part. Not marked incompatible because the app has no way to express 'requires roof down' yet."
+      "$note": "Single bent hoop behind the seats with rear stays; clears the soft top. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$clash": "Occupies the same space as the soft top when the roof is UP — the ND stows its top behind the seats, so this is a roof-down part. Not marked incompatible because the app has no way to express 'requires roof down' yet.",
+      "uiHint": "Single bent hoop behind the seats with rear stays; clears the soft top."
     },
     {
       "id": "DT07",
@@ -1500,14 +1514,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Hood 6.001_120"] },
-      "materials": ["MOD_AccentPaint"],
-      "bboxMm": { "nd": { "min": [-587, 659, 1518], "max": [587, 727, 1677] } },
-      "triangleBudget": 1500,
+      "materials": ["MOD_Alloy", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-556, 703, 1481], "max": [556, 749, 1604]}},
+      "triangleBudget": 2200,
       "file": { "nd": "assets/mods/nd/DT07_bonnet_pins.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Every plate height is ray-cast from the bonnet at that exact station, so the plates lie on the curved panel rather than hovering at a nominal height — this is a part whose whole job is to look bolted down. Needs the Phase 3 schema extension: CarConfig has no bonnet-hardware field.",
-      "$partial": "The lanyard is a straight bar; the brief asks for a cable with natural sag."
+      "$note": "Low-profile pins with retaining clips and curved thin tethers. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "The lanyard is a straight bar; the brief asks for a cable with natural sag.",
+      "uiHint": "Low-profile pins with retaining clips and curved thin tethers."
     },
     {
       "id": "EX01",
@@ -1522,13 +1537,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_Chrome", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-357, 179, -1880], "max": [-217, 279, -920] } },
+      "materials": ["MOD_Alloy", "MOD_Chrome", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-363, 173, -1868], "max": [-211, 269, -1285]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/EX01_single_tip.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Sits where the OEM tips MEASURE — app x -354..-220, off-centre to the vehicle's right — not on the centreline the catalogue drawing implies. The tip is a real tube with a separate dark bore sleeve; a solid rod with a dark cap reads as a toy."
+      "$note": "Single rolled-edge round tip with a recessed open bore. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Single rolled-edge round tip with a recessed open bore."
     },
     {
       "id": "FA03",
@@ -1543,14 +1559,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["BumperF 6.003_111"] },
-      "materials": ["MOD_CarbonWeave", "MOD_Alloy"],
-      "bboxMm": { "nd": { "min": [-820, 130, 1690], "max": [820, 470, 2055] } },
+      "materials": ["MOD_Alloy", "MOD_CarbonWeave", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-810, 147, 1467], "max": [810, 452, 1984]}},
       "triangleBudget": 4000,
       "file": { "nd": "assets/mods/nd/FA03_race_splitter.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Flat and level at app y 150, just under the bumper's measured lowest point of 168, projecting to a leading edge at z 2055 against a nose at 1958. Following the bumper's curve downward instead would make it a valance, which is a different part. Rods run from inside the plate up to y 470, well inside the bumper's 175..644 band, so both ends are buried rather than touching.",
-      "$partial": "Rods are square-section and vertical; the brief specifies 10mm round and raked back."
+      "$note": "Fitted 10 mm carbon blade with slim angled stays and mounting feet. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "Rods are square-section and vertical; the brief specifies 10mm round and raked back.",
+      "uiHint": "Fitted 10 mm carbon blade with slim angled stays and mounting feet."
     },
     {
       "id": "RA02",
@@ -1565,14 +1582,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Boot 6.001_157"] },
-      "materials": ["MOD_AccentPaint", "MOD_GlossBlack"],
-      "bboxMm": { "nd": { "min": [-703, 858, -1850], "max": [703, 1431, -1550] } },
+      "materials": ["MOD_Alloy", "MOD_CarbonWeave", "MOD_SatinBlack"],
+      "bboxMm": {"nd": {"min": [-665, 854, -1860], "max": [665, 1260, -1568]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/RA02_gt_wing.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Base plates start at app y 858, which is the boot lid's height measured by ray-cast at the upright stations rather than the brief's nominal figure — that assumes a different datum and would leave the uprights hanging. 1400 span against a 1790 cap (body width minus 150). The element is an inverted cambered aerofoil at 8 degrees, trailing edge high.",
-      "$partial": "No bolt heads on the base plates and no adjuster hardware at the upright/element joint. 320 triangles against a 6000 budget — there is plenty of room to add them."
+      "$note": "Curved carbon airfoil, shaped endplates and swept uprights on fitted boot feet. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "No bolt heads on the base plates and no adjuster hardware at the upright/element joint. 320 triangles against a 6000 budget — there is plenty of room to add them.",
+      "uiHint": "Curved carbon airfoil, shaped endplates and swept uprights on fitted boot feet."
     },
     {
       "id": "W04",
@@ -1589,14 +1607,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_Alloy", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
       "triangleBudget": 18000,
       "file": { "nd": "assets/mods/nd/W04_deep_dish_8spoke.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "ET0 puts the mounting face on the centreline, so 114mm of barrel sits outboard of the spoke face — that is the design. The lip is a separate object on MOD_Alloy while the face is MOD_Rim, so the wheel-finish picker recolours the face and leaves the lip polished. 24 exposed bolts, without which a lip this deep does not read as three-piece.",
-      "$deviation": "The brief lists this as NA-only, but carData.json already offers watanabe_rs on the ND and the NA is not imported into the working .blend, so it is built at 17x9 ET0 for the generation that can show it."
+      "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$deviation": "The brief lists this as NA-only, but carData.json already offers watanabe_rs on the ND and the NA is not imported into the working .blend, so it is built at 17x9 ET0 for the generation that can show it.",
+      "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "W07",
@@ -1613,20 +1632,21 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
       "triangleBudget": 18000,
       "file": { "nd": "assets/mods/nd/W07_forged_6spoke.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "ET25 and genuinely concave spokes — the face is pulled 34mm inboard at the hub and rises to the lip plane at the rim, following (1-t)^1.6. That curve is the design's whole character; flat slabs at constant depth are a different wheel.",
-      "$partial": "No machined dimple detail near the hub, and the spoke section is a chamfered slab rather than a rounded trapezoid."
+      "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "No machined dimple detail near the hub, and the spoke section is a chamfered slab rather than a rounded trapezoid.",
+      "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "W01",
       "gen": ["nd"],
       "category": "wheel",
-      "displayName": "Lightweight Race 7-Spoke",
+      "displayName": "Lightweight Twin 6-Spoke",
       "slot": "wheelStyle",
       "optionId": "enkei_rpf1",
       "attachType": "replace",
@@ -1637,14 +1657,15 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Rim", "MOD_Tyre", "MOD_Chrome", "MOD_CaliperPaint"],
-      "bboxMm": { "nd": { "min": [-124, 0, -320], "max": [124, 641, 321] } },
+      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
+      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
       "triangleBudget": 18000,
       "file": { "nd": "assets/mods/nd/W01_race_7spoke.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": false,
-      "$note": "Origin is the contact patch, so the app's existing wheel pivot gives it diameter, camber and track for free. Modelled for the LEFT side; place the right-hand instance with rotation.y = PI, which is rigid and so does not flip winding. Outer diameter is 641mm because that is what the ND's wheels measure — building to the 205/45R17 spec instead would shift ride height on every car fitted with it. Ships a caliper, which makes CarConfig.caliperColor live for the first time.",
-      "$partial": "Spokes are simple tapered slabs. Reads correctly at configurator distance; would want a rounded trapezoid section and machined detail to stand a close-up."
+      "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$partial": "Spokes are simple tapered slabs. Reads correctly at configurator distance; would want a rounded trapezoid section and machined detail to stand a close-up.",
+      "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "BP04",
@@ -1659,13 +1680,14 @@
       "incompatibleWith": [],
       "requires": [],
       "anchors": { "nd": ["Boot 6.001_157"] },
-      "materials": ["MOD_CarbonWeave", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-604, 750, -1865], "max": [604, 918, -1287] } },
+      "materials": ["MOD_CarbonWeave"],
+      "bboxMm": {"nd": {"min": [-604, 756, -1864], "max": [604, 918, -1307]}},
       "triangleBudget": 6000,
       "file": { "nd": "assets/mods/nd/BP04_carbon_boot.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": true,
-      "$note": "CarConfig has no boot-lid field, so this needs the Phase 3 schema extension before it can ship. Deliberately incompatible with nothing: ducktails and wings still mount to it because their anchors are unchanged. The badge is a separate node and is left alone."
+      "$note": "Original boot surface and shut lines with a thin carbon skin and embedded weave. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Original boot surface and shut lines with a thin carbon skin and embedded weave."
     },
     {
       "id": "BP03",
@@ -1681,12 +1703,13 @@
       "requires": [],
       "anchors": { "nd": ["Hood 6.001_120"] },
       "materials": ["MOD_BodyPaint", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-721, 580, 423], "max": [721, 864, 1801] } },
+      "bboxMm": {"nd": {"min": [-721, 582, 423], "max": [721, 864, 1800]}},
       "triangleBudget": 9000,
       "file": { "nd": "assets/mods/nd/BP03_naca_bonnet.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": true,
-      "$note": "The duct is displaced into the OEM surface rather than cut out of it, so the skin stays continuous; only the throat is a real opening. Its mouth carries a lipped surround because face deletion leaves an edge that follows the panel's topology — see blender/mods/BP03_naca_bonnet.py."
+      "$note": "Original bonnet perimeter with a bounded tapered inlet and recessed throat. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Original bonnet perimeter with a bounded tapered inlet and recessed throat."
     },
     {
       "id": "BP01",
@@ -1702,12 +1725,13 @@
       "requires": [],
       "anchors": { "nd": ["Hood 6.001_120"] },
       "materials": ["MOD_CarbonWeave", "MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-721, 580, 423], "max": [721, 864, 1801] } },
+      "bboxMm": {"nd": {"min": [-721, 582, 423], "max": [721, 864, 1800]}},
       "triangleBudget": 12000,
       "file": { "nd": "assets/mods/nd/BP01_vented_bonnet.glb" },
       "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
       "derivedFromBaseMesh": true,
-      "$note": "The panel IS the OEM bonnet surface, refined locally around the two apertures and solidified 4mm, so its shut lines and nose edge are correct by construction. Built by blender/mods/BP01_vented_bonnet.py."
+      "$note": "Original bonnet perimeter with clean bounded apertures, fitted louvres and embedded carbon weave. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "uiHint": "Original bonnet perimeter with clean bounded apertures, fitted louvres and embedded carbon weave."
     }
   ]
 }

@@ -561,7 +561,7 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           ))}
           <ToggleRow
             label="Brake discs & calipers"
-            hint="Every wheel mod ships these, but they currently sit proud of the wheel face — off until that's fixed."
+            hint="Show the brake hardware behind the spokes of fitted wheel mods."
             checked={config.wheelBrakes}
             onChange={(wheelBrakes) => onChange({ wheelBrakes })}
           />

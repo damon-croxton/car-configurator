@@ -8,7 +8,7 @@ import {
   wheelOptionsFor,
   type AeroSlotId,
 } from '../data/schema';
-import { optionalMods } from '../data/mods';
+import { optionalMods, resolveModConflicts } from '../data/mods';
 
 export const AERO_SLOTS: AeroSlotId[] = [
   'frontLip',
@@ -129,8 +129,12 @@ export function reconcileConfig(config: CarConfig): CarConfig {
   // Drop extras this generation has no asset for, the same way a dangling aero
   // id gets dropped — a hand-edited URL or a generation switch must not leave
   // one pointing at nothing.
-  const offered = new Set(optionalMods(generation.id).map((mod) => mod.id));
-  next.extraMods = [...new Set(next.extraMods ?? [])].filter((id) => offered.has(id));
+  const offered = new Map(optionalMods(generation.id).map((mod) => [mod.id, mod]));
+  const extras = [...new Set(next.extraMods ?? [])].flatMap((id) => {
+    const mod = offered.get(id);
+    return mod ? [mod] : [];
+  });
+  next.extraMods = resolveModConflicts(extras).map((mod) => mod.id);
 
   next.paint = getPaintColor(next.paint).id;
   next.rideHeight = clamp(next.rideHeight, ...RANGES.rideHeight);

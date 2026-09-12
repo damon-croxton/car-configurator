@@ -108,10 +108,11 @@ def carbon_material(material):
     links = material.node_tree.links
     bsdf = nodes['Principled BSDF']
     bsdf.inputs['Base Color'].default_value = (1,1,1,1)
-    bsdf.inputs['Metallic'].default_value = 0.20
-    bsdf.inputs['Roughness'].default_value = 0.32
-    bsdf.inputs['Coat Weight'].default_value = 0.65
-    bsdf.inputs['Coat Roughness'].default_value = 0.22
+    bsdf.inputs['Metallic'].default_value = 0.0
+    bsdf.inputs['Roughness'].default_value = 0.55
+    bsdf.inputs['Specular IOR Level'].default_value = 0.10
+    bsdf.inputs['Coat Weight'].default_value = 0.10
+    bsdf.inputs['Coat Roughness'].default_value = 0.45
     size=256
     yy,xx=np.mgrid[0:size,0:size].astype(float)
     cell=16
@@ -120,7 +121,9 @@ def carbon_material(material):
     longitudinal=np.where(vertical,yy,xx)
     crown=np.sin(np.pi*cross)**0.65
     strand=0.5+0.5*np.cos(cross*np.pi*16)
-    level=0.115+0.06*crown+0.012*strand+0.008*np.cos(longitudinal*np.pi/32)
+    # The exported PNG reads 20..38/255: charcoal yarn with a subtle weave.
+    # Keep resin reflections restrained under the bright studio light cards.
+    level=0.085+0.05*crown+0.008*strand+0.006*np.cos(longitudinal*np.pi/32)
     relief=crown*0.012
     gy,gx=np.gradient(relief)
     for label,rgba in [
