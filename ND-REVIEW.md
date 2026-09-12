@@ -2,6 +2,11 @@
 
 Reviewed 12 September 2026, starting from `91495d9`.
 
+Follow-up: the first modelling pass is now implemented on `testing`. See
+[ND street kit](blender/ND-STREET-KIT.md) for the replacement assets, rebuild
+instructions and comparison control. The observations below describe the
+earlier versions reviewed before that work.
+
 ## Branches
 
 `testing` is the reusable development branch, created from current `main`.

@@ -1,4 +1,4 @@
-import React, { useEffect, useImperativeHandle, useRef, useState } from 'react';
+import React, { useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import type { CarConfig } from '../config/types';
 import { carData } from '../data/schema';
 import type { IslandReport } from '../three/carModel';
@@ -23,6 +23,15 @@ interface ViewportProps {
 export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, handleRef }) => {
   const mountRef = useRef<HTMLDivElement>(null);
   const sceneRef = useRef<SceneManager | null>(null);
+  const [compareOriginal, setCompareOriginal] = useState(false);
+  const renderConfig = useMemo(() => compareOriginal ? {
+    ...config, frontLip: 'stock', sideSkirts: 'stock', rearWing: 'wing_delete',
+  } : config, [config, compareOriginal]);
+  const hasStreetAero = config.frontLip !== 'stock' || config.sideSkirts !== 'stock' || config.rearWing !== 'wing_delete';
+  const debug = Boolean((import.meta as unknown as { env?: { DEV?: boolean } }).env?.DEV);
+  useEffect(() => {
+    setCompareOriginal(false);
+  }, [config.generation, config.frontLip, config.sideSkirts, config.rearWing]);
   const [loading, setLoading] = useState<LoadingState>({ progress: 0, label: 'Starting engine', done: false });
   const [stats, setStats] = useState<SceneStats>({
     fps: 0,
@@ -37,8 +46,8 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
   const rowRefs = useRef<(HTMLLIElement | null)[]>([]);
 
   // Keep the latest config available to the async boot without re-running it.
-  const configRef = useRef(config);
-  configRef.current = config;
+  const configRef = useRef(renderConfig);
+  configRef.current = renderConfig;
 
   useEffect(() => {
     const mount = mountRef.current;
@@ -64,8 +73,8 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
   }, []);
 
   useEffect(() => {
-    void sceneRef.current?.setConfig(config);
-  }, [config]);
+    void sceneRef.current?.setConfig(renderConfig);
+  }, [renderConfig]);
 
   useImperativeHandle(handleRef, () => ({
     capture: (scale = 2) => sceneRef.current?.capture(scale) ?? null,
@@ -135,7 +144,24 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
 
       {!loading.done && <LoadingOverlay state={loading} />}
 
-      {/* Live render telemetry */}
+      {hasStreetAero && (
+        <div className="absolute right-4 top-4 flex flex-col items-end gap-2">
+          <button
+            type="button"
+            aria-pressed={compareOriginal}
+            disabled={!loading.done}
+            onClick={() => setCompareOriginal((value) => !value)}
+            title="Compare the original front lip, side skirts and rear spoiler. Camera, lighting and your other choices stay in place."
+            className="rounded-full border border-slate-500/60 bg-slate-900/90 px-4 py-2 text-xs font-medium text-white shadow-lg backdrop-blur transition-colors hover:bg-slate-700 disabled:opacity-50"
+          >
+            {compareOriginal ? 'Return to your build' : 'Compare original aero'}
+          </button>
+          {compareOriginal && <span role="status" className="rounded-lg bg-slate-950/85 px-3 py-1.5 text-[11px] text-slate-200">Original lip, skirts & spoiler · build saved</span>}
+        </div>
+      )}
+
+      {/* Development tools are kept out of the published configurator. */}
+      {debug && (
       <div className="pointer-events-none absolute left-4 top-4 flex flex-wrap items-center gap-2">
         <span className="flex items-center gap-2 rounded-full border border-slate-700/70 bg-slate-900/80 px-3 py-1 font-mono text-[10px] text-slate-300 backdrop-blur">
           <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
@@ -166,6 +192,7 @@ export const Viewport: React.FC<ViewportProps> = ({ config, onCameraPreset, hand
           {islands ? `ROOF ISLANDS (${islands.total})` : 'Debug: roof islands'}
         </button>
       </div>
+      )}
 
       {/* Island debug legend */}
       {islands && (

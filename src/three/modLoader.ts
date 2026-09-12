@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import type { ModEntry } from '../data/mods';
+import { disposeObject3D } from './disposal';
 
 /**
  * Loads mod `.glb` files and hands out instances of them.
@@ -60,14 +61,7 @@ export class ModLoader {
     for (const pending of this.templates.values()) {
       pending
         .then((root) => {
-          root.traverse((node) => {
-            const mesh = node as THREE.Mesh;
-            if (!mesh.isMesh) return;
-            mesh.geometry?.dispose();
-            for (const m of Array.isArray(mesh.material) ? mesh.material : [mesh.material]) {
-              m?.dispose();
-            }
-          });
+          disposeObject3D(root);
         })
         .catch(() => {
           /* a template that never loaded has nothing to free */

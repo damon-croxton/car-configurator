@@ -2,12 +2,26 @@ import type { PresetBuild } from './types';
 
 export const PRESET_BUILDS: PresetBuild[] = [
   {
+    id: 'nd_street_kit',
+    name: 'ND Street Kit',
+    subtitle: 'Sculpted lip, slim skirts, low spoiler',
+    badge: 'Street',
+    description: 'Three coordinated ND accessories with a body-colour spoiler, satin-black lower blades and a mild 20 mm drop. Use Compare original aero to inspect the difference.',
+    config: {
+      generation: 'nd', roofType: 'st', roofState: 'up',
+      paint: 'soul_red', wheelStyle: 'oem_17_design', wheelDiameter: 17,
+      rideHeight: -20, camber: -0.5, trackOffset: 0,
+      frontLip: 'club_lip', sideSkirts: 'oem_extensions', rearWing: 'oem_ducktail',
+      environment: 'studio', cameraPreset: 'exterior_360',
+    },
+  },
+  {
     id: 'club_spec',
     name: 'Soul Red Club',
-    subtitle: 'Factory Club spec, top down',
-    badge: 'OEM',
+    subtitle: 'Subtle street styling, top down',
+    badge: 'Street',
     description:
-      'Soul Red Crystal over the OEM 17" design wheels, Brembo red calipers and the factory ducktail. Exactly how it leaves Hiroshima.',
+      'Soul Red Crystal over the OEM 17" design wheels with a low body-colour boot spoiler and the roof down.',
     config: {
       generation: 'nd',
       roofType: 'st',

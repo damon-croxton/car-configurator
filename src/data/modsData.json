@@ -977,44 +977,103 @@
     },
     {
       "id": "RA06",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "Side Skirts",
       "slot": "sideSkirts",
       "optionId": "oem_extensions",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Skirts 6.003_57"] },
-      "materials": ["MOD_SatinBlack"],
-      "triangleBudget": 4000,
-      "file": { "nd": "assets/mods/nd/RA06_side_skirts.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
-      "derivedFromBaseMesh": true,
-      "$note": "The sill's own body-paint skin, extended down 60mm and out 25mm from its lower edge with a t^2 ramp that is zero at the OEM line, the same seamless-join technique as the boot spoilers. Both ends terminate flush into the arches because the donor panel's own shape ends there — nothing is trimmed."
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "triangleBudget": 4200,
+      "file": {
+        "nd": "assets/mods/nd/RA06_side_skirts.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Independent paired sill extensions with a fitted mounting flange, slim projecting blade, closed underside and tapered ends. Original painted sill stays intact.",
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -819,
+            149,
+            -745
+          ],
+          "max": [
+            819,
+            183,
+            831
+          ]
+        }
+      },
+      "$build": "blender/build_nd_street.py; independent geometry in blender/nd_street_kit.py"
     },
     {
       "id": "RA06B",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "Side Skirts (carbon)",
       "slot": "sideSkirts",
       "optionId": "carbon_extenders",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Skirts 6.003_57"] },
-      "materials": ["MOD_CarbonWeave"],
-      "bboxMm": { "nd": { "min": [-855, 101, -782], "max": [855, 393, 841] } },
-      "triangleBudget": 4000,
-      "file": { "nd": "assets/mods/nd/RA06B_side_skirts_carbon.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
-      "derivedFromBaseMesh": true,
-      "$note": "Same geometry as RA06, carbon finish. Both option ids already existed in carData.json's sideSkirts list (oem_extensions and carbon_extenders); this is a second mod id in the family rather than a schema change, the same pattern W01/W07/W04 use across wheelStyle."
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -819,
+            149,
+            -745
+          ],
+          "max": [
+            819,
+            183,
+            831
+          ]
+        }
+      },
+      "triangleBudget": 4200,
+      "file": {
+        "nd": "assets/mods/nd/RA06B_side_skirts_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Same independent fitted geometry as RA06, with embedded carbon colour and normal maps at a consistent weave scale.",
+      "$build": "blender/build_nd_street.py; independent geometry in blender/nd_street_kit.py"
     },
     {
       "id": "RA04",
@@ -1060,25 +1119,58 @@
     },
     {
       "id": "FA01",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "front_aero",
       "displayName": "OEM+ Front Lip",
       "slot": "frontLip",
       "optionId": "club_lip",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
-      "incompatibleWith": ["FA03"],
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [
+        "FA03"
+      ],
       "requires": [],
-      "anchors": { "nd": ["BumperF 6.001_109"] },
-      "materials": ["MOD_SatinBlack"],
-      "bboxMm": { "nd": { "min": [-469, 105, 1839], "max": [469, 489, 1937] } },
-      "triangleBudget": 3000,
-      "file": { "nd": "assets/mods/nd/FA01_front_lip.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
-      "derivedFromBaseMesh": true,
-      "$note": "The true donor is the OEM lower-lip TRIM piece (BumperF 6.001_109), not the wider painted fascia — its bbox min y is 169, matching FA03's independently-measured 'bumper's lowest point'. The painted panel above it stops higher because there is an intake cutout there; the black lip fills below it. Extended 55mm down and 25mm forward with an 8-degree flare, ramped to zero at y230 so the join is seamless.",
-      "$conflict": "Marked incompatible with FA03 — both occupy the frontLip slot's geometry at the same bumper station."
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111",
+          "BumperF 6.002_110",
+          "BumperF 6.001_109"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -781,
+            157,
+            1562
+          ],
+          "max": [
+            781,
+            178,
+            1930
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/FA01_front_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Independent closed blade spanning the lower bumper and its corners. Smooth outer rail, surface-fitted underside, 9 mm section; retains all original bumper parts.",
+      "$conflict": "Marked incompatible with FA03 — both occupy the frontLip slot's geometry at the same bumper station.",
+      "$build": "blender/build_nd_street.py; independent geometry in blender/nd_street_kit.py"
     },
     {
       "id": "EX03",
@@ -1210,47 +1302,103 @@
     },
     {
       "id": "RA01",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "Ducktail Spoiler",
       "slot": "rearWing",
       "optionId": "oem_ducktail",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Boot 6.001_157"] },
-      "materials": ["MOD_BodyPaint"],
-      "bboxMm": { "nd": { "min": [-522, 821, -1864], "max": [522, 941, -1502] } },
-      "triangleBudget": 5500,
-      "file": { "nd": "assets/mods/nd/RA01_ducktail.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
-      "derivedFromBaseMesh": true,
-      "$note": "The boot lid's own rear 260mm, lifted 85mm on a t^2 ramp. Zero slope where it meets the panel, so the front row of vertices is still exactly the boot lid — the brief calls a visible step at the front edge the single most common failure here, and this makes it impossible rather than careful.",
-      "$budget": "Over the brief's 3000. A panel-derived part inherits the donor's density; the alternative is modelling it freehand, which forfeits the guaranteed shut line. 163 kB, so the cost is bookkeeping rather than performance."
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -460,
+            829,
+            -1840
+          ],
+          "max": [
+            460,
+            886,
+            -1726
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "nd": "assets/mods/nd/RA01_ducktail.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Independent closed boot-edge moulding, 34 mm maximum rise and 57 mm central depth, tapered into the ends. Leading edge and underside sampled onto the deck; no donor topology.",
+      "$build": "blender/build_nd_street.py; independent geometry in blender/nd_street_kit.py"
     },
     {
       "id": "RA05",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "OEM+ Lip Spoiler",
       "slot": "rearWing",
       "optionId": "oem_lip",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Boot 6.001_157"] },
-      "materials": ["MOD_BodyPaint"],
-      "bboxMm": { "nd": { "min": [-501, 778, -1865], "max": [501, 909, -1687] } },
-      "triangleBudget": 4000,
-      "file": { "nd": "assets/mods/nd/RA05_lip_spoiler.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
-      "derivedFromBaseMesh": true,
-      "$note": "The mild option in the same slot as the ducktail and the wing: 140mm of strip, 35mm rise, with the ends flicking up a little more than the centre so it does not read as a shelf laid across the boot.",
-      "$budget": "Over the brief's 1500, for the same reason as RA01."
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -460,
+            829,
+            -1840
+          ],
+          "max": [
+            460,
+            872,
+            -1734
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "nd": "assets/mods/nd/RA05_lip_spoiler.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Low 20 mm-rise, 43 mm-deep variant of the independent boot-edge moulding, with embedded carbon weave. Matches the Carbon Lip Spoiler option.",
+      "$build": "blender/build_nd_street.py; independent geometry in blender/nd_street_kit.py"
     },
     {
       "id": "RB02",
