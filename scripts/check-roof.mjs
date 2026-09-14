@@ -121,6 +121,35 @@ for (const entry of car.cabin) {
 }
 console.log('PASS no upper lining fragments remain over the open cabin');
 
+// The passenger-side remnant sits below the upper-sheet check. Inspect the
+// actual front roof-rail region on BOTH sides, independently of island keys.
+// One side was already part of a hidden rail; the other was split into two
+// tiny source islands and was missed by the original debug size threshold.
+const railEntry = car.cabin.find(entry => entry.mesh.name === 'Object_39');
+assert.ok(railEntry, 'Expected the source ND interior mesh');
+const railFaces = geometry => {
+  const pos = geometry.getAttribute('position'), faces = [];
+  for (let t = 0; t < count(geometry); t++) {
+    const points = [0,1,2].map(k => {
+      const v = geometry.index ? geometry.index.getX(t*3+k) : t*3+k;
+      return new THREE.Vector3().fromBufferAttribute(pos,v).applyMatrix4(railEntry.mesh.matrixWorld);
+    });
+    if (points.every(p => p.y > 1.12 && Math.abs(p.x) > .48 && Math.abs(p.x) < .55
+      && p.z > -.4 && p.z < -.2)) faces.push(points);
+  }
+  return faces;
+};
+const sourceRails = railFaces(railEntry.original);
+assert.equal(sourceRails.length, 20, 'Exercise both front rail sections, including their undersides');
+const shape = points => points.map(p => [Math.abs(p.x),p.y,p.z].map(n=>n.toFixed(5)).join(',')).sort().join(';');
+assert.deepEqual(
+  sourceRails.filter(p=>p[0].x>0).map(shape).sort(),
+  sourceRails.filter(p=>p[0].x<0).map(shape).sort(),
+  'The front roof rails must be symmetric',
+);
+assert.equal(railFaces(railEntry.mesh.geometry).length, 0, 'A front roof-rail fragment remains');
+console.log('PASS both front rail sections clear; passenger-side sliver and end cap follow the roof');
+
 const geometries = car.cabin.map(e => e.mesh.geometry);
 for (const up of [false, true, false, true, false]) {
   car.setRoofUp(up);
