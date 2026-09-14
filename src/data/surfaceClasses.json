@@ -221,9 +221,35 @@
         "$keys": "Stable ids from islandKey(): triangleCount@localCentre. Deliberately not list indices, which shift whenever the candidate filter changes.",
         "$cutAboveY": "Some parts are lining at the top and A-pillar trim lower down, so no whole-part rule separates them. When set, triangles above this world height (metres, ground = 0) are treated as lining too — but only within parts that already sit inside the roof volume. null disables it.",
         "cutAboveY": null,
+        "$splitWithRoof": "The front lining shares four islands with the fixed windscreen header and A-pillar trim. Separate only these upper faces along their existing edges; preserve every other face in each island. Offsets address the ORIGINAL Object_39 index buffer (three indices per triangle), scoped by island key. Do not hide these whole islands or use a global height cut. Two fragments are below the old debug view's eight-triangle minimum.",
+        "splitWithRoof": [
+          {
+            "key": "68@0.209,-0.122,-0.889",
+            "triangleOffsets": [1095, 1098, 2511, 2514]
+          },
+          {
+            "key": "61@-0.423,-0.107,-0.876",
+            "triangleOffsets": [2496, 2499]
+          },
+          {
+            "key": "6@0.436,-0.281,-1.016",
+            "triangleOffsets": [1077, 1080, 1083, 1086, 1089]
+          },
+          {
+            "key": "5@-0.361,-0.287,-1.025",
+            "triangleOffsets": [2502, 2505, 2517, 2520]
+          }
+        ],
         "hideWithRoof": [
           "139@0.000,-0.898,-0.892",
           "51@0.569,-0.503,-0.867",
+          "46@-0.598,-0.512,-0.862",
+          "2@0.340,-0.287,-1.031",
+          "2@-0.475,-0.453,-1.040",
+          "2@-0.476,-0.485,-1.042",
+          "1@0.477,-0.534,-1.037",
+          "1@-0.477,-0.399,-1.037",
+          "1@-0.477,-0.534,-1.037",
           "10@0.024,-0.500,-1.055",
           "10@0.025,-0.468,-1.052",
           "14@-0.133,-0.736,-1.019",

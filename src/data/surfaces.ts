@@ -19,7 +19,13 @@ export interface SurfaceTable {
   paintableClass: string;
   materials: Record<string, string>;
   /** Cabin loose parts that are really roof lining — see surfaceClasses.json. */
-  roofLining?: { hideWithRoof: string[]; cutAboveY: number | null };
+  roofLining?: {
+    hideWithRoof: string[];
+    cutAboveY: number | null;
+    /** Roof faces inside a part that also contains fixed windscreen/pillar trim.
+     * Offsets refer to triangles in the original mesh's index buffer. */
+    splitWithRoof?: { key: string; triangleOffsets: number[] }[];
+  };
 }
 
 const MODELS = surfaceClasses.models as unknown as Record<string, SurfaceTable>;

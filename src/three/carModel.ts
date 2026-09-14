@@ -361,6 +361,11 @@ export class CarModel {
     this.tyreOriginals.clear();
     this.rimOriginals.clear();
     this.packTintMaterials.clear();
+    // Split source geometries are retained for rebuilding/debugging and are
+    // no longer attached to the scene graph that was disposed above.
+    for (const entry of this.cabin) {
+      if (entry.mesh.geometry !== entry.original) entry.original.dispose();
+    }
     this.cabin = [];
     this.liningMeshes = [];
     this.islandOverlays = [];
@@ -1322,6 +1327,10 @@ export class CarModel {
 
     const worldBox = new THREE.Box3();
     const a = new THREE.Vector3();
+    const nominated = new Set([
+      ...(this.table.roofLining?.hideWithRoof ?? []),
+      ...(this.table.roofLining?.splitWithRoof ?? []).map(({ key }) => key),
+    ]);
     this.group.traverse((child) => {
       const mesh = child as THREE.Mesh;
       if (!mesh.isMesh || !mesh.geometry) return;
@@ -1344,10 +1353,12 @@ export class CarModel {
         worldBox.copy(island.box).applyMatrix4(mesh.matrixWorld);
         // Merely *reaching* the roof is not enough — the cabin tub is 1.8 m
         // tall and touches it. A roof-lining part lives entirely up there.
-        const isCandidate =
+        // Explicitly identified lining includes tiny seams that the heuristic
+        // minimum used to exclude from the debug view entirely.
+        const isCandidate = nominated.has(islandKey(island)) || (
           roofBox.intersectsBox(worldBox) &&
           worldBox.min.y >= roofBox.min.y - 0.02 &&
-          island.triangleCount >= 8;
+          island.triangleCount >= 8);
         candidate.push(isCandidate);
 
         // Per-triangle world height, so the cut slider is a lookup not a re-solve.
@@ -1372,11 +1383,10 @@ export class CarModel {
    * Split the nominated lining triangles out of the cabin meshes into their own
    * meshes, which then follow the roof's visibility.
    *
-   * Two ways a triangle becomes lining: it belongs to a part listed in
-   * `liningKeys` (hidden whole), or — for parts inside the roof volume only —
-   * it sits above `liningCutY`. The height cut exists because some parts are
-   * lining at the top and A-pillar trim further down, so no whole-part rule
-   * can separate them.
+   * Whole roof islands follow `liningKeys`. Shared roof/A-pillar islands use
+   * explicit faces from the surface table, split along the authored edges so
+   * the fixed windscreen header and pillar trim stay intact. The optional
+   * height cut remains a development aid for other roof-volume parts.
    */
   private rebuildLining(): void {
     for (const mesh of this.liningMeshes) {
@@ -1385,12 +1395,24 @@ export class CarModel {
     }
     this.liningMeshes = [];
 
+    const partial = new Map((this.table.roofLining?.splitWithRoof ?? []).map(
+      ({ key, triangleOffsets }) => [key, new Set(triangleOffsets)],
+    ));
     for (const entry of this.cabin) {
+      // Rebuilding from the original must release the previous kept partition.
+      if (entry.mesh.geometry !== entry.original) entry.mesh.geometry.dispose();
       const hide = new Set<number>();
       entry.islands.forEach((island, i) => {
-        if (this.liningKeys.has(islandKey(island))) {
+        const key = islandKey(island);
+        if (this.liningKeys.has(key)) {
           for (const offset of island.triangles) hide.add(offset);
           return;
+        }
+        const faces = partial.get(key);
+        if (faces) {
+          for (const offset of island.triangles) {
+            if (faces.has(offset)) hide.add(offset);
+          }
         }
         if (this.liningCutY === null || !entry.candidate[i]) return;
         const heights = entry.triangleHeights[i];
