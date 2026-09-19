@@ -647,12 +647,12 @@
     },
     {
       "id": "sunset",
-      "name": "Venice Sunset",
-      "hint": "Coastal plaza in golden evening light",
-      "hdri": "assets/hdri/sunset.hdr",
-      "panorama": "assets/hdri/sunset_8k.webp",
-      "panoramaHeight": 6,
-      "panoramaRotation": 180,
+      "name": "Bushveld Sunset",
+      "hint": "Quiet dirt road in warm evening light",
+      "hdri": "assets/hdri/dikhololo_sunset.hdr",
+      "panorama": "assets/hdri/dikhololo_sunset_8k.webp",
+      "panoramaHeight": 3.5,
+      "panoramaRotation": 110,
       "exposure": 1.0,
       "envIntensity": 1.1,
       "backgroundMode": "environment",
@@ -761,11 +761,11 @@
     },
     {
       "id": "urban_night",
-      "name": "City Waterfront",
-      "hint": "Shanghai skyline after dark",
-      "hdri": "assets/hdri/shanghai_bund.hdr",
-      "panorama": "assets/hdri/shanghai_bund_8k.webp",
-      "panoramaHeight": 6,
+      "name": "Rooftop Twilight",
+      "hint": "Empty rooftop parking under violet skies",
+      "hdri": "assets/hdri/rooftop_night.hdr",
+      "panorama": "assets/hdri/rooftop_night_8k.webp",
+      "panoramaHeight": 3.5,
       "panoramaRotation": 180,
       "exposure": 1.3,
       "envIntensity": 1.0,
@@ -874,8 +874,8 @@
         ]
       },
       "fill": {
-        "color": "#ff2d7a",
-        "intensity": 1.1,
+        "color": "#decbdc",
+        "intensity": 0.7,
         "position": [
           6,
           1.6,
@@ -883,8 +883,8 @@
         ]
       },
       "rim": {
-        "color": "#00e5ff",
-        "intensity": 1.5,
+        "color": "#c8d5ff",
+        "intensity": 1,
         "position": [
           -6,
           1.8,

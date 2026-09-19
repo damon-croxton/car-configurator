@@ -24,5 +24,13 @@ If only the HDR is missing, the panorama is retained with generated lighting.
 Scene requests use the latest selection, and replaced/stale textures and
 PMREM render targets are disposed.
 
-The `urban_night` URL id now uses Shanghai Bund. `salt_flats`, `warehouse` and
-`mountain_pass` retain their URL ids but have photo-accurate picker names.
+The `sunset` URL id uses **Dikhololo Sunset** (Bushveld Sunset), and
+`urban_night` uses **Rooftop Night** (Rooftop Twilight). Both replace populated
+tourist locations. All six panoramas were inspected around the full horizon
+for visible people. Keep this check when changing sources: nearby people become
+especially distorted under ground projection.
+
+Replacement assets use source-specific filenames so existing browser and local
+build caches cannot retain the old Venice/Shanghai images. Lighting and visible
+scenery always use the same source. `salt_flats`, `warehouse` and `mountain_pass`
+retain their URL ids but have photo-accurate picker names.

@@ -2236,6 +2236,553 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "Original supplier-inspired visual concept. See blender/ND-AERO-REFERENCES.md; no measured product dimensions or aerodynamic claims."
+    },
+    {
+      "id": "W10",
+      "gen": [
+        "nd"
+      ],
+      "category": "wheel",
+      "displayName": "Concave Split Five",
+      "slot": "wheelStyle",
+      "optionId": "concave_split_five",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "CR Kiwami-inspired splayed spokes, a deep centre and four exposed lugs.",
+      "file": {
+        "nd": "assets/mods/nd/W10_concave_split_five.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W11",
+      "gen": [
+        "nd"
+      ],
+      "category": "wheel",
+      "displayName": "Retro Three Spoke",
+      "slot": "wheelStyle",
+      "optionId": "retro_three_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Three swept paddles, an inset centre and a polished step lip.",
+      "file": {
+        "nd": "assets/mods/nd/W11_retro_three_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "FA30",
+      "gen": [
+        "nd"
+      ],
+      "category": "front aero",
+      "displayName": "Carbon Corner Splitters",
+      "slot": "frontLip",
+      "optionId": "carbon_corner_splitters",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -794,
+            153,
+            1548
+          ],
+          "max": [
+            794,
+            212,
+            1938
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Two separate fitted corner blades with an open centre.",
+      "file": {
+        "nd": "assets/mods/nd/FA30_carbon_corner_splitters.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "RA30",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Race Side Steps",
+      "slot": "sideSkirts",
+      "optionId": "race_side_steps",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -853,
+            153,
+            -730
+          ],
+          "max": [
+            853,
+            194,
+            785
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Wide flat carbon blades with integrated end fences.",
+      "file": {
+        "nd": "assets/mods/nd/RA30_race_side_steps.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "RA31",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Gurney Flap",
+      "slot": "rearWing",
+      "optionId": "gurney_flap",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -475,
+            829,
+            -1836
+          ],
+          "max": [
+            475,
+            881,
+            -1718
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "A slim satin L-section blade following the boot edge.",
+      "file": {
+        "nd": "assets/mods/nd/RA31_gurney_flap.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "RA32",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear aero",
+      "displayName": "Club Bridge Spoiler",
+      "slot": "rearWing",
+      "optionId": "club_bridge_spoiler",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -550,
+            839,
+            -1865
+          ],
+          "max": [
+            550,
+            1015,
+            -1692
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "A low body-colour airfoil on two sculpted pedestals.",
+      "file": {
+        "nd": "assets/mods/nd/RA32_club_bridge_spoiler.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "EX30",
+      "gen": [
+        "nd"
+      ],
+      "category": "exhaust",
+      "displayName": "Slash-cut Titanium Twins",
+      "slot": "exhaust",
+      "optionId": "slash_cut_twin",
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "Exhausts 6_124"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Exhausts 6_124"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_SatinBlack",
+        "MOD_Titanium"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -367,
+            159,
+            -1892
+          ],
+          "max": [
+            -207,
+            283,
+            -1398
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Two hollow angled tips with recessed bores.",
+      "file": {
+        "nd": "assets/mods/nd/EX30_slash_cut_twin.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "EX31",
+      "gen": [
+        "nd"
+      ],
+      "category": "exhaust",
+      "displayName": "Rolled-edge Single",
+      "slot": "exhaust",
+      "optionId": "rolled_single",
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "Exhausts 6_124"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Exhausts 6_124"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -349,
+            159,
+            -1879
+          ],
+          "max": [
+            -225,
+            283,
+            -1398
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "A large rolled stainless outlet with an open dark bore.",
+      "file": {
+        "nd": "assets/mods/nd/EX31_rolled_single.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "DT30",
+      "gen": [
+        "nd"
+      ],
+      "category": "details",
+      "displayName": "Rally Mud Flaps",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [
+        "RA26"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -842,
+            105,
+            -1474
+          ],
+          "max": [
+            842,
+            374,
+            797
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "Four shaped rubber flaps with metal fasteners.",
+      "file": {
+        "nd": "assets/mods/nd/DT30_mud_flaps.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "DT31",
+      "gen": [
+        "nd"
+      ],
+      "category": "details",
+      "displayName": "Rear Tow Eye",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            474,
+            378,
+            -1877
+          ],
+          "max": [
+            546,
+            460,
+            -1815
+          ]
+        }
+      },
+      "triangleBudget": 6500,
+      "uiHint": "An accent-colour rear tow ring with a metal shaft and fitted socket.",
+      "file": {
+        "nd": "assets/mods/nd/DT31_rear_tow_eye.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
     }
   ]
 }

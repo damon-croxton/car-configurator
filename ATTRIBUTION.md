@@ -18,8 +18,8 @@ public domain. No attribution is required; these are credited anyway.
 | Used as | Asset | Source |
 | --- | --- | --- |
 | `studio` | Studio Small 03 | https://polyhaven.com/a/studio_small_03 |
-| `sunset` | Venice Sunset | https://polyhaven.com/a/venice_sunset |
-| `urban_night` | Shanghai Bund | https://polyhaven.com/a/shanghai_bund |
+| `sunset` | Dikhololo Sunset | https://polyhaven.com/a/dikhololo_sunset |
+| `urban_night` | Rooftop Night | https://polyhaven.com/a/rooftop_night |
 | `warehouse` | Autoshop 01 | https://polyhaven.com/a/autoshop_01 |
 | `salt_flats` | Kloofendal 43d Clear | https://polyhaven.com/a/kloofendal_43d_clear |
 | `mountain_pass` | Camdeboo Road | https://polyhaven.com/a/camdeboo_road |
@@ -32,6 +32,12 @@ the scene picker describe the actual photographs; URL identifiers remain stable.
 The ten original ND aero concepts FA20–FA22 and RA20–RA26 use supplier photos
 only as shape references. No supplier photographs or CAD files are included.
 See [the reference ledger](blender/ND-AERO-REFERENCES.md) for sources and scope.
+
+The ten additional ND club parts (W10/W11, FA30, RA30–RA32, EX30/EX31,
+DT30/DT31) are original modeled geometry. W10 takes visual inspiration from
+the [WORK Emotion CR Kiwami](https://www.work-wheels.co.jp/campaign/we/workemotion-kiwami.html)
+split-spoke design. No vendor geometry, photographs or logos are bundled.
+See [the collection notes](blender/ND-CLUB-EXPANSION.md).
 
 ---
 

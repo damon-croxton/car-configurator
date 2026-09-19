@@ -12,19 +12,19 @@
     },
     {
       "id": "hdri_sunset",
-      "dest": "assets/hdri/sunset.hdr",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/venice_sunset_1k.hdr",
+      "dest": "assets/hdri/dikhololo_sunset.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/dikhololo_sunset_1k.hdr",
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/venice_sunset",
-      "credit": "Poly Haven — Venice Sunset (CC0)"
+      "source": "https://polyhaven.com/a/dikhololo_sunset",
+      "credit": "Poly Haven — Dikhololo Sunset (CC0)"
     },
     {
       "id": "hdri_urban_night",
-      "dest": "assets/hdri/shanghai_bund.hdr",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/shanghai_bund_1k.hdr",
+      "dest": "assets/hdri/rooftop_night.hdr",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/hdr/1k/rooftop_night_1k.hdr",
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/shanghai_bund",
-      "credit": "Poly Haven — Shanghai Bund (CC0)"
+      "source": "https://polyhaven.com/a/rooftop_night",
+      "credit": "Poly Haven — Rooftop Night (CC0)"
     },
     {
       "id": "hdri_warehouse",
@@ -77,21 +77,21 @@
     },
     {
       "id": "panorama_sunset",
-      "dest": "assets/hdri/sunset_8k.webp",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/venice_sunset.jpg",
+      "dest": "assets/hdri/dikhololo_sunset_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/dikhololo_sunset.jpg",
       "resizeWidth": 8192,
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/venice_sunset",
-      "credit": "Poly Haven — Venice Sunset (CC0)"
+      "source": "https://polyhaven.com/a/dikhololo_sunset",
+      "credit": "Poly Haven — Dikhololo Sunset (CC0)"
     },
     {
       "id": "panorama_urban_night",
-      "dest": "assets/hdri/shanghai_bund_8k.webp",
-      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/shanghai_bund.jpg",
+      "dest": "assets/hdri/rooftop_night_8k.webp",
+      "url": "https://dl.polyhaven.org/file/ph-assets/HDRIs/extra/Tonemapped%20JPG/rooftop_night.jpg",
       "resizeWidth": 8192,
       "licence": "CC0",
-      "source": "https://polyhaven.com/a/shanghai_bund",
-      "credit": "Poly Haven — Shanghai Bund (CC0)"
+      "source": "https://polyhaven.com/a/rooftop_night",
+      "credit": "Poly Haven — Rooftop Night (CC0)"
     },
     {
       "id": "panorama_warehouse",

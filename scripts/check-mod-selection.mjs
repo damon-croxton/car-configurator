@@ -25,7 +25,8 @@ assert.deepEqual(activeMods('nd',DEFAULT_CONFIG),[]);
 assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods:['unknown','DT01','DT01'] }).extraMods,['DT01']);
 console.log('PASS: antenna conflicts, unrelated extras, sourced wheel override, forced override, stock reset and duplicate/unknown IDs');
 const catalogue = JSON.parse(readFileSync('src/data/modsData.json','utf8')).mods;
-for (const id of ['FA20','FA21','RA20','RA21','RA22','RA23','RA24','RA25']) {
+for (const id of ['FA20','FA21','RA20','RA21','RA22','RA23','RA24','RA25',
+  'W10','W11','FA30','RA30','RA31','RA32','EX30','EX31']) {
   const mod = catalogue.find(m => m.id === id);
   const config = reconcileConfig({ ...DEFAULT_CONFIG, [mod.slot]: mod.optionId });
   assert.equal(config[mod.slot], mod.optionId);
@@ -37,3 +38,10 @@ for (const ids of [['FA05','FA22'],['FA22','FA05']]) {
   assert.equal(activeMods('nd',config).filter(m => ids.includes(m.id)).length, 1);
 }
 console.log('PASS: all new aero slots, additive rear spats and mutually exclusive canard sets');
+
+for (const ids of [['RA26','DT30'],['DT30','RA26']]) {
+  const config = reconcileConfig({ ...DEFAULT_CONFIG, extraMods:['DT31',...ids] });
+  assert.deepEqual(config.extraMods, ['DT31',ids.at(-1)]);
+  assert.equal(activeMods('nd',config).filter(m => ids.includes(m.id)).length, 1);
+}
+console.log('PASS: new wheels/exhausts, rear tow eye and mud flap/rear spat conflicts');

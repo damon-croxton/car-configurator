@@ -39,7 +39,9 @@
         "rays_te37",
         "enkei_rpf1",
         "bbs_mesh",
-        "watanabe_rs"
+        "watanabe_rs",
+        "concave_split_five",
+        "retro_three_spoke"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -55,14 +57,16 @@
           "club_lip",
           "aggressive_splitter",
           "msr_split_lip",
-          "three_piece_lip"
+          "three_piece_lip",
+          "carbon_corner_splitters"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
           "carbon_extenders",
           "msr_side_blades",
-          "rs_sculpted_skirts"
+          "rs_sculpted_skirts",
+          "race_side_steps"
         ],
         "rearDiffuser": [
           "stock",
@@ -77,7 +81,9 @@
           "gt_wing",
           "msr_blade_spoiler",
           "touring_ducktail",
-          "swan_neck_wing"
+          "swan_neck_wing",
+          "gurney_flap",
+          "club_bridge_spoiler"
         ],
         "hood": [
           "stock",
@@ -89,7 +95,9 @@
           "oem_dual",
           "titanium_quad",
           "big_bore_single",
-          "twin_oval"
+          "twin_oval",
+          "slash_cut_twin",
+          "rolled_single"
         ],
         "rollBar": [
           "none",
@@ -433,6 +441,28 @@
       "weightPerCorner": 8.2,
       "oem": false,
       "description": "Classic dished eight-spoke. Pure kyusha."
+    },
+    {
+      "id": "concave_split_five",
+      "name": "Concave Split Five",
+      "brand": "Club",
+      "spokeType": "split_five",
+      "spokeCount": 5,
+      "lipDepth": 0.045,
+      "weightPerCorner": 9.1,
+      "oem": false,
+      "description": "CR Kiwami-inspired splayed spokes, a deep centre and four exposed lugs."
+    },
+    {
+      "id": "retro_three_spoke",
+      "name": "Retro Three Spoke",
+      "brand": "Club",
+      "spokeType": "three_spoke",
+      "spokeCount": 3,
+      "lipDepth": 0.045,
+      "weightPerCorner": 9.1,
+      "oem": false,
+      "description": "Three swept paddles, an inset centre and a polished step lip."
     }
   ],
   "aeroParts": {
@@ -478,6 +508,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "Deep satin corner blades, a centre bridge and three small ribs."
+      },
+      {
+        "id": "carbon_corner_splitters",
+        "name": "Carbon Corner Splitters",
+        "node": "MOD_ND_FA30",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Two separate fitted corner blades with an open centre."
       }
     ],
     "sideSkirts": [
@@ -522,6 +561,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "Deep, curved carbon sill panels with tapered ends."
+      },
+      {
+        "id": "race_side_steps",
+        "name": "Race Side Steps",
+        "node": "MOD_ND_RA30",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Wide flat carbon blades with integrated end fences."
       }
     ],
     "rearDiffuser": [
@@ -618,6 +666,24 @@
         "downforce": 0,
         "weight": 0,
         "description": "Curved carbon airfoil on low top-mounted supports."
+      },
+      {
+        "id": "gurney_flap",
+        "name": "Gurney Flap",
+        "node": "MOD_ND_RA31",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A slim satin L-section blade following the boot edge."
+      },
+      {
+        "id": "club_bridge_spoiler",
+        "name": "Club Bridge Spoiler",
+        "node": "MOD_ND_RA32",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A low body-colour airfoil on two sculpted pedestals."
       }
     ],
     "hood": [
@@ -691,6 +757,24 @@
         "downforce": 0,
         "weight": -2.5,
         "power": 6
+      },
+      {
+        "id": "slash_cut_twin",
+        "name": "Slash-cut Titanium Twins",
+        "node": "MOD_ND_EX30",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Two hollow angled tips with recessed bores."
+      },
+      {
+        "id": "rolled_single",
+        "name": "Rolled-edge Single",
+        "node": "MOD_ND_EX31",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A large rolled stainless outlet with an open dark bore."
       }
     ],
     "rollBar": [

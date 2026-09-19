@@ -84,6 +84,7 @@ export interface RoofTypeDef {
 }
 
 export type SpokeType =
+  | 'three_spoke'
   | 'twin_five'
   | 'mesh_ten'
   | 'six_spoke'
