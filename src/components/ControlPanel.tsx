@@ -14,7 +14,8 @@ import {
   wheelOptionsFor,
   type AeroSlotId,
 } from '../data/schema';
-import { modForOption, optionalMods } from '../data/mods';
+import { activeMods, modForOption, optionalMods } from '../data/mods';
+import { modelHasClass } from '../data/surfaces';
 import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
 
 // No leading slash: mod .glb paths follow the same convention (see
@@ -87,10 +88,11 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const generation = getGeneration(config.generation);
   const roofs = roofOptionsFor(generation);
   const roof = getRoofType(config.roofType);
+  const hasSoftTop = modelHasClass(generation.surfaceModel, 'soft_top');
 
   return (
     <>
-      <Section title="Generation" hint="ND shipping · others in progress">
+      <Section title="Generation" hint="NC and NB not modelled yet">
         <OptionGrid
           columns={2}
           value={config.generation}
@@ -105,28 +107,34 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         <p className="pt-1 text-[11px] leading-relaxed text-slate-500">{generation.tagline}</p>
       </Section>
 
-      <Section title="Roof type">
-        <OptionGrid
-          columns={2}
-          value={config.roofType}
-          onChange={(id) => onChange({ roofType: id as CarConfig['roofType'] })}
-          options={roofs.map((entry) => ({ id: entry.id, label: entry.shortName, sublabel: entry.name }))}
-        />
-        <p className="pt-1 text-[11px] leading-relaxed text-slate-500">{roof.description}</p>
-      </Section>
+      {/* One roof is all either asset models; RF returns when it has geometry. */}
+      {roofs.length > 1 && (
+        <Section title="Roof type">
+          <OptionGrid
+            columns={2}
+            value={config.roofType}
+            onChange={(id) => onChange({ roofType: id as CarConfig['roofType'] })}
+            options={roofs.map((entry) => ({ id: entry.id, label: entry.shortName, sublabel: entry.name }))}
+          />
+          <p className="pt-1 text-[11px] leading-relaxed text-slate-500">{roof.description}</p>
+        </Section>
+      )}
 
-      <Section title="Roof position">
-        <SegmentedControl
-          value={config.roofState}
-          onChange={(id) => onChange({ roofState: id as CarConfig['roofState'] })}
-          options={[
-            { id: 'up', label: 'Up' },
-            { id: 'down', label: 'Down' },
-          ]}
-        />
-      </Section>
+      {/* The NA ships roof-down with no soft-top geometry to raise or colour. */}
+      {hasSoftTop && (
+        <Section title="Roof position">
+          <SegmentedControl
+            value={config.roofState}
+            onChange={(id) => onChange({ roofState: id as CarConfig['roofState'] })}
+            options={[
+              { id: 'up', label: 'Up' },
+              { id: 'down', label: 'Down' },
+            ]}
+          />
+        </Section>
+      )}
 
-      {roof.supportsFabricColor && (
+      {hasSoftTop && roof.supportsFabricColor && (
         <Section title="Roof fabric">
           <SwatchGrid
             value={config.roofFabric}
@@ -274,14 +282,6 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           />
         </div>
       </Section>
-
-      <Section title="Brake calipers">
-        <SwatchGrid
-          value={config.caliperColor}
-          onChange={(id) => onChange({ caliperColor: id })}
-          swatches={materialsData.caliperColors}
-        />
-      </Section>
     </>
   );
 };
@@ -303,6 +303,10 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   // materialContractExempt marks the ones whose baked texture the picker can't
   // touch (see mods.ts).
   const recolourableSourced = sourcedWheels.filter((m) => !m.materialContractExempt);
+  // The stock wheel has no brake meshes, so the brake controls only exist
+  // while a modelled wheel is fitted — and caliper paint only for wheels whose
+  // calipers carry the paintable material (the pack's are baked).
+  const fittedWheel = activeMods(generation.id, config).find((m) => m.attachTo === 'wheel');
   const packWheels = sourcedWheels.filter((m) => m.materialContractExempt);
 
   // Radio-like by construction, not by hoping incompatibleWith resolves it:
@@ -483,14 +487,25 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         </Section>
       )}
 
-      <Section title="Motion">
-        <ToggleRow
-          label="Spin wheels"
-          hint="Rolling animation for video capture"
-          checked={config.wheelSpin}
-          onChange={(wheelSpin) => onChange({ wheelSpin })}
-        />
-      </Section>
+      {fittedWheel && (
+        <Section title="Brakes">
+          <div className="space-y-3">
+            <ToggleRow
+              label="Brake discs & calipers"
+              hint="Show the brake hardware supplied with this wheel."
+              checked={config.wheelBrakes}
+              onChange={(wheelBrakes) => onChange({ wheelBrakes })}
+            />
+            {config.wheelBrakes && fittedWheel.materials.includes('MOD_CaliperPaint') && (
+              <SwatchGrid
+                value={config.caliperColor}
+                onChange={(id) => onChange({ caliperColor: id })}
+                swatches={materialsData.caliperColors}
+              />
+            )}
+          </div>
+        </Section>
+      )}
     </>
   );
 };
@@ -512,6 +527,8 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   // Wheel-attached extras get their own section on the Wheels tab, next to
   // the rim style picker they actually override.
   const extras = optionalMods(generation.id).filter((m) => m.attachTo === 'body');
+  const hasIndicators = modelHasClass(generation.surfaceModel, 'lens_amber');
+  const hasHousings = modelHasClass(generation.surfaceModel, 'light_housing');
 
   const toggleExtra = (id: string, on: boolean) =>
     onChange({
@@ -524,7 +541,7 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
     <>
       <p className="rounded-lg border border-slate-700/60 bg-slate-800/30 px-3 py-2 text-[10px] leading-relaxed text-slate-400">
         Options marked <span className="font-semibold text-emerald-300">3D</span> have a modelled
-        part and change the car. The rest still drive the spec sheet and pricing.
+        part and change the car. The rest only appear on the spec sheet.
         {' '}Supplier-inspired designs are visual approximations.
       </p>
 
@@ -549,47 +566,54 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         </Section>
       ))}
 
-      <Section title="Additional parts" hint={extras.length > 0 ? `${extras.length} modelled` : undefined}>
-        <div className="space-y-2">
-          {extras.map((mod) => (
-            <ToggleRow
-              key={mod.id}
-              label={mod.displayName}
-              hint={mod.uiHint}
-              checked={config.extraMods.includes(mod.id)}
-              onChange={(on) => toggleExtra(mod.id, on)}
-            />
-          ))}
-          <ToggleRow
-            label="Brake discs & calipers"
-            hint="Show the brake hardware behind the spokes of fitted wheel mods."
-            checked={config.wheelBrakes}
-            onChange={(wheelBrakes) => onChange({ wheelBrakes })}
-          />
-        </div>
-      </Section>
+      {extras.length > 0 && (
+        <Section title="Additional parts" hint={`${extras.length} modelled`}>
+          <div className="space-y-2">
+            {extras.map((mod) => (
+              <ToggleRow
+                key={mod.id}
+                label={mod.displayName}
+                hint={mod.uiHint}
+                checked={config.extraMods.includes(mod.id)}
+                onChange={(on) => toggleExtra(mod.id, on)}
+              />
+            ))}
+          </div>
+        </Section>
+      )}
 
-      <Section title="Light mods">
-        <div className="space-y-2">
-          <ToggleRow
-            label="Smoked indicators"
-            checked={config.smokedIndicators}
-            onChange={(smokedIndicators) => onChange({ smokedIndicators })}
-          />
-          <ToggleRow
-            label="Tinted headlight housings"
-            checked={config.tintedHeadlights}
-            onChange={(tintedHeadlights) => onChange({ tintedHeadlights })}
-          />
-        </div>
-      </Section>
+      {(hasIndicators || hasHousings) && (
+        <Section title="Light mods">
+          <div className="space-y-2">
+            {hasIndicators && (
+              <ToggleRow
+                label="Smoked indicators"
+                checked={config.smokedIndicators}
+                onChange={(smokedIndicators) => onChange({ smokedIndicators })}
+              />
+            )}
+            {hasHousings && (
+              <ToggleRow
+                label="Tinted headlight housings"
+                checked={config.tintedHeadlights}
+                onChange={(tintedHeadlights) => onChange({ tintedHeadlights })}
+              />
+            )}
+          </div>
+        </Section>
+      )}
     </>
   );
 };
 
 /* ------------------------------------------------------------------ */
 
-const AtmosphereTab: React.FC<ControlPanelProps> = ({ config, onChange }) => (
+const AtmosphereTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
+  const model = getGeneration(config.generation).surfaceModel;
+  const hasHeadlights = modelHasClass(model, 'lens_clear');
+  const hasTaillights = modelHasClass(model, 'lens_red');
+
+  return (
   <>
     <Section title="Environment">
       <OptionGrid
@@ -604,13 +628,18 @@ const AtmosphereTab: React.FC<ControlPanelProps> = ({ config, onChange }) => (
       />
     </Section>
 
-    <Section title="Vehicle lighting">
-      <div className="space-y-2">
-        <ToggleRow label="Headlights" checked={config.headlights} onChange={(headlights) => onChange({ headlights })} />
-        <ToggleRow label="Daytime running lights" checked={config.drl} onChange={(drl) => onChange({ drl })} />
-        <ToggleRow label="Tail lights" checked={config.taillights} onChange={(taillights) => onChange({ taillights })} />
-      </div>
-    </Section>
+    {(hasHeadlights || hasTaillights) && (
+      <Section title="Vehicle lighting">
+        <div className="space-y-2">
+          {hasHeadlights && (
+            <ToggleRow label="Headlights" checked={config.headlights} onChange={(headlights) => onChange({ headlights })} />
+          )}
+          {hasTaillights && (
+            <ToggleRow label="Tail lights" checked={config.taillights} onChange={(taillights) => onChange({ taillights })} />
+          )}
+        </div>
+      </Section>
+    )}
 
     <Section title="Render settings">
       <div className="space-y-3">
@@ -650,4 +679,5 @@ const AtmosphereTab: React.FC<ControlPanelProps> = ({ config, onChange }) => (
       </div>
     </Section>
   </>
-);
+  );
+};

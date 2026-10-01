@@ -68,14 +68,14 @@ export const PRESET_BUILDS: PresetBuild[] = [
   },
   {
     id: 'rf_grand_tourer',
-    name: 'RF Grand Tourer',
-    subtitle: 'Machine Gray fastback',
-    badge: 'RF',
+    name: 'Grand Tourer',
+    subtitle: 'Machine Gray, roof up',
+    badge: 'GT',
     description:
-      'Retractable Fastback roof up in Machine Gray, tan Nappa cabin, BBS mesh in hyper silver. Long-distance roadster.',
+      'Machine Gray with the roof up, tan Nappa cabin, BBS mesh in hyper silver. Long-distance roadster.',
     config: {
       generation: 'nd',
-      roofType: 'rf',
+      roofType: 'st',
       roofState: 'up',
       paint: 'machine_gray',
       interiorTrim: 'tan_nappa',
@@ -98,7 +98,7 @@ export const PRESET_BUILDS: PresetBuild[] = [
     subtitle: 'Full aero, coilovers, GT wing',
     badge: 'Track',
     description:
-      'Carbon splitter, track diffuser and a GT wing over coilovers on Enkei RPF1s. Recaro buckets and a bolt-in hoop.',
+      'Carbon splitter, track diffuser and a GT wing over coilovers on Enkei RPF1s, with a bolt-in hoop.',
     config: {
       generation: 'nd',
       roofType: 'st',
@@ -118,7 +118,7 @@ export const PRESET_BUILDS: PresetBuild[] = [
       hood: 'vented_carbon',
       exhaust: 'titanium_quad',
       rollBar: 'track_hoop',
-      interiorTrim: 'recaro_bucket',
+      interiorTrim: 'red_alcantara',
       environment: 'warehouse',
       bloom: true,
     },
@@ -132,7 +132,7 @@ export const PRESET_BUILDS: PresetBuild[] = [
       'Midnight Purple over Watanabes, aired out on the deck with smoked indicators and tinted headlight housings.',
     config: {
       generation: 'nd',
-      roofType: 'rf',
+      roofType: 'st',
       roofState: 'down',
       paint: 'midnight_purple',
       wheelStyle: 'watanabe_rs',
@@ -193,7 +193,7 @@ export const PRESET_BUILDS: PresetBuild[] = [
       'Satin Stealth Black wrap with acid green calipers, matte black RPF1s and a carbon lip. Bloom off, exposure down.',
     config: {
       generation: 'nd',
-      roofType: 'rf',
+      roofType: 'st',
       roofState: 'up',
       paint: 'satin_stealth',
       wheelStyle: 'enkei_rpf1',

@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import type { CarConfig } from '../config/types';
 import {
+  getCaliperColor,
   getCameraPreset,
   getEnvironment,
   getGeneration,
@@ -237,6 +238,15 @@ export class SceneManager {
       seatHex: trim.seatHex,
       trimHex: trim.trimHex,
       roughness: trim.roughness,
+    });
+
+    this.car.setDetails({
+      glassTint: config.windowTint,
+      smokedIndicators: config.smokedIndicators,
+      tintedHousings: config.tintedHeadlights,
+      headlights: config.headlights,
+      taillights: config.taillights,
+      caliper: getCaliperColor(config.caliperColor),
     });
 
     this.car.setStance({

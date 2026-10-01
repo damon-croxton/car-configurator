@@ -99,7 +99,7 @@ export const SpecSheetModal: React.FC<SpecSheetModalProps> = ({ config, open, on
               icon={<Wind className="h-4 w-4 text-cyan-400" />}
               label="Downforce"
               value={`${summary.downforceKg} kg`}
-              delta="at 160 km/h"
+              delta="catalogue estimate"
               positive
             />
           </div>
@@ -125,12 +125,17 @@ export const SpecSheetModal: React.FC<SpecSheetModalProps> = ({ config, open, on
 
           <div className="flex items-baseline justify-between rounded-xl border border-red-900/50 bg-red-950/20 px-4 py-3">
             <span className="text-xs text-slate-400">
-              Base {summary.basePrice.toLocaleString()} + options
+              Estimated · base {summary.basePrice.toLocaleString()} + options
             </span>
             <span className="font-mono text-lg font-semibold text-slate-100">
               {summary.total.toLocaleString()}
             </span>
           </div>
+
+          <p className="-mt-2 text-[10px] leading-relaxed text-slate-600">
+            Prices are rough placeholders, not quotes. Weight, power and downforce are summed from
+            catalogue figures — not measured or simulated — and most modelled parts carry none yet.
+          </p>
 
           {ASSET_CREDITS.length > 0 && (
             <section>
@@ -153,7 +158,7 @@ export const SpecSheetModal: React.FC<SpecSheetModalProps> = ({ config, open, on
                 ))}
               </ul>
               <p className="mt-1.5 text-[10px] leading-relaxed text-slate-600">
-                Everything else is generated in code. Not affiliated with or endorsed by Mazda.
+                Other parts are original geometry built in Blender scripts. Not affiliated with or endorsed by Mazda.
               </p>
             </section>
           )}

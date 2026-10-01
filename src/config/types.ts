@@ -77,6 +77,8 @@ export interface CarConfig {
   environment: string;
   headlights: boolean;
   taillights: boolean;
+  /** Not rendered and not offered: the ND's DRLs share the headlight lens.
+   *  Kept so older share links still decode. */
   drl: boolean;
   exposure: number;
   bloom: boolean;
@@ -85,6 +87,8 @@ export interface CarConfig {
   groundReflection: number;
 
   /* Viewport-only state (still serialised so a shared link looks identical) */
+  /** Not rendered and not offered yet — the wheel pivots sit at the contact
+   *  patch, not the hub. Kept so older share links still decode. */
   wheelSpin: boolean;
   turntable: boolean;
   cameraPreset: string;

@@ -56,7 +56,7 @@
       "vendored": true,
       "licence": "CC-BY 4.0",
       "source": "https://sketchfab.com/3d-models/2016-mazda-mx-5-miata-922ff6fec90340ed8cf5aabe38dd1ad2",
-      "credit": "\"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom, licensed under CC-BY 4.0. Used unmodified."
+      "credit": "\"2016 Mazda MX-5 Miata\" by Galaxy Car Showroom, licensed under CC-BY 4.0. The asset file is unmodified; its bonnet and boot surfaces were reused as the basis for replacement panels."
     },
     {
       "id": "car_mx5_na_sketchfab",
@@ -65,6 +65,30 @@
       "licence": "CC-BY 4.0",
       "source": "https://sketchfab.com/3d-models/1990-mazda-miata-na-7acee5044310499f85df631b203227b5",
       "credit": "\"1990 Mazda Miata NA\" by Ricy (https://sketchfab.com/ngon_3d), licensed under CC-BY 4.0. Used unmodified."
+    },
+    {
+      "id": "wheel_meister_l1_3p",
+      "dest": "assets/mods/nd/WS01_meister_l1_full.glb",
+      "vendored": true,
+      "licence": "CC-BY 4.0",
+      "source": "https://sketchfab.com/3d-models/meister-l1-3p-b4d1f40355b745049fe5990674b5910e",
+      "credit": "\"Meister L1 3P\" by Wilbruh, licensed under CC-BY 4.0. Modified: rescaled, re-origined, branding removed."
+    },
+    {
+      "id": "wheel_gramlights_57dr",
+      "dest": "assets/mods/nd/WS02_gramlights_full.glb",
+      "vendored": true,
+      "licence": "CC-BY 4.0",
+      "source": "https://sketchfab.com/3d-models/rays-gramlights-57dr-71a90d6c2d0a444d9d2ca7e3cf715c76",
+      "credit": "\"RAYS GramLights 57DR\" by ilvskf, licensed under CC-BY 4.0. Modified: rescaled, re-origined, branding removed."
+    },
+    {
+      "id": "wheel_pack_wasi204",
+      "dest": "assets/mods/nd/WP01_wheelpack.glb",
+      "vendored": true,
+      "licence": "CC-BY 4.0",
+      "source": "https://sketchfab.com/3d-models/wheels-2feccdb562f5417c8dff4d5b5623de50",
+      "credit": "\"Wheels\" by Wasi204, licensed under CC-BY 4.0 (wheel pack WP01–WP30). Modified: rescaled and re-origined."
     },
     {
       "id": "panorama_studio",

@@ -60,6 +60,59 @@ export interface InteriorTrim {
   roughness: number;
 }
 
+/**
+ * Glass, lens and caliper state. Every field lands on a surface class, so a
+ * model whose table lacks that class (the NA has no lens classes) is a no-op
+ * for that field — the panel hides those controls by the same test.
+ */
+export interface ExteriorDetails {
+  /** 0 = the glass as authored, 1 = darkest limo tint. */
+  glassTint: number;
+  smokedIndicators: boolean;
+  tintedHousings: boolean;
+  headlights: boolean;
+  taillights: boolean;
+  /** Paint for the calipers some wheel mods ship (`MOD_CaliperPaint`). */
+  caliper: { hex: string; metalness?: number; roughness?: number };
+}
+
+/** A material's authored look, so shading is always relative to the asset. */
+interface MaterialSnapshot {
+  color: THREE.Color | null;
+  opacity: number;
+  emissive: THREE.Color | null;
+  emissiveIntensity: number;
+  transmission: number;
+}
+
+type ShadeableMaterial = THREE.Material & {
+  color?: THREE.Color;
+  emissive?: THREE.Color;
+  emissiveIntensity?: number;
+  transmission?: number;
+};
+
+/**
+ * Light a lens with its own glow, or put it back to the asset's look. The
+ * lenses are mostly-transparent blended glass (the ND's red is 25% opaque
+ * with transmission), and blending scales emissive by alpha too — so a lit
+ * lens also goes near-opaque, as a lit lamp reads in life.
+ */
+function lamp(m: ShadeableMaterial, base: MaterialSnapshot, on: boolean, hex: number, intensity: number): void {
+  if (!m.emissive) return;
+  if (on) {
+    m.emissive.setHex(hex);
+    m.emissiveIntensity = intensity;
+    if (m.transparent) m.opacity = Math.max(base.opacity, 0.9);
+    if (typeof m.transmission === 'number') m.transmission = 0;
+  } else {
+    if (base.emissive) m.emissive.copy(base.emissive);
+    m.emissiveIntensity = base.emissiveIntensity;
+    m.opacity = base.opacity;
+    if (typeof m.transmission === 'number') m.transmission = base.transmission;
+  }
+}
+
 /** Properties a tint may push onto a material. All optional. */
 interface Tint {
   hex?: string;
@@ -220,6 +273,8 @@ export class CarModel {
   private packTintHex: string | null = null;
   private roofFabric: string | null = null;
   private interior: InteriorTrim | null = null;
+  private details: ExteriorDetails | null = null;
+  private readonly snapshots = new WeakMap<THREE.Material, MaterialSnapshot>();
   private roofUp = true;
   private stance: Stance | null = null;
 
@@ -329,6 +384,7 @@ export class CarModel {
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.roofFabric) this.setRoofFabric(this.roofFabric);
     if (this.interior) this.setInterior(this.interior);
+    if (this.details) this.setDetails(this.details);
     this.setRoofUp(this.roofUp);
     if (this.stance) this.setStance(this.stance);
     this.setTyreWidth(this.tyreWidthFactor);
@@ -622,6 +678,7 @@ export class CarModel {
     this.indexMaterials();
     if (this.paint) this.setPaint(this.paint);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
+    if (this.details) this.setDetails(this.details);
     if (this.stance) this.setStance(this.stance);
     this.setTyreWidth(this.tyreWidthFactor);
     this.setTyreSidewall(this.tyreSidewallFactor);
@@ -1176,6 +1233,60 @@ export class CarModel {
     this.interior = trim;
     this.tint('interior_main', { hex: trim.seatHex, roughness: trim.roughness });
     this.tint('interior_trim', { hex: trim.trimHex });
+  }
+
+  /**
+   * Window tint, smoked lenses, lit lamps and caliper paint.
+   *
+   * Unlike `tint()`, which sets absolute values, these are all relative to how
+   * the artist authored the surface — a tinted window is the asset's glass,
+   * darker — so each material's original look is captured the first time it
+   * is touched and every call shades from that, never from the last result.
+   */
+  setDetails(details: ExteriorDetails): void {
+    this.details = details;
+
+    // Colours are linear here, so darkening that reads as "tinted" needs a
+    // steeper curve than the slider's 0..1 — squared keeps light tints subtle.
+    const t = details.glassTint;
+    this.shade('glass', (m, base) => {
+      if (m.color && base.color) m.color.copy(base.color).multiplyScalar((1 - 0.9 * t) ** 2);
+      if (m.transparent) m.opacity = base.opacity + (0.94 - base.opacity) * t;
+    });
+    this.shade('lens_amber', (m, base) => {
+      if (m.color && base.color) m.color.copy(base.color).multiplyScalar(details.smokedIndicators ? 0.04 : 1);
+      if (m.transparent) m.opacity = details.smokedIndicators ? Math.max(base.opacity, 0.88) : base.opacity;
+    });
+    this.shade('light_housing', (m, base) => {
+      if (m.color && base.color) m.color.copy(base.color).multiplyScalar(details.tintedHousings ? 0.05 : 1);
+    });
+    this.shade('lens_clear', (m, base) => lamp(m, base, details.headlights, 0xfff1dc, 1.5));
+    this.shade('lens_red', (m, base) => lamp(m, base, details.taillights, 0xff0804, 0.9));
+
+    this.tint('caliper', details.caliper);
+  }
+
+  /** Run `fn` on every material of a class with its authored snapshot. */
+  private shade(
+    surfaceClass: string,
+    fn: (material: ShadeableMaterial, base: MaterialSnapshot) => void,
+  ): void {
+    for (const material of this.byClass.get(surfaceClass) ?? []) {
+      const m = material as ShadeableMaterial;
+      let base = this.snapshots.get(material);
+      if (!base) {
+        base = {
+          color: m.color?.clone() ?? null,
+          opacity: m.opacity,
+          emissive: m.emissive?.clone() ?? null,
+          emissiveIntensity: m.emissiveIntensity ?? 1,
+          transmission: m.transmission ?? 0,
+        };
+        this.snapshots.set(material, base);
+      }
+      fn(m, base);
+      material.needsUpdate = true;
+    }
   }
 
   /**

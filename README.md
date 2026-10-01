@@ -6,18 +6,27 @@ The app loads Sketchfab models and renders them as the artists shipped them.
 Two generations are live — **ND** (2016) and **NA** (1990) — and switching
 between them reloads the car in place. The guiding rule is that **nothing may
 cut the asset up** — an earlier attempt to do that is written up in
-`CONFORM_POSTMORTEM.md` — so the configurator drives only what can be expressed
-by moving, scaling and recolouring what is already there.
+`CONFORM_POSTMORTEM.md`. The configurator moves, scales, recolours and hides
+what is already there, and adds **mods**: separate `.glb` parts built by Blender
+scripts in `blender/mods/` (or conformed from licensed sources), which bolt on
+or stand in for base parts they switch off.
 
 Adding a generation is data, not code: an `assetUrl`, a `modelYawDeg` (assets
 disagree about which way is forward), and a surface table.
 
-**What reaches the car:** body colour, rim finish, wheel diameter, ride height,
-camber, track offset, roof fabric colour, roof up/down and interior colour.
+**What reaches the car:** body colour, paint finish, rim style and finish,
+wheel diameter, tyre width/sidewall, ride height, camber, track offset, roof
+fabric colour, roof up/down, interior colour, window tint, smoked indicators,
+tinted headlight housings, head/tail lights, brake hardware and caliper paint
+on built wheels, and every aero option marked **3D** in the panel (81 ND mods
+in `src/data/modsData.json`; `node scripts/mod-status.mjs` lists them).
 
-**What does not:** aero parts, wheel *style* (there is one rim design in the
-model), caliper colour (there are no calipers), roof *type* (soft top only).
-Those controls still drive the share URL, the spec sheet and pricing.
+**What does not:** aero options without the 3D badge (spec sheet only). A
+control is not offered where the loaded model has nothing for it to change —
+there is no RF roof or seat geometry, so those options are withheld, and the
+NA's light and roof controls are hidden because its asset has no lens or
+soft-top surfaces. Spec-sheet prices, weight, power and downforce are labelled
+as estimates: they are placeholders summed from catalogue figures.
 
 Also driven: camera presets, environment, exposure, floor reflection, contact
 shadow, bloom/SSAO, turntable and the snapshot export.
@@ -83,8 +92,9 @@ the camera and environment parts of that config.
 `src/three/carModel.ts` loads `scene.gltf`, enables shadows, and applies one
 uniform scale, one 180° yaw and one translation to the model *root* so it
 stands at real-world size on the ground plane facing the camera presets.
-Nothing is split, renamed, hidden or re-materialled. There is no naming
-contract, no procedural fallback and no Blender step.
+The asset file is never edited. At runtime, mods hide the base nodes they
+replace, and the ND's roof lining is separated from the cabin tub by loose
+part (see `ROOF_LINING_WIP.md`) so it can follow the roof.
 
 ### Wheels, stance and the contact-patch pivot
 
@@ -106,20 +116,17 @@ into four quadrants by position, which is what actually identifies a wheel.
 
 With the pivot on the ground, the transforms fall out simply:
 
-- **Wheel diameter** scales the pivot. The tyre stays planted and the hub rises,
-  exactly as fitting a bigger wheel does. Rim and tyre scale together, so the
-  bead always fits — growing the rim alone would punch it through the sidewall,
-  since the tyre's inner hole (252mm) sits just inside the rim lip (257mm).
-- **Ride height** moves the body by `hub rise + slider`, so a bigger wheel
-  lifts the car and the slider lowers it from there.
+- **Wheel diameter** grows the rim about its own centre and reshapes the tyre
+  so its bead follows the rim while the tread radius holds — a bigger wheel
+  trades sidewall for rim at near enough the same rolling diameter, as real
+  plus-sizing does. See `CarModel.setRimSize()`.
+- **Ride height** moves the body (and any body mods with it) by the slider.
 - **Camber** rotates the pivot, which tilts the wheel about its contact patch
   rather than lifting it off the ground.
 - **Track offset** slides the pivot outboard.
 
-The trade-off: this is a bigger wheel with the same tyre, not true plus-sizing.
-Fitting an 18" raises the hubs ~19mm. Real plus-sizing — rim grows, sidewall
-thins, overall height unchanged — needs the tyre mesh reshaped, which is
-deliberately not done here.
+Tyre width and sidewall sliders are visual multipliers on the mesh, not real
+tyre size codes.
 
 ### Surface classification, and how paint works
 
@@ -243,11 +250,13 @@ The address bar is always a shareable link. Only values that differ from the
 defaults are written, so a light build stays readable:
 
 ```
-?model=ND&color=soul_red&wheels=enkei_rpf1&roof=rf_down&stance=-30
+?model=ND&color=soul_red&wheels=enkei_rpf1&roof=st_down&stance=-30
 ```
 
-The **spec sheet** itemises every selected option with pricing and derived kerb
-weight, power and downforce, and exports the build as JSON. The **snapshot**
+The **spec sheet** itemises every fitted option, including additional parts and
+sourced wheels, with estimated pricing and catalogue-derived kerb weight, power
+and downforce, and exports the build as JSON. The figures are placeholders and
+labelled as such. The **snapshot**
 button renders a frame at 2× device resolution straight from the WebGL canvas —
 the UI is DOM, so exports are free of overlay artefacts by construction.
 
@@ -263,12 +272,11 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
 - **Interior colour cannot separate seats from dashboard.** The cabin tub,
   seats, steering wheel and door cards are one mesh sharing one material, so
   the seat colour tints all of it. The door tops and dash rail are a separate
-  material and take the trim colour. Aero options remain inert — the model has
-  no aero parts.
-- **Wheel *style* is inert; wheel *diameter* and *finish* work.** There is one
-  rim design in the model, so the TE37/RPF1-style catalogue entries change the
-  spec sheet but not the render. Caliper colour is inert for the same reason —
-  the model has no separate caliper.
+  material and take the trim colour.
+- **Caliper paint needs a built wheel.** The base car has no separate caliper,
+  so the control appears only with a mod wheel fitted and its brakes shown.
+  The 30-wheel pack's calipers are baked into its texture and keep their own
+  colour.
 - **Metallic flake is an approximation.** Paint finish, clearcoat and flake all
   reach the car now: the finish drives metalness, roughness, clearcoat, sheen
   and iridescence, and the clearcoat slider scales the finish rather than
@@ -279,13 +287,10 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   Paintable materials that arrive as `MeshStandardMaterial` (mods exported
   without a coat weight) are upgraded to `MeshPhysicalMaterial` on the way in,
   so a matte body does not end up next to a glossy bonnet.
-- **Wheel sizing is not true plus-sizing** — see above; an 18" raises the car
-  ~19mm.
 - Per-panel colour is not wired up. The data to do it is in
   `surfaceClasses.json`; the app currently paints all panels together.
 - NB / NC are catalogued but marked `available: false` — no model for them yet.
 - **The NA's roof cannot go up.** The asset ships roof-down with no soft-top
-  geometry, so the roof controls do nothing on it. Its aero and wheel-style
-  options are inert for the same reason as the ND's.
+  geometry, so the roof controls are not offered for it.
 - HDRIs are fetched, not committed — run `npm run assets` once after cloning, or
   every environment falls back to its generated lighting rig.

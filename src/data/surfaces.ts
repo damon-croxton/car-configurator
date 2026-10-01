@@ -77,3 +77,13 @@ export function classOf(table: SurfaceTable, materialName: string): string | und
 export function isPaintable(table: SurfaceTable, materialName: string): boolean {
   return classOf(table, materialName) === table.paintableClass;
 }
+
+/**
+ * Whether a car's own asset has any surface of this class — mods excluded.
+ * The panel uses it to offer a control only where it changes something: the
+ * NA's table has no lens classes, so its light controls would be inert.
+ */
+export function modelHasClass(modelId: string | undefined, surfaceClass: string): boolean {
+  const model = modelId ? MODELS[modelId] : undefined;
+  return Boolean(model && Object.values(model.materials).includes(surfaceClass));
+}

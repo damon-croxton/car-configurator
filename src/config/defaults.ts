@@ -62,11 +62,14 @@ export const DEFAULT_CONFIG: CarConfig = {
   tintedHeadlights: false,
 
   interiorTrim: 'black_leather',
-  windowTint: 0.28,
+  // Glass and lamps now render, so these launch as the asset was authored:
+  // clear glass, lamps off. (Both used to be inert, which is why they were
+  // ever on by default.)
+  windowTint: 0,
 
   environment: 'salt_flats',
-  headlights: true,
-  taillights: true,
+  headlights: false,
+  taillights: false,
   drl: true,
   exposure: 1.0,
   bloom: false,
@@ -107,6 +110,10 @@ export function reconcileConfig(config: CarConfig): CarConfig {
 
   const roofs = roofOptionsFor(generation);
   if (!roofs.some((r) => r.id === next.roofType)) next.roofType = generation.defaultRoofType;
+
+  if (!carData.interiorTrims.some((t) => t.id === next.interiorTrim)) {
+    next.interiorTrim = DEFAULT_CONFIG.interiorTrim;
+  }
 
   const wheels = wheelOptionsFor(generation);
   if (!wheels.some((w) => w.id === next.wheelStyle)) next.wheelStyle = generation.defaultWheel;
