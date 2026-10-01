@@ -1,6 +1,6 @@
 # ND accessories (DT42-DT54)
 
-Twelve ND "additional parts" (`CarConfig.extraMods`), so they need no new
+Thirteen ND "additional parts" (`CarConfig.extraMods`), so they need no new
 panel controls. Every part is fitted by ray-casting the reference car; only
 DT49 replaces anything, and it hides just the stock mirror heads.
 
