@@ -45,3 +45,21 @@ for (const ids of [['RA26','DT30'],['DT30','RA26']]) {
   assert.equal(activeMods('nd',config).filter(m => ids.includes(m.id)).length, 1);
 }
 console.log('PASS: new wheels/exhausts, rear tow eye and mud flap/rear spat conflicts');
+
+// NA: the stock build is the NA's own wheel, every catalogued NA wheel style
+// has a mod behind it, and sourced/pack wheels carry over from the ND.
+const naStock = reconcileConfig({ ...DEFAULT_CONFIG, generation:'na' });
+assert.equal(naStock.wheelStyle, 'oem_na_14');
+assert.equal(naStock.wheelDiameter, 14);
+assert.deepEqual(activeMods('na', naStock), []);
+const carData = JSON.parse(readFileSync('src/data/carData.json','utf8'));
+for (const style of carData.generations.find(g => g.id === 'na').wheels.filter(id => id !== 'oem_na_14')) {
+  const config = reconcileConfig({ ...naStock, wheelStyle:style });
+  assert.equal(config.wheelStyle, style);
+  assert.equal(activeMods('na', config).filter(m => m.attachTo === 'wheel').length, 1, `${style} must render on the NA`);
+}
+const naPack = reconcileConfig({ ...naStock, extraMods:['WP07','WS01'] });
+assert.deepEqual(activeMods('na', naPack).map(m => m.id), ['WS01']);
+assert.ok(catalogue.filter(m => m.attachTo !== 'wheel').every(m => !m.gen.includes('na') || m.file.na !== m.file.nd),
+  'only wheels may reuse the ND file on the NA');
+console.log('PASS: NA stock wheel, every NA wheel style modelled, sourced wheels carried over');

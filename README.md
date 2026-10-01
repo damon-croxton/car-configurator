@@ -19,7 +19,9 @@ wheel diameter, tyre width/sidewall, ride height, camber, track offset, roof
 fabric colour, roof up/down, interior colour, window tint, smoked indicators,
 tinted headlight housings, head/tail lights, brake hardware and caliper paint
 on built wheels, and every aero option marked **3D** in the panel (81 ND mods
-in `src/data/modsData.json`; `node scripts/mod-status.mjs` lists them).
+in `src/data/modsData.json`; `node scripts/mod-status.mjs` lists them). The NA
+shares every wheel mod — six rim styles, the two sourced wheels and the
+30-wheel pack — fitted to its own tyre at load (see below).
 
 **What does not:** aero options without the 3D badge (spec sheet only). A
 control is not offered where the loaded model has nothing for it to change —
@@ -136,6 +138,17 @@ With the pivot on the ground, the transforms fall out simply:
 
 Tyre width and sidewall sliders are visual multipliers on the mesh, not real
 tyre size codes.
+
+**One set of wheel mods, two cars.** Wheel mods are modelled around the ND's
+tyre (17in, 253 mm bead). The NA's is a 14in rim in a much taller sidewall
+(183 mm bead), so a uniform scale cannot fit both. A mod lists the generation
+it was built for first in `gen`; on any other generation that reuses the same
+file, `CarModel.fitWheel()` scales the rim radially until its lip seats in
+that car's own tyre bead, keeps its width, and lifts it to that car's hub —
+the same design as a 14in wheel, in the NA's own textured tyre. The 30-wheel
+pack keeps its own low-profile tyre and scales uniformly to the NA's rolling
+diameter instead. `validate-mod.mjs` checks a shared file once, under the
+generation it was built for.
 
 ### Surface classification, and how paint works
 

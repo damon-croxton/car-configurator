@@ -302,18 +302,21 @@
       ],
       "defaultRoofType": "st",
       "wheels": [
-        "oem_16_silver",
+        "oem_na_14",
         "rays_te37",
         "watanabe_rs",
-        "bbs_mesh"
+        "bbs_mesh",
+        "enkei_rpf1",
+        "retro_three_spoke",
+        "concave_split_five"
       ],
-      "defaultWheel": "watanabe_rs",
+      "defaultWheel": "oem_na_14",
       "wheelDiameters": [
         14,
         15,
         16
       ],
-      "defaultWheelDiameter": 15,
+      "defaultWheelDiameter": 14,
       "aero": {
         "frontLip": [
           "stock",
@@ -385,6 +388,17 @@
       "weightPerCorner": 9.1,
       "oem": true,
       "description": "Factory Club / GT twin-five-spoke."
+    },
+    {
+      "id": "oem_na_14",
+      "name": "14\" Factory Alloy",
+      "brand": "Mazda",
+      "spokeType": "eight_spoke",
+      "spokeCount": 8,
+      "lipDepth": 0.02,
+      "weightPerCorner": 7.3,
+      "oem": true,
+      "description": "The NA's own 14-inch alloy, as modelled."
     },
     {
       "id": "oem_16_silver",

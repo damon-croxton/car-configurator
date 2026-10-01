@@ -209,6 +209,13 @@ async function validate(mod, gen) {
 
   const rel = mod.file?.[gen];
   if (!rel) return { label, failures: [`no file declared for ${gen}`], notes };
+  // A generation that reuses the file built for the first one is fitted to
+  // its own car at load (CarModel.fitWheel); the file is checked once, there.
+  const authored = mod.gen[0];
+  if (gen !== authored && rel === mod.file?.[authored]) {
+    notes.push(`shares the ${authored} file — validated as ${mod.id}/${authored}, fitted to ${gen} at load`);
+    return { label, failures: [], notes };
+  }
 
   const path = resolve(ROOT, 'public', rel);
   if (!existsSync(path)) return { label, failures: [`missing: ${rel}`], notes };

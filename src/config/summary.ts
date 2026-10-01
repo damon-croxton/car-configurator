@@ -178,7 +178,9 @@ export function buildSummary(config: CarConfig): BuildSummary {
     price: (config.smokedIndicators ? 180 : 0) + (config.tintedHeadlights ? 240 : 0),
   });
 
-  const wheelWeight = sourcedWheel ? 0 : (wheel.weightPerCorner - 9.1) * 4;
+  // Relative to this generation's own stock wheel, not the ND's.
+  const stockWheel = getWheelStyle(generation.defaultWheel);
+  const wheelWeight = sourcedWheel ? 0 : (wheel.weightPerCorner - stockWheel.weightPerCorner) * 4;
   const weightDelta = Math.round(aeroWeight + roof.weightDelta + interior.weight + wheelWeight);
   const total = lines.reduce((sum, line) => sum + line.price, BASE_PRICE);
 

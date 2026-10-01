@@ -201,7 +201,26 @@ interface Wheel {
   side: 1 | -1;
   /** The asset's own wheel meshes, so a wheel mod can hide exactly these. */
   oem: THREE.Mesh[];
+  /** The asset's own tyre, measured in pivot space before any reshaping —
+   *  what a wheel mod authored for another generation is fitted to. */
+  tyre: TyreProfile | null;
 }
+
+/** A body of revolution about the axle (local X): its hub and radii, metres. */
+interface TyreProfile {
+  hubY: number;
+  hubZ: number;
+  inner: number;
+  outer: number;
+}
+
+/**
+ * How far a wheel mod's rim lip sits outside the bead of the tyre it seats in,
+ * as authored on the ND: lip 258 mm against the OEM tyre's 253 mm bead, so the
+ * tyre overlaps the lip slightly and no gap shows. Kept when fitting the same
+ * rim into another car's tyre.
+ */
+const BEAD_SEAT = 258 / 253.1;
 
 /**
  * Loads the car and drives the few things that can be driven without altering
@@ -520,10 +539,14 @@ export class CarModel {
       // attach() keeps each mesh exactly where it already is on screen.
       for (const mesh of meshes) pivot.attach(mesh);
 
+      pivot.updateWorldMatrix(true, false);
+      const oemTyre = meshes.find((mesh) => this.isTyreMesh(mesh));
+
       this.wheels.push({
         pivot,
         base,
         side: centre.x > 0 ? 1 : -1,
+        tyre: oemTyre ? this.profile(oemTyre, pivot) : null,
         // Captured now, before any mod is fitted, so hiding "the OEM wheel"
         // later cannot accidentally catch a mod's own rim or tyre — which share
         // the same surface classes by design.
@@ -634,6 +657,9 @@ export class CarModel {
           // vertical, which is rigid — mirroring with a negative scale would
           // invert the winding and light the wheel inside out.
           copy.rotation.y = wheel.side === 1 ? 0 : Math.PI;
+          // The first generation a mod lists is the one it was built for;
+          // any other shares that file and is fitted to its own tyre here.
+          if (mod.gen[0] !== generationId) this.fitWheel(copy, wheel, Boolean(mod.materialContractExempt));
           wheel.pivot.add(copy);
           this.modInstances.push(copy);
           for (const mesh of wheel.oem) this.hide(mesh);
@@ -693,6 +719,71 @@ export class CarModel {
     for (const node of this.hiddenByMods) node.visible = true;
     this.hiddenByMods = [];
     this.brakeNodes.length = 0;
+  }
+
+  /**
+   * Fit a wheel mod built for another generation to this car's tyre.
+   *
+   * Every wheel mod is modelled around the ND's tyre. The NA's is far taller
+   * in the sidewall — a 14in rim in a 300 mm-radius tyre, against the ND's
+   * 17in in 322 mm — so a uniform scale either floats the rim inside the
+   * NA's tyre or punches through it. Instead the rim is scaled radially
+   * until its lip seats in this car's own tyre bead (`BEAD_SEAT`), keeping
+   * its width, and lifted to this car's hub: the same design as a 14in
+   * wheel. The 30-wheel pack keeps its own tyre, so it scales uniformly to
+   * this car's rolling diameter instead.
+   *
+   * Only the instance transform changes. Rim and tyre reshaping for wheel
+   * size still works on the shared geometry on top of it.
+   */
+  private fitWheel(copy: THREE.Object3D, wheel: Wheel, ownTyre: boolean): void {
+    const target = wheel.tyre;
+    let modTyre: THREE.Mesh | undefined;
+    copy.traverse((node) => {
+      const mesh = node as THREE.Mesh;
+      if (!modTyre && mesh.isMesh && this.isTyreMesh(mesh)) modTyre = mesh;
+    });
+    if (!target || !modTyre) return;
+
+    copy.updateMatrixWorld(true);
+    const own = this.profile(modTyre, copy);
+    const radial = ownTyre ? target.outer / own.outer : (target.inner * BEAD_SEAT) / own.inner;
+    copy.scale.set(ownTyre ? radial : 1, radial, radial);
+    // `copy` is turned half a turn about Y on one side, which flips local Z.
+    const zSign = Math.cos(copy.rotation.y) < 0 ? -1 : 1;
+    copy.position.set(0, target.hubY - own.hubY * radial, target.hubZ - zSign * own.hubZ * radial);
+  }
+
+  /**
+   * Hub and radii of a tyre about the axle, in `frame`'s space. Reads the
+   * pristine copy of a shared tyre geometry if wheel sizing has already
+   * reshaped it, so the measurement never depends on the current slider.
+   */
+  private profile(mesh: THREE.Mesh, frame: THREE.Object3D): TyreProfile {
+    const geometry = mesh.geometry;
+    const source = this.tyreOriginals.get(geometry.uuid)?.positions
+      ?? (geometry.attributes.position.array as Float32Array);
+    mesh.updateWorldMatrix(true, false);
+    const toFrame = new THREE.Matrix4().copy(frame.matrixWorld).invert().multiply(mesh.matrixWorld);
+
+    const v = new THREE.Vector3();
+    const points: THREE.Vector3[] = [];
+    const box = new THREE.Box3();
+    for (let i = 0; i < source.length; i += 3) {
+      v.set(source[i], source[i + 1], source[i + 2]).applyMatrix4(toFrame);
+      points.push(v.clone());
+      box.expandByPoint(v);
+    }
+    const hubY = (box.min.y + box.max.y) / 2;
+    const hubZ = (box.min.z + box.max.z) / 2;
+    let inner = Infinity;
+    let outer = 0;
+    for (const p of points) {
+      const radius = Math.hypot(p.y - hubY, p.z - hubZ);
+      if (radius < inner) inner = radius;
+      if (radius > outer) outer = radius;
+    }
+    return { hubY, hubZ, inner, outer };
   }
 
   /** Show or hide the brake discs/calipers baked into every wheel mod. */
