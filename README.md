@@ -16,7 +16,8 @@ disagree about which way is forward), and a surface table.
 
 **What reaches the car:** body colour, paint finish, rim style and finish,
 wheel diameter, tyre width/sidewall, ride height, camber, track offset, roof
-fabric colour, roof up/down, interior colour, window tint, smoked indicators,
+fabric colour, roof up/down, cabin theme plus separate seat, steering-wheel,
+dash-trim and door-insert finishes, window tint, smoked indicators,
 tinted headlight housings, head/tail lights, brake hardware and caliper paint
 on built wheels, and every aero option marked **3D** in the panel
 (`src/data/modsData.json`; `node scripts/mod-status.mjs` lists them). The NA
@@ -295,10 +296,14 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   stitching, rear window and frame — is hidden together. The side windows stay
   up, because they live inside the chassis part and cannot be separated by
   class.
-- **Interior colour cannot separate seats from dashboard.** The cabin tub,
-  seats, steering wheel and door cards are one mesh sharing one material, so
-  the seat colour tints all of it. The door tops and dash rail are a separate
-  material and take the trim colour.
+- **Cabin parts are split at load, not modelled apart.** Seats, steering
+  wheel, dash/door trim and door inserts each take their own finish, but on
+  the ND the seats and the rest of the tub share one mesh and material. The
+  seats are therefore the tub's loose parts inside a seat-shaped region
+  (`surfaceClasses.json` → `cabinParts`), given a cloned material, alongside
+  the roof-lining split. The cabin textures are very dark, so colours are
+  divided by each texture's mean (`CarModel.interiorTint`), keeping the grain
+  while landing the requested colour.
 - **Caliper paint needs a built wheel.** The base car has no separate caliper,
   so the control appears only with a mod wheel fitted and its brakes shown.
   The 30-wheel pack's calipers are baked into its texture and keep their own

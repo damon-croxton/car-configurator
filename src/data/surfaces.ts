@@ -19,6 +19,13 @@ export interface SurfaceTable {
   paintableClass: string;
   materials: Record<string, string>;
   /** Cabin loose parts that are really roof lining — see surfaceClasses.json. */
+  /** Cabin surfaces split from shared materials so they colour separately. */
+  cabinParts?: {
+    seats?: CabinPartSpec;
+    wheel?: CabinPartSpec;
+    /** Which per-part controls the panel offers for this car. */
+    controls?: string[];
+  };
   roofLining?: {
     hideWithRoof: string[];
     cutAboveY: number | null;
@@ -26,6 +33,15 @@ export interface SurfaceTable {
      * Offsets refer to triangles in the original mesh's index buffer. */
     splitWithRoof?: { key: string; triangleOffsets: number[] }[];
   };
+}
+
+export interface CabinPartSpec {
+  /** Whole meshes, by glTF node name (the mesh or any ancestor). */
+  nodes?: string[];
+  /** Loose parts of these nodes' meshes whose world box lies inside `region`. */
+  fromNodes?: string[];
+  /** App-space millimetres; x is measured from the centreline (|x|). */
+  region?: { absX: [number, number]; y: [number, number]; z: [number, number] };
 }
 
 const MODELS = surfaceClasses.models as unknown as Record<string, SurfaceTable>;
@@ -86,4 +102,10 @@ export function isPaintable(table: SurfaceTable, materialName: string): boolean 
 export function modelHasClass(modelId: string | undefined, surfaceClass: string): boolean {
   const model = modelId ? MODELS[modelId] : undefined;
   return Boolean(model && Object.values(model.materials).includes(surfaceClass));
+}
+
+/** The per-part cabin controls a car offers (seats, wheel, accent, insert). */
+export function cabinControls(modelId: string | undefined): string[] {
+  const model = modelId ? MODELS[modelId] : undefined;
+  return model?.cabinParts?.controls ?? [];
 }

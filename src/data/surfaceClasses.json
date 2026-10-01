@@ -218,6 +218,13 @@
           "side": "shared"
         }
       ],
+      "cabinParts": {
+        "$comment": "Cabin surfaces split out of shared materials at load, so each takes its own colour. Nothing in the asset is edited: matching meshes (or loose parts of them) get a cloned material in the named class. `nodes` match whole meshes by node name; `region` picks loose parts of `fromNodes` whose world box lies wholly inside it (app mm, |x| measured from the centreline).",
+        "$seats": "The ND's seats are dozens of small loose parts of the cabin tub (M_Interior_Max_19), so they are chosen by a seat-shaped box rather than by key. The centre console sits inside |x| 95 and the door trims outside 600, so neither is caught.",
+        "seats": { "fromNodes": ["M_Interior_Max_19"], "region": { "absX": [95, 600], "y": [280, 1045], "z": [-735, 40] } },
+        "wheel": { "nodes": ["M_Interior_Max.001_21"] },
+        "controls": ["seats", "wheel", "accent", "insert"]
+      },
       "roofLining": {
         "$comment": "Loose parts of the cabin mesh that are really roof lining, and so must hide when the roof does. Hiding the roof part alone leaves an inner shell behind, because the artist modelled the lining as part of the interior tub. Identified by eye using the in-app \"roof islands\" debug view — bounding boxes cannot tell lining from cabin trim.",
         "$keys": "Stable ids from islandKey(): triangleCount@localCentre. Deliberately not list indices, which shift whenever the candidate filter changes.",
@@ -272,6 +279,12 @@
       "$model": "Sketchfab \"1990 Mazda Miata NA\" by Ricy. Its materials are named Material_71, Material_230 ... which say nothing. This table was built by inspecting WHICH OBJECTS use each material, e.g. Material_71 is used by hood/leftdoor/rigthdoor/trunk/frontbumper/rearfender/f fender/rearbumper/Apillar/popuplight/americanjapaneserearpanel - unambiguously the paint. Only the surfaces the configurator drives are mapped; the other ~80 materials are deliberately left unclassified, so `complete` is false and no drift warning is raised. Material_70 (mirror housings + the alternate European rear panel) is body-coloured on a real NA, so it joins body_paint; Material_76 is the mirror glass.",
       "complete": false,
       "paintableClass": "body_paint",
+      "cabinParts": {
+        "$comment": "The NA's seats and steering wheel are their own meshes already, sharing the cabin and trim materials; they get cloned materials so they can be coloured apart.",
+        "seats": { "nodes": ["seats_Material #170_0"] },
+        "wheel": { "nodes": ["steeringwheel_Material #155_0"] },
+        "controls": ["seats", "wheel"]
+      },
       "materials": {
         "Material_71": "body_paint",
         "Material_230": "rim",

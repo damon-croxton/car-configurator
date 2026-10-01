@@ -83,21 +83,27 @@ for (const entry of car.cabin) {
       }
     }
   }
-  if (!hidden.size) {
+  // The same rebuild also splits the ND's seats into their own mesh.
+  const seated = car.seatTriangles(entry, car.table.cabinParts?.seats);
+  if (!hidden.size && !seated.size) {
     assert.equal(entry.mesh.geometry, entry.original, 'Unrelated cabin meshes must not change');
     continue;
   }
   const lining = car.liningMeshes.find(m => m.parent === entry.mesh);
+  const seats = car.seatMeshes.find(m => m.parent === entry.mesh);
   assert.ok(lining);
   assert.equal(lining.material, entry.mesh.material, 'Roof up must use the same textured material');
-  assert.equal(count(entry.mesh.geometry) + count(lining.geometry), count(entry.original));
+  assert.equal(count(entry.mesh.geometry) + count(lining.geometry) + (seats ? count(seats.geometry) : 0),
+    count(entry.original));
   assert.equal(count(lining.geometry), hidden.size);
+  assert.equal(seats ? count(seats.geometry) : 0, seated.size);
   assert.ok(entry.original.hasAttribute('uv'), 'Exercise real texture coordinates');
-  let keepIndex = 0, hideIndex = 0;
+  let keepIndex = 0, hideIndex = 0, seatIndex = 0;
   for (let t = 0; t < count(entry.original); t++) {
     const removed = hidden.has(t*3);
-    const geometry = removed ? lining.geometry : entry.mesh.geometry;
-    const offset = (removed ? hideIndex++ : keepIndex++) * 3;
+    const seat = !removed && seated.has(t*3);
+    const geometry = removed ? lining.geometry : seat ? seats.geometry : entry.mesh.geometry;
+    const offset = (removed ? hideIndex++ : seat ? seatIndex++ : keepIndex++) * 3;
     // Exact equality preserves winding, normals, UVs and every source vertex.
     assert.deepEqual(triangle(geometry, offset), triangle(entry.original, t*3));
   }

@@ -1,5 +1,6 @@
 import type { CarConfig } from './types';
 import {
+  getCabinFinish,
   aeroOptionsFor,
   carData,
   getGeneration,
@@ -9,6 +10,7 @@ import {
   type AeroSlotId,
 } from '../data/schema';
 import { optionalMods, resolveModConflicts } from '../data/mods';
+import { cabinControls } from '../data/surfaces';
 
 export const AERO_SLOTS: AeroSlotId[] = [
   'frontLip',
@@ -62,6 +64,10 @@ export const DEFAULT_CONFIG: CarConfig = {
   tintedHeadlights: false,
 
   interiorTrim: 'black_leather',
+  seatTrim: '',
+  wheelTrim: '',
+  trimAccent: '',
+  doorInsert: '',
   // Glass and lamps now render, so these launch as the asset was authored:
   // clear glass, lamps off. (Both used to be inert, which is why they were
   // ever on by default.)
@@ -113,6 +119,13 @@ export function reconcileConfig(config: CarConfig): CarConfig {
 
   if (!carData.interiorTrims.some((t) => t.id === next.interiorTrim)) {
     next.interiorTrim = DEFAULT_CONFIG.interiorTrim;
+  }
+  // Per-part cabin finishes: unknown ids, or parts this car cannot colour
+  // separately, fall back to matching the cabin.
+  const controls = cabinControls(generation.surfaceModel ?? generation.id);
+  for (const [field, part] of [['seatTrim', 'seats'], ['wheelTrim', 'wheel'], ['trimAccent', 'accent'],
+    ['doorInsert', 'insert']] as const) {
+    if (!controls.includes(part) || !getCabinFinish(part, next[field])) next[field] = '';
   }
 
   const wheels = wheelOptionsFor(generation);

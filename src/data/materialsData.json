@@ -1215,5 +1215,148 @@
         ]
       }
     }
-  ]
+  ],
+  "cabinFinishes": {
+    "$comment": "Per-part cabin finishes. An empty id in CarConfig means 'match the cabin theme' (interiorTrims). Which parts a car offers comes from surfaceClasses.json cabinParts.controls.",
+    "seats": [
+      {
+        "id": "black_leather",
+        "name": "Black Leather",
+        "hex": "#17171a",
+        "roughness": 0.62
+      },
+      {
+        "id": "tan_nappa",
+        "name": "Tan Nappa",
+        "hex": "#8a5a2b",
+        "roughness": 0.58
+      },
+      {
+        "id": "oxblood",
+        "name": "Oxblood Leather",
+        "hex": "#4a1015",
+        "roughness": 0.55
+      },
+      {
+        "id": "red_alcantara",
+        "name": "Red Alcantara",
+        "hex": "#8e1b1b",
+        "roughness": 0.88
+      },
+      {
+        "id": "grey_alcantara",
+        "name": "Grey Alcantara",
+        "hex": "#3d3f44",
+        "roughness": 0.9
+      },
+      {
+        "id": "stone_leather",
+        "name": "Stone Leather",
+        "hex": "#b8ad98",
+        "roughness": 0.55
+      },
+      {
+        "id": "blue_cloth",
+        "name": "Racing Blue Cloth",
+        "hex": "#1d2b4c",
+        "roughness": 0.92
+      }
+    ],
+    "wheel": [
+      {
+        "id": "black_leather",
+        "name": "Black Leather",
+        "hex": "#141417",
+        "roughness": 0.6
+      },
+      {
+        "id": "black_alcantara",
+        "name": "Black Alcantara",
+        "hex": "#1c1c1f",
+        "roughness": 0.92
+      },
+      {
+        "id": "red_alcantara",
+        "name": "Red Alcantara",
+        "hex": "#7d1719",
+        "roughness": 0.9
+      },
+      {
+        "id": "tan_leather",
+        "name": "Tan Leather",
+        "hex": "#7d5228",
+        "roughness": 0.58
+      }
+    ],
+    "accent": [
+      {
+        "id": "piano_black",
+        "name": "Piano Black",
+        "hex": "#050506",
+        "roughness": 0.12,
+        "metalness": 0.0
+      },
+      {
+        "id": "body_colour",
+        "name": "Body Colour",
+        "hex": "#8e1b1b",
+        "roughness": 0.25,
+        "metalness": 0.3,
+        "matchBody": true
+      },
+      {
+        "id": "satin_silver",
+        "name": "Satin Silver",
+        "hex": "#9a9da3",
+        "roughness": 0.35,
+        "metalness": 1.0
+      },
+      {
+        "id": "gunmetal",
+        "name": "Gunmetal",
+        "hex": "#3a3c40",
+        "roughness": 0.3,
+        "metalness": 0.9
+      },
+      {
+        "id": "race_red",
+        "name": "Race Red",
+        "hex": "#9c1015",
+        "roughness": 0.3,
+        "metalness": 0.1
+      }
+    ],
+    "insert": [
+      {
+        "id": "black",
+        "name": "Black",
+        "hex": "#141416",
+        "roughness": 0.7
+      },
+      {
+        "id": "red",
+        "name": "Red",
+        "hex": "#7a1418",
+        "roughness": 0.7
+      },
+      {
+        "id": "tan",
+        "name": "Tan",
+        "hex": "#8a5a33",
+        "roughness": 0.65
+      },
+      {
+        "id": "grey",
+        "name": "Grey",
+        "hex": "#4a4c50",
+        "roughness": 0.75
+      },
+      {
+        "id": "blue",
+        "name": "Blue",
+        "hex": "#22325a",
+        "roughness": 0.75
+      }
+    ]
+  }
 }

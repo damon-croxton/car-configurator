@@ -2,6 +2,7 @@ import type { CarConfig } from './types';
 import { AERO_SLOTS } from './defaults';
 import {
   getAeroPart,
+  getCabinFinish,
   getCaliperColor,
   getGeneration,
   getInteriorTrim,
@@ -161,7 +162,15 @@ export function buildSummary(config: CarConfig): BuildSummary {
     lines.push({ group: 'Additional parts', label: categoryLabel(mod.category), value: mod.displayName, price: 0 });
   }
 
-  lines.push({ group: 'Interior', label: 'Trim', value: interior.name, price: interior.id === 'black_leather' ? 0 : 1_250 });
+  lines.push({ group: 'Interior', label: 'Cabin', value: interior.name, price: interior.id === 'black_leather' ? 0 : 1_250 });
+  // Per-part finishes are only listed when they differ from the cabin theme.
+  for (const [part, field, label, price] of [
+    ['seats', 'seatTrim', 'Seats', 1_450], ['wheel', 'wheelTrim', 'Steering wheel', 380],
+    ['accent', 'trimAccent', 'Dash & door trim', 260], ['insert', 'doorInsert', 'Door inserts', 180],
+  ] as const) {
+    const finish = getCabinFinish(part, config[field]);
+    if (finish) lines.push({ group: 'Interior', label, value: finish.name, price });
+  }
   lines.push({
     group: 'Glass & lights',
     label: 'Window tint',

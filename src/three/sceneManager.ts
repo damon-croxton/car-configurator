@@ -1,7 +1,9 @@
 import * as THREE from 'three';
 import type { CarConfig } from '../config/types';
 import {
+  getCabinFinish,
   getCaliperColor,
+  type CabinPartId,
   getCameraPreset,
   getEnvironment,
   getGeneration,
@@ -234,10 +236,20 @@ export class SceneManager {
     this.car.setRoofUp(config.roofState === 'up');
 
     const trim = getInteriorTrim(config.interiorTrim);
+    const cabinFinish = (part: CabinPartId, id: string) => {
+      const f = getCabinFinish(part, id);
+      if (!f) return undefined;
+      // "Body Colour" trim borrows whatever the body is wearing.
+      return { hex: f.matchBody ? paintSpec.hex : f.hex, roughness: f.roughness, metalness: f.metalness };
+    };
     this.car.setInterior({
       seatHex: trim.seatHex,
       trimHex: trim.trimHex,
       roughness: trim.roughness,
+      seats: cabinFinish('seats', config.seatTrim),
+      wheel: cabinFinish('wheel', config.wheelTrim),
+      accent: cabinFinish('accent', config.trimAccent),
+      insert: cabinFinish('insert', config.doorInsert),
     });
 
     this.car.setDetails({

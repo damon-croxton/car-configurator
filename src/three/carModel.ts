@@ -1,12 +1,12 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-import { classOf, tableFor, type SurfaceTable } from '../data/surfaces';
+import { classOf, tableFor, type CabinPartSpec, type SurfaceTable } from '../data/surfaces';
 import type { ModEntry } from '../data/mods';
 import { ModLoader } from './modLoader';
 import {
   geometryFromIsland,
   islandKey,
-  partitionGeometry,
+  splitGeometry,
   splitIntoIslands,
   type Island,
 } from './islands';
@@ -58,7 +58,21 @@ export interface InteriorTrim {
   seatHex: string;
   trimHex: string;
   roughness: number;
+  /** Per-part overrides; absent means the part follows the cabin theme. */
+  seats?: CabinFinish;
+  wheel?: CabinFinish;
+  accent?: CabinFinish;
+  insert?: CabinFinish;
 }
+
+export interface CabinFinish {
+  hex: string;
+  roughness: number;
+  metalness?: number;
+}
+
+/** Surface classes given to cabin parts split out of shared materials. */
+const CABIN_PART_CLASS = { seats: 'interior_seat', wheel: 'interior_wheel' } as const;
 
 /**
  * Glass, lens and caliper state. Every field lands on a surface class, so a
@@ -267,6 +281,9 @@ export class CarModel {
   private cabin: CabinMesh[] = [];
   /** Meshes carrying the roof-lining triangles; hidden along with the roof. */
   private liningMeshes: THREE.Mesh[] = [];
+  /** Seat loose parts split out of the cabin tub (ND), with their material. */
+  private seatMeshes: THREE.Mesh[] = [];
+  private readonly seatMaterials = new Map<THREE.Mesh, THREE.Material>();
   private liningKeys = new Set<string>();
   private liningCutY: number | null = null;
 
@@ -398,6 +415,8 @@ export class CarModel {
     this.liningKeys = new Set(this.table.roofLining?.hideWithRoof ?? []);
     this.liningCutY = this.table.roofLining?.cutAboveY ?? null;
     this.rebuildLining();
+    this.splitCabinNodes();
+    this.indexMaterials();
 
     if (this.paint) this.setPaint(this.paint);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
@@ -1086,7 +1105,9 @@ export class CarModel {
       const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       for (const material of materials) {
         if (!material) continue;
-        const cls = classOf(this.table, material.name);
+        // A cabin part split out at load carries its own class (see
+        // splitCabinParts); its cloned material keeps the source's name.
+        const cls = (mesh.userData.surfaceClass as string | undefined) ?? classOf(this.table, material.name);
         if (!cls) {
           unclassified.add(material.name);
           continue;
@@ -1322,8 +1343,93 @@ export class CarModel {
    */
   setInterior(trim: InteriorTrim): void {
     this.interior = trim;
-    this.tint('interior_main', { hex: trim.seatHex, roughness: trim.roughness });
-    this.tint('interior_trim', { hex: trim.trimHex });
+    const main = { hex: trim.seatHex, roughness: trim.roughness };
+    const accent = trim.accent ?? { hex: trim.trimHex };
+    for (const material of this.byClass.get('interior_main') ?? []) this.interiorTint(material, main);
+    for (const material of this.byClass.get('interior_trim') ?? []) this.interiorTint(material, accent);
+    // Door inserts carry a texture, so they are shaded from their authored
+    // look (and can return to it) rather than overwritten.
+    const insert = trim.insert;
+    if (insert) {
+      // shade() snapshots the authored look on first touch, so "as supplied"
+      // can restore it exactly.
+      this.shade('interior_insert', (m) => this.interiorTint(m, insert));
+    } else {
+      this.restore('interior_insert');
+    }
+    // A split-out part with no override follows whichever class it came from,
+    // so "match" means exactly what the part looked like before the split.
+    for (const [part, cls] of Object.entries(CABIN_PART_CLASS) as [keyof typeof CABIN_PART_CLASS, string][]) {
+      for (const material of this.byClass.get(cls) ?? []) {
+        const from = material.userData.fromClass === 'interior_trim' ? accent : main;
+        this.interiorTint(material, trim[part] ?? from);
+      }
+    }
+  }
+
+  /**
+   * Colour a textured cabin surface so its *average* is the chosen colour.
+   *
+   * The cabin textures are very dark (the ND's averages 0.03 in linear
+   * terms), so multiplying them by a colour, as `tint()` does, can only ever
+   * darken: stone leather came out black. Dividing the colour by the
+   * texture's own mean keeps all its grain and stitching while landing the
+   * overall colour where it was asked. Untextured materials just take it.
+   */
+  private interiorTint(material: THREE.Material, tint: Tint): void {
+    this.tintOne(material, tint);
+    const m = material as THREE.MeshStandardMaterial;
+    const mean = tint.hex ? this.mapMean(m) : null;
+    if (mean && m.color) {
+      const c = new THREE.Color(tint.hex);
+      m.color.setRGB(c.r / mean.r, c.g / mean.g, c.b / mean.b);
+    }
+  }
+
+  /** Mean linear colour of a material's base-colour texture, cached. */
+  private mapMean(material: THREE.MeshStandardMaterial): THREE.Color | null {
+    if (material.userData.mapMean !== undefined) return material.userData.mapMean;
+    let mean: THREE.Color | null = null;
+    const image = material.map?.image as CanvasImageSource | undefined;
+    if (image && typeof document !== 'undefined') {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = canvas.height = 32;
+        const g = canvas.getContext('2d', { willReadFrequently: true });
+        if (g) {
+          g.drawImage(image, 0, 0, 32, 32);
+          const px = g.getImageData(0, 0, 32, 32).data;
+          const sum = [0, 0, 0];
+          const linear = (v: number) => {
+            const x = v / 255;
+            return x <= 0.04045 ? x / 12.92 : ((x + 0.055) / 1.055) ** 2.4;
+          };
+          for (let i = 0; i < px.length; i += 4) for (let k = 0; k < 3; k++) sum[k] += linear(px[i + k]);
+          const n = px.length / 4;
+          mean = new THREE.Color(Math.max(sum[0] / n, 0.004), Math.max(sum[1] / n, 0.004), Math.max(sum[2] / n, 0.004));
+        }
+      } catch {
+        mean = null;          // a tainted or undecodable image: plain tint
+      }
+    }
+    material.userData.mapMean = mean;
+    return mean;
+  }
+
+  /** `tint()` for one material. */
+  private tintOne(material: THREE.Material, tint: Tint): void {
+    const pbr = material as THREE.MeshStandardMaterial;
+    if (tint.hex !== undefined) pbr.color?.set(tint.hex);
+    if (tint.metalness !== undefined && typeof pbr.metalness === 'number') pbr.metalness = tint.metalness;
+    if (tint.roughness !== undefined && typeof pbr.roughness === 'number') pbr.roughness = tint.roughness;
+    material.needsUpdate = true;
+  }
+
+  /** Put a class back to its authored colour (captured on first change). */
+  private restore(surfaceClass: string): void {
+    this.shade(surfaceClass, (m, base) => {
+      if (m.color && base.color) m.color.copy(base.color);
+    });
   }
 
   /**
@@ -1591,11 +1697,13 @@ export class CarModel {
    * height cut remains a development aid for other roof-volume parts.
    */
   private rebuildLining(): void {
-    for (const mesh of this.liningMeshes) {
+    for (const mesh of [...this.liningMeshes, ...this.seatMeshes]) {
       mesh.removeFromParent();
       mesh.geometry.dispose();
     }
     this.liningMeshes = [];
+    this.seatMeshes = [];
+    const seatSpec = this.table.cabinParts?.seats;
 
     const partial = new Map((this.table.roofLining?.splitWithRoof ?? []).map(
       ({ key, triangleOffsets }) => [key, new Set(triangleOffsets)],
@@ -1623,13 +1731,39 @@ export class CarModel {
         });
       });
 
-      if (hide.size === 0) {
+      const seats = this.seatTriangles(entry, seatSpec);
+
+      if (hide.size === 0 && seats.size === 0) {
         entry.mesh.geometry = entry.original;
         continue;
       }
 
-      const { keep, hidden } = partitionGeometry(entry.original, hide);
+      const [keep, hidden, seatGeometry] = splitGeometry(
+        entry.original, (offset) => (hide.has(offset) ? 1 : seats.has(offset) ? 2 : 0), 3);
       entry.mesh.geometry = keep;
+
+      if (seats.size > 0) {
+        const source = entry.mesh.material as THREE.Material;
+        let material = this.seatMaterials.get(entry.mesh);
+        if (!material) {
+          material = source.clone();
+          material.userData.fromClass = classOf(this.table, source.name);
+          this.seatMaterials.set(entry.mesh, material);
+        }
+        const seatMesh = new THREE.Mesh(seatGeometry, material);
+        seatMesh.name = 'CabinSeats';
+        seatMesh.castShadow = true;
+        seatMesh.receiveShadow = true;
+        seatMesh.userData.surfaceClass = CABIN_PART_CLASS.seats;
+        entry.mesh.add(seatMesh);
+        this.seatMeshes.push(seatMesh);
+      } else {
+        seatGeometry.dispose();
+      }
+      if (hide.size === 0) {
+        hidden.dispose();
+        continue;
+      }
 
       const lining = new THREE.Mesh(hidden, entry.mesh.material);
       lining.name = 'RoofLining';
@@ -1642,11 +1776,73 @@ export class CarModel {
     }
   }
 
+  /** Does this object, or any ancestor, carry one of these glTF node names? */
+  private underNode(object: THREE.Object3D, names: readonly string[]): boolean {
+    const wanted = new Set(names.flatMap((n) => [n, THREE.PropertyBinding.sanitizeNodeName(n)]));
+    for (let node: THREE.Object3D | null = object; node; node = node.parent) {
+      if (wanted.has(node.name) || wanted.has(node.userData?.name)) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Triangles of a cabin mesh that belong to the seats, by loose part.
+   *
+   * The ND's seats are dozens of small loose parts of the cabin tub, so a
+   * part counts when its whole world box sits inside the seat region (|x|
+   * from the centreline, so both seats share one rule).
+   */
+  private seatTriangles(entry: CabinMesh, spec: CabinPartSpec | undefined): Set<number> {
+    const out = new Set<number>();
+    if (!spec?.region || !spec.fromNodes || !this.underNode(entry.mesh, spec.fromNodes)) return out;
+    const { absX, y, z } = spec.region;
+    const box = new THREE.Box3();
+    for (const island of entry.islands) {
+      box.copy(island.box).applyMatrix4(entry.mesh.matrixWorld);
+      const x0 = box.min.x * 1000;
+      const x1 = box.max.x * 1000;
+      if (Math.sign(x0) !== Math.sign(x1)) continue;
+      const near = Math.min(Math.abs(x0), Math.abs(x1));
+      const far = Math.max(Math.abs(x0), Math.abs(x1));
+      const inside = near >= absX[0] && far <= absX[1]
+        && box.min.y * 1000 >= y[0] && box.max.y * 1000 <= y[1]
+        && box.min.z * 1000 >= z[0] && box.max.z * 1000 <= z[1];
+      if (inside) for (const offset of island.triangles) out.add(offset);
+    }
+    return out;
+  }
+
+  /**
+   * Give whole cabin meshes named in the surface table (the NA's seats, both
+   * cars' steering wheels) their own material, so they colour separately.
+   * The clone keeps the source's name and remembers its class, so "match the
+   * cabin" can follow exactly what it looked like before.
+   */
+  private splitCabinNodes(): void {
+    const parts = this.table.cabinParts;
+    if (!parts || !this.body) return;
+    for (const part of ['seats', 'wheel'] as const) {
+      const names = parts[part]?.nodes;
+      if (!names?.length) continue;
+      this.body.traverse((child) => {
+        const mesh = child as THREE.Mesh;
+        if (!mesh.isMesh || mesh.userData.surfaceClass || !this.underNode(mesh, names)) return;
+        const source = (Array.isArray(mesh.material) ? mesh.material[0] : mesh.material) as THREE.Material;
+        const material = source.clone();
+        material.userData.fromClass = classOf(this.table, source.name);
+        mesh.material = material;
+        mesh.userData.surfaceClass = CABIN_PART_CLASS[part];
+      });
+    }
+  }
+
   /** Hide these loose parts (by stable key) whenever the roof is down. */
   setRoofLining(keys: string[], cutY: number | null): void {
     this.liningKeys = new Set(keys);
     this.liningCutY = cutY;
     this.rebuildLining();
+    this.indexMaterials();
+    if (this.interior) this.setInterior(this.interior);
   }
 
   /** Current height cut, and a sensible range for a slider, in world metres. */

@@ -96,3 +96,14 @@ const areas = new Set(['front', 'sides', 'rear', 'top', 'cabin']);
 const unplaced = catalogue.filter(m => m.slot === null && m.attachTo === 'body' && m.category !== 'test' && !areas.has(m.area));
 assert.deepEqual(unplaced.map(m => m.id), [], 'every additional part needs an area');
 console.log('PASS: every additional part is grouped by area');
+
+// Cabin finishes: valid ids survive, unknown ids and parts a car cannot
+// colour separately (the NA has no dash accent or door inserts) clear to ''.
+const ndCabin = reconcileConfig({ ...DEFAULT_CONFIG, seatTrim: 'red_alcantara', wheelTrim: 'tan_leather',
+  trimAccent: 'satin_silver', doorInsert: 'blue' });
+assert.deepEqual([ndCabin.seatTrim, ndCabin.wheelTrim, ndCabin.trimAccent, ndCabin.doorInsert],
+  ['red_alcantara', 'tan_leather', 'satin_silver', 'blue']);
+const naCabin = reconcileConfig({ ...ndCabin, generation: 'na', seatTrim: 'nonsense' });
+assert.deepEqual([naCabin.seatTrim, naCabin.wheelTrim, naCabin.trimAccent, naCabin.doorInsert],
+  ['', 'tan_leather', '', '']);
+console.log('PASS: cabin finishes reconcile per car');

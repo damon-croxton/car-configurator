@@ -6,6 +6,8 @@ import { describeStance } from '../config/summary';
 import {
   aeroOptionsFor,
   carData,
+  getCabinFinish,
+  getInteriorTrim,
   getGeneration,
   getPaintColor,
   getRoofType,
@@ -13,9 +15,10 @@ import {
   roofOptionsFor,
   wheelOptionsFor,
   type AeroSlotId,
+  type CabinPartId,
 } from '../data/schema';
 import { activeMods, MOD_AREAS, modForOption, optionalMods } from '../data/mods';
-import { modelHasClass } from '../data/surfaces';
+import { cabinControls, modelHasClass } from '../data/surfaces';
 import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
 
 // No leading slash: mod .glb paths follow the same convention (see
@@ -24,6 +27,14 @@ import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, Swatc
 // path 404s the moment the app is served from a subpath, e.g. GitHub Pages'
 // <user>.github.io/<repo>/ rather than the domain root.
 const WHEEL_ICON = (id: string) => `assets/icons/wheels/${id}.png`;
+
+/** Separately coloured cabin parts, in panel order. */
+const CABIN_PARTS: { part: CabinPartId; field: 'seatTrim' | 'wheelTrim' | 'trimAccent' | 'doorInsert'; title: string; hint: string }[] = [
+  { part: 'seats', field: 'seatTrim', title: 'Seats', hint: 'Matches cabin' },
+  { part: 'wheel', field: 'wheelTrim', title: 'Steering wheel', hint: 'Matches cabin' },
+  { part: 'accent', field: 'trimAccent', title: 'Dash & door trim', hint: 'Matches cabin' },
+  { part: 'insert', field: 'doorInsert', title: 'Door inserts', hint: 'As supplied' },
+];
 
 type TabId = 'model' | 'paint' | 'wheels' | 'aero' | 'atmosphere';
 
@@ -89,6 +100,10 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const roofs = roofOptionsFor(generation);
   const roof = getRoofType(config.roofType);
   const hasSoftTop = modelHasClass(generation.surfaceModel, 'soft_top');
+  const cabin = cabinControls(generation.surfaceModel);
+  const theme = getInteriorTrim(config.interiorTrim);
+  const paint = getPaintColor(config.paint);
+  const bodyHex = paint.userColor ? config.paintCustomHex : paint.hex;
 
   return (
     <>
@@ -144,7 +159,7 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         </Section>
       )}
 
-      <Section title="Interior">
+      <Section title="Interior" hint="Cabin theme">
         <OptionGrid
           columns={2}
           value={config.interiorTrim}
@@ -152,6 +167,26 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
           options={carData.interiorTrims.map((trim) => ({ id: trim.id, label: trim.name }))}
         />
       </Section>
+
+      {CABIN_PARTS.filter(({ part }) => cabin.includes(part)).map(({ part, field, title, hint }) => {
+        const chosen = getCabinFinish(part, config[field]);
+        return (
+          <Section key={part} title={title} hint={chosen ? chosen.name : hint}>
+            <SwatchGrid
+              value={config[field]}
+              onChange={(id) => onChange({ [field]: id } as Partial<CarConfig>)}
+              swatches={[
+                { id: '', name: 'Match cabin', hex: part === 'accent' ? theme.trimHex : theme.seatHex },
+                ...materialsData.cabinFinishes[part].map((f) => ({
+                  id: f.id,
+                  name: f.name,
+                  hex: f.matchBody ? bodyHex : f.hex,
+                })),
+              ]}
+            />
+          </Section>
+        );
+      })}
 
       <Section title="Glass">
         <SliderRow

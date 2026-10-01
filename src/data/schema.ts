@@ -199,6 +199,19 @@ export interface WheelFinishDef {
   matchBody?: boolean;
 }
 
+/** One finish for a separately coloured cabin part (seats, wheel, ...). */
+export interface CabinFinishDef {
+  id: string;
+  name: string;
+  hex: string;
+  roughness: number;
+  metalness?: number;
+  /** Take the body's paint colour instead of `hex`. */
+  matchBody?: boolean;
+}
+
+export type CabinPartId = 'seats' | 'wheel' | 'accent' | 'insert';
+
 export interface CaliperColorDef {
   id: string;
   name: string;
@@ -295,6 +308,7 @@ export interface MaterialCatalogue {
   wrapColors: PaintColorDef[];
   wheelFinishes: WheelFinishDef[];
   caliperColors: CaliperColorDef[];
+  cabinFinishes: Record<CabinPartId, CabinFinishDef[]>;
   roofFabricColors: SimpleColorDef[];
   glass: GlassDef;
   lightMods: LightModsDef;
@@ -356,6 +370,10 @@ export const getWheelFinish = (id: string | undefined): WheelFinishDef =>
 
 export const getCaliperColor = (id: string | undefined): CaliperColorDef =>
   pick(materialsData.caliperColors, id);
+
+/** A cabin part's finish, or null for '' (match the cabin theme). */
+export const getCabinFinish = (part: CabinPartId, id: string | undefined): CabinFinishDef | null =>
+  id ? materialsData.cabinFinishes[part].find((f) => f.id === id) ?? null : null;
 
 export const getRoofFabric = (id: string | undefined): SimpleColorDef =>
   pick(materialsData.roofFabricColors, id);

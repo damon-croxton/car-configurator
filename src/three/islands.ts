@@ -120,16 +120,28 @@ export function partitionGeometry(
   source: THREE.BufferGeometry,
   hiddenOffsets: ReadonlySet<number>,
 ): { keep: THREE.BufferGeometry; hidden: THREE.BufferGeometry } {
+  const [keep, hidden] = splitGeometry(source, (offset) => (hiddenOffsets.has(offset) ? 1 : 0), 2);
+  return { keep, hidden };
+}
+
+/**
+ * Split a geometry's triangles into `groups` geometries, by whatever
+ * `groupOf(offset)` says each triangle (by index-buffer offset) belongs to.
+ * The same attribute-preserving, non-indexed build as `partitionGeometry`;
+ * any group may come back empty.
+ */
+export function splitGeometry(
+  source: THREE.BufferGeometry,
+  groupOf: (offset: number) => number,
+  groups: number,
+): THREE.BufferGeometry[] {
   const index = source.getIndex();
   const position = source.getAttribute('position');
   const triangleCount = (index ? index.count : position.count) / 3;
   const at = (i: number) => (index ? index.getX(i) : i);
 
-  const keepOffsets: number[] = [];
-  const hideOffsets: number[] = [];
-  for (let t = 0; t < triangleCount; t++) {
-    (hiddenOffsets.has(t * 3) ? hideOffsets : keepOffsets).push(t * 3);
-  }
+  const buckets: number[][] = Array.from({ length: groups }, () => []);
+  for (let t = 0; t < triangleCount; t++) buckets[groupOf(t * 3)].push(t * 3);
 
   const build = (offsets: number[]): THREE.BufferGeometry => {
     const out = new THREE.BufferGeometry();
@@ -149,7 +161,7 @@ export function partitionGeometry(
     return out;
   };
 
-  return { keep: build(keepOffsets), hidden: build(hideOffsets) };
+  return buckets.map(build);
 }
 
 /** Build a standalone geometry containing only the given island's triangles. */

@@ -35,6 +35,10 @@ const STRING_FIELDS: { key: string; field: keyof CarConfig }[] = [
   { key: 'exh', field: 'exhaust' },
   { key: 'bar', field: 'rollBar' },
   { key: 'int', field: 'interiorTrim' },
+  { key: 'seat', field: 'seatTrim' },
+  { key: 'swheel', field: 'wheelTrim' },
+  { key: 'accent', field: 'trimAccent' },
+  { key: 'insert', field: 'doorInsert' },
   { key: 'env', field: 'environment' },
   { key: 'cam', field: 'cameraPreset' },
 ];

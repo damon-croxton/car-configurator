@@ -71,6 +71,12 @@ export interface CarConfig {
 
   /* Interior & glass */
   interiorTrim: string;
+  /* Per-part cabin finishes from materialsData.cabinFinishes; '' = match the
+   * cabin theme. Which parts a car offers: surfaceClasses cabinParts. */
+  seatTrim: string;
+  wheelTrim: string;
+  trimAccent: string;
+  doorInsert: string;
   windowTint: number;
 
   /* Lighting & atmosphere */
