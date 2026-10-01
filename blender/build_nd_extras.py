@@ -32,6 +32,7 @@ SPECS = [
     ('DT53', 'DT53_fender_flares.glb', x.fender_flares),
     ('RA04', 'RA04_rear_diffuser.glb', lambda: x.rear_diffuser('RA04')),
     ('RA04B', 'RA04B_rear_diffuser_carbon.glb', lambda: x.rear_diffuser('RA04B')),
+    ('DT54', 'DT54_racing_fuel_cap.glb', x.fuel_cap),
 ]
 
 

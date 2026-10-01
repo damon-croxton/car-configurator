@@ -18,6 +18,7 @@ ROOT = Path(r"C:/Users/Damon/car-configurator")
 sys.path.insert(0, str(ROOT / 'blender'))
 import mx5_lib as m
 import na_kit as kit
+import nd_extras as extras
 
 NA_SPECS = [
     ('FA40', 'FA40_front_lip.glb', kit.build_front_lip),
@@ -35,6 +36,13 @@ NA_SPECS = [
     ('FA42', 'FA42_tow_hook.glb', kit.build_tow_hook),
     ('DT40', 'DT40_sun_strip.glb', kit.build_sun_strip),
     ('DT41', 'DT41_mirror_caps.glb', kit.build_mirror_caps),
+    # ND accessories ported to the NA (nd_extras' builders read a per-car table).
+    ('DT43', 'DT43_racing_stripes.glb', extras.racing_stripes),
+    ('DT44', 'DT44_side_stripes.glb', extras.side_stripes),
+    ('DT45', 'DT45_boot_rack.glb', extras.boot_rack),
+    ('DT47', 'DT47_rain_light.glb', extras.rain_light),
+    ('DT53', 'DT53_fender_flares.glb', extras.fender_flares),
+    ('DT08', 'DT08_tow_strap.glb', extras.rear_strap),
 ]
 
 ND_SPECS = [

@@ -20,7 +20,45 @@ MIRROR = 'MOD_MirrorGlass'
 
 
 def name(ident, part):
-    return f'MOD_ND_{ident}_{part}'
+    return f'MOD_{k.GEN.upper()}_{ident}_{part}'
+
+
+#: Per-car reference parts and positions for the builders shared by both
+#: cars (stripes, rack, rain light, flares, tow strap). `na_kit.use(gen)`
+#: picks the car; `cfg()` returns its row.
+GEN_CFG = {
+    'nd': {
+        'stripe_panels': (('Hood 6.001_120', 'bonnet'), ('Boot 6.001_157', 'boot')),
+        'side_panels': {1: ('FenderFL 6.002_88', 'DoorL 6.003_68', 'FendersR 6.001_40'),
+                        -1: ('FenderFR 6.001_80', 'DoorR 6.003_73', 'FendersR 6.001_40')},
+        'side_z': (818.0, -735.0), 'side_y': 430.0,
+        'boot': 'Boot 6.001_157', 'rack': (330.0, -1420.0, -1760.0, (-1470.0, -1590.0, -1710.0)),
+        'rain_part': 'BumperR 6_145', 'rain_y': 304.0,
+        'arches': {'front': 1194.0, 'rear': -1114.0}, 'hub_y': 321.0, 'arc': (5.0, 175.0),
+        'body': {1: ('FenderFL 6.002_88', 'FendersR 6.001_40', 'BumperF 6.003_111', 'BumperR 6.001_146',
+                     'DoorL 6.003_68', 'Skirts 6.003_57'),
+                 -1: ('FenderFR 6.001_80', 'FendersR 6.001_40', 'BumperF 6.003_111', 'BumperR 6.001_146',
+                      'DoorR 6.003_73', 'Skirts 6.003_57')},
+        'rear_bumper': ('BumperR 6.001_146', 'BumperR 6_145', 'BumperR 6.002_147'), 'strap_x': -480.0,
+    },
+    'na': {
+        'stripe_panels': (('hood_Material #71_0', 'bonnet'), ('trunk_Material #71_0', 'boot')),
+        'side_panels': {1: ('f fender_Material #71_0', 'leftdoor_Material #71_0', 'rearfender_Material #71_0'),
+                        -1: ('f fender_Material #71_0', 'rigthdoor_Material #71_0', 'rearfender_Material #71_0')},
+        'side_z': (835.0, -745.0), 'side_y': 335.0,
+        'boot': 'trunk_Material #71_0', 'rack': (300.0, -1300.0, -1730.0, (-1350.0, -1515.0, -1680.0)),
+        'rain_part': 'rearbumper_Material #71_0', 'rain_y': 300.0,
+        'arches': {'front': 1181.0, 'rear': -1122.0}, 'hub_y': 303.0, 'arc': (12.0, 165.0),
+        'body': {sd: ('f fender_Material #71_0', 'rearfender_Material #71_0', 'frontbumper_Material #71_0',
+                      'rearbumper_Material #71_0', door, 'sideskirt_Material #118_0')
+                 for sd, door in ((1, 'leftdoor_Material #71_0'), (-1, 'rigthdoor_Material #71_0'))},
+        'rear_bumper': ('rearbumper_Material #71_0',), 'strap_x': 420.0,
+    },
+}
+
+
+def cfg():
+    return GEN_CFG[k.GEN]
 
 
 def hit_any(parts, origin, direction):
@@ -64,7 +102,7 @@ def eyelids(ident='DT42'):
     Each brow covers the lens's upper edge, 24 mm deep at its middle and
     thinning to 4 mm at both ends, lifted 1 mm off the lens along its normal.
     """
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     for side, lens_name in ((1, 'HeadLightL 6.002_95'), (-1, 'HeadLightR 6.002_101')):
         lens = k.base(lens_name)
         pts = [k.app(lens.matrix_world @ v.co) for v in lens.data.vertices]
@@ -95,11 +133,11 @@ def racing_stripes(ident='DT43'):
     Two 110 mm stripes either side of a 40 mm gap, laid on each panel from
     its front edge to its back edge, 0.4 mm thick and 0.6 mm clear.
     """
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     up = Vector((0, 1, 0))
-    for panel_name, tag in (('Hood 6.001_120', 'bonnet'), ('Boot 6.001_157', 'boot')):
+    for panel_name, tag in cfg()['stripe_panels']:
         panel = k.base(panel_name)
-        zs = [z for z in range(-2000, 2000, 4) if k.ray(panel, (75, 2000, z), (0, -1, 0))]
+        zs = [z for z in range(-2000, 2000, 4) if k.ray(panel, (k.CX + 75, 2000, z), (0, -1, 0))]
         z_front, z_back = max(zs) - 14, min(zs) + 14
         for side in (-1, 1):
             rows = []
@@ -107,7 +145,7 @@ def racing_stripes(ident='DT43'):
                 z = z_front - (z_front - z_back) * i / 60
                 row = []
                 for j in range(5):
-                    x = side * (20 + 110 * j / 4)
+                    x = k.CX + side * (20 + 110 * j / 4)
                     p, n = k.ray_normal(panel, (x, 2000, z), (0, -1, 0))
                     assert p is not None, (tag, x, z)
                     row.append((p, outward(n, up)))
@@ -118,31 +156,28 @@ def racing_stripes(ident='DT43'):
 
 # ------------------------------------------------------------- side stripes ----
 
-SIDE_PANELS = {
-    1: ('FenderFL 6.002_88', 'DoorL 6.003_68', 'FendersR 6.001_40'),
-    -1: ('FenderFR 6.001_80', 'DoorR 6.003_73', 'FendersR 6.001_40'),
-}
-
 
 def side_stripes(ident='DT44'):
     """A 22 mm white stripe along each flank, between the wheel arches.
 
     It runs at 430-452 mm, across front fender, door and rear quarter.
     """
-    coll = m.start_mod('nd', ident)
-    for side, names in SIDE_PANELS.items():
+    coll = m.start_mod(k.GEN, ident)
+    z0, z1 = cfg()['side_z']
+    y0 = cfg()['side_y']
+    for side, names in cfg()['side_panels'].items():
         parts = [k.base(n) for n in names]
         axis = Vector((side, 0, 0))
         rows = []
         for i in range(121):
-            z = 818 - (818 + 735) * i / 120
+            z = z0 - (z0 - z1) * i / 120
             row = []
             for j in range(4):
-                y = 430 + 22 * j / 3
+                y = y0 + 22 * j / 3
                 p, n = None, None
                 # Panel shut lines are real gaps: step along until a ray lands.
                 for dz in (0, 2, -2, 4, -4, 6, -6, 9, -9):
-                    p, n = hit_any(parts, (side * 1300, y, z + dz), (-side, 0, 0))
+                    p, n = hit_any(parts, (k.CX + side * 1300, y, z + dz), (-side, 0, 0))
                     if p is not None:
                         p = Vector((p.x, p.y, z))
                         break
@@ -161,17 +196,18 @@ def boot_rack(ident='DT45'):
     The rails follow the lid's slope 45 mm above it, bent down at each end
     into round feet on rubber pads.
     """
-    coll = m.start_mod('nd', ident)
-    boot = k.base('Boot 6.001_157')
+    coll = m.start_mod(k.GEN, ident)
+    boot = k.base(cfg()['boot'])
 
     def deck(x, z):
         p = k.ray(boot, (x, 2000, z), (0, -1, 0))
         assert p is not None, (x, z)
         return p.y
 
-    z0, z1, rise = -1420.0, -1760.0, 45.0
+    half, z0, z1, bars = cfg()['rack']
+    rise = 45.0
     for side in (-1, 1):
-        x = side * 330
+        x = k.CX + side * half
         path = [(x, deck(x, z0) + 6, z0 + 6)]
         for i in range(9):
             z = z0 - 22 - (z0 - z1 - 44) * i / 8
@@ -180,9 +216,10 @@ def boot_rack(ident='DT45'):
         k.tube(f'rail_{"L" if side > 0 else "R"}', coll, m.rounded_path(path, 18, 6), 7.5, CHROME, 14)
         for z in (z0 + 6, z1 - 6):
             k.cylinder(f'foot_{"L" if side > 0 else "R"}_{int(-z)}', coll, (x, deck(x, z) - 1, z), 'y', 13, 6, SATIN)
-    for z in (-1470.0, -1590.0, -1710.0):
-        ya, yb = deck(-330, z) + rise, deck(330, z) + rise
-        k.tube(f'bar_{int(-z)}', coll, [(-330, ya, z), (330, yb, z)], 6, CHROME, 12)
+    for z in bars:
+        xa, xb = k.CX - half, k.CX + half
+        ya, yb = deck(xa, z) + rise, deck(xb, z) + rise
+        k.tube(f'bar_{int(-z)}', coll, [(xa, ya, z), (xb, yb, z)], 6, CHROME, 12)
     return k.finish(coll)
 
 
@@ -194,7 +231,7 @@ def wind_deflector(ident='DT46'):
     A 480 x 100 mm panel of black mesh in a satin tube frame, standing on the
     centre bulkhead at z -790 and leaning back 6 degrees.
     """
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     z, half, y0, y1 = -790.0, 240.0, 945.0, 1035.0
     lean = math.tan(math.radians(6))
 
@@ -223,15 +260,16 @@ def rain_light(ident='DT47'):
     Its red lens is classed with the tail lamps, so the app's tail-light
     switch lights it too.
     """
-    coll = m.start_mod('nd', ident)
-    lower = k.base('BumperR 6_145')
-    face = k.ray(lower, (0, 300, -2600), (0, 0, 1))
+    coll = m.start_mod(k.GEN, ident)
+    lower = k.base(cfg()['rain_part'])
+    y = cfg()['rain_y']
+    face = k.ray(lower, (k.CX, y, -2600), (0, 0, 1))
     assert face is not None
     zf = face.z
-    k.box('housing', coll, (0, 304, zf - 9), (134, 38, 20), SATIN, 2)
-    k.box('lens', coll, (0, 304, zf - 19.5), (118, 26, 3), LENS, 0.8)
+    k.box('housing', coll, (k.CX, y, zf - 9), (134, 38, 20), SATIN, 2)
+    k.box('lens', coll, (k.CX, y, zf - 19.5), (118, 26, 3), LENS, 0.8)
     for x in (-50.0, 50.0):
-        k.cylinder(f'bolt_{"L" if x > 0 else "R"}', coll, (x, 304, zf - 21.5), 'z', 2.6, 2, ALLOY, 10)
+        k.cylinder(f'bolt_{"L" if x > 0 else "R"}', coll, (k.CX + x, y, zf - 21.5), 'z', 2.6, 2, ALLOY, 10)
     return k.finish(coll)
 
 
@@ -271,7 +309,7 @@ def side_vent(ident, coll, tag, part, side, z0, z1, y0, y1, slats, frame_mat):
 
 def fender_vents(ident='DT48'):
     """Carbon three-slat gills on both front fenders, behind the arch."""
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     for side, part in ((1, 'FenderFL 6.002_88'), (-1, 'FenderFR 6.001_80')):
         side_vent(ident, coll, 'L' if side > 0 else 'R', k.base(part), side,
                   700.0, 520.0, 470.0, 590.0, 3, CARBON)
@@ -280,7 +318,7 @@ def fender_vents(ident='DT48'):
 
 def rear_vents(ident='DT52'):
     """Carbon two-slat vents on the rear bumper's flanks, behind the arch."""
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     bumper = k.base('BumperR 6.001_146')
     for side in (1, -1):
         side_vent(ident, coll, 'L' if side > 0 else 'R', bumper, side,
@@ -300,7 +338,7 @@ def aero_mirrors(ident='DT49'):
     The stock bases stay. Each head is a 150 mm teardrop, deeper at its
     inboard end, with the glass on its rear face.
     """
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     for side in (1, -1):
         tag = 'L' if side > 0 else 'R'
         base_top = Vector((side * 805, 818, 100))
@@ -334,7 +372,7 @@ def aero_mirrors(ident='DT49'):
 
 def rear_canards(ident='DT50'):
     """A carbon canard on each rear bumper corner, following its curve."""
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     bumper = k.base('BumperR 6.001_146')
     for side in (1, -1):
         rings = []
@@ -359,7 +397,7 @@ def rear_canards(ident='DT50'):
 
 def front_strap(ident='DT51'):
     """A red webbing loop hanging from the front bumper's lower right."""
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     bumper = k.base('BumperF 6.003_111')
     x = -480.0
     face = k.ray(bumper, (x, 300, 2600), (0, 0, -1))
@@ -381,13 +419,6 @@ def front_strap(ident='DT51'):
 
 # ----------------------------------------------------------- fender flares ----
 
-ARCHES = {'front': 1194.0, 'rear': -1114.0}
-HUB_Y = 321.0
-BODY = {1: ('FenderFL 6.002_88', 'FendersR 6.001_40', 'BumperF 6.003_111', 'BumperR 6.001_146', 'DoorL 6.003_68',
-            'Skirts 6.003_57'),
-        -1: ('FenderFR 6.001_80', 'FendersR 6.001_40', 'BumperF 6.003_111', 'BumperR 6.001_146', 'DoorR 6.003_73',
-             'Skirts 6.003_57')}
-
 
 def fender_flares(ident='DT53'):
     """Bolt-on satin flares round all four wheel arches.
@@ -398,20 +429,22 @@ def fender_flares(ident='DT53'):
     the lip, swells 30 mm proud and returns 3 mm inside it, tapering to
     nothing at hub height front and rear.
     """
-    coll = m.start_mod('nd', ident)
-    for side, names in BODY.items():
+    coll = m.start_mod(k.GEN, ident)
+    hub_y = cfg()['hub_y']
+    for side, names in cfg()['body'].items():
         parts = [k.base(n) for n in names]
         axis = Vector((side, 0, 0))
-        for arch, hz in ARCHES.items():
+        for arch, hz in cfg()['arches'].items():
             stations = []
+            a0, a1 = cfg()['arc']
             for i in range(37):
-                deg = 5 + 170 * i / 36
+                deg = a0 + (a1 - a0) * i / 36
                 th = math.radians(deg)
                 d = Vector((0, math.sin(th), math.cos(th)))
                 lip = None
-                for r in range(300, 480, 2):
-                    p, _ = hit_any(parts, (side * 1300, HUB_Y + r * d.y, hz + r * d.z), (-side, 0, 0))
-                    if p is not None and abs(p.x) > 700:
+                for r in range(280, 480, 2):
+                    p, _ = hit_any(parts, (k.CX + side * 1300, hub_y + r * d.y, hz + r * d.z), (-side, 0, 0))
+                    if p is not None and abs(p.x - k.CX) > 680:
                         lip = r
                         break
                 assert lip is not None, (side, arch, deg)
@@ -419,7 +452,7 @@ def fender_flares(ident='DT53'):
             lips = k.gaussian([s[2] for s in stations], 1.5)
             rings = []
             for (deg, d, _), lip in zip(stations, lips):
-                t = (deg - 5) / 170
+                t = (deg - a0) / (a1 - a0)
                 end = k.smooth(min(t, 1 - t) / 0.18)
                 proud = 3 + 27 * end
 
@@ -427,8 +460,8 @@ def fender_flares(ident='DT53'):
                     # Below the bumper line the panel can end before r; walk
                     # back toward the lip until there is skin to sit on.
                     for rr in range(int(r), int(lip) - 1, -2):
-                        p, _ = hit_any(parts, (side * 1300, HUB_Y + rr * d.y, hz + rr * d.z), (-side, 0, 0))
-                        if p is not None and abs(p.x) > 700:
+                        p, _ = hit_any(parts, (k.CX + side * 1300, hub_y + rr * d.y, hz + rr * d.z), (-side, 0, 0))
+                        if p is not None and abs(p.x - k.CX) > 680:
                             return p
                     return None
 
@@ -441,7 +474,7 @@ def fender_flares(ident='DT53'):
                 for dr, dx in section:
                     r = lip + dr
                     ref = base if dr >= 20 else rim
-                    ring.append((ref.x + side * dx, HUB_Y + r * d.y, hz + r * d.z))
+                    ring.append((ref.x + side * dx, hub_y + r * d.y, hz + r * d.z))
                 rings.append(ring)
             k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, SATIN)
     return k.finish(coll)
@@ -472,7 +505,7 @@ def rear_diffuser(ident='RA04'):
     the restrained satin version; RA04B is deeper, longer and carbon.
     """
     material, depth, reach, overhang, centre, outer = DIFFUSERS[ident]
-    coll = m.start_mod('nd', ident)
+    coll = m.start_mod(k.GEN, ident)
     parts = [k.base(n) for n in REAR_PARTS]
 
     def first(origin, d):
@@ -520,4 +553,92 @@ def rear_diffuser(ident='RA04'):
     for n, x in enumerate(outer):
         strake(f'L{n}', x, rows_by_piece['outer_L'])
         strake(f'R{n}', -x, rows_by_piece['outer_R'])
+    return k.finish(coll)
+
+
+# ---------------------------------------------------------- rear tow strap ----
+
+def rear_strap(ident='DT08'):
+    """A red webbing loop hanging from the rear bumper's lower edge."""
+    coll = m.start_mod(k.GEN, ident)
+    parts = [k.base(n) for n in cfg()['rear_bumper']]
+    x = k.CX + cfg()['strap_x']
+    bottom = next(y for y in range(150, 420) if hit_any(parts, (x, y, -2600), (0, 0, 1))[0] is not None)
+    face, _ = hit_any(parts, (x, bottom + 12, -2600), (0, 0, 1))
+    zc, yc = face.z - 18, bottom - 30.0
+    rings = []
+    for i in range(49):
+        a = 2 * math.pi * i / 48
+        y = yc + 50 * math.cos(a)
+        z = zc - 15 * math.sin(a)
+        nrm = Vector((0, 15 * math.cos(a), -50 * math.sin(a))).normalized()
+        rings.append([(x - 18, y + nrm.y * 1.2, z + nrm.z * 1.2), (x + 18, y + nrm.y * 1.2, z + nrm.z * 1.2),
+                      (x + 18, y - nrm.y * 1.2, z - nrm.z * 1.2), (x - 18, y - nrm.y * 1.2, z - nrm.z * 1.2)])
+    k.mesh_object(name(ident, 'webbing'), rings[:-1], coll, ACCENT)
+    k.cylinder('bracket', coll, (x, bottom + 12, face.z + 4), 'z', 8, -26, SATIN, 16)
+    k.cylinder('bolt', coll, (x, bottom + 12, face.z - 22), 'z', 9, -5, ALLOY, 6)
+    return k.finish(coll)
+
+
+# ------------------------------------------------------- racing fuel cap ----
+
+#: Fuel door centre (app mm) and the side it is on, measured from renders.
+FUEL_DOOR = {'nd': (1, 787.0, -1480.0)}
+
+
+def fuel_cap(ident='DT54'):
+    """An alloy racing filler cap over the ND's round fuel door.
+
+    The door is the round panel on the left rear quarter, about 180 mm
+    across on a sloping, curved surface. The bezel ring is laid out in that
+    surface's plane and fitted to it point by point; the flat chrome lid then sits just clear of the
+    panel's highest point beneath it, with a dark centre badge and a hinge.
+    """
+    coll = m.start_mod(k.GEN, ident)
+    quarter = k.base('FendersR 6.001_40')
+    side, cy, cz = FUEL_DOOR[k.GEN]
+    axis = Vector((side, 0, 0))
+
+    def on(y, z):
+        p, n = k.ray_normal(quarter, (side * 1300, y, z), (-side, 0, 0))
+        assert p is not None, (y, z)
+        return p, outward(n, axis)
+
+    centre, n = on(cy, cz)
+    # The door is a circle in the panel's own (sloping) plane, so lay points
+    # out in that plane and drop each back onto the surface along the normal.
+    u = Vector((0, 0, 1)) - n * n.z
+    u.normalize()
+    v = n.cross(u).normalized()
+
+    def at(radius, t):
+        q = centre + (u * math.cos(t) + v * math.sin(t)) * radius
+        p, nn = k.ray_normal(quarter, tuple(q + n * 60), tuple(-n))
+        assert p is not None, (radius, t)
+        return p, outward(nn, axis)
+
+    # Bezel: a ring following the panel, 76-92 mm radius, covering the door's
+    # shut line, 3 mm proud.
+    rows = []
+    for i in range(73):
+        t = 2 * math.pi * i / 72
+        rows.append([at(r_, t) for r_ in (76.0, 84.0, 92.0)])
+    film(name(ident, 'bezel'), coll, rows, 0.8, 3.0, ALLOY)
+
+    # Lid: flat, on the door's normal, lifted clear of the curved panel.
+    clearance = max((at(r_, t)[0] - centre).dot(n)
+                    for r_ in (0.0, 37.0, 74.0) for t in (2 * math.pi * j / 16 for j in range(16)))
+    base = centre + n * (clearance + 2.0)
+
+    def disc(label, radius, lift, thick, material, segments=48):
+        rings = []
+        for h in (lift, lift + thick):
+            rings.append([tuple(base + n * h + (u * math.cos(t) + v * math.sin(t)) * radius)
+                          for t in (2 * math.pi * j / segments for j in range(segments))])
+        k.mesh_object(name(ident, label), rings, coll, material)
+
+    disc('lid', 74, 0.0, 5.0, CHROME)
+    disc('badge', 28, 5.0, 1.0, SATIN, 32)
+    hinge = base + n * 3 + u * 82
+    k.box('hinge', coll, tuple(hinge), (12, 14, 18), ALLOY, 1.5)
     return k.finish(coll)

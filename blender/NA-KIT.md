@@ -29,6 +29,10 @@ switches the helpers between references):
 | DT40 | Windscreen sun strip | 2,192 | 2,192 |
 | DT41 | Carbon mirror caps | 5,880 | 4,776 |
 
+Six ND accessories are also built for the NA from `nd_extras.py`: racing
+stripes (DT43), side stripes (DT44), boot rack (DT45), rain light (DT47),
+fender flares (DT53) and a rear tow strap (DT08).
+
 Wheels are not here: the NA shares every ND wheel mod, fitted to its own
 tyre at load by `CarModel.fitWheel()` (see the README).
 

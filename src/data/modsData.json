@@ -1303,7 +1303,10 @@
     },
     {
       "id": "DT08",
-      "gen": ["nd"],
+      "gen": [
+        "nd",
+        "na"
+      ],
       "category": "detail",
       "displayName": "Tow Strap",
       "area": "rear",
@@ -1311,15 +1314,60 @@
       "optionId": null,
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": [],
+        "na": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["BumperR 6.001_146"] },
-      "materials": ["MOD_AccentPaint", "MOD_Alloy", "MOD_SatinBlack"],
-      "bboxMm": {"nd": {"min": [-498, 143, -1905], "max": [-462, 263, -1830]}},
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ],
+        "na": [
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -498,
+            143,
+            -1905
+          ],
+          "max": [
+            -462,
+            263,
+            -1830
+          ]
+        },
+        "na": {
+          "min": [
+            394,
+            161,
+            -1884
+          ],
+          "max": [
+            429,
+            263,
+            -1846
+          ]
+        }
+      },
       "triangleBudget": 800,
-      "file": { "nd": "assets/mods/nd/DT08_tow_strap.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/DT08_tow_strap.glb",
+        "na": "assets/mods/na/DT08_tow_strap.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Rounded fabric loop attached at its upper bolt. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "uiHint": "Rounded fabric loop attached at its upper bolt."
@@ -3714,7 +3762,8 @@
     {
       "id": "DT43",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Twin Racing Stripes",
@@ -3724,7 +3773,8 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -3732,6 +3782,10 @@
         "nd": [
           "Hood 6.001_120",
           "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
         ]
       },
       "materials": [
@@ -3749,11 +3803,24 @@
             917,
             1746
           ]
+        },
+        "na": {
+          "min": [
+            -139,
+            654,
+            -1871
+          ],
+          "max": [
+            122,
+            866,
+            1778
+          ]
         }
       },
       "triangleBudget": 5500,
       "file": {
-        "nd": "assets/mods/nd/DT43_racing_stripes.glb"
+        "nd": "assets/mods/nd/DT43_racing_stripes.glb",
+        "na": "assets/mods/na/DT43_racing_stripes.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -3766,7 +3833,8 @@
     {
       "id": "DT44",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Side Stripes",
@@ -3776,7 +3844,8 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -3784,6 +3853,10 @@
         "nd": [
           "DoorL 6.003_68",
           "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
         ]
       },
       "materials": [
@@ -3801,11 +3874,24 @@
             452,
             818
           ]
+        },
+        "na": {
+          "min": [
+            -831,
+            335,
+            -745
+          ],
+          "max": [
+            816,
+            357,
+            835
+          ]
         }
       },
       "triangleBudget": 4500,
       "file": {
-        "nd": "assets/mods/nd/DT44_side_stripes.glb"
+        "nd": "assets/mods/nd/DT44_side_stripes.glb",
+        "na": "assets/mods/na/DT44_side_stripes.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -3818,7 +3904,8 @@
     {
       "id": "DT45",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Boot Luggage Rack",
@@ -3828,13 +3915,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
         ]
       },
       "materials": [
@@ -3853,11 +3944,24 @@
             947,
             -1401
           ]
+        },
+        "na": {
+          "min": [
+            -321,
+            803,
+            -1749
+          ],
+          "max": [
+            304,
+            904,
+            -1281
+          ]
         }
       },
       "triangleBudget": 5000,
       "file": {
-        "nd": "assets/mods/nd/DT45_boot_rack.glb"
+        "nd": "assets/mods/nd/DT45_boot_rack.glb",
+        "na": "assets/mods/na/DT45_boot_rack.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -3922,7 +4026,8 @@
     {
       "id": "DT47",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "F1 Rain Light",
@@ -3932,13 +4037,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "BumperR 6_145"
+        ],
+        "na": [
+          "rearbumper_Material #71_0"
         ]
       },
       "materials": [
@@ -3951,18 +4060,31 @@
           "min": [
             -67,
             285,
-            -1920
+            -1924
           ],
           "max": [
             67,
             323,
-            -1898
+            -1901
+          ]
+        },
+        "na": {
+          "min": [
+            -76,
+            281,
+            -1953
+          ],
+          "max": [
+            58,
+            319,
+            -1930
           ]
         }
       },
       "triangleBudget": 800,
       "file": {
-        "nd": "assets/mods/nd/DT47_rain_light.glb"
+        "nd": "assets/mods/nd/DT47_rain_light.glb",
+        "na": "assets/mods/na/DT47_rain_light.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -4248,7 +4370,8 @@
     {
       "id": "DT53",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "body_panel",
       "displayName": "Bolt-on Fender Flares",
@@ -4258,7 +4381,8 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -4267,6 +4391,10 @@
           "FenderFL 6.002_88",
           "FenderFR 6.001_80",
           "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
         ]
       },
       "materials": [
@@ -4284,11 +4412,24 @@
             691,
             1580
           ]
+        },
+        "na": {
+          "min": [
+            -870,
+            374,
+            -1506
+          ],
+          "max": [
+            873,
+            667,
+            1555
+          ]
         }
       },
       "triangleBudget": 3500,
       "file": {
-        "nd": "assets/mods/nd/DT53_fender_flares.glb"
+        "nd": "assets/mods/nd/DT53_fender_flares.glb",
+        "na": "assets/mods/na/DT53_fender_flares.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -4297,6 +4438,59 @@
       "derivedFromBaseMesh": false,
       "$note": "Satin flares round all four arches, laid over each arch lip found by ray-casting, up to 30 mm proud and tapering out at hub height. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
       "uiHint": "Satin flares round all four arches."
+    },
+    {
+      "id": "DT54",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Racing Fuel Cap",
+      "area": "sides",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FendersR 6.001_40"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            595,
+            713,
+            -1570
+          ],
+          "max": [
+            730,
+            853,
+            -1391
+          ]
+        }
+      },
+      "triangleBudget": 2000,
+      "file": {
+        "nd": "assets/mods/nd/DT54_racing_fuel_cap.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Alloy racing filler cap over the round fuel door on the left rear quarter: a bezel ring fitted to the sloping, curved panel, a flat chrome lid lifted just clear of it, a dark badge and a hinge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Alloy racing cap over the fuel door."
     }
   ]
 }

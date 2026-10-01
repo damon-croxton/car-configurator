@@ -1,4 +1,4 @@
-# ND accessories (DT42-DT53)
+# ND accessories (DT42-DT54)
 
 Twelve ND "additional parts" (`CarConfig.extraMods`), so they need no new
 panel controls. Every part is fitted by ray-casting the reference car; only
@@ -18,6 +18,16 @@ DT49 replaces anything, and it hides just the stock mirror heads.
 | DT51 | Front tow strap | Accent paint, alloy | 460 |
 | DT52 | Rear bumper vents | Carbon, satin recess | 1,408 |
 | DT53 | Bolt-on fender flares | Satin black | 2,352 |
+| DT54 | Racing fuel cap (over the fuel door) | Alloy, chrome | 1,292 |
+
+Six of these are built for the NA too, from the same code (`GEN_CFG` in
+`nd_extras.py` holds each car's reference parts and positions): DT43, DT44,
+DT45, DT47, DT53, and DT08, a rear tow strap. The NA files are rebuilt by
+`build_na_kit.py`.
+
+`nd_extras.py` also rebuilds RA04/RA04B, the ND's rear diffusers: a fitted
+three-piece blade under the rear bumper with strakes, leaving every exhaust
+option's tips in an open window.
 
 ## Rebuild
 
@@ -44,3 +54,6 @@ ND with `na_kit.use('nd')`.
   aero mirrors remove. Whichever is picked last wins.
 - **The roof lining is part of the cabin mesh**, so in Blender the deflector
   sits behind it. The app hides the lining with the roof down.
+- **The fuel door sits on a sloping, curved panel**, so DT54's bezel is laid
+  out in that panel's plane and dropped onto it point by point; the flat lid
+  then clears the highest point beneath it.
