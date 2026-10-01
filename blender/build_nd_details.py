@@ -22,8 +22,7 @@ def build():
            'RA02':kit.wing,'DT07':kit.pins,'DT08':kit.strap,'BP04':kit.carbon_boot}
     for ident in ['BP01','BP03']:
         specs[ident]=lambda i=ident:kit.bonnet(i)
-    for ident in ['RA04','RA04B']:
-        specs[ident]=lambda i=ident:kit.diffuser(i)
+    # RA04/RA04B moved to build_nd_extras.py (nd_extras.rear_diffuser).
     for ident in ['EX01','EX02','EX03','EX06']:
         specs[ident]=lambda i=ident:kit.exhaust(i)
     for ident in ['DT01','DT02']:

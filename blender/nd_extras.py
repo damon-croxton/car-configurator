@@ -445,3 +445,79 @@ def fender_flares(ident='DT53'):
                 rings.append(ring)
             k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, SATIN)
     return k.finish(coll)
+
+
+# ---------------------------------------------------------- rear diffusers ----
+
+#: Every ND exhaust option's tips sit within these |x| bounds, 159-283 mm up
+#: and back to z -1892, so the diffuser leaves both zones open.
+EXHAUST_ZONE = (176.0, 400.0)
+REAR_PARTS = ('BumperR 6.001_146', 'BumperR 6_145', 'BumperR 6.002_147')
+
+DIFFUSERS = {
+    # ident: (material, strake depth, fore reach, rear overhang, centre strakes, outer strakes)
+    'RA04': (SATIN, 28.0, 70.0, 16.0, (-105.0, 0.0, 105.0), (470.0, 550.0)),
+    'RA04B': (CARBON, 44.0, 95.0, 30.0, (-124.0, -62.0, 0.0, 62.0, 124.0), (450.0, 520.0, 585.0)),
+}
+
+
+def rear_diffuser(ident='RA04'):
+    """A three-piece rear diffuser fitted under the bumper's lower edge.
+
+    The rear bumper bottoms out at 245 mm on the centreline and sweeps up and
+    forward to 210 mm at its corners. A blade follows that edge, tucked under
+    the skin and overhanging it slightly, with strakes hanging below. It is
+    split into a centre section and two outer sections, so that whichever
+    exhaust is fitted, its tips sit in an open window either side. RA04 is
+    the restrained satin version; RA04B is deeper, longer and carbon.
+    """
+    material, depth, reach, overhang, centre, outer = DIFFUSERS[ident]
+    coll = m.start_mod('nd', ident)
+    parts = [k.base(n) for n in REAR_PARTS]
+
+    def first(origin, d):
+        p, _ = hit_any(parts, origin, d)
+        return p
+
+    lo, hi = EXHAUST_ZONE
+    pieces = {'centre': (-lo + 6, lo - 6), 'outer_L': (hi + 5, 600.0), 'outer_R': (-600.0, -hi - 5)}
+    rows_by_piece = {}
+    for label, (x0, x1) in pieces.items():
+        count = 41
+        xs = [x0 + (x1 - x0) * i / (count - 1) for i in range(count)]
+        bottoms, faces = [], []
+        for x in xs:
+            bottom = next(y for y in range(140, 420) if first((x, y, -2600), (0, 0, 1)))
+            bottoms.append(bottom)
+            faces.append(first((x, bottom + 3, -2600), (0, 0, 1)).z)
+        bottoms, faces = k.gaussian(bottoms, 2), k.gaussian(faces, 2)
+        rings, rows = [], []
+        for i, (x, bottom, face) in enumerate(zip(xs, bottoms, faces)):
+            end = k.smooth(min(i, count - 1 - i) / 6)
+            y = bottom - k.GAP
+            thick = 2.5 + 2.5 * end
+            rear = face - overhang * end
+            fore = face + reach * (0.5 + 0.5 * end)
+            rows.append((x, y - thick, fore, rear))
+            rings.append([(x, y, fore), (x, y, rear + 3), (x, y - thick * 0.5, rear),
+                          (x, y - thick, rear + 3), (x, y - thick, fore)])
+        k.mesh_object(name(ident, f'blade_{label}'), rings, coll, material)
+        rows_by_piece[label] = rows
+
+    def strake(label, x, rows):
+        _, y, fore, rear = min(rows, key=lambda r: abs(r[0] - x))
+        y += 0.5
+        ring_list = []
+        for j in range(17):
+            t = j / 16
+            z = fore - 10 - (fore - 10 - rear - 4) * t
+            d = 4 + (depth - 4) * k.smooth(t)
+            ring_list.append([(x - 2, y + 1, z), (x + 2, y + 1, z), (x + 2, y - d, z), (x - 2, y - d, z)])
+        k.mesh_object(name(ident, f'strake_{label}'), ring_list, coll, material)
+
+    for n, x in enumerate(centre):
+        strake(f'c{n}', x, rows_by_piece['centre'])
+    for n, x in enumerate(outer):
+        strake(f'L{n}', x, rows_by_piece['outer_L'])
+        strake(f'R{n}', -x, rows_by_piece['outer_R'])
+    return k.finish(coll)

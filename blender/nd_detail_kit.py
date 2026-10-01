@@ -140,40 +140,7 @@ def tow_hook():
     return finish(coll)
 
 
-def diffuser(ident='RA04'):
-    coll=m.start_mod('nd',ident)
-    mat=CARBON if ident=='RA04B' else SATIN
-    # Narrow centre tray clears the OEM right-hand exhaust (x -354..-220).
-    # Rear edge tucks just beneath the bumper; fins extend BELOW the ramp.
-    def top(z): return 199+18*((-z-1550)/360)**2
-    rings=[]
-    for i in range(31):
-        z=-1550-i*360/30
-        width=164+20*i/30
-        y=top(z)
-        rings.append([(-width,y,z),(width,y,z),(width,y-5,z),(-width,y-5,z)])
-    k.mesh_object('centre_tray',rings,coll,mat)
-    for x in [-155,0,155]:
-        rings=[]
-        for i in range(25):
-            t=i/24
-            z=-1590-324*t
-            y=top(z)
-            depth=8+43*math.sin(math.pi*t/2)
-            rings.append([(x-2,y-3,z),(x+2,y-3,z),(x+2,y-depth,z),(x-2,y-depth,z)])
-        k.mesh_object(f'strake_{x}',rings,coll,mat)
-    # Separate outboard extensions leave a real gap around all side-exit tips.
-    for side in [-1,1]:
-        rings=[]
-        for i in range(21):
-            t=i/20
-            z=-1640-220*t
-            inner,outer=side*455,side*(550+26*t)
-            y=208+19*t
-            rings.append([(inner,y,z),(outer,y,z),(outer,y-5,z),(inner,y-5,z)])
-        k.mesh_object(f'outer_tray_{side}',rings,coll,mat)
-        tube(f'mount_{side}',coll,[(side*510,216,-1770),(side*510,245,-1770)],6,SATIN)
-    return finish(coll)
+# diffuser(): superseded by nd_extras.rear_diffuser (RA04/RA04B).
 
 
 def exhaust(ident):

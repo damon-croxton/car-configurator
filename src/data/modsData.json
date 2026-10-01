@@ -1079,47 +1079,103 @@
     },
     {
       "id": "RA04",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "Rear Diffuser",
       "slot": "rearDiffuser",
       "optionId": "oem_diffuser",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["BumperR 6.002_147"] },
-      "materials": ["MOD_SatinBlack"],
-      "bboxMm": {"nd": {"min": [-576, 162, -1914], "max": [576, 245, -1550]}},
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -600,
+            186,
+            -1848
+          ],
+          "max": [
+            600,
+            247,
+            -1616
+          ]
+        }
+      },
       "triangleBudget": 4000,
-      "file": { "nd": "assets/mods/nd/RA04_rear_diffuser.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/RA04_rear_diffuser.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
-      "$note": "Underbody tray with downward strakes and open side-exit exhaust clearance. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
-      "uiHint": "Underbody tray with downward strakes and open side-exit exhaust clearance."
+      "$note": "Three-piece satin diffuser fitted under the rear bumper's lower edge: a blade that follows the edge with strakes below, split so every exhaust option's tips sit in an open window. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py (rear_diffuser).",
+      "uiHint": "Fitted satin diffuser with strakes, open round the exhaust."
     },
     {
       "id": "RA04B",
-      "gen": ["nd"],
+      "gen": [
+        "nd"
+      ],
       "category": "rear_aero",
       "displayName": "Rear Diffuser (carbon)",
       "slot": "rearDiffuser",
       "optionId": "track_diffuser",
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["BumperR 6.002_147"] },
-      "materials": ["MOD_CarbonWeave", "MOD_SatinBlack"],
-      "bboxMm": {"nd": {"min": [-576, 162, -1914], "max": [576, 245, -1550]}},
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -600,
+            165,
+            -1862
+          ],
+          "max": [
+            600,
+            247,
+            -1592
+          ]
+        }
+      },
       "triangleBudget": 4000,
-      "file": { "nd": "assets/mods/nd/RA04B_rear_diffuser_carbon.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/RA04B_rear_diffuser_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
-      "$note": "Carbon underbody tray with downward strakes and open side-exit exhaust clearance. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
-      "uiHint": "Carbon underbody tray with downward strakes and open side-exit exhaust clearance."
+      "$note": "Deeper, longer carbon version of RA04 with five centre and three outer strakes each side, leaving the same exhaust windows. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py (rear_diffuser).",
+      "uiHint": "Deep carbon diffuser with strakes, open round the exhaust."
     },
     {
       "id": "FA01",
