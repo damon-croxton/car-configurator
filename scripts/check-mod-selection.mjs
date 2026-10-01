@@ -63,3 +63,17 @@ assert.deepEqual(activeMods('na', naPack).map(m => m.id), ['WS01']);
 assert.ok(catalogue.filter(m => m.attachTo !== 'wheel').every(m => !m.gen.includes('na') || m.file.na !== m.file.nd),
   'only wheels may reuse the ND file on the NA');
 console.log('PASS: NA stock wheel, every NA wheel style modelled, sourced wheels carried over');
+
+// Every non-stock NA aero option is modelled, and the NA's own parts never
+// reuse an ND file (only wheels can be fitted across generations).
+const naAero = carData.generations.find(g => g.id === 'na').aero;
+const stockIds = new Set(['stock', 'stock_single', 'wing_delete', 'none']);
+for (const [slot, ids] of Object.entries(naAero)) {
+  for (const id of ids.filter(id => !stockIds.has(id))) {
+    const config = reconcileConfig({ ...naStock, [slot]: id });
+    const fitted = activeMods('na', config).filter(m => m.slot === slot);
+    assert.equal(fitted.length, 1, `NA ${slot}=${id} must render`);
+    assert.ok(fitted[0].file.na.startsWith('assets/mods/na/'), `${fitted[0].id} must be built for the NA`);
+  }
+}
+console.log('PASS: every NA aero option modelled with NA-built geometry');

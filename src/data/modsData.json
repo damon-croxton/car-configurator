@@ -2787,6 +2787,308 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+    },
+    {
+      "id": "FA40",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Street Front Lip",
+      "slot": "frontLip",
+      "optionId": "club_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -698,
+            212,
+            1705
+          ],
+          "max": [
+            682,
+            267,
+            1898
+          ]
+        }
+      },
+      "triangleBudget": 4000,
+      "file": {
+        "na": "assets/mods/na/FA40_front_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Independent satin blade following the NA bumper's lower edge corner to corner, with a flange tucked under the skin and ends that thin out where the edge sweeps up. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Slim satin blade under the bumper's lower edge."
+    },
+    {
+      "id": "RA40",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Slim Side Extensions",
+      "slot": "sideSkirts",
+      "optionId": "oem_extensions",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "sideskirt_Material #118_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -805,
+            158,
+            -710
+          ],
+          "max": [
+            788,
+            200,
+            808
+          ]
+        }
+      },
+      "triangleBudget": 4200,
+      "file": {
+        "na": "assets/mods/na/RA40_side_extensions.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Two closed satin blades fitted under the NA's black sill strip, tapering in plan and depth at both ends. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Slim satin blades under the sills."
+    },
+    {
+      "id": "RA41",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Low Boot Spoiler",
+      "slot": "rearWing",
+      "optionId": "oem_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -439,
+            762,
+            -1864
+          ],
+          "max": [
+            422,
+            826,
+            -1787
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "na": "assets/mods/na/RA41_boot_spoiler.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Low painted lip along the boot's rear edge, on a deck surface smoothed along the span so the coarse boot facets never show through. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Low painted lip on the boot's rear edge."
+    },
+    {
+      "id": "EX40",
+      "gen": [
+        "na"
+      ],
+      "category": "exhaust",
+      "displayName": "NA Big-Bore Tip",
+      "slot": "exhaust",
+      "optionId": "big_bore_single",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Cylinder003_Material #168_0",
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack",
+        "MOD_Titanium"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -645,
+            242,
+            -1870
+          ],
+          "max": [
+            -563,
+            324,
+            -1766
+          ]
+        }
+      },
+      "triangleBudget": 6000,
+      "file": {
+        "na": "assets/mods/na/EX40_big_bore.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "82 mm rolled-edge titanium tip sleeved over the stock tail pipe with a dark bore cap behind its end. The asset's silencer and tail pipe are one mesh, so nothing is hidden: the sleeve encloses the stock tip instead. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "82 mm rolled-edge titanium tip over the stock pipe."
+    },
+    {
+      "id": "RB40",
+      "gen": [
+        "na"
+      ],
+      "category": "roll_bar",
+      "displayName": "NA Style Bar",
+      "slot": "rollBar",
+      "optionId": "style_bar",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "insidebed_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -563,
+            816,
+            -945
+          ],
+          "max": [
+            546,
+            1064,
+            -865
+          ]
+        }
+      },
+      "triangleBudget": 5000,
+      "file": {
+        "na": "assets/mods/na/RB40_style_bar.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Low satin hoop with a cross tube, footed on the shelf behind the seats and crowning just above the headrests. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Low hoop behind the headrests."
+    },
+    {
+      "id": "RB41",
+      "gen": [
+        "na"
+      ],
+      "category": "roll_bar",
+      "displayName": "NA Track Roll Hoop",
+      "slot": "rollBar",
+      "optionId": "track_hoop",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "insidebed_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -519,
+            820,
+            -1135
+          ],
+          "max": [
+            502,
+            1152,
+            -855
+          ]
+        }
+      },
+      "triangleBudget": 8000,
+      "file": {
+        "na": "assets/mods/na/RB41_track_hoop.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Taller single hoop with rear stays, harness bar and diagonal, footed on the shelf behind the seats. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Hoop with rear stays, harness bar and diagonal."
     }
   ]
 }

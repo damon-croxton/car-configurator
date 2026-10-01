@@ -43,21 +43,29 @@ def _frame(gen):
     return f["scale"], f["offsetMm"]
 
 
+def _yaw_sign(gen):
+    """-1 for an asset the app turns half a turn (ND), +1 for one it leaves (NA)."""
+    return -1 if round(ANCHORS[gen]["frame"].get("yawDeg", 180)) % 360 == 180 else 1
+
+
 def app_to_blender(x, y, z, gen="nd"):
     """
     App space (mm; +X left, +Y up, +Z nose) -> raw-import Blender space (m).
 
-    Inverse of the relationship the raw import has to the running app:
-        app_x = -bx*s          app_y = bz*s + oy       app_z = by*s + oz
+    Inverse of the relationship the raw import has to the running app, where
+    k is -1 for a 180-degree yaw (ND) and +1 for none (NA):
+        app_x = k*bx*s + ox    app_y = bz*s + oy    app_z = -k*by*s + oz
     """
     s, (ox, oy, oz) = _frame(gen)
-    return Vector((-x / s / 1000.0, (z - oz) / s / 1000.0, (y - oy) / s / 1000.0))
+    k = _yaw_sign(gen)
+    return Vector((k * (x - ox) / s / 1000.0, -k * (z - oz) / s / 1000.0, (y - oy) / s / 1000.0))
 
 
 def blender_to_app(v, gen="nd"):
     """Raw-import Blender space (m) -> app space (mm), rounded."""
     s, (ox, oy, oz) = _frame(gen)
-    return [round(-v[0] * s * 1000), round(v[2] * s * 1000 + oy), round(v[1] * s * 1000 + oz)]
+    k = _yaw_sign(gen)
+    return [round(k * v[0] * s * 1000 + ox), round(v[2] * s * 1000 + oy), round(-k * v[1] * s * 1000 + oz)]
 
 
 def export_matrix(gen="nd"):
@@ -67,9 +75,10 @@ def export_matrix(gen="nd"):
     space at identity transform.
     """
     s, (ox, oy, oz) = _frame(gen)
+    turn = Matrix.Rotation(math.pi, 4, "Z") if _yaw_sign(gen) < 0 else Matrix.Identity(4)
     return (
-        Matrix.Translation(Vector((0.0, -oz / 1000.0, oy / 1000.0)))
-        @ Matrix.Rotation(math.pi, 4, "Z")
+        Matrix.Translation(Vector((ox / 1000.0, -oz / 1000.0, oy / 1000.0)))
+        @ turn
         @ Matrix.Scale(s, 4)
     )
 

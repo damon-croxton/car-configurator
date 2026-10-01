@@ -18,10 +18,12 @@ disagree about which way is forward), and a surface table.
 wheel diameter, tyre width/sidewall, ride height, camber, track offset, roof
 fabric colour, roof up/down, interior colour, window tint, smoked indicators,
 tinted headlight housings, head/tail lights, brake hardware and caliper paint
-on built wheels, and every aero option marked **3D** in the panel (81 ND mods
-in `src/data/modsData.json`; `node scripts/mod-status.mjs` lists them). The NA
+on built wheels, and every aero option marked **3D** in the panel
+(`src/data/modsData.json`; `node scripts/mod-status.mjs` lists them). The NA
 shares every wheel mod — six rim styles, the two sourced wheels and the
-30-wheel pack — fitted to its own tyre at load (see below).
+30-wheel pack — fitted to its own tyre at load (see below), and has its own
+six-part body kit, one part for every non-stock aero option it offers
+(`blender/NA-KIT.md`).
 
 **What does not:** aero options without the 3D badge (spec sheet only). A
 control is not offered where the loaded model has nothing for it to change —
