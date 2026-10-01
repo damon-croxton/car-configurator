@@ -39,6 +39,7 @@ const MATERIAL_CONTRACT = [
   'MOD_BodyPaint', 'MOD_AccentPaint', 'MOD_Rim', 'MOD_Tyre', 'MOD_CaliperPaint',
   'MOD_CarbonWeave', 'MOD_GlossBlack', 'MOD_SatinBlack', 'MOD_Rubber', 'MOD_Alloy',
   'MOD_Chrome', 'MOD_Titanium', 'MOD_Glass', 'MOD_MirrorGlass', 'MOD_Mesh',
+  'MOD_StripeWhite', 'MOD_LensRed',
 ];
 
 const MAX_BYTES = 2 * 1024 * 1024;

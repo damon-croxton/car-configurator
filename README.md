@@ -24,7 +24,8 @@ shares every wheel mod — six rim styles, the two sourced wheels and the
 30-wheel pack — fitted to its own tyre at load (see below), and has its own
 body kit, one part for every non-stock aero option it offers, plus a tow hook
 (`blender/NA-KIT.md`). A windscreen sun strip and carbon mirror caps are
-built for both cars.
+built for both cars, and the ND has twelve more additional parts, from
+racing stripes to bolt-on fender flares (`blender/ND-EXTRAS.md`).
 
 **What does not:** aero options without the 3D badge (spec sheet only). A
 control is not offered where the loaded model has nothing for it to change —

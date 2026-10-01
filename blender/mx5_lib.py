@@ -153,6 +153,12 @@ MATERIALS = {
     "MOD_Glass":        ((0.85, 0.88, 0.92, 1), 0.00, 0.05),
     "MOD_MirrorGlass":  ((0.92, 0.93, 0.95, 1), 1.00, 0.02),
     "MOD_Mesh":         ((0.02, 0.02, 0.02, 1), 0.30, 0.45),
+    # Decal-weight white for stripes: a class nothing tints, so stripes stay
+    # white whatever the body colour.
+    "MOD_StripeWhite":  ((0.80, 0.80, 0.80, 1), 0.00, 0.35),
+    # Classed lens_red, so the app's tail-light switch lights it with the
+    # car's own lamps.
+    "MOD_LensRed":      ((0.60, 0.01, 0.01, 1), 0.00, 0.15),
 }
 
 

@@ -3533,7 +3533,9 @@
         "nd": [],
         "na": []
       },
-      "incompatibleWith": [],
+      "incompatibleWith": [
+        "DT49"
+      ],
       "requires": [],
       "anchors": {
         "nd": [
@@ -3586,6 +3588,633 @@
       "derivedFromBaseMesh": false,
       "$note": "Carbon shells projected off the forward face of each mirror housing and lifted along its normal; the arm stays bare. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
       "uiHint": "Carbon shells over both mirror heads."
+    },
+    {
+      "id": "DT42",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Headlight Eyelids",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "HeadLightL 6.002_95",
+          "HeadLightR 6.002_101"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -743,
+            577,
+            1521
+          ],
+          "max": [
+            743,
+            650,
+            1794
+          ]
+        }
+      },
+      "triangleBudget": 3000,
+      "file": {
+        "nd": "assets/mods/nd/DT42_headlight_eyelids.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Painted brows over the top of both headlight lenses, 24 mm deep at the middle, fitted to each lens along its normal. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Painted brows over the headlights."
+    },
+    {
+      "id": "DT43",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Twin Racing Stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -130,
+            652,
+            -1846
+          ],
+          "max": [
+            130,
+            917,
+            1746
+          ]
+        }
+      },
+      "triangleBudget": 5500,
+      "file": {
+        "nd": "assets/mods/nd/DT43_racing_stripes.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Two 110 mm white stripes either side of a 40 mm gap, laid over the bonnet and boot lid from edge to edge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "White twin stripes over bonnet and boot."
+    },
+    {
+      "id": "DT44",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Side Stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -860,
+            429,
+            -735
+          ],
+          "max": [
+            860,
+            452,
+            818
+          ]
+        }
+      },
+      "triangleBudget": 4500,
+      "file": {
+        "nd": "assets/mods/nd/DT44_side_stripes.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 22 mm white stripe along each flank between the arches, across fender, door and rear quarter. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "White stripe along each flank."
+    },
+    {
+      "id": "DT45",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Boot Luggage Rack",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -343,
+            845,
+            -1779
+          ],
+          "max": [
+            343,
+            947,
+            -1401
+          ]
+        }
+      },
+      "triangleBudget": 5000,
+      "file": {
+        "nd": "assets/mods/nd/DT45_boot_rack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Chrome rack on the boot lid: two rails following the lid 45 mm above it and three crossbars, on padded feet. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Chrome rack on the boot lid."
+    },
+    {
+      "id": "DT46",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Wind Deflector",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ]
+      },
+      "materials": [
+        "MOD_Mesh",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -248,
+            904,
+            -807
+          ],
+          "max": [
+            248,
+            1043,
+            -780
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "nd": "assets/mods/nd/DT46_wind_deflector.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Black mesh panel in a satin frame between the hoop covers behind the headrests. A roof-down part: with the roof up it sits under the soft top. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Mesh wind blocker behind the seats."
+    },
+    {
+      "id": "DT47",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "F1 Rain Light",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6_145"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_LensRed",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -67,
+            285,
+            -1920
+          ],
+          "max": [
+            67,
+            323,
+            -1898
+          ]
+        }
+      },
+      "triangleBudget": 800,
+      "file": {
+        "nd": "assets/mods/nd/DT47_rain_light.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Centre rain light on the rear bumper's lower panel. Its MOD_LensRed lens is classed lens_red, so the tail-light switch lights it. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Centre rain light; lights with the tail lamps."
+    },
+    {
+      "id": "DT48",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Front Fender Vents",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -840,
+            461,
+            518
+          ],
+          "max": [
+            840,
+            599,
+            702
+          ]
+        }
+      },
+      "triangleBudget": 2500,
+      "file": {
+        "nd": "assets/mods/nd/DT48_fender_vents.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Carbon three-slat gills on both front fenders behind the arch, fitted to the fender's curvature. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Carbon gills behind the front wheels."
+    },
+    {
+      "id": "DT49",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Carbon Aero Mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "MirrorL 6.002_175",
+          "MirrorL 6.003_176",
+          "MirrorL 6.001_174",
+          "MirrorL 6_173",
+          "MirrorR 6.001_181",
+          "MirrorR 6.002_182",
+          "MirrorR 6_180",
+          "MirrorR 6.003_183"
+        ]
+      },
+      "incompatibleWith": [
+        "DT41"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorBaseL 5_163",
+          "MirrorBaseR 5_168"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_MirrorGlass"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -983,
+            807,
+            40
+          ],
+          "max": [
+            983,
+            912,
+            107
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/DT49_aero_mirrors.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Carbon teardrop heads on slim stalks. Replaces the stock mirror heads and keeps their bases. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Teardrop carbon mirrors; replaces the stock heads."
+    },
+    {
+      "id": "DT50",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear_aero",
+      "displayName": "Rear Bumper Canards",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -691,
+            399,
+            -1833
+          ],
+          "max": [
+            691,
+            417,
+            -1679
+          ]
+        }
+      },
+      "triangleBudget": 1000,
+      "file": {
+        "nd": "assets/mods/nd/DT50_rear_canards.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A carbon canard on each rear bumper corner, following the bumper's curve. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Carbon canards on the rear corners."
+    },
+    {
+      "id": "DT51",
+      "gen": [
+        "nd"
+      ],
+      "category": "detail",
+      "displayName": "Front Tow Strap",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -498,
+            211,
+            1859
+          ],
+          "max": [
+            -462,
+            317,
+            1899
+          ]
+        }
+      },
+      "triangleBudget": 1000,
+      "file": {
+        "nd": "assets/mods/nd/DT51_front_tow_strap.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Red webbing loop on a bracket at the front bumper's lower right. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Red tow strap on the front bumper."
+    },
+    {
+      "id": "DT52",
+      "gen": [
+        "nd"
+      ],
+      "category": "rear_aero",
+      "displayName": "Rear Bumper Vents",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -781,
+            376,
+            -1639
+          ],
+          "max": [
+            781,
+            464,
+            -1544
+          ]
+        }
+      },
+      "triangleBudget": 2000,
+      "file": {
+        "nd": "assets/mods/nd/DT52_rear_bumper_vents.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Carbon two-slat vents on the rear bumper's flanks behind the arches, clear of the side reflectors. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Carbon vents behind the rear wheels."
+    },
+    {
+      "id": "DT53",
+      "gen": [
+        "nd"
+      ],
+      "category": "body_panel",
+      "displayName": "Bolt-on Fender Flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -893,
+            351,
+            -1499
+          ],
+          "max": [
+            893,
+            691,
+            1580
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/DT53_fender_flares.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Satin flares round all four arches, laid over each arch lip found by ray-casting, up to 30 mm proud and tapering out at hub height. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Satin flares round all four arches."
     }
   ]
 }

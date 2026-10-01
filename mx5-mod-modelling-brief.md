@@ -279,6 +279,8 @@ table is loaded. Use these names verbatim:
 | `MOD_Alloy` | `mod_alloy` | — | new class |
 | `MOD_Rubber` | `mod_rubber` | — | new class |
 | `MOD_Titanium` | `mod_titanium` | — | new class |
+| `MOD_StripeWhite` | `mod_stripe` | — (stays white on any paint) | new class |
+| `MOD_LensRed` | `lens_red` | tail-light switch | none — lights with the car's own lamps |
 
 Rules:
 

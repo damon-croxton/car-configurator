@@ -30,6 +30,8 @@
       "MOD_Glass": "glass",
       "MOD_MirrorGlass": "mirror_glass",
       "MOD_Mesh": "trim_matte_black",
+      "MOD_StripeWhite": "mod_stripe",
+      "MOD_LensRed": "lens_red",
       "wheel_01_metal": "static_textured",
       "wheel_01_rubber": "static_textured",
       "wheel_02_metal": "static_textured",

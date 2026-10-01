@@ -77,3 +77,16 @@ for (const [slot, ids] of Object.entries(naAero)) {
   }
 }
 console.log('PASS: every NA aero option modelled with NA-built geometry');
+
+// ND accessories: all twelve are selectable extras, the aero mirrors replace
+// the stock heads, and they cannot be combined with the mirror caps.
+const ndExtras = ['DT42','DT43','DT44','DT45','DT46','DT47','DT48','DT49','DT50','DT51','DT52','DT53'];
+const allExtras = reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ndExtras });
+assert.deepEqual([...allExtras.extraMods].sort(), [...ndExtras].sort());
+assert.equal(activeMods('nd', allExtras).length, ndExtras.length);
+assert.ok(catalogue.find(m => m.id === 'DT49').hides.nd.length > 0, 'DT49 must hide the stock mirror heads');
+for (const [first, last] of [['DT41','DT49'],['DT49','DT41']]) {
+  const config = reconcileConfig({ ...DEFAULT_CONFIG, extraMods: [first, last] });
+  assert.deepEqual(config.extraMods, [last], `${last} picked after ${first} must win`);
+}
+console.log('PASS: twelve ND accessories selectable together; aero mirrors and mirror caps are exclusive');

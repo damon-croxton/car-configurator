@@ -120,6 +120,9 @@ def surface_material(obj, material):
         bsdf.inputs['Metallic'].default_value = 0
         bsdf.inputs['Roughness'].default_value = 0.62
         bsdf.inputs['Specular IOR Level'].default_value = 0.18
+    if material == 'MOD_StripeWhite':
+        shader.diffuse_color = (0.8, 0.8, 0.8, 1)
+        return obj
     shader.diffuse_color = (0.45, 0.008, 0.012, 1) if material == PAINT else (
         (0.3, 0.28, 0.33, 1) if material in (TITANIUM, 'MOD_Chrome', 'MOD_Alloy') else (0.022, 0.025, 0.03, 1))
     return obj
