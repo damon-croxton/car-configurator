@@ -33,13 +33,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Binary assets are not committed. Cache them across runs so we only hit
-      # the upstream CDN when the manifest actually changes.
+      # Fetched assets are not committed. Cache them across runs so we only hit
+      # the upstream CDN when the manifest actually changes. Only the fetched
+      # panoramas and HDRIs: caching all of public/assets would restore stale
+      # copies of committed mod .glb files over the checkout whenever a mod
+      # changed without the manifest changing.
       - name: Cache fetched assets
         uses: actions/cache@v4
         with:
-          path: public/assets
-          key: assets-${{ hashFiles('src/data/assetManifest.json') }}
+          path: |
+            public/assets/hdri/*.hdr
+            public/assets/hdri/*.webp
+          key: hdri-${{ hashFiles('src/data/assetManifest.json') }}
 
       # A fetch failure is deliberately non-fatal: the app falls back to
       # procedural geometry and generated lighting, so a flaky CDN degrades the

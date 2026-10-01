@@ -338,7 +338,7 @@ async function validate(mod, gen) {
   }
 
   // --- shipping preconditions --------------------------------------
-  if (mod.slot === null) notes.push('slot is null — no CarConfig field yet, so this cannot ship (brief §7.1)');
+  if (mod.slot === null) notes.push('slot is null — offered as an on/off extra via CarConfig.extraMods');
   if (mod.derivedFromBaseMesh) notes.push('derivedFromBaseMesh — ATTRIBUTION.md must record the modification (brief §4)');
 
   notes.push(

@@ -34,10 +34,19 @@ shadow, bloom/SSAO, turntable and the snapshot export.
 ```bash
 npm install
 npm run dev      # vite dev server on :3000
-npm run build    # production bundle
+npm run build    # production bundle (fetches HDRIs first)
 npm run lint     # tsc --noEmit
-npm run smoke    # Playwright end-to-end pass (needs `npm run preview` running)
+npm run smoke    # Playwright end-to-end pass against `npm run preview` (:4173)
 ```
+
+`npm run smoke` uses Playwright's Chromium (`npx playwright install chromium`)
+or falls back to an installed Chrome, and exits non-zero on any failure.
+
+Pushes to `testing` and pull requests into `main` run
+`.github/workflows/checks.yml`: type check, the Node checks
+(`scripts/check-mod-selection.mjs`, `check-roof.mjs`, `check-environments.mjs`),
+`validate-mod.mjs` over every mod, a build and the smoke test. Only pushes to
+`main` deploy the site.
 
 ---
 

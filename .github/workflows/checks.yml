@@ -1,0 +1,82 @@
+name: Checks
+
+# Validates `testing` before it is merged into `main`. This does not deploy
+# anything; only pushes to `main` publish the site (see deploy.yml).
+on:
+  push:
+    branches: ["testing"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Only the fetched panoramas and HDRIs are cached. Committed assets (the
+      # cars and every mod .glb) must come from the checkout, never a cache.
+      - name: Cache fetched assets
+        uses: actions/cache@v4
+        with:
+          path: |
+            public/assets/hdri/*.hdr
+            public/assets/hdri/*.webp
+          key: hdri-${{ hashFiles('src/data/assetManifest.json') }}
+
+      - name: Fetch assets
+        run: npm run assets
+
+      - name: Type check
+        run: npm run lint
+
+      - name: Mod catalogue and selection
+        run: node scripts/check-mod-selection.mjs
+
+      - name: Mod assets against the catalogue
+        run: node scripts/validate-mod.mjs
+
+      - name: Roof lining split
+        run: node scripts/check-roof.mjs
+
+      - name: Environment lifecycle
+        run: node scripts/check-environments.mjs
+
+      - name: Build
+        run: npx vite build
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: End-to-end smoke test
+        run: |
+          npx vite preview --port 4173 --host 127.0.0.1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
+          npm run smoke
+
+      - name: Upload smoke snapshot on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-snapshot
+          path: /tmp/mx5-smoke-snapshot.png
+          if-no-files-found: ignore
