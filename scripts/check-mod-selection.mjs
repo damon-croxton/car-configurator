@@ -90,3 +90,9 @@ for (const [first, last] of [['DT41','DT49'],['DT49','DT41']]) {
   assert.deepEqual(config.extraMods, [last], `${last} picked after ${first} must win`);
 }
 console.log('PASS: twelve ND accessories selectable together; aero mirrors and mirror caps are exclusive');
+
+// Every additional part names the panel group it belongs to.
+const areas = new Set(['front', 'sides', 'rear', 'top', 'cabin']);
+const unplaced = catalogue.filter(m => m.slot === null && m.attachTo === 'body' && m.category !== 'test' && !areas.has(m.area));
+assert.deepEqual(unplaced.map(m => m.id), [], 'every additional part needs an area');
+console.log('PASS: every additional part is grouped by area');

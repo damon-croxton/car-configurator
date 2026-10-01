@@ -13,11 +13,24 @@ import type { CarConfig } from '../config/types';
  * See mx5-mod-modelling-brief.md §7.1 and §8.
  */
 
+/** Where on the car an additional part sits; groups the panel's list. */
+export type ModArea = 'front' | 'sides' | 'rear' | 'top' | 'cabin';
+
+export const MOD_AREAS: { id: ModArea; label: string }[] = [
+  { id: 'front', label: 'Front' },
+  { id: 'sides', label: 'Sides & mirrors' },
+  { id: 'rear', label: 'Rear' },
+  { id: 'top', label: 'Bonnet, boot & glass' },
+  { id: 'cabin', label: 'Cabin' },
+];
+
 export interface ModEntry {
   id: string;
   gen: string[];
   category: string;
   displayName: string;
+  /** Additional parts only (slot: null): which panel group lists it. */
+  area?: ModArea;
   /** A `CarConfig` field name, or null when no control exists yet. */
   slot: string | null;
   /** The id in that field's catalogue this mod *is*. */
