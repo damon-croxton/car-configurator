@@ -3089,6 +3089,503 @@
       "derivedFromBaseMesh": false,
       "$note": "Taller single hoop with rear stays, harness bar and diagonal, footed on the shelf behind the seats. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
       "uiHint": "Hoop with rear stays, harness bar and diagonal."
+    },
+    {
+      "id": "FA41",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Carbon Splitter",
+      "slot": "frontLip",
+      "optionId": "aggressive_splitter",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -708,
+            216,
+            1597
+          ],
+          "max": [
+            692,
+            301,
+            1931
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "na": "assets/mods/na/FA41_carbon_splitter.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Flat 6 mm carbon plate following the bumper's low footprint, 55 mm proud on the centreline, on two alloy stays with adjusters. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Flat carbon plate on adjustable stays."
+    },
+    {
+      "id": "RA42",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Carbon Side Extenders",
+      "slot": "sideSkirts",
+      "optionId": "carbon_extenders",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "sideskirt_Material #118_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -805,
+            158,
+            -710
+          ],
+          "max": [
+            788,
+            200,
+            808
+          ]
+        }
+      },
+      "triangleBudget": 4200,
+      "file": {
+        "na": "assets/mods/na/RA42_side_extenders_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "RA40's fitted sill blades in carbon weave. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "The slim sill blades, in carbon."
+    },
+    {
+      "id": "RA43",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Rear Valance",
+      "slot": "rearDiffuser",
+      "optionId": "oem_diffuser",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -528,
+            206,
+            -1897
+          ],
+          "max": [
+            511,
+            254,
+            -1790
+          ]
+        }
+      },
+      "triangleBudget": 3000,
+      "file": {
+        "na": "assets/mods/na/RA43_rear_valance.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Satin valance blade under the rear bumper's lower edge with four strakes. Sits behind the silencer, which hangs lower than the bumper, and stops short of the exhaust. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Valance blade with four strakes under the rear bumper."
+    },
+    {
+      "id": "RA44",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA GT Wing",
+      "slot": "rearWing",
+      "optionId": "gt_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -652,
+            811,
+            -1858
+          ],
+          "max": [
+            636,
+            1118,
+            -1538
+          ]
+        }
+      },
+      "triangleBudget": 3000,
+      "file": {
+        "na": "assets/mods/na/RA44_gt_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "1280 mm carbon wing, 200 mm chord, on two swept uprights with deck-fitted feet and shaped endplates. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Carbon wing on swept uprights."
+    },
+    {
+      "id": "BP41",
+      "gen": [
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "NA Louvred Bonnet Vents",
+      "slot": "hood",
+      "optionId": "painted_vented",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -423,
+            782,
+            1000
+          ],
+          "max": [
+            407,
+            831,
+            1270
+          ]
+        }
+      },
+      "triangleBudget": 4500,
+      "file": {
+        "na": "assets/mods/na/BP41_bonnet_vents.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Two painted louvre panels set onto the bonnet: dark recess, painted surround and seven rear-facing slats, all fitted to the bonnet's crown. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Two painted louvre panels on the bonnet."
+    },
+    {
+      "id": "EX41",
+      "gen": [
+        "na"
+      ],
+      "category": "exhaust",
+      "displayName": "NA Twin Oval Tips",
+      "slot": "exhaust",
+      "optionId": "twin_oval",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Cylinder003_Material #168_0",
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -670,
+            249,
+            -1884
+          ],
+          "max": [
+            -538,
+            317,
+            -1776
+          ]
+        }
+      },
+      "triangleBudget": 6000,
+      "file": {
+        "na": "assets/mods/na/EX41_twin_oval.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Two 54 x 38 mm chrome oval tips from an alloy collector sleeved over the stock tail pipe, which disappears inside it. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Two chrome oval tips from one collector."
+    },
+    {
+      "id": "FA42",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Tow Hook",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -558,
+            275,
+            1831
+          ],
+          "max": [
+            -488,
+            355,
+            1885
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/FA42_tow_hook.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Red anodised tow eye on the lower right of the bumper, beside the intake. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Red anodised tow eye beside the intake."
+    },
+    {
+      "id": "DT40",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Windscreen Sun Strip",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Glass 6.002_6"
+        ],
+        "na": [
+          "ingaugeglass_glass_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -560,
+            1039,
+            -33
+          ],
+          "max": [
+            560,
+            1154,
+            215
+          ]
+        },
+        "na": {
+          "min": [
+            -594,
+            956,
+            104
+          ],
+          "max": [
+            576,
+            1111,
+            391
+          ]
+        }
+      },
+      "triangleBudget": 2500,
+      "file": {
+        "nd": "assets/mods/nd/DT40_sun_strip.glb",
+        "na": "assets/mods/na/DT40_sun_strip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Dark film band across the top of the windscreen with a level lower edge, sampled off each car's own glass and held 2 mm clear of it. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Dark band across the top of the windscreen."
+    },
+    {
+      "id": "DT41",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Carbon Mirror Caps",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorR 6.002_182",
+          "MirrorL 6.003_176"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirrhousingl_Material #70_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -972,
+            823,
+            7
+          ],
+          "max": [
+            972,
+            937,
+            161
+          ]
+        },
+        "na": {
+          "min": [
+            -918,
+            797,
+            36
+          ],
+          "max": [
+            902,
+            891,
+            127
+          ]
+        }
+      },
+      "triangleBudget": 6000,
+      "file": {
+        "nd": "assets/mods/nd/DT41_mirror_caps.glb",
+        "na": "assets/mods/na/DT41_mirror_caps.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Carbon shells projected off the forward face of each mirror housing and lifted along its normal; the arm stays bare. Rebuild with blender/build_na_kit.py; geometry in blender/na_kit.py.",
+      "uiHint": "Carbon shells over both mirror heads."
     }
   ]
 }

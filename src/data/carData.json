@@ -320,25 +320,31 @@
       "aero": {
         "frontLip": [
           "stock",
-          "club_lip"
+          "club_lip",
+          "aggressive_splitter"
         ],
         "sideSkirts": [
           "stock",
-          "oem_extensions"
+          "oem_extensions",
+          "carbon_extenders"
         ],
         "rearDiffuser": [
-          "stock"
+          "stock",
+          "oem_diffuser"
         ],
         "rearWing": [
           "wing_delete",
-          "oem_ducktail"
+          "oem_ducktail",
+          "gt_wing"
         ],
         "hood": [
-          "stock"
+          "stock",
+          "painted_vented"
         ],
         "exhaust": [
           "stock_single",
-          "big_bore_single"
+          "big_bore_single",
+          "twin_oval"
         ],
         "rollBar": [
           "none",

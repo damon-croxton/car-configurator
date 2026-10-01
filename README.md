@@ -22,8 +22,9 @@ on built wheels, and every aero option marked **3D** in the panel
 (`src/data/modsData.json`; `node scripts/mod-status.mjs` lists them). The NA
 shares every wheel mod — six rim styles, the two sourced wheels and the
 30-wheel pack — fitted to its own tyre at load (see below), and has its own
-six-part body kit, one part for every non-stock aero option it offers
-(`blender/NA-KIT.md`).
+body kit, one part for every non-stock aero option it offers, plus a tow hook
+(`blender/NA-KIT.md`). A windscreen sun strip and carbon mirror caps are
+built for both cars.
 
 **What does not:** aero options without the 3D badge (spec sheet only). A
 control is not offered where the loaded model has nothing for it to change —

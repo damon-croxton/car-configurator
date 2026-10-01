@@ -1,4 +1,4 @@
-"""Workbench review renders of the NA reference (and any NA mods in the scene).
+"""Workbench review renders of the NA or ND reference and its mods.
 
 exec'd inside a Blender session that already has the NA imported:
     exec(open(r"C:/Users/Damon/car-configurator/blender/na_review.py").read())
@@ -26,17 +26,24 @@ VIEWS = {
 }
 
 
-def only(*idents):
-    """Show just these NA mods (by id) in renders; everything else stays."""
+def only(*idents, gen="na"):
+    """Show just these mods (by id) for one car in renders."""
+    prefix = f"MOD_{gen.upper()}_"
     for coll in bpy.data.collections:
-        if coll.name.startswith("MOD_NA_"):
-            show = coll.name[len("MOD_NA_"):] in idents
+        if coll.name.startswith("MOD_"):
+            show = coll.name.startswith(prefix) and coll.name[len(prefix):] in idents
             for obj in coll.objects:
                 obj.hide_render = not show
 
 
-def review(tag, views=None, size=(1200, 900)):
+def review(tag, views=None, size=(1200, 900), gen="na"):
+    """Render views of one car. When both references share the scene (in
+    NA_REF / ND_REF collections), the other car is hidden from the render."""
     scene = bpy.context.scene
+    for name in ("NA_REF", "ND_REF"):
+        coll = bpy.data.collections.get(name)
+        if coll is not None:
+            coll.hide_render = name != f"{gen.upper()}_REF"
     scene.render.engine = "BLENDER_WORKBENCH"
     shading = scene.display.shading
     shading.light = "STUDIO"
@@ -57,10 +64,10 @@ def review(tag, views=None, size=(1200, 900)):
     paths = []
     for label in views or VIEWS:
         pos, target, scale = VIEWS[label]
-        cam.location = m.app_to_blender(*pos, gen="na")
-        cam.rotation_euler = (m.app_to_blender(*target, gen="na") - cam.location).to_track_quat("-Z", "Y").to_euler()
+        cam.location = m.app_to_blender(*pos, gen=gen)
+        cam.rotation_euler = (m.app_to_blender(*target, gen=gen) - cam.location).to_track_quat("-Z", "Y").to_euler()
         cam_data.ortho_scale = scale
-        scene.render.filepath = f"{OUT}/na_{tag}_{label}.png"
+        scene.render.filepath = f"{OUT}/{gen}_{tag}_{label}.png"
         bpy.ops.render.render(write_still=True)
         paths.append(scene.render.filepath)
     return paths
