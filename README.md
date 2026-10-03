@@ -38,7 +38,9 @@ lamps, a skid plate, turbofan and deep-dish wheels, and NA mud flaps
 (`blender/PARTS-R6.md`). Round seven adds riveted overfenders,
 body-colour flares, NACA bonnet ducts, NA dive planes, rear spats and brake
 ducts, and five-spoke, ten-spoke, steel and three-piece multi-spoke wheels
-(`blender/PARTS-R7.md`). Variants of one part form a group in the panel,
+(`blender/PARTS-R7.md`). Round eight adds carbon front fenders, twin-stalk
+mirrors, accent mirror caps and side stripes, rally door plates, NA twin tips,
+and wire and seven twin-spoke wheels (`blender/PARTS-R8.md`). Variants of one part form a group in the panel,
 and picking one takes the others off. A part can require another (the
 harnesses need the buckets): fitting it fits both, and losing the required
 part drops it.

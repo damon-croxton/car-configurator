@@ -8652,6 +8652,574 @@
         "rim_badge",
         "tyre"
       ]
+    },
+    {
+      "id": "BP43",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Carbon Front Fenders",
+      "area": "sides",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80"
+        ],
+        "na": [
+          "f fender_Material #71_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80"
+        ],
+        "na": [
+          "f fender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -865,
+            255,
+            358
+          ],
+          "max": [
+            865,
+            837,
+            1609
+          ]
+        },
+        "na": {
+          "min": [
+            -857,
+            240,
+            385
+          ],
+          "max": [
+            845,
+            834,
+            1734
+          ]
+        }
+      },
+      "triangleBudget": 3600,
+      "file": {
+        "nd": "assets/mods/nd/BP43_carbon_front_fenders.glb",
+        "na": "assets/mods/na/BP43_carbon_front_fenders.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": true,
+      "$note": "Carbon front fenders shaped from the stock fender skins, 2 mm thick behind their outer faces, replacing them; flares, vents and stripes still sit on them. Rebuild with blender/build_r8.py; geometry in blender/parts_r8.py.",
+      "uiHint": "Carbon fenders in place of the steel ones."
+    },
+    {
+      "id": "DT74",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Twin-Stalk Carbon Mirrors",
+      "area": "sides",
+      "group": "mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "MirrorL 6.002_175",
+          "MirrorL 6.003_176",
+          "MirrorL 6.001_174",
+          "MirrorL 6_173",
+          "MirrorR 6.001_181",
+          "MirrorR 6.002_182",
+          "MirrorR 6_180",
+          "MirrorR 6.003_183"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirror_Material #76_0",
+          "mirrhousingl_Material #70_0",
+          "mirrorl_Material #76_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorBaseL 5_163",
+          "MirrorBaseR 5_168"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_MirrorGlass"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -983,
+            808,
+            40
+          ],
+          "max": [
+            983,
+            912,
+            117
+          ]
+        },
+        "na": {
+          "min": [
+            -955,
+            789,
+            40
+          ],
+          "max": [
+            937,
+            888,
+            112
+          ]
+        }
+      },
+      "triangleBudget": 3400,
+      "file": {
+        "nd": "assets/mods/nd/DT74_twin_stalk_mirrors.glb",
+        "na": "assets/mods/na/DT74_twin_stalk_mirrors.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Teardrop carbon mirror heads on two splayed stalks each, the twin-stalk race-mirror style. Replaces the stock mirrors. Rebuild with blender/build_r8.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Carbon race mirrors on twin stalks."
+    },
+    {
+      "id": "DT75",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Accent Mirror Caps",
+      "area": "sides",
+      "group": "mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorR 6.002_182",
+          "MirrorL 6.003_176"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirrhousingl_Material #70_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -972,
+            823,
+            7
+          ],
+          "max": [
+            972,
+            937,
+            161
+          ]
+        },
+        "na": {
+          "min": [
+            -918,
+            797,
+            36
+          ],
+          "max": [
+            902,
+            891,
+            127
+          ]
+        }
+      },
+      "triangleBudget": 7400,
+      "file": {
+        "nd": "assets/mods/nd/DT75_mirror_caps_accent.glb",
+        "na": "assets/mods/na/DT75_mirror_caps_accent.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The mirror caps in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/na_kit.py.",
+      "uiHint": "Mirror caps in the accent colour."
+    },
+    {
+      "id": "DT77",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Accent Side Stripes",
+      "area": "sides",
+      "group": "side_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -860,
+            429,
+            -735
+          ],
+          "max": [
+            860,
+            452,
+            818
+          ]
+        },
+        "na": {
+          "min": [
+            -831,
+            335,
+            -745
+          ],
+          "max": [
+            816,
+            357,
+            835
+          ]
+        }
+      },
+      "triangleBudget": 4900,
+      "file": {
+        "nd": "assets/mods/nd/DT77_side_stripes_accent.glb",
+        "na": "assets/mods/na/DT77_side_stripes_accent.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The side stripes in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Side stripes in the accent colour."
+    },
+    {
+      "id": "RN03",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Rally Door Plates",
+      "area": "sides",
+      "group": "roundels",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -862,
+            425,
+            -320
+          ],
+          "max": [
+            862,
+            655,
+            20
+          ]
+        },
+        "na": {
+          "min": [
+            -830,
+            395,
+            -190
+          ],
+          "max": [
+            815,
+            625,
+            150
+          ]
+        }
+      },
+      "triangleBudget": 6300,
+      "file": {
+        "nd": "assets/mods/nd/RN03_rally_door_plates.glb",
+        "na": "assets/mods/na/RN03_rally_door_plates.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Rally-style door number plates: a 340 x 230 mm white rounded rectangle on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r8.py; geometry in blender/parts_r5.py.",
+      "uiHint": "White rounded number plates on both doors."
+    },
+    {
+      "id": "EX44",
+      "gen": [
+        "na"
+      ],
+      "category": "exhaust",
+      "displayName": "NA Twin Tips",
+      "slot": "exhaust",
+      "optionId": "twin_tips",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Cylinder003_Material #168_0",
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack",
+        "MOD_Titanium"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -670,
+            249,
+            -1876
+          ],
+          "max": [
+            -538,
+            317,
+            -1756
+          ]
+        }
+      },
+      "triangleBudget": 2700,
+      "file": {
+        "na": "assets/mods/na/EX44_twin_tips.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Twin 60 mm titanium tips on an oval collector sleeved over the stock tail pipe, as on dual-outlet NA silencers. Rebuild with blender/build_r8.py; geometry in blender/parts_r8.py.",
+      "uiHint": "Twin titanium tips on an oval collector."
+    },
+    {
+      "id": "W20",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Wire Wheel",
+      "slot": "wheelStyle",
+      "optionId": "wire_wheel",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            126,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "48 laced spokes and a two-eared knock-off spinner.",
+      "file": {
+        "nd": "assets/mods/nd/W20_wire_wheel.glb",
+        "na": "assets/mods/nd/W20_wire_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic roadster and JDM wheels; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r8.py; geometry in blender/parts_r8.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W21",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Seven Twin-Spoke",
+      "slot": "wheelStyle",
+      "optionId": "seven_twin_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Seven pairs of parallel spokes on a concave face.",
+      "file": {
+        "nd": "assets/mods/nd/W21_seven_twin_spoke.glb",
+        "na": "assets/mods/nd/W21_seven_twin_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic roadster and JDM wheels; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r8.py; geometry in blender/parts_r8.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
     }
   ]
 }

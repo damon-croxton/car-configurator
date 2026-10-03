@@ -96,7 +96,9 @@ export type SpokeType =
   | 'five_spoke'
   | 'ten_spoke'
   | 'steel'
-  | 'multi_spoke';
+  | 'multi_spoke'
+  | 'wire'
+  | 'twin_seven';
 
 export interface WheelStyleDef {
   id: string;

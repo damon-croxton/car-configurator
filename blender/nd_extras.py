@@ -356,7 +356,7 @@ MIRROR_HIDES = ['MirrorL 6.002_175', 'MirrorL 6.003_176', 'MirrorL 6.001_174', '
                 'MirrorR 6.001_181', 'MirrorR 6.002_182', 'MirrorR 6_180', 'MirrorR 6.003_183']
 
 
-def aero_mirrors(ident='DT49', material=CARBON):
+def aero_mirrors(ident='DT49', material=CARBON, twin=False):
     """Carbon teardrop mirror heads on slim stalks, replacing the stock heads.
 
     The stock bases stay. Each head is a 150 mm teardrop, deeper at its
@@ -368,9 +368,12 @@ def aero_mirrors(ident='DT49', material=CARBON):
         (bx, by, bz), (hx, hy, hz) = cfg()['mirror']
         base_top = Vector((k.CX + side * bx, by, bz))
         head = Vector((k.CX + side * hx, hy, hz))
-        k.tube(f'stalk_{tag}', coll,
-               [tuple(base_top + Vector((0, -6, 0))), tuple(base_top.lerp(head, 0.5) + Vector((0, 14, 0))),
-                tuple(head + Vector((-side * 60, 0, 0)))], 7, material, 12)
+        # One stalk, or two splayed fore and aft (the twin-stalk race style).
+        for n, dz in enumerate((-20.0, 20.0) if twin else (0.0,)):
+            off = Vector((0, 0, dz))
+            k.tube(f'stalk_{tag}{n if twin else ""}', coll,
+                   [tuple(base_top + Vector((0, -6, 0)) + off * 0.6), tuple(base_top.lerp(head, 0.5) + Vector((0, 14, 0)) + off),
+                    tuple(head + Vector((-side * 60, 0, 0)) + off * 0.7)], 5.5 if twin else 7, material, 12)
         rings = []
         for i in range(17):
             t = i / 16

@@ -58,7 +58,8 @@ supplemented in code.
 **The vendored asset above is unmodified, but some mod assets are derived from
 it.** BP01 and BP03 reuse the bonnet perimeter and surface, cut bounded vent
 openings and add louvres or a recessed inlet. BP04 reuses the boot surface with
-a thin carbon skin. These panels receive new materials and UV coordinates.
+a thin carbon skin, and BP43 the front fender skins as carbon fenders. These
+panels receive new materials and UV coordinates.
 The current front lips, side extensions and boot spoilers are independently
 modelled geometry fitted against the reference surface. Derived mods carry
 `derivedFromBaseMesh: true` in
@@ -68,8 +69,8 @@ from primitives.
 Required credit: *This work is based on "2016 Mazda MX-5 Miata"
 (https://sketchfab.com/3d-models/2016-mazda-mx-5-miata-922ff6fec90340ed8cf5aabe38dd1ad2)
 by Galaxy Car Showroom, licensed under CC-BY-4.0
-(http://creativecommons.org/licenses/by/4.0/). Modified: the bonnet surface was
-reused as the basis for a vented replacement panel.*
+(http://creativecommons.org/licenses/by/4.0/). Modified: the bonnet, boot lid
+and front fender surfaces were reused as the basis for replacement panels.*
 
 ---
 
@@ -88,12 +89,13 @@ Required credit: *This work is based on "1990 Mazda Miata NA"
 by Ricy (https://sketchfab.com/ngon_3d) licensed under CC-BY-4.0
 (http://creativecommons.org/licenses/by/4.0/)*
 
-**Two mod assets are derived from it.** HD40 (NA carbon bonnet) and BP42 (NA
-carbon boot lid) reuse the stock bonnet and boot lid surfaces, thickened into a
-2 mm skin with a carbon material, and replace the stock panel when fitted. The
-vendored file itself is untouched. Credit for HD40 and BP42: *This work is
-based on "1990 Mazda Miata NA" by Ricy, licensed under CC-BY-4.0. Modified:
-the bonnet and boot lid surfaces were reused as the basis for carbon
+**Three mod assets are derived from it.** HD40 (NA carbon bonnet), BP42 (NA
+carbon boot lid) and the NA version of BP43 (carbon front fenders) reuse the
+stock bonnet, boot lid and front fender surfaces, thickened into a 2 mm skin
+with a carbon material, and replace the stock panel when fitted. The vendored
+file itself is untouched. Credit for HD40, BP42 and BP43: *This work is based
+on "1990 Mazda Miata NA" by Ricy, licensed under CC-BY-4.0. Modified: the
+bonnet, boot lid and front fender surfaces were reused as the basis for carbon
 replacement panels.*
 
 Its materials are named `Material_71`, `Material_230` and so on, which say

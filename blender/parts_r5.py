@@ -177,13 +177,16 @@ def rally_lamps(ident='DL01', covered=False):
 
 # ----------------------------------------------------------------- roundels ----
 
-def roundels(ident='RN01', material=WHITE):
+def roundels(ident='RN01', material=WHITE, plate=None):
     """Vintage-racing number roundels: a 300 mm disc on each door.
 
     Laid on the door like the stripes, as a thin film fitted point by point
     (a square grid mapped onto the disc, so the slab stays closed)."""
     coll = m.start_mod(k.GEN, ident)
     doors, zc, yc, radius = cfg()['roundel']
+    # `plate` = (width, height): a rally door plate, a rounded rectangle,
+    # instead of the disc.
+    half_z, half_y = (plate[0] / 2, plate[1] / 2) if plate else (radius, radius)
     for side, part in doors.items():
         door = k.base(part)
         axis = Vector((side, 0, 0))
@@ -194,8 +197,12 @@ def roundels(ident='RN01', material=WHITE):
             u = -1 + 2 * i / (n - 1)
             for j in range(n):
                 v = -1 + 2 * j / (n - 1)
-                dz = radius * u * math.sqrt(max(0.0, 1 - v * v / 2))
-                dy = radius * v * math.sqrt(max(0.0, 1 - u * u / 2))
+                disc_u = u * math.sqrt(max(0.0, 1 - v * v / 2))
+                disc_v = v * math.sqrt(max(0.0, 1 - u * u / 2))
+                if plate:
+                    # Mostly square, with a little of the disc for round corners.
+                    disc_u, disc_v = u + (disc_u - u) * 0.25, v + (disc_v - v) * 0.25
+                dz, dy = half_z * disc_u, half_y * disc_v
                 hit = k.ray(door, (k.CX + side * 1300, yc + dy, zc + dz), (-side, 0, 0))
                 assert hit is not None, (side, dz, dy)
                 row.append(hit)

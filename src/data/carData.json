@@ -48,7 +48,9 @@
         "classic_five_spoke",
         "ten_spoke",
         "steel_wheel",
-        "three_piece_multi_spoke"
+        "three_piece_multi_spoke",
+        "wire_wheel",
+        "seven_twin_spoke"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -324,7 +326,9 @@
         "classic_five_spoke",
         "ten_spoke",
         "steel_wheel",
-        "three_piece_multi_spoke"
+        "three_piece_multi_spoke",
+        "wire_wheel",
+        "seven_twin_spoke"
       ],
       "defaultWheel": "oem_na_14",
       "wheelDiameters": [
@@ -369,7 +373,8 @@
           "big_bore_single",
           "twin_oval",
           "rolled_single",
-          "slash_cut_single"
+          "slash_cut_single",
+          "twin_tips"
         ],
         "rollBar": [
           "none",
@@ -596,6 +601,28 @@
       "weightPerCorner": 8.9,
       "oem": false,
       "description": "Twenty fine spokes inside a wide polished lip ringed with assembly bolts."
+    },
+    {
+      "id": "wire_wheel",
+      "name": "Wire Wheel",
+      "brand": "Club",
+      "spokeType": "wire",
+      "spokeCount": 48,
+      "lipDepth": 0.03,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Forty-eight laced spokes and a two-eared knock-off spinner, the classic roadster wheel."
+    },
+    {
+      "id": "seven_twin_spoke",
+      "name": "Seven Twin-Spoke",
+      "brand": "Club",
+      "spokeType": "twin_seven",
+      "spokeCount": 14,
+      "lipDepth": 0.05,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Seven pairs of parallel spokes on a concave face with a polished lip."
     }
   ],
   "aeroParts": {
@@ -971,6 +998,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "A titanium tip cut at 30 degrees."
+      },
+      {
+        "id": "twin_tips",
+        "name": "Twin Tips",
+        "node": "MOD_NA_EX44",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Twin titanium tips on an oval collector."
       }
     ],
     "rollBar": [
