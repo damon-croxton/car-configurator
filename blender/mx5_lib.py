@@ -159,6 +159,8 @@ MATERIALS = {
     # Classed lens_red, so the app's tail-light switch lights it with the
     # car's own lamps.
     "MOD_LensRed":      ((0.60, 0.01, 0.01, 1), 0.00, 0.15),
+    # Lacquered wood for classic steering wheels and gear knobs.
+    "MOD_Wood":         ((0.22, 0.09, 0.035, 1), 0.00, 0.30),
 }
 
 

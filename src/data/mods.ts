@@ -31,6 +31,9 @@ export interface ModEntry {
   displayName: string;
   /** Additional parts only (slot: null): which panel group lists it. */
   area?: ModArea;
+  /** Mutually exclusive variants (stripe colours, steering wheels, seats):
+   *  at most one part per group is fitted, the most recently picked. */
+  group?: string;
   /** A `CarConfig` field name, or null when no control exists yet. */
   slot: string | null;
   /** The id in that field's catalogue this mod *is*. */
@@ -140,6 +143,7 @@ export function resolveModConflicts(picked: ModEntry[]): ModEntry[] {
   for (const mod of [...picked].reverse()) {
     if (accepted.some((other) =>
       other.incompatibleWith?.includes(mod.id) || mod.incompatibleWith?.includes(other.id)
+      || (mod.group !== undefined && other.group === mod.group)
     )) continue;
     accepted.push(mod);
   }

@@ -88,6 +88,13 @@ Required credit: *This work is based on "1990 Mazda Miata NA"
 by Ricy (https://sketchfab.com/ngon_3d) licensed under CC-BY-4.0
 (http://creativecommons.org/licenses/by/4.0/)*
 
+**One mod asset is derived from it.** HD40 (NA carbon bonnet) reuses the
+bonnet's surface, offset into a 2 mm skin with a carbon material, and replaces
+the stock bonnet when fitted. The vendored file itself is untouched. Credit for
+HD40: *This work is based on "1990 Mazda Miata NA" by Ricy, licensed under
+CC-BY-4.0. Modified: the bonnet surface was reused as the basis for a carbon
+replacement panel.*
+
 Its materials are named `Material_71`, `Material_230` and so on, which say
 nothing about what they are — so unlike the ND, this model's surface table was
 built by inspecting which objects use each material. See

@@ -97,6 +97,30 @@ const unplaced = catalogue.filter(m => m.slot === null && m.attachTo === 'body' 
 assert.deepEqual(unplaced.map(m => m.id), [], 'every additional part needs an area');
 console.log('PASS: every additional part is grouped by area');
 
+// Variants in one group (stripe colours, wheels, seats, mirrors) are
+// exclusive: the latest pick wins on both cars, and every group has at least
+// two members so the grouping means something.
+const groups = new Map();
+for (const m of catalogue.filter(m => m.group)) groups.set(m.group, [...(groups.get(m.group) ?? []), m]);
+for (const [group, members] of groups) {
+  assert.ok(members.length >= 2, `group ${group} needs two or more parts`);
+  for (const gen of ['nd', 'na']) {
+    const ids = members.filter(m => m.gen.includes(gen)).map(m => m.id);
+    if (ids.length < 2) continue;
+    const config = reconcileConfig({ ...DEFAULT_CONFIG, generation: gen, extraMods: ids });
+    assert.deepEqual(config.extraMods, [ids.at(-1)], `${gen} ${group}: only the last pick survives`);
+  }
+}
+// Replacement interiors hide the stock part they stand in for.
+for (const id of ['SW01', 'SW02', 'SW03', 'SW04', 'BS01', 'BS02']) {
+  const mod = catalogue.find(m => m.id === id);
+  for (const gen of ['nd', 'na']) assert.ok(mod.hides[gen].length > 0, `${id} must hide the stock part on the ${gen}`);
+}
+// A hardtop wins over a roll bar or wind deflector picked before it.
+const hardtop = activeMods('na', reconcileConfig({ ...DEFAULT_CONFIG, generation: 'na', rollBar: 'style_bar', extraMods: ['DT46', 'HT40'] }));
+assert.deepEqual(hardtop.map(m => m.id), ['HT40']);
+console.log(`PASS: ${groups.size} exclusive part groups, replacement interiors and hardtop conflicts`);
+
 // Cabin finishes: valid ids survive, unknown ids and parts a car cannot
 // colour separately (the NA has no dash accent or door inserts) clear to ''.
 const ndCabin = reconcileConfig({ ...DEFAULT_CONFIG, seatTrim: 'red_alcantara', wheelTrim: 'tan_leather',

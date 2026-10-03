@@ -565,12 +565,17 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const hasIndicators = modelHasClass(generation.surfaceModel, 'lens_amber');
   const hasHousings = modelHasClass(generation.surfaceModel, 'light_housing');
 
-  const toggleExtra = (id: string, on: boolean) =>
+  // Parts in the same group are variants of one thing (stripe colours,
+  // steering wheels), so fitting one takes the others off.
+  const toggleExtra = (id: string, on: boolean) => {
+    const group = extras.find((mod) => mod.id === id)?.group;
+    const others = group ? extras.filter((mod) => mod.group === group && mod.id !== id).map((mod) => mod.id) : [];
     onChange({
       extraMods: on
-        ? [...config.extraMods, id]
+        ? [...config.extraMods.filter((entry) => !others.includes(entry)), id]
         : config.extraMods.filter((entry) => entry !== id),
     });
+  };
 
   return (
     <>

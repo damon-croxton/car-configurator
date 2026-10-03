@@ -218,7 +218,7 @@ def finish(coll, closed=True):
 
 # ------------------------------------------------------------ front lip ----
 
-def build_front_lip(ident='FA40'):
+def build_front_lip(ident='FA40', material=SATIN):
     """A slim satin blade under the bumper's lower edge, corner to corner.
 
     The NA's bumper bottoms out at 232 mm on the centreline and sweeps up to
@@ -267,7 +267,7 @@ def build_front_lip(ident='FA40'):
         top.append((nose.x + normal.x * 1.5, nose.y - thick * 0.5, nose.z + normal.z * 1.5))
         underside = [(px, py - thick, pz) for px, py, pz in reversed(top[:-1])]
         rings.append(top + underside)
-    mesh_object(f'MOD_NA_{ident}_blade', rings, coll, SATIN)
+    mesh_object(f'MOD_NA_{ident}_blade', rings, coll, material)
     return finish(coll)
 
 
@@ -323,7 +323,7 @@ def build_side_extensions(ident='RA40', material=SATIN):
 
 # ----------------------------------------------------------- boot spoiler ----
 
-def build_boot_spoiler(ident='RA41', rise=22.0, chord=58.0, half=430.0):
+def build_boot_spoiler(ident='RA41', rise=22.0, chord=58.0, half=430.0, material=PAINT):
     """A low painted lip along the boot's rear edge.
 
     The NA deck runs flat at ~800 mm and rolls down at a rear edge that
@@ -380,7 +380,7 @@ def build_boot_spoiler(ident='RA41', rise=22.0, chord=58.0, half=430.0):
             j = stations.index(t)
             ring.append((x, heights[j] + GAP, trailing + local_chord * (1 - t)))
         rings.append(ring)
-    mesh_object(f'MOD_NA_{ident}_spoiler', rings, coll, PAINT)
+    mesh_object(f'MOD_NA_{ident}_spoiler', rings, coll, material)
     return finish(coll)
 
 
@@ -430,7 +430,7 @@ def _deck(x, z):
     return p.y
 
 
-def build_style_bar(ident='RB40'):
+def build_style_bar(ident='RB40', material=SATIN):
     """A low satin hoop behind the headrests, footed on the shelf.
 
     The headrests top out at 1037 mm and the shelf behind the seat well is
@@ -442,8 +442,8 @@ def build_style_bar(ident='RB40'):
     feet = [_deck(CX + s * half, z) for s in (-1, 1)]
     path = m.rounded_path([(CX - half, feet[0], z), (CX - half + 40, crown, z - 12),
                            (CX + half - 40, crown, z - 12), (CX + half, feet[1], z)], 110, 12)
-    tube('hoop', coll, path, 19)
-    tube('cross_bar', coll, [(CX - half + 14, 930, z - 4), (CX + half - 14, 930, z - 4)], 15)
+    tube('hoop', coll, path, 19, material)
+    tube('cross_bar', coll, [(CX - half + 14, 930, z - 4), (CX + half - 14, 930, z - 4)], 15, material)
     for s, foot in zip((-1, 1), feet):
         box(f'foot_{"L" if s > 0 else "R"}', coll, (CX + s * half, foot + 3, z), (70, 6, 80))
     return finish(coll)
@@ -589,7 +589,7 @@ def build_splitter(ident='FA41'):
 
 # ------------------------------------------------------------ rear valance ----
 
-def build_rear_valance(ident='RA43'):
+def build_rear_valance(ident='RA43', material=SATIN, depth=26.0):
     """A satin valance blade under the rear bumper with four strakes.
 
     The silencer hangs lower than the bumper (220 mm against 244) and ends at
@@ -623,7 +623,7 @@ def build_rear_valance(ident='RA43'):
         rows.append((y - thick, fore, rear))
         rings.append([(x, y, fore), (x, y, rear + 2), (x, y - thick * 0.5, rear),
                       (x, y - thick, rear + 2), (x, y - thick, fore)])
-    mesh_object(f'MOD_NA_{ident}_blade', rings, coll, SATIN)
+    mesh_object(f'MOD_NA_{ident}_blade', rings, coll, material)
     for n, dx in enumerate((-370, -140, 140, 370)):
         x = CX + dx
         i = min(range(count), key=lambda j: abs(xs[j] - x))
@@ -633,9 +633,9 @@ def build_rear_valance(ident='RA43'):
         for j in range(17):
             t = j / 16
             z = fore - (fore - rear - 3) * t
-            depth = 4 + 26 * smooth(t)
-            strake.append([(x - 2, y + 1, z), (x + 2, y + 1, z), (x + 2, y - depth, z), (x - 2, y - depth, z)])
-        mesh_object(f'MOD_NA_{ident}_strake_{n}', strake, coll, SATIN)
+            d = 4 + depth * smooth(t)
+            strake.append([(x - 2, y + 1, z), (x + 2, y + 1, z), (x + 2, y - d, z), (x - 2, y - d, z)])
+        mesh_object(f'MOD_NA_{ident}_strake_{n}', strake, coll, material)
     return finish(coll)
 
 
@@ -855,7 +855,7 @@ MIRRORS = {
 }
 
 
-def build_mirror_caps(ident='DT41', offset=1.8, thick=1.4):
+def build_mirror_caps(ident='DT41', offset=1.8, thick=1.4, material=CARBON):
     """Carbon shells over the forward face of both door-mirror housings.
 
     Projected straight off each housing from the front, row by row, then
@@ -907,6 +907,6 @@ def build_mirror_caps(ident='DT41', offset=1.8, thick=1.4):
                 back.append(tuple(p + n * offset))
             rings.append(front + list(reversed(back)))
         side = 'L' if sum(p.x for p in g) > 0 else 'R'
-        mesh_object(f'MOD_{GEN.upper()}_{ident}_cap_{side}', rings, coll, CARBON)
+        mesh_object(f'MOD_{GEN.upper()}_{ident}_cap_{side}', rings, coll, material)
     return finish(coll)
 

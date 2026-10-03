@@ -321,35 +321,45 @@
         "frontLip": [
           "stock",
           "club_lip",
-          "aggressive_splitter"
+          "aggressive_splitter",
+          "painted_lip",
+          "carbon_lip"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
-          "carbon_extenders"
+          "carbon_extenders",
+          "painted_extensions"
         ],
         "rearDiffuser": [
           "stock",
-          "oem_diffuser"
+          "oem_diffuser",
+          "track_diffuser"
         ],
         "rearWing": [
           "wing_delete",
           "oem_ducktail",
-          "gt_wing"
+          "gt_wing",
+          "carbon_ducktail",
+          "tall_ducktail"
         ],
         "hood": [
           "stock",
-          "painted_vented"
+          "painted_vented",
+          "carbon_bonnet"
         ],
         "exhaust": [
           "stock_single",
           "big_bore_single",
-          "twin_oval"
+          "twin_oval",
+          "rolled_single",
+          "slash_cut_single"
         ],
         "rollBar": [
           "none",
           "style_bar",
-          "track_hoop"
+          "track_hoop",
+          "chrome_style_bar"
         ]
       },
       "assetUrl": "assets/models/mx5_na_sketchfab/scene.gltf",
@@ -536,6 +546,24 @@
         "downforce": 0,
         "weight": 0,
         "description": "Two separate fitted corner blades with an open centre."
+      },
+      {
+        "id": "painted_lip",
+        "name": "Body-Colour Lip",
+        "node": "MOD_NA_FA43",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "The street lip painted to match the body."
+      },
+      {
+        "id": "carbon_lip",
+        "name": "Carbon Lip",
+        "node": "MOD_NA_FA44",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "The street lip in carbon weave."
       }
     ],
     "sideSkirts": [
@@ -589,6 +617,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "Wide flat carbon blades with integrated end fences."
+      },
+      {
+        "id": "painted_extensions",
+        "name": "Body-Colour Side Extensions",
+        "node": "MOD_NA_RA48",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Slim sill blades painted to match the body."
       }
     ],
     "rearDiffuser": [
@@ -703,6 +740,24 @@
         "downforce": 0,
         "weight": 0,
         "description": "A low body-colour airfoil on two sculpted pedestals."
+      },
+      {
+        "id": "carbon_ducktail",
+        "name": "Carbon Ducktail",
+        "node": "MOD_NA_RA45",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "The low boot lip in carbon weave."
+      },
+      {
+        "id": "tall_ducktail",
+        "name": "Tall Ducktail",
+        "node": "MOD_NA_RA46",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A taller painted ducktail for more kick."
       }
     ],
     "hood": [
@@ -729,6 +784,15 @@
         "material": "paint",
         "downforce": 3,
         "weight": -2.4
+      },
+      {
+        "id": "carbon_bonnet",
+        "name": "Carbon Bonnet",
+        "node": "MOD_NA_HD40",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A full carbon bonnet in place of the steel one."
       }
     ],
     "exhaust": [
@@ -794,6 +858,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "A large rolled stainless outlet with an open dark bore."
+      },
+      {
+        "id": "slash_cut_single",
+        "name": "Slash-cut Single",
+        "node": "MOD_NA_EX43",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A titanium tip cut at 30 degrees."
       }
     ],
     "rollBar": [
@@ -820,6 +893,15 @@
         "material": "metal",
         "downforce": 0,
         "weight": 11.5
+      },
+      {
+        "id": "chrome_style_bar",
+        "name": "Chrome Style Bar",
+        "node": "MOD_NA_RB42",
+        "material": "trim",
+        "downforce": 0,
+        "weight": 0,
+        "description": "The low style hoop in polished chrome."
       }
     ]
   },

@@ -40,6 +40,9 @@ GEN_CFG = {
                  -1: ('FenderFR 6.001_80', 'FendersR 6.001_40', 'BumperF 6.003_111', 'BumperR 6.001_146',
                       'DoorR 6.003_73', 'Skirts 6.003_57')},
         'rear_bumper': ('BumperR 6.001_146', 'BumperR 6_145', 'BumperR 6.002_147'), 'strap_x': -480.0,
+        'mirror': ((805.0, 818.0, 100.0), (905.0, 876.0, 70.0)),
+        'front_strap': ('BumperF 6.003_111', -480.0),
+        'deflector': (-790.0, 240.0, 945.0, 1035.0, 40.0),
     },
     'na': {
         'stripe_panels': (('hood_Material #71_0', 'bonnet'), ('trunk_Material #71_0', 'boot')),
@@ -53,6 +56,12 @@ GEN_CFG = {
                       'rearbumper_Material #71_0', door, 'sideskirt_Material #118_0')
                  for sd, door in ((1, 'leftdoor_Material #71_0'), (-1, 'rigthdoor_Material #71_0'))},
         'rear_bumper': ('rearbumper_Material #71_0',), 'strap_x': 420.0,
+        # Vitaloni-style heads on a stalk from the door top; the stock mirror
+        # (arm included) is one node, so the stalk starts at the door.
+        'mirror': ((730.0, 800.0, 95.0), (868.0, 852.0, 70.0)),
+        'front_strap': ('frontbumper_Material #71_0', 440.0),
+        # On the shelf behind the seat well, which starts at z -880.
+        'deflector': (-895.0, 300.0, 840.0, 1010.0, 14.0),
     },
 }
 
@@ -127,7 +136,7 @@ def eyelids(ident='DT42'):
 
 # ----------------------------------------------------------- racing stripes ----
 
-def racing_stripes(ident='DT43'):
+def racing_stripes(ident='DT43', material=WHITE):
     """Twin white stripes over the bonnet and boot lid.
 
     Two 110 mm stripes either side of a 40 mm gap, laid on each panel from
@@ -150,14 +159,14 @@ def racing_stripes(ident='DT43'):
                     assert p is not None, (tag, x, z)
                     row.append((p, outward(n, up)))
                 rows.append(row if side > 0 else list(reversed(row)))
-            film(name(ident, f'{tag}_{"L" if side > 0 else "R"}'), coll, rows, 0.6, 0.4, WHITE)
+            film(name(ident, f'{tag}_{"L" if side > 0 else "R"}'), coll, rows, 0.6, 0.4, material)
     return k.finish(coll)
 
 
 # ------------------------------------------------------------- side stripes ----
 
 
-def side_stripes(ident='DT44'):
+def side_stripes(ident='DT44', material=WHITE):
     """A 22 mm white stripe along each flank, between the wheel arches.
 
     It runs at 430-452 mm, across front fender, door and rear quarter.
@@ -184,7 +193,7 @@ def side_stripes(ident='DT44'):
                 assert p is not None, (side, y, z)
                 row.append((p, outward(n, axis)))
             rows.append(row if side > 0 else list(reversed(row)))
-        film(name(ident, f'stripe_{"L" if side > 0 else "R"}'), coll, rows, 0.6, 0.4, WHITE)
+        film(name(ident, f'stripe_{"L" if side > 0 else "R"}'), coll, rows, 0.6, 0.4, material)
     return k.finish(coll)
 
 
@@ -232,11 +241,11 @@ def wind_deflector(ident='DT46'):
     centre bulkhead at z -790 and leaning back 6 degrees.
     """
     coll = m.start_mod(k.GEN, ident)
-    z, half, y0, y1 = -790.0, 240.0, 945.0, 1035.0
+    z, half, y0, y1, leg = cfg()['deflector']
     lean = math.tan(math.radians(6))
 
     def at(x, y):
-        return (x, y, z - (y - y0) * lean)
+        return (k.CX + x, y, z - (y - y0) * lean)
 
     k.tube('frame', coll, m.rounded_path([at(-half, y0), at(-half, y1), at(half, y1), at(half, y0)], 14, 6),
            8, SATIN, 12)
@@ -245,10 +254,10 @@ def wind_deflector(ident='DT46'):
     for i in range(9):
         x = -half + 6 + (2 * half - 12) * i / 8
         panel.append([at(x, y0 + 4), at(x, y1 - 4),
-                      (x, y1 - 4, z - (y1 - 4 - y0) * lean - 2), (x, y0 + 4, z - 4 * lean - 2)])
+                      (k.CX + x, y1 - 4, z - (y1 - 4 - y0) * lean - 2), (k.CX + x, y0 + 4, z - 4 * lean - 2)])
     k.mesh_object(name(ident, 'mesh'), panel, coll, MESH)
     for x in (-150.0, 150.0):
-        k.tube(f'leg_{"L" if x > 0 else "R"}', coll, [at(x, y0), (x, y0 - 40, z + 4)], 6, SATIN, 10)
+        k.tube(f'leg_{"L" if x > 0 else "R"}', coll, [at(x, y0), (k.CX + x, y0 - leg, z + 4)], 6, SATIN, 10)
     return k.finish(coll)
 
 
@@ -332,7 +341,7 @@ MIRROR_HIDES = ['MirrorL 6.002_175', 'MirrorL 6.003_176', 'MirrorL 6.001_174', '
                 'MirrorR 6.001_181', 'MirrorR 6.002_182', 'MirrorR 6_180', 'MirrorR 6.003_183']
 
 
-def aero_mirrors(ident='DT49'):
+def aero_mirrors(ident='DT49', material=CARBON):
     """Carbon teardrop mirror heads on slim stalks, replacing the stock heads.
 
     The stock bases stay. Each head is a 150 mm teardrop, deeper at its
@@ -341,11 +350,12 @@ def aero_mirrors(ident='DT49'):
     coll = m.start_mod(k.GEN, ident)
     for side in (1, -1):
         tag = 'L' if side > 0 else 'R'
-        base_top = Vector((side * 805, 818, 100))
-        head = Vector((side * 905, 876, 70))
+        (bx, by, bz), (hx, hy, hz) = cfg()['mirror']
+        base_top = Vector((k.CX + side * bx, by, bz))
+        head = Vector((k.CX + side * hx, hy, hz))
         k.tube(f'stalk_{tag}', coll,
                [tuple(base_top + Vector((0, -6, 0))), tuple(base_top.lerp(head, 0.5) + Vector((0, 14, 0))),
-                tuple(head + Vector((-side * 60, 0, 0)))], 7, CARBON, 12)
+                tuple(head + Vector((-side * 60, 0, 0)))], 7, material, 12)
         rings = []
         for i in range(17):
             t = i / 16
@@ -355,7 +365,7 @@ def aero_mirrors(ident='DT49'):
             a, b = 34 * scale + 2, 30 * scale + 2
             rings.append([(x, head.y + a * math.sin(u), head.z + 4 + b * math.cos(u))
                           for u in (2 * math.pi * j / 32 for j in range(32))])
-        k.mesh_object(name(ident, f'head_{tag}'), rings, coll, CARBON)
+        k.mesh_object(name(ident, f'head_{tag}'), rings, coll, material)
         glass = []
         for i in range(13):
             t = 0.12 + 0.76 * i / 12
@@ -398,11 +408,13 @@ def rear_canards(ident='DT50'):
 def front_strap(ident='DT51'):
     """A red webbing loop hanging from the front bumper's lower right."""
     coll = m.start_mod(k.GEN, ident)
-    bumper = k.base('BumperF 6.003_111')
-    x = -480.0
-    face = k.ray(bumper, (x, 300, 2600), (0, 0, -1))
+    part, dx = cfg()['front_strap']
+    bumper = k.base(part)
+    x = k.CX + dx
+    bottom = next(y for y in range(150, 420) if k.ray(bumper, (x, y, 2600), (0, 0, -1)))
+    face = k.ray(bumper, (x, bottom + 50, 2600), (0, 0, -1))
     assert face is not None
-    zc, yc = face.z + 20, 262.0
+    zc, yc = face.z + 20, bottom + 12.0
     rings = []
     for i in range(49):
         a = 2 * math.pi * i / 48
@@ -412,15 +424,15 @@ def front_strap(ident='DT51'):
         rings.append([(x - 18, y + nrm.y * 1.2, z + nrm.z * 1.2), (x + 18, y + nrm.y * 1.2, z + nrm.z * 1.2),
                       (x + 18, y - nrm.y * 1.2, z - nrm.z * 1.2), (x - 18, y - nrm.y * 1.2, z - nrm.z * 1.2)])
     k.mesh_object(name(ident, 'webbing'), rings[:-1], coll, ACCENT)
-    k.cylinder('bracket', coll, (x, 309, face.z - 4), 'z', 8, 26, SATIN, 16)
-    k.cylinder('bolt', coll, (x, 309, face.z + 22), 'z', 9, 5, ALLOY, 6)
+    k.cylinder('bracket', coll, (x, bottom + 59, face.z - 4), 'z', 8, 26, SATIN, 16)
+    k.cylinder('bolt', coll, (x, bottom + 59, face.z + 22), 'z', 9, 5, ALLOY, 6)
     return k.finish(coll)
 
 
 # ----------------------------------------------------------- fender flares ----
 
 
-def fender_flares(ident='DT53'):
+def fender_flares(ident='DT53', material=SATIN):
     """Bolt-on satin flares round all four wheel arches.
 
     For each arch the lip is found by walking outward from the hub at every
@@ -476,7 +488,7 @@ def fender_flares(ident='DT53'):
                     ref = base if dr >= 20 else rim
                     ring.append((ref.x + side * dx, hub_y + r * d.y, hz + r * d.z))
                 rings.append(ring)
-            k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, SATIN)
+            k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, material)
     return k.finish(coll)
 
 

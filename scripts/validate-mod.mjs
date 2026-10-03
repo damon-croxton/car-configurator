@@ -39,7 +39,7 @@ const MATERIAL_CONTRACT = [
   'MOD_BodyPaint', 'MOD_AccentPaint', 'MOD_Rim', 'MOD_Tyre', 'MOD_CaliperPaint',
   'MOD_CarbonWeave', 'MOD_GlossBlack', 'MOD_SatinBlack', 'MOD_Rubber', 'MOD_Alloy',
   'MOD_Chrome', 'MOD_Titanium', 'MOD_Glass', 'MOD_MirrorGlass', 'MOD_Mesh',
-  'MOD_StripeWhite', 'MOD_LensRed',
+  'MOD_StripeWhite', 'MOD_LensRed', 'MOD_Wood',
 ];
 
 const MAX_BYTES = 2 * 1024 * 1024;
@@ -330,8 +330,11 @@ async function validate(mod, gen) {
   }
 
   // --- hides exist -------------------------------------------------
+  // CarModel splits the ND seats out of the cabin tub at load time, so
+  // `CabinSeats` exists at runtime without being an asset node.
+  const RUNTIME_NODES = new Set(['CabinSeats']);
   for (const nodeName of mod.hides?.[gen] ?? []) {
-    if (!table?.nodes?.some((n) => n.name === nodeName)) {
+    if (!RUNTIME_NODES.has(nodeName) && !table?.nodes?.some((n) => n.name === nodeName)) {
       fail(`hides "${nodeName}", which is not a node in the ${gen} asset`);
     }
   }

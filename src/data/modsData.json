@@ -1612,7 +1612,10 @@
     },
     {
       "id": "DT07",
-      "gen": ["nd"],
+      "gen": [
+        "nd",
+        "na"
+      ],
       "category": "detail",
       "displayName": "Bonnet Pins",
       "area": "top",
@@ -1620,17 +1623,61 @@
       "optionId": null,
       "attachType": "bolt_on",
       "attachTo": "body",
-      "hides": { "nd": [] },
+      "hides": {
+        "nd": [],
+        "na": []
+      },
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Hood 6.001_120"] },
-      "materials": ["MOD_Alloy", "MOD_SatinBlack"],
-      "bboxMm": {"nd": {"min": [-556, 703, 1481], "max": [556, 749, 1604]}},
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120"
+        ],
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -556,
+            703,
+            1481
+          ],
+          "max": [
+            556,
+            749,
+            1604
+          ]
+        },
+        "na": {
+          "min": [
+            -333,
+            687,
+            1628
+          ],
+          "max": [
+            316,
+            716,
+            1673
+          ]
+        }
+      },
       "triangleBudget": 2200,
-      "file": { "nd": "assets/mods/nd/DT07_bonnet_pins.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/DT07_bonnet_pins.glb",
+        "na": "assets/mods/na/DT07_bonnet_pins.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
-      "$note": "Low-profile pins with retaining clips and curved thin tethers. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
+      "$note": "Low-profile pins with retaining clips and curved thin tethers. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications. NA version built by blender/build_r4.py.",
       "$partial": "The lanyard is a straight bar; the brief asks for a cable with natural sag.",
       "uiHint": "Low-profile pins with retaining clips and curved thin tethers."
     },
@@ -3643,6 +3690,7 @@
       "category": "detail",
       "displayName": "Carbon Mirror Caps",
       "area": "sides",
+      "group": "mirrors",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -3768,6 +3816,7 @@
       "category": "detail",
       "displayName": "Twin Racing Stripes",
       "area": "top",
+      "group": "racing_stripes",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -3839,6 +3888,7 @@
       "category": "detail",
       "displayName": "Side Stripes",
       "area": "sides",
+      "group": "side_stripes",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -3974,7 +4024,8 @@
     {
       "id": "DT46",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Wind Deflector",
@@ -3984,13 +4035,20 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
-      "incompatibleWith": [],
+      "incompatibleWith": [
+        "HT40",
+        "HT41"
+      ],
       "requires": [],
       "anchors": {
         "nd": [
           "M_Interior_Max_19"
+        ],
+        "na": [
+          "insidebed_Material #170_0"
         ]
       },
       "materials": [
@@ -4009,18 +4067,31 @@
             1043,
             -780
           ]
+        },
+        "na": {
+          "min": [
+            -316,
+            824,
+            -921
+          ],
+          "max": [
+            300,
+            1018,
+            -885
+          ]
         }
       },
       "triangleBudget": 1500,
       "file": {
-        "nd": "assets/mods/nd/DT46_wind_deflector.glb"
+        "nd": "assets/mods/nd/DT46_wind_deflector.glb",
+        "na": "assets/mods/na/DT46_wind_deflector.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Black mesh panel in a satin frame between the hoop covers behind the headrests. A roof-down part: with the roof up it sits under the soft top. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Black mesh panel in a satin frame between the hoop covers behind the headrests. A roof-down part: with the roof up it sits under the soft top. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r4.py.",
       "uiHint": "Mesh wind blocker behind the seats."
     },
     {
@@ -4150,11 +4221,13 @@
     {
       "id": "DT49",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Carbon Aero Mirrors",
       "area": "sides",
+      "group": "mirrors",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
@@ -4169,6 +4242,12 @@
           "MirrorR 6.002_182",
           "MirrorR 6_180",
           "MirrorR 6.003_183"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirror_Material #76_0",
+          "mirrhousingl_Material #70_0",
+          "mirrorl_Material #76_0"
         ]
       },
       "incompatibleWith": [
@@ -4179,6 +4258,10 @@
         "nd": [
           "MirrorBaseL 5_163",
           "MirrorBaseR 5_168"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
         ]
       },
       "materials": [
@@ -4197,18 +4280,31 @@
             912,
             107
           ]
+        },
+        "na": {
+          "min": [
+            -955,
+            788,
+            40
+          ],
+          "max": [
+            937,
+            888,
+            106
+          ]
         }
       },
       "triangleBudget": 3500,
       "file": {
-        "nd": "assets/mods/nd/DT49_aero_mirrors.glb"
+        "nd": "assets/mods/nd/DT49_aero_mirrors.glb",
+        "na": "assets/mods/na/DT49_aero_mirrors.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Carbon teardrop heads on slim stalks. Replaces the stock mirror heads and keeps their bases. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Carbon teardrop heads on slim stalks. Replaces the stock mirror heads and keeps their bases. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r4.py.",
       "uiHint": "Teardrop carbon mirrors; replaces the stock heads."
     },
     {
@@ -4265,7 +4361,8 @@
     {
       "id": "DT51",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Front Tow Strap",
@@ -4275,13 +4372,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "BumperF 6.003_111"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
         ]
       },
       "materials": [
@@ -4301,18 +4402,31 @@
             317,
             1899
           ]
+        },
+        "na": {
+          "min": [
+            413,
+            194,
+            1854
+          ],
+          "max": [
+            449,
+            300,
+            1895
+          ]
         }
       },
       "triangleBudget": 1000,
       "file": {
-        "nd": "assets/mods/nd/DT51_front_tow_strap.glb"
+        "nd": "assets/mods/nd/DT51_front_tow_strap.glb",
+        "na": "assets/mods/na/DT51_front_tow_strap.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Red webbing loop on a bracket at the front bumper's lower right. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Red webbing loop on a bracket at the front bumper's lower right. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r4.py.",
       "uiHint": "Red tow strap on the front bumper."
     },
     {
@@ -4376,6 +4490,7 @@
       "category": "body_panel",
       "displayName": "Bolt-on Fender Flares",
       "area": "sides",
+      "group": "flares",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -4491,6 +4606,1658 @@
       "derivedFromBaseMesh": false,
       "$note": "Alloy racing filler cap over the round fuel door on the left rear quarter: a bezel ring fitted to the sloping, curved panel, a flat chrome lid lifted just clear of it, a dark badge and a hinge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
       "uiHint": "Alloy racing cap over the fuel door."
+    },
+    {
+      "id": "SW01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Classic Wood-Rim Wheel",
+      "area": "cabin",
+      "group": "steering_wheel",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack",
+        "MOD_Wood"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            150,
+            600,
+            -43
+          ],
+          "max": [
+            532,
+            968,
+            141
+          ]
+        },
+        "na": {
+          "min": [
+            215,
+            536,
+            67
+          ],
+          "max": [
+            577,
+            890,
+            235
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/SW01_classic_wood_wheel.glb",
+        "na": "assets/mods/na/SW01_classic_wood_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 365 mm wood-rim wheel on three slotted alloy spokes with a chrome horn push, in the style of the classic Italian wood wheels fitted to early roadsters. Replaces the stock wheel on its column axis. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Polished wood rim on slotted alloy spokes."
+    },
+    {
+      "id": "SW02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Deep-Dish Suede Wheel",
+      "area": "cabin",
+      "group": "steering_wheel",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            148,
+            598,
+            -45
+          ],
+          "max": [
+            534,
+            978,
+            194
+          ]
+        },
+        "na": {
+          "min": [
+            213,
+            534,
+            65
+          ],
+          "max": [
+            579,
+            900,
+            290
+          ]
+        }
+      },
+      "triangleBudget": 3700,
+      "file": {
+        "nd": "assets/mods/nd/SW02_deep_dish_suede_wheel.glb",
+        "na": "assets/mods/na/SW02_deep_dish_suede_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 365 mm deep-dish wheel (78 mm dish) with a black suede rim, a red centre marker and satin spokes, after the common aftermarket dished wheels. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Black suede rim on a 78 mm dished spoke set."
+    },
+    {
+      "id": "SW03",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Flat-Bottom Leather Wheel",
+      "area": "cabin",
+      "group": "steering_wheel",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "materials": [
+        "MOD_Rubber",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            147,
+            632,
+            -36
+          ],
+          "max": [
+            535,
+            971,
+            148
+          ]
+        },
+        "na": {
+          "min": [
+            212,
+            566,
+            71
+          ],
+          "max": [
+            580,
+            893,
+            243
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/SW03_flat_bottom_wheel.glb",
+        "na": "assets/mods/na/SW03_flat_bottom_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A leather-rim wheel with a flat bottom section and thick grips, in the style of later sports wheels. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Leather rim with a flattened bottom section."
+    },
+    {
+      "id": "SW04",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Quick-Release Race Wheel",
+      "area": "cabin",
+      "group": "steering_wheel",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max.001_21"
+        ],
+        "na": [
+          "steeringwheel_Material #155_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            147,
+            598,
+            -46
+          ],
+          "max": [
+            534,
+            978,
+            196
+          ]
+        },
+        "na": {
+          "min": [
+            212,
+            533,
+            65
+          ],
+          "max": [
+            579,
+            900,
+            292
+          ]
+        }
+      },
+      "triangleBudget": 3700,
+      "file": {
+        "nd": "assets/mods/nd/SW04_quick_release_wheel.glb",
+        "na": "assets/mods/na/SW04_quick_release_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 350 mm dished race wheel on a quick-release hub with a red release collar. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Dished race wheel on a quick-release hub."
+    },
+    {
+      "id": "BS01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Carbon Fixed-Back Buckets",
+      "area": "cabin",
+      "group": "seats",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "CabinSeats"
+        ],
+        "na": [
+          "seats_Material #170_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "seats_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -609,
+            265,
+            -870
+          ],
+          "max": [
+            609,
+            1040,
+            -40
+          ]
+        },
+        "na": {
+          "min": [
+            -640,
+            262,
+            -825
+          ],
+          "max": [
+            667,
+            1020,
+            10
+          ]
+        }
+      },
+      "triangleBudget": 2400,
+      "file": {
+        "nd": "assets/mods/nd/BS01_carbon_buckets.glb",
+        "na": "assets/mods/na/BS01_carbon_buckets.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A pair of fixed-back carbon buckets with harness slots and side bolsters on alloy side mounts, replacing the stock seats. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Carbon fixed-back buckets with harness slots."
+    },
+    {
+      "id": "BS02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Reclining Sports Seats",
+      "area": "cabin",
+      "group": "seats",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "CabinSeats"
+        ],
+        "na": [
+          "seats_Material #170_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "seats_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_Rubber",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -609,
+            265,
+            -943
+          ],
+          "max": [
+            609,
+            1125,
+            -40
+          ]
+        },
+        "na": {
+          "min": [
+            -640,
+            262,
+            -897
+          ],
+          "max": [
+            667,
+            1105,
+            10
+          ]
+        }
+      },
+      "triangleBudget": 2500,
+      "file": {
+        "nd": "assets/mods/nd/BS02_sports_seats.glb",
+        "na": "assets/mods/na/BS02_sports_seats.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A pair of bolstered reclining sports seats with separate headrests on chrome posts. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Bolstered reclining seats with separate headrests."
+    },
+    {
+      "id": "DT55",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Quick-Release Bumper Fasteners",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111",
+          "BumperR 6.001_146"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -837,
+            343,
+            -1575
+          ],
+          "max": [
+            837,
+            487,
+            1615
+          ]
+        },
+        "na": {
+          "min": [
+            -816,
+            363,
+            1545
+          ],
+          "max": [
+            798,
+            487,
+            1616
+          ]
+        }
+      },
+      "triangleBudget": 3700,
+      "file": {
+        "nd": "assets/mods/nd/DT55_qr_fasteners.glb",
+        "na": "assets/mods/na/DT55_qr_fasteners.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Anodised red quick-release fasteners on alloy bases at the bumper corners, as fitted for fast bumper removal at the track. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Red quick-release fasteners on the bumper corners."
+    },
+    {
+      "id": "DT56",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Black Racing Stripes",
+      "area": "top",
+      "group": "racing_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -130,
+            652,
+            -1846
+          ],
+          "max": [
+            130,
+            917,
+            1746
+          ]
+        },
+        "na": {
+          "min": [
+            -139,
+            654,
+            -1871
+          ],
+          "max": [
+            122,
+            866,
+            1778
+          ]
+        }
+      },
+      "triangleBudget": 6100,
+      "file": {
+        "nd": "assets/mods/nd/DT56_racing_stripes_black.glb",
+        "na": "assets/mods/na/DT56_racing_stripes_black.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The twin racing stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Gloss black twin stripes over bonnet and boot."
+    },
+    {
+      "id": "DT57",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Red Racing Stripes",
+      "area": "top",
+      "group": "racing_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -130,
+            652,
+            -1846
+          ],
+          "max": [
+            130,
+            917,
+            1746
+          ]
+        },
+        "na": {
+          "min": [
+            -139,
+            654,
+            -1871
+          ],
+          "max": [
+            122,
+            866,
+            1778
+          ]
+        }
+      },
+      "triangleBudget": 6100,
+      "file": {
+        "nd": "assets/mods/nd/DT57_racing_stripes_red.glb",
+        "na": "assets/mods/na/DT57_racing_stripes_red.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The twin racing stripes in the accent colour (red by default). Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Twin stripes in the accent colour."
+    },
+    {
+      "id": "DT58",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Black Side Stripes",
+      "area": "sides",
+      "group": "side_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -860,
+            429,
+            -735
+          ],
+          "max": [
+            860,
+            452,
+            818
+          ]
+        },
+        "na": {
+          "min": [
+            -831,
+            335,
+            -745
+          ],
+          "max": [
+            816,
+            357,
+            835
+          ]
+        }
+      },
+      "triangleBudget": 4900,
+      "file": {
+        "nd": "assets/mods/nd/DT58_side_stripes_black.glb",
+        "na": "assets/mods/na/DT58_side_stripes_black.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The side stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Gloss black stripe along each flank."
+    },
+    {
+      "id": "DT59",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Gloss Black Mirror Caps",
+      "area": "sides",
+      "group": "mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorR 6.002_182",
+          "MirrorL 6.003_176"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirrhousingl_Material #70_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -972,
+            823,
+            7
+          ],
+          "max": [
+            972,
+            937,
+            161
+          ]
+        },
+        "na": {
+          "min": [
+            -918,
+            797,
+            36
+          ],
+          "max": [
+            902,
+            891,
+            127
+          ]
+        }
+      },
+      "triangleBudget": 7400,
+      "file": {
+        "nd": "assets/mods/nd/DT59_mirror_caps_gloss.glb",
+        "na": "assets/mods/na/DT59_mirror_caps_gloss.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The mirror caps in gloss black. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Gloss black shells over both mirror heads."
+    },
+    {
+      "id": "DT60",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Body-Colour Aero Mirrors",
+      "area": "sides",
+      "group": "mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "MirrorL 6.002_175",
+          "MirrorL 6.003_176",
+          "MirrorL 6.001_174",
+          "MirrorL 6_173",
+          "MirrorR 6.001_181",
+          "MirrorR 6.002_182",
+          "MirrorR 6_180",
+          "MirrorR 6.003_183"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirror_Material #76_0",
+          "mirrhousingl_Material #70_0",
+          "mirrorl_Material #76_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorBaseL 5_163",
+          "MirrorBaseR 5_168"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint",
+        "MOD_MirrorGlass"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -983,
+            807,
+            40
+          ],
+          "max": [
+            983,
+            912,
+            107
+          ]
+        },
+        "na": {
+          "min": [
+            -955,
+            788,
+            40
+          ],
+          "max": [
+            937,
+            888,
+            106
+          ]
+        }
+      },
+      "triangleBudget": 3200,
+      "file": {
+        "nd": "assets/mods/nd/DT60_aero_mirrors_painted.glb",
+        "na": "assets/mods/na/DT60_aero_mirrors_painted.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The teardrop aero mirrors painted in the body colour, after the classic bullet mirrors. Replaces the stock mirrors. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Painted teardrop mirrors; replace the stock heads."
+    },
+    {
+      "id": "DT61",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Carbon Fender Flares",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -893,
+            351,
+            -1499
+          ],
+          "max": [
+            893,
+            691,
+            1580
+          ]
+        },
+        "na": {
+          "min": [
+            -870,
+            374,
+            -1506
+          ],
+          "max": [
+            873,
+            667,
+            1555
+          ]
+        }
+      },
+      "triangleBudget": 3000,
+      "file": {
+        "nd": "assets/mods/nd/DT61_fender_flares_carbon.glb",
+        "na": "assets/mods/na/DT61_fender_flares_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The bolt-on fender flares in carbon. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Carbon flares round all four arches."
+    },
+    {
+      "id": "HT40",
+      "gen": [
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Body-Colour Hardtop",
+      "area": "top",
+      "group": "hardtop",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [
+        "RB40",
+        "RB41",
+        "RB42",
+        "DT46"
+      ],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Apillar_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint",
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -711,
+            838,
+            -1090
+          ],
+          "max": [
+            694,
+            1179,
+            -20
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/HT40_hardtop.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A body-coloured removable hardtop after the factory option: a fastback shell from the windscreen header to the rear deck with a tinted rear window. Takes the place of the roll bar and wind deflector. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Painted factory-style hardtop with glass rear window."
+    },
+    {
+      "id": "HT41",
+      "gen": [
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Carbon Hardtop",
+      "area": "top",
+      "group": "hardtop",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [
+        "RB40",
+        "RB41",
+        "RB42",
+        "DT46"
+      ],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Apillar_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -711,
+            838,
+            -1090
+          ],
+          "max": [
+            694,
+            1179,
+            -20
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/HT41_hardtop_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The hardtop in carbon weave, as the lightweight race hardtops. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Lightweight carbon hardtop."
+    },
+    {
+      "id": "FG40",
+      "gen": [
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Mesh Grille Insert",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Mesh"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -403,
+            286,
+            1794
+          ],
+          "max": [
+            387,
+            410,
+            1871
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/FG40_grille_mesh.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A black mesh insert across the NA's nose intake. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Black mesh across the nose intake."
+    },
+    {
+      "id": "HD40",
+      "gen": [
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "NA Carbon Bonnet",
+      "slot": "hood",
+      "optionId": "carbon_bonnet",
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -703,
+            637,
+            522
+          ],
+          "max": [
+            695,
+            847,
+            1796
+          ]
+        }
+      },
+      "triangleBudget": 2300,
+      "file": {
+        "na": "assets/mods/na/HD40_carbon_bonnet.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": true,
+      "$note": "Carbon bonnet shaped from the stock bonnet surface (a 2 mm offset skin), replacing it. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Full carbon bonnet."
+    },
+    {
+      "id": "FA43",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Body-Colour Lip",
+      "slot": "frontLip",
+      "optionId": "painted_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -698,
+            212,
+            1705
+          ],
+          "max": [
+            682,
+            267,
+            1898
+          ]
+        }
+      },
+      "triangleBudget": 4600,
+      "file": {
+        "na": "assets/mods/na/FA43_body_colour_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The street front lip in the body colour. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Painted lip under the bumper."
+    },
+    {
+      "id": "FA44",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Carbon Lip",
+      "slot": "frontLip",
+      "optionId": "carbon_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -698,
+            212,
+            1705
+          ],
+          "max": [
+            682,
+            267,
+            1898
+          ]
+        }
+      },
+      "triangleBudget": 4600,
+      "file": {
+        "na": "assets/mods/na/FA44_carbon_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The street front lip in carbon. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Carbon lip under the bumper."
+    },
+    {
+      "id": "RA45",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Carbon Ducktail",
+      "slot": "rearWing",
+      "optionId": "carbon_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -439,
+            762,
+            -1864
+          ],
+          "max": [
+            422,
+            826,
+            -1787
+          ]
+        }
+      },
+      "triangleBudget": 2500,
+      "file": {
+        "na": "assets/mods/na/RA45_carbon_ducktail.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The low boot spoiler in carbon. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Low carbon lip on the boot."
+    },
+    {
+      "id": "RA46",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Tall Ducktail",
+      "slot": "rearWing",
+      "optionId": "tall_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -439,
+            762,
+            -1864
+          ],
+          "max": [
+            422,
+            844,
+            -1768
+          ]
+        }
+      },
+      "triangleBudget": 2500,
+      "file": {
+        "na": "assets/mods/na/RA46_tall_ducktail.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A taller painted ducktail: 40 mm rise over a 78 mm chord. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Taller painted ducktail."
+    },
+    {
+      "id": "RA48",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Body-Colour Side Extensions",
+      "slot": "sideSkirts",
+      "optionId": "painted_extensions",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "sideskirt_Material #118_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -805,
+            158,
+            -710
+          ],
+          "max": [
+            788,
+            200,
+            808
+          ]
+        }
+      },
+      "triangleBudget": 4600,
+      "file": {
+        "na": "assets/mods/na/RA48_body_colour_side_extensions.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The side extensions in the body colour. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Painted blades under the sills."
+    },
+    {
+      "id": "RB42",
+      "gen": [
+        "na"
+      ],
+      "category": "roll_bar",
+      "displayName": "NA Chrome Style Bar",
+      "slot": "rollBar",
+      "optionId": "chrome_style_bar",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "insidebed_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -563,
+            816,
+            -945
+          ],
+          "max": [
+            546,
+            1064,
+            -865
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/RB42_chrome_style_bar.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The style bar in polished chrome, as the period chrome bars. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Polished chrome hoop behind the headrests."
+    },
+    {
+      "id": "RA49",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Carbon Track Valance",
+      "slot": "rearDiffuser",
+      "optionId": "track_diffuser",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -528,
+            192,
+            -1897
+          ],
+          "max": [
+            511,
+            254,
+            -1790
+          ]
+        }
+      },
+      "triangleBudget": 1700,
+      "file": {
+        "na": "assets/mods/na/RA49_carbon_track_valance.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The rear valance in carbon with 40 mm strakes. Rebuild with blender/build_r4.py; geometry in blender/na_kit.py.",
+      "uiHint": "Deeper carbon valance with four strakes."
+    },
+    {
+      "id": "EX42",
+      "gen": [
+        "na"
+      ],
+      "category": "exhaust",
+      "displayName": "NA Rolled-edge Single",
+      "slot": "exhaust",
+      "optionId": "rolled_single",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Cylinder003_Material #168_0",
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -651,
+            236,
+            -1876
+          ],
+          "max": [
+            -557,
+            330,
+            -1766
+          ]
+        }
+      },
+      "triangleBudget": 1500,
+      "file": {
+        "na": "assets/mods/na/EX42_rolled_single.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A rolled chrome tip sleeved over the stock tail pipe. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Large rolled chrome outlet."
+    },
+    {
+      "id": "EX43",
+      "gen": [
+        "na"
+      ],
+      "category": "exhaust",
+      "displayName": "NA Slash-cut Single",
+      "slot": "exhaust",
+      "optionId": "slash_cut_single",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "Cylinder003_Material #168_0",
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack",
+        "MOD_Titanium"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -644,
+            243,
+            -1905
+          ],
+          "max": [
+            -564,
+            323,
+            -1766
+          ]
+        }
+      },
+      "triangleBudget": 1400,
+      "file": {
+        "na": "assets/mods/na/EX43_slash_cut_single.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A titanium tip cut at 30 degrees, sleeved over the stock tail pipe. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "uiHint": "Titanium tip cut at 30 degrees."
     }
   ]
 }
