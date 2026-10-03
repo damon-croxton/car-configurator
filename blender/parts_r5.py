@@ -71,6 +71,7 @@ KNOBS = {
     'GK01': (ALLOY, SATIN, 'ball'),
     'GK02': (WOOD, CHROME, 'ball'),
     'GK03': (TITANIUM, SATIN, 'tall'),
+    'GK04': (WHITE, CHROME, 'ball'),
 }
 
 
@@ -137,7 +138,7 @@ def fire_extinguisher(ident='FX01'):
 
 # ------------------------------------------------------------ rally lamps ----
 
-def rally_lamps(ident='DL01'):
+def rally_lamps(ident='DL01', covered=False):
     """A pair of round 150 mm driving lamps on stalks in front of the bumper.
 
     Black housings with chrome bezels, a clear lens over a chrome reflector,
@@ -157,8 +158,13 @@ def rally_lamps(ident='DL01'):
              [(-58, 1.5), (-58, 50), (-50, 66), (-30, 75), (0, 77), (0, 1.5)], SATIN, 40)
         spun(name(ident, f'reflector_{tag}'), coll, (xc, yc, zb), (0, 0, 1),
              [(-2, 1.5), (-2, 70), (2, 70), (2, 1.5)], CHROME, 40)
-        spun(name(ident, f'lens_{tag}'), coll, (xc, yc, zb), (0, 0, 1),
-             [(2, 1.5), (2, 71), (8, 70), (12, 60), (14, 1.5)], GLASS, 40)
+        if covered:
+            # Push-on stone-guard covers in the accent colour, as used by day.
+            spun(name(ident, f'cover_{tag}'), coll, (xc, yc, zb), (0, 0, 1),
+                 [(2, 1.5), (2, 73), (10, 73), (16, 64), (19, 40), (20, 1.5)], ACCENT, 40)
+        else:
+            spun(name(ident, f'lens_{tag}'), coll, (xc, yc, zb), (0, 0, 1),
+                 [(2, 1.5), (2, 71), (8, 70), (12, 60), (14, 1.5)], GLASS, 40)
         spun(name(ident, f'bezel_{tag}'), coll, (xc, yc, zb), (0, 0, 1),
              [(-2, 70), (-2, 80), (6, 80), (10, 76), (10, 71), (4, 72)], CHROME, 40)
         # Stalk from under the housing back to the bumper face.

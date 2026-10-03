@@ -211,7 +211,7 @@ def side_stripes(ident='DT44', material=WHITE):
 
 # -------------------------------------------------------------- boot rack ----
 
-def boot_rack(ident='DT45'):
+def boot_rack(ident='DT45', material=CHROME):
     """A chrome luggage rack on the boot lid: two rails, three crossbars.
 
     The rails follow the lid's slope 45 mm above it, bent down at each end
@@ -234,13 +234,13 @@ def boot_rack(ident='DT45'):
             z = z0 - 22 - (z0 - z1 - 44) * i / 8
             path.append((x, deck(x, z) + rise, z))
         path.append((x, deck(x, z1) + 6, z1 - 6))
-        k.tube(f'rail_{"L" if side > 0 else "R"}', coll, m.rounded_path(path, 18, 6), 7.5, CHROME, 14)
+        k.tube(f'rail_{"L" if side > 0 else "R"}', coll, m.rounded_path(path, 18, 6), 7.5, material, 14)
         for z in (z0 + 6, z1 - 6):
             k.cylinder(f'foot_{"L" if side > 0 else "R"}_{int(-z)}', coll, (x, deck(x, z) - 1, z), 'y', 13, 6, SATIN)
     for z in bars:
         xa, xb = k.CX - half, k.CX + half
         ya, yb = deck(xa, z) + rise, deck(xb, z) + rise
-        k.tube(f'bar_{int(-z)}', coll, [(xa, ya, z), (xb, yb, z)], 6, CHROME, 12)
+        k.tube(f'bar_{int(-z)}', coll, [(xa, ya, z), (xb, yb, z)], 6, material, 12)
     return k.finish(coll)
 
 

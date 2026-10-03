@@ -567,14 +567,23 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
 
   // Parts in the same group are variants of one thing (stripe colours,
   // steering wheels), so fitting one takes the others off.
+  // Fitting a part also fits what it requires (harnesses bring the buckets
+  // they thread through); removing a part removes whatever requires it.
   const toggleExtra = (id: string, on: boolean) => {
-    const group = extras.find((mod) => mod.id === id)?.group;
-    const others = group ? extras.filter((mod) => mod.group === group && mod.id !== id).map((mod) => mod.id) : [];
-    onChange({
-      extraMods: on
-        ? [...config.extraMods.filter((entry) => !others.includes(entry)), id]
-        : config.extraMods.filter((entry) => entry !== id),
-    });
+    const groupMates = (pick: string) => {
+      const group = extras.find((mod) => mod.id === pick)?.group;
+      return group ? extras.filter((mod) => mod.group === group && mod.id !== pick).map((mod) => mod.id) : [];
+    };
+    if (on) {
+      const picks = [...(extras.find((mod) => mod.id === id)?.requires ?? []), id];
+      const others = picks.flatMap(groupMates);
+      onChange({
+        extraMods: [...config.extraMods.filter((entry) => !others.includes(entry) && !picks.includes(entry)), ...picks],
+      });
+    } else {
+      const dependants = extras.filter((mod) => mod.requires?.includes(id)).map((mod) => mod.id);
+      onChange({ extraMods: config.extraMods.filter((entry) => entry !== id && !dependants.includes(entry)) });
+    }
   };
 
   return (

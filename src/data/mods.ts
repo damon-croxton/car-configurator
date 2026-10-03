@@ -137,15 +137,25 @@ export function forcedModIds(): string[] {
   return FORCED;
 }
 
-/** Keep the most recently selected part when two accessories cannot coexist. */
+/**
+ * Keep the most recently selected part when two accessories cannot coexist,
+ * then drop any part whose `requires` (harnesses need the buckets they
+ * thread through) is no longer fitted.
+ */
 export function resolveModConflicts(picked: ModEntry[]): ModEntry[] {
-  const accepted: ModEntry[] = [];
+  let accepted: ModEntry[] = [];
   for (const mod of [...picked].reverse()) {
     if (accepted.some((other) =>
       other.incompatibleWith?.includes(mod.id) || mod.incompatibleWith?.includes(other.id)
       || (mod.group !== undefined && other.group === mod.group)
     )) continue;
     accepted.push(mod);
+  }
+  for (let changed = true; changed;) {
+    const ids = new Set(accepted.map((mod) => mod.id));
+    const kept = accepted.filter((mod) => (mod.requires ?? []).every((id) => ids.has(id)));
+    changed = kept.length !== accepted.length;
+    accepted = kept;
   }
   return accepted.reverse();
 }

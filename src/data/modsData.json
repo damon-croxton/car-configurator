@@ -2846,7 +2846,8 @@
     {
       "id": "DT30",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "details",
       "displayName": "Rally Mud Flaps",
@@ -2856,7 +2857,8 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [
         "RA26"
@@ -2865,6 +2867,10 @@
       "anchors": {
         "nd": [
           "Skirts 6.003_57"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearbumper_Material #71_0"
         ]
       },
       "materials": [
@@ -2883,19 +2889,32 @@
             374,
             797
           ]
+        },
+        "na": {
+          "min": [
+            -850,
+            105,
+            -1506
+          ],
+          "max": [
+            833,
+            374,
+            793
+          ]
         }
       },
       "triangleBudget": 6500,
       "uiHint": "Four shaped rubber flaps with metal fasteners.",
       "file": {
-        "nd": "assets/mods/nd/DT30_mud_flaps.glb"
+        "nd": "assets/mods/nd/DT30_mud_flaps.glb",
+        "na": "assets/mods/na/DT30_mud_flaps.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py."
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py. NA version built by blender/build_r6.py (parts_r6.mud_flaps)."
     },
     {
       "id": "DT31",
@@ -3960,6 +3979,7 @@
       "category": "detail",
       "displayName": "Boot Luggage Rack",
       "area": "top",
+      "group": "boot_rack",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -6631,6 +6651,7 @@
       "category": "detail",
       "displayName": "Rally Driving Lamps",
       "area": "front",
+      "group": "rally_lamps",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -7159,6 +7180,814 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "Original visual concept after classic motorsport alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "HN01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "4-Point Race Harnesses",
+      "area": "cabin",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [
+        "BS01"
+      ],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "seats_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -569,
+            369,
+            -793
+          ],
+          "max": [
+            569,
+            920,
+            -461
+          ]
+        },
+        "na": {
+          "min": [
+            -600,
+            366,
+            -748
+          ],
+          "max": [
+            627,
+            900,
+            -421
+          ]
+        }
+      },
+      "triangleBudget": 1600,
+      "file": {
+        "nd": "assets/mods/nd/HN01_harnesses.glb",
+        "na": "assets/mods/na/HN01_harnesses.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Four-point harnesses in the accent colour: shoulder straps through the carbon buckets' harness slots down to a cam-lock buckle, lap straps from the side mounts. Built on BS01's layout, so it requires BS01 (fitting it fits the buckets). Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Accent-colour harnesses; fits the carbon buckets."
+    },
+    {
+      "id": "GK04",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Cue-Ball Shift Knob",
+      "area": "cabin",
+      "group": "gear_knob",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [
+          "Cylinder016_Material #163_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "leather_Material #162_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -29,
+            582,
+            -41
+          ],
+          "max": [
+            25,
+            655,
+            13
+          ]
+        },
+        "na": {
+          "min": [
+            5,
+            432,
+            89
+          ],
+          "max": [
+            59,
+            505,
+            143
+          ]
+        }
+      },
+      "triangleBudget": 3600,
+      "file": {
+        "nd": "assets/mods/nd/GK04_cue_ball_knob.glb",
+        "na": "assets/mods/na/GK04_cue_ball_knob.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The classic white cue-ball gear knob on a chrome collar. On the ND it encloses the stock knob; on the NA the stock knob and lever are hidden. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
+      "uiHint": "White cue-ball knob on a chrome collar."
+    },
+    {
+      "id": "DT64",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Chrome Bullet Mirrors",
+      "area": "sides",
+      "group": "mirrors",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [
+          "MirrorL 6.002_175",
+          "MirrorL 6.003_176",
+          "MirrorL 6.001_174",
+          "MirrorL 6_173",
+          "MirrorR 6.001_181",
+          "MirrorR 6.002_182",
+          "MirrorR 6_180",
+          "MirrorR 6.003_183"
+        ],
+        "na": [
+          "mirrorbox_Material #70_0",
+          "mirror_Material #76_0",
+          "mirrhousingl_Material #70_0",
+          "mirrorl_Material #76_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "MirrorBaseL 5_163",
+          "MirrorBaseR 5_168"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_MirrorGlass"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -983,
+            807,
+            40
+          ],
+          "max": [
+            983,
+            912,
+            107
+          ]
+        },
+        "na": {
+          "min": [
+            -955,
+            788,
+            40
+          ],
+          "max": [
+            937,
+            888,
+            106
+          ]
+        }
+      },
+      "triangleBudget": 3200,
+      "file": {
+        "nd": "assets/mods/nd/DT64_chrome_bullet_mirrors.glb",
+        "na": "assets/mods/na/DT64_chrome_bullet_mirrors.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The teardrop mirrors in polished chrome, after the classic chrome bullet mirrors of period roadsters. Replaces the stock mirrors. Rebuild with blender/build_r6.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Polished chrome bullet mirrors; replace the stock ones."
+    },
+    {
+      "id": "DT65",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Black Boot Luggage Rack",
+      "area": "top",
+      "group": "boot_rack",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -343,
+            845,
+            -1779
+          ],
+          "max": [
+            343,
+            947,
+            -1401
+          ]
+        },
+        "na": {
+          "min": [
+            -321,
+            803,
+            -1749
+          ],
+          "max": [
+            304,
+            904,
+            -1281
+          ]
+        }
+      },
+      "triangleBudget": 5200,
+      "file": {
+        "nd": "assets/mods/nd/DT65_boot_rack_black.glb",
+        "na": "assets/mods/na/DT65_boot_rack_black.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The boot luggage rack in gloss black. Rebuild with blender/build_r6.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Gloss black rack on the boot lid."
+    },
+    {
+      "id": "DT66",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Twin Coachline Pinstripes",
+      "area": "sides",
+      "group": "side_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -862,
+            590,
+            -735
+          ],
+          "max": [
+            862,
+            610,
+            818
+          ]
+        },
+        "na": {
+          "min": [
+            -830,
+            585,
+            -745
+          ],
+          "max": [
+            818,
+            605,
+            835
+          ]
+        }
+      },
+      "triangleBudget": 7300,
+      "file": {
+        "nd": "assets/mods/nd/DT66_pinstripes.glb",
+        "na": "assets/mods/na/DT66_pinstripes.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Twin 6 mm coachline pinstripes 8 mm apart along each flank, between the arches, as hand-painted on classic roadsters. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Two fine white lines along each flank."
+    },
+    {
+      "id": "DT67",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Satin Black Bonnet Wrap",
+      "area": "top",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [
+        "DT43",
+        "DT56",
+        "DT57",
+        "DT62",
+        "DT63",
+        "DT69",
+        "BP01",
+        "BP03",
+        "HD40",
+        "BP41"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120"
+        ],
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -712,
+            618,
+            656
+          ],
+          "max": [
+            712,
+            865,
+            1753
+          ]
+        },
+        "na": {
+          "min": [
+            -691,
+            647,
+            780
+          ],
+          "max": [
+            683,
+            843,
+            1784
+          ]
+        }
+      },
+      "triangleBudget": 22300,
+      "file": {
+        "nd": "assets/mods/nd/DT67_bonnet_wrap.glb",
+        "na": "assets/mods/na/DT67_bonnet_wrap.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A satin black vinyl wrap over the whole bonnet, inset 8 mm from its edges. It sits above where stripes lie, so it is exclusive with them and with replacement or vented bonnets. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Satin black vinyl over the whole bonnet."
+    },
+    {
+      "id": "DT69",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Red Offset Stripe",
+      "area": "top",
+      "group": "racing_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            60,
+            643,
+            -1826
+          ],
+          "max": [
+            300,
+            917,
+            1734
+          ]
+        },
+        "na": {
+          "min": [
+            52,
+            653,
+            -1855
+          ],
+          "max": [
+            292,
+            865,
+            1762
+          ]
+        }
+      },
+      "triangleBudget": 4300,
+      "file": {
+        "nd": "assets/mods/nd/DT69_offset_stripe_red.glb",
+        "na": "assets/mods/na/DT69_offset_stripe_red.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The offset rally stripe in the accent colour. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Offset stripe in the accent colour."
+    },
+    {
+      "id": "DL02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Covered Rally Lamps",
+      "area": "front",
+      "group": "rally_lamps",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.002_110"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -410,
+            359,
+            1866
+          ],
+          "max": [
+            410,
+            525,
+            1954
+          ]
+        },
+        "na": {
+          "min": [
+            -419,
+            410,
+            1950
+          ],
+          "max": [
+            402,
+            570,
+            2042
+          ]
+        }
+      },
+      "triangleBudget": 4800,
+      "file": {
+        "nd": "assets/mods/nd/DL02_rally_lamps_covered.glb",
+        "na": "assets/mods/na/DL02_rally_lamps_covered.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The rally driving lamps with push-on stone-guard covers in the accent colour, as run by day. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Rally lamps with accent-colour stone covers."
+    },
+    {
+      "id": "SP01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Alloy Skid Plate",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -320,
+            134,
+            1376
+          ],
+          "max": [
+            320,
+            226,
+            1856
+          ]
+        },
+        "na": {
+          "min": [
+            -329,
+            200,
+            1360
+          ],
+          "max": [
+            312,
+            292,
+            1840
+          ]
+        }
+      },
+      "triangleBudget": 700,
+      "file": {
+        "nd": "assets/mods/nd/SP01_skid_plate.glb",
+        "na": "assets/mods/na/SP01_skid_plate.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 3 mm alloy skid plate under the nose, below any front lip, with a rolled front edge and brackets up to the bumper, as on gravel and rally builds. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Alloy sump guard under the nose."
+    },
+    {
+      "id": "W14",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Turbofan",
+      "slot": "wheelStyle",
+      "optionId": "turbofan",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "A flat disc with twenty curved blade slots round its edge.",
+      "file": {
+        "nd": "assets/mods/nd/W14_turbofan.glb",
+        "na": "assets/mods/nd/W14_turbofan.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W15",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Deep Dish Six",
+      "slot": "wheelStyle",
+      "optionId": "deep_dish_six",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Six spokes recessed behind a wide polished lip.",
+      "file": {
+        "nd": "assets/mods/nd/W15_deep_dish_six.glb",
+        "na": "assets/mods/nd/W15_deep_dish_six.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
       "originMm": {
         "nd": [
           734,

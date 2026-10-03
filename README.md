@@ -32,8 +32,13 @@ stripes, mirrors and flares, and the NA gets a removable hardtop
 (`blender/PARTS-R4.md`). Round five adds shift knobs, a fire extinguisher,
 rally lamps, race roundels, an offset stripe, eight-spoke and pepperpot
 wheels, and NA versions of the vents, canards, fuel cap and a carbon boot lid
-(`blender/PARTS-R5.md`). Variants of one part form a group in the panel,
-and picking one takes the others off.
+(`blender/PARTS-R5.md`). Round six adds harnesses for the carbon buckets,
+a cue-ball knob, chrome bullet mirrors, pinstripes, a bonnet wrap, covered
+lamps, a skid plate, turbofan and deep-dish wheels, and NA mud flaps
+(`blender/PARTS-R6.md`). Variants of one part form a group in the panel,
+and picking one takes the others off. A part can require another (the
+harnesses need the buckets): fitting it fits both, and losing the required
+part drops it.
 
 **What does not:** aero options without the 3D badge (spec sheet only). A
 control is not offered where the loaded model has nothing for it to change —

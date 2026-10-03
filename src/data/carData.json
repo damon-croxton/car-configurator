@@ -42,7 +42,9 @@
         "concave_split_five",
         "retro_three_spoke",
         "classic_eight_spoke",
-        "pepperpot_disc"
+        "pepperpot_disc",
+        "turbofan",
+        "deep_dish_six"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -312,7 +314,9 @@
         "retro_three_spoke",
         "concave_split_five",
         "classic_eight_spoke",
-        "pepperpot_disc"
+        "pepperpot_disc",
+        "turbofan",
+        "deep_dish_six"
       ],
       "defaultWheel": "oem_na_14",
       "wheelDiameters": [
@@ -518,6 +522,28 @@
       "weightPerCorner": 8.6,
       "oem": false,
       "description": "A flat disc pierced with eight large and eight small round windows, a period rally look."
+    },
+    {
+      "id": "turbofan",
+      "name": "Turbofan",
+      "brand": "Club",
+      "spokeType": "turbofan",
+      "spokeCount": 20,
+      "lipDepth": 0.045,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "A flat disc with twenty curved blade slots, after period turbofan race wheels."
+    },
+    {
+      "id": "deep_dish_six",
+      "name": "Deep Dish Six",
+      "brand": "Club",
+      "spokeType": "six_spoke",
+      "spokeCount": 6,
+      "lipDepth": 0.06,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Six straight spokes recessed behind a wide polished lip and dish wall."
     }
   ],
   "aeroParts": {

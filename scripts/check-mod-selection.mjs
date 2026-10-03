@@ -121,6 +121,26 @@ const hardtop = activeMods('na', reconcileConfig({ ...DEFAULT_CONFIG, generation
 assert.deepEqual(hardtop.map(m => m.id), ['HT40']);
 console.log(`PASS: ${groups.size} exclusive part groups, replacement interiors and hardtop conflicts`);
 
+// `requires`: harnesses only survive with the buckets they thread through,
+// on both cars, and swapping to the other seats drops them.
+for (const gen of ['nd', 'na']) {
+  const base = { ...DEFAULT_CONFIG, generation: gen };
+  assert.deepEqual(reconcileConfig({ ...base, extraMods: ['HN01'] }).extraMods, [], `${gen}: HN01 needs BS01`);
+  assert.deepEqual(reconcileConfig({ ...base, extraMods: ['BS01', 'HN01'] }).extraMods, ['BS01', 'HN01']);
+  assert.deepEqual(reconcileConfig({ ...base, extraMods: ['BS01', 'HN01', 'BS02'] }).extraMods, ['BS02'],
+    `${gen}: other seats drop the harness`);
+}
+for (const mod of catalogue.filter(m => m.requires?.length)) {
+  for (const id of mod.requires) {
+    const needed = catalogue.find(m => m.id === id);
+    assert.ok(needed && mod.gen.every(g => needed.gen.includes(g)), `${mod.id} requires ${id} on every car it fits`);
+  }
+}
+// The bonnet wrap sits above where stripes lie, so the later pick wins.
+assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ['DT43', 'DT67'] }).extraMods, ['DT67']);
+assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ['DT67', 'DT62'] }).extraMods, ['DT62']);
+console.log('PASS: harnesses require the buckets; bonnet wrap and stripes are exclusive');
+
 // Cabin finishes: valid ids survive, unknown ids and parts a car cannot
 // colour separately (the NA has no dash accent or door inserts) clear to ''.
 const ndCabin = reconcileConfig({ ...DEFAULT_CONFIG, seatTrim: 'red_alcantara', wheelTrim: 'tan_leather',
