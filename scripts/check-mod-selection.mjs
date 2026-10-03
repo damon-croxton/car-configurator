@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { build } from 'esbuild';
 
 // Bundle the app's real selection code, including JSON catalogues, for Node.
@@ -77,6 +77,16 @@ for (const [slot, ids] of Object.entries(naAero)) {
   }
 }
 console.log('PASS: every NA aero option modelled with NA-built geometry');
+
+// Every wheel the panel offers has an icon (ControlPanel's WHEEL_ICON):
+// a missing file shows as a broken image, locally and on Pages alike.
+const wheelIcons = new Set([
+  ...carData.generations.flatMap(g => g.wheels ?? []),
+  ...catalogue.filter(m => m.attachTo === 'wheel' && m.slot === null).map(m => m.id),
+]);
+const missingIcons = [...wheelIcons].filter(id => !existsSync(`public/assets/icons/wheels/${id}.png`));
+assert.deepEqual(missingIcons, [], 'wheel icons missing; render them with blender/audit_nd_mods.py --icons');
+console.log(`PASS: all ${wheelIcons.size} wheel options have icons`);
 
 // ND accessories: all twelve are selectable extras, the aero mirrors replace
 // the stock heads, and they cannot be combined with the mirror caps.
