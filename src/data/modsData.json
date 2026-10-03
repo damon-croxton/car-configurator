@@ -4168,7 +4168,8 @@
     {
       "id": "DT48",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Front Fender Vents",
@@ -4178,7 +4179,8 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -4186,6 +4188,9 @@
         "nd": [
           "FenderFL 6.002_88",
           "FenderFR 6.001_80"
+        ],
+        "na": [
+          "f fender_Material #71_0"
         ]
       },
       "materials": [
@@ -4204,18 +4209,31 @@
             599,
             702
           ]
+        },
+        "na": {
+          "min": [
+            -847,
+            436,
+            703
+          ],
+          "max": [
+            831,
+            529,
+            862
+          ]
         }
       },
       "triangleBudget": 2500,
       "file": {
-        "nd": "assets/mods/nd/DT48_fender_vents.glb"
+        "nd": "assets/mods/nd/DT48_fender_vents.glb",
+        "na": "assets/mods/na/DT48_fender_vents.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Carbon three-slat gills on both front fenders behind the arch, fitted to the fender's curvature. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Carbon three-slat gills on both front fenders behind the arch, fitted to the fender's curvature. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r5.py.",
       "uiHint": "Carbon gills behind the front wheels."
     },
     {
@@ -4310,7 +4328,8 @@
     {
       "id": "DT50",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "rear_aero",
       "displayName": "Rear Bumper Canards",
@@ -4320,13 +4339,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "BumperR 6.001_146"
+        ],
+        "na": [
+          "rearbumper_Material #71_0"
         ]
       },
       "materials": [
@@ -4344,18 +4367,31 @@
             417,
             -1679
           ]
+        },
+        "na": {
+          "min": [
+            -753,
+            347,
+            -1832
+          ],
+          "max": [
+            737,
+            365,
+            -1690
+          ]
         }
       },
       "triangleBudget": 1000,
       "file": {
-        "nd": "assets/mods/nd/DT50_rear_canards.glb"
+        "nd": "assets/mods/nd/DT50_rear_canards.glb",
+        "na": "assets/mods/na/DT50_rear_canards.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A carbon canard on each rear bumper corner, following the bumper's curve. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "A carbon canard on each rear bumper corner, following the bumper's curve. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r5.py.",
       "uiHint": "Carbon canards on the rear corners."
     },
     {
@@ -4432,7 +4468,8 @@
     {
       "id": "DT52",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "rear_aero",
       "displayName": "Rear Bumper Vents",
@@ -4442,13 +4479,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "BumperR 6.001_146"
+        ],
+        "na": [
+          "rearbumper_Material #71_0"
         ]
       },
       "materials": [
@@ -4467,18 +4508,31 @@
             464,
             -1544
           ]
+        },
+        "na": {
+          "min": [
+            -784,
+            320,
+            -1593
+          ],
+          "max": [
+            769,
+            399,
+            -1508
+          ]
         }
       },
       "triangleBudget": 2000,
       "file": {
-        "nd": "assets/mods/nd/DT52_rear_bumper_vents.glb"
+        "nd": "assets/mods/nd/DT52_rear_bumper_vents.glb",
+        "na": "assets/mods/na/DT52_rear_vents.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Carbon two-slat vents on the rear bumper's flanks behind the arches, clear of the side reflectors. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Carbon two-slat vents on the rear bumper's flanks behind the arches, clear of the side reflectors. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r5.py.",
       "uiHint": "Carbon vents behind the rear wheels."
     },
     {
@@ -4557,7 +4611,8 @@
     {
       "id": "DT54",
       "gen": [
-        "nd"
+        "nd",
+        "na"
       ],
       "category": "detail",
       "displayName": "Racing Fuel Cap",
@@ -4567,13 +4622,17 @@
       "attachType": "bolt_on",
       "attachTo": "body",
       "hides": {
-        "nd": []
+        "nd": [],
+        "na": []
       },
       "incompatibleWith": [],
       "requires": [],
       "anchors": {
         "nd": [
           "FendersR 6.001_40"
+        ],
+        "na": [
+          "rearfender_Material #71_0"
         ]
       },
       "materials": [
@@ -4593,18 +4652,31 @@
             853,
             -1391
           ]
+        },
+        "na": {
+          "min": [
+            -831,
+            631,
+            -1422
+          ],
+          "max": [
+            -715,
+            789,
+            -1239
+          ]
         }
       },
       "triangleBudget": 2000,
       "file": {
-        "nd": "assets/mods/nd/DT54_racing_fuel_cap.glb"
+        "nd": "assets/mods/nd/DT54_racing_fuel_cap.glb",
+        "na": "assets/mods/na/DT54_fuel_cap.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Alloy racing filler cap over the round fuel door on the left rear quarter: a bezel ring fitted to the sloping, curved panel, a flat chrome lid lifted just clear of it, a dark badge and a hinge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Alloy racing filler cap over the round fuel door on the left rear quarter: a bezel ring fitted to the sloping, curved panel, a flat chrome lid lifted just clear of it, a dark badge and a hinge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NA version built by blender/build_r5.py.",
       "uiHint": "Alloy racing cap over the fuel door."
     },
     {
@@ -5781,14 +5853,14 @@
       "bboxMm": {
         "na": {
           "min": [
-            -703,
+            -701,
             637,
-            522
+            523
           ],
           "max": [
-            695,
-            847,
-            1796
+            693,
+            846,
+            1794
           ]
         }
       },
@@ -5801,7 +5873,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": true,
-      "$note": "Carbon bonnet shaped from the stock bonnet surface (a 2 mm offset skin), replacing it. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
+      "$note": "Carbon bonnet shaped from the stock bonnet surface (a 2 mm skin behind its outer face), replacing it. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
       "uiHint": "Full carbon bonnet."
     },
     {
@@ -6258,6 +6330,847 @@
       "derivedFromBaseMesh": false,
       "$note": "A titanium tip cut at 30 degrees, sleeved over the stock tail pipe. Rebuild with blender/build_r4.py; geometry in blender/parts_r4.py.",
       "uiHint": "Titanium tip cut at 30 degrees."
+    },
+    {
+      "id": "GK01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Weighted Alloy Shift Knob",
+      "area": "cabin",
+      "group": "gear_knob",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [
+          "Cylinder016_Material #163_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "leather_Material #162_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -29,
+            582,
+            -41
+          ],
+          "max": [
+            25,
+            655,
+            13
+          ]
+        },
+        "na": {
+          "min": [
+            5,
+            432,
+            89
+          ],
+          "max": [
+            59,
+            505,
+            143
+          ]
+        }
+      },
+      "triangleBudget": 3600,
+      "file": {
+        "nd": "assets/mods/nd/GK01_weighted_ball_knob.glb",
+        "na": "assets/mods/na/GK01_weighted_ball_knob.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 54 mm weighted alloy ball knob on a black collar, the classic short-throw upgrade. On the ND the stock knob is part of the cabin mesh, so the new knob is sized to enclose it; on the NA the stock knob and lever are hidden. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Heavy brushed-alloy ball knob."
+    },
+    {
+      "id": "GK02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Wooden Ball Shift Knob",
+      "area": "cabin",
+      "group": "gear_knob",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [
+          "Cylinder016_Material #163_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "leather_Material #162_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_Wood"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -29,
+            582,
+            -41
+          ],
+          "max": [
+            25,
+            655,
+            13
+          ]
+        },
+        "na": {
+          "min": [
+            5,
+            432,
+            89
+          ],
+          "max": [
+            59,
+            505,
+            143
+          ]
+        }
+      },
+      "triangleBudget": 3600,
+      "file": {
+        "nd": "assets/mods/nd/GK02_wooden_ball_knob.glb",
+        "na": "assets/mods/na/GK02_wooden_ball_knob.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 54 mm lacquered wooden ball knob on a chrome collar, period style. On the ND the stock knob is part of the cabin mesh, so the new knob is sized to enclose it; on the NA the stock knob and lever are hidden. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Lacquered wood ball on a chrome collar."
+    },
+    {
+      "id": "GK03",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Tall Titanium Shift Knob",
+      "area": "cabin",
+      "group": "gear_knob",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [
+          "Cylinder016_Material #163_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "leather_Material #162_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack",
+        "MOD_Titanium"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -28,
+            582,
+            -40
+          ],
+          "max": [
+            24,
+            662,
+            12
+          ]
+        },
+        "na": {
+          "min": [
+            5,
+            432,
+            90
+          ],
+          "max": [
+            58,
+            512,
+            142
+          ]
+        }
+      },
+      "triangleBudget": 1900,
+      "file": {
+        "nd": "assets/mods/nd/GK03_tall_titanium_knob.glb",
+        "na": "assets/mods/na/GK03_tall_titanium_knob.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A tall cylindrical titanium knob with a domed top on a black collar. On the ND the stock knob is part of the cabin mesh, so the new knob is sized to enclose it; on the NA the stock knob and lever are hidden. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Tall burnt-titanium knob."
+    },
+    {
+      "id": "FX01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "interior",
+      "displayName": "Fire Extinguisher",
+      "area": "cabin",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "M_Interior_Max_19"
+        ],
+        "na": [
+          "Plane008_Material #170_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint",
+        "MOD_Alloy",
+        "MOD_Chrome",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -500,
+            266,
+            -1
+          ],
+          "max": [
+            -155,
+            366,
+            90
+          ]
+        },
+        "na": {
+          "min": [
+            -531,
+            267,
+            49
+          ],
+          "max": [
+            -186,
+            367,
+            140
+          ]
+        }
+      },
+      "triangleBudget": 2700,
+      "file": {
+        "nd": "assets/mods/nd/FX01_fire_extinguisher.glb",
+        "na": "assets/mods/na/FX01_fire_extinguisher.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 1 kg extinguisher in the accent colour, strapped to a quick-release alloy floor bracket across the passenger footwell just ahead of the seat, as required for many track days. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Extinguisher on a floor bracket ahead of the passenger seat."
+    },
+    {
+      "id": "DL01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Rally Driving Lamps",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.002_110"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Chrome",
+        "MOD_Glass",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -410,
+            359,
+            1866
+          ],
+          "max": [
+            410,
+            525,
+            1948
+          ]
+        },
+        "na": {
+          "min": [
+            -419,
+            410,
+            1950
+          ],
+          "max": [
+            402,
+            570,
+            2036
+          ]
+        }
+      },
+      "triangleBudget": 4600,
+      "file": {
+        "nd": "assets/mods/nd/DL01_rally_lamps.glb",
+        "na": "assets/mods/na/DL01_rally_lamps.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Two 150 mm round driving lamps (black housings, chrome bezels, clear lenses over chrome reflectors) on stalks bolted to the front bumper, as on period rally cars. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Pair of round driving lamps on the bumper."
+    },
+    {
+      "id": "RN01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Race Roundels",
+      "area": "sides",
+      "group": "roundels",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -862,
+            390,
+            -300
+          ],
+          "max": [
+            862,
+            690,
+            0
+          ]
+        },
+        "na": {
+          "min": [
+            -830,
+            360,
+            -170
+          ],
+          "max": [
+            815,
+            660,
+            130
+          ]
+        }
+      },
+      "triangleBudget": 6300,
+      "file": {
+        "nd": "assets/mods/nd/RN01_race_roundels.glb",
+        "na": "assets/mods/na/RN01_race_roundels.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Vintage-racing number roundels: a 300 mm white disc on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "White 300 mm roundels on both doors."
+    },
+    {
+      "id": "RN02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Accent Race Roundels",
+      "area": "sides",
+      "group": "roundels",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "DoorL 6.003_68",
+          "DoorR 6.003_73"
+        ],
+        "na": [
+          "leftdoor_Material #71_0",
+          "rigthdoor_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -862,
+            390,
+            -300
+          ],
+          "max": [
+            862,
+            690,
+            0
+          ]
+        },
+        "na": {
+          "min": [
+            -830,
+            360,
+            -170
+          ],
+          "max": [
+            815,
+            660,
+            130
+          ]
+        }
+      },
+      "triangleBudget": 6300,
+      "file": {
+        "nd": "assets/mods/nd/RN02_race_roundels_accent.glb",
+        "na": "assets/mods/na/RN02_race_roundels_accent.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The race roundels in the accent colour. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Roundels in the accent colour."
+    },
+    {
+      "id": "DT62",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Offset Rally Stripe",
+      "area": "top",
+      "group": "racing_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_StripeWhite"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            60,
+            643,
+            -1826
+          ],
+          "max": [
+            300,
+            917,
+            1734
+          ]
+        },
+        "na": {
+          "min": [
+            52,
+            653,
+            -1855
+          ],
+          "max": [
+            292,
+            865,
+            1762
+          ]
+        }
+      },
+      "triangleBudget": 4300,
+      "file": {
+        "nd": "assets/mods/nd/DT62_offset_stripe.glb",
+        "na": "assets/mods/na/DT62_offset_stripe.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A single 240 mm white stripe over bonnet and boot, offset to the driver side as on period endurance racers. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Single white stripe offset to the driver side."
+    },
+    {
+      "id": "DT63",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Black Offset Stripe",
+      "area": "top",
+      "group": "racing_stripes",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120",
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "hood_Material #71_0",
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_GlossBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            60,
+            643,
+            -1826
+          ],
+          "max": [
+            300,
+            917,
+            1734
+          ]
+        },
+        "na": {
+          "min": [
+            52,
+            653,
+            -1855
+          ],
+          "max": [
+            292,
+            865,
+            1762
+          ]
+        }
+      },
+      "triangleBudget": 4300,
+      "file": {
+        "nd": "assets/mods/nd/DT63_offset_stripe_black.glb",
+        "na": "assets/mods/na/DT63_offset_stripe_black.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The offset stripe in gloss black. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Single gloss black offset stripe."
+    },
+    {
+      "id": "BP42",
+      "gen": [
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "NA Carbon Boot Lid",
+      "area": "top",
+      "slot": null,
+      "optionId": null,
+      "attachType": "replace",
+      "attachTo": "body",
+      "hides": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -563,
+            689,
+            -1889
+          ],
+          "max": [
+            555,
+            868,
+            -1100
+          ]
+        }
+      },
+      "triangleBudget": 1400,
+      "file": {
+        "na": "assets/mods/na/BP42_carbon_boot_lid.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": true,
+      "$note": "Carbon boot lid shaped from the stock lid surface, 2 mm thick behind its outer face, replacing it. Spoilers, racks and stripes still sit on it. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "uiHint": "Carbon boot lid in place of the steel one."
+    },
+    {
+      "id": "W12",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Classic Eight Spoke",
+      "slot": "wheelStyle",
+      "optionId": "classic_eight_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Eight even spokes, filleted windows and a polished lip.",
+      "file": {
+        "nd": "assets/mods/nd/W12_classic_eight_spoke.glb",
+        "na": "assets/mods/nd/W12_classic_eight_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W13",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Pepperpot Disc",
+      "slot": "wheelStyle",
+      "optionId": "pepperpot_disc",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "A flat disc with eight large and eight small round windows.",
+      "file": {
+        "nd": "assets/mods/nd/W13_pepperpot_disc.glb",
+        "na": "assets/mods/nd/W13_pepperpot_disc.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
     }
   ]
 }

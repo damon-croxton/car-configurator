@@ -29,7 +29,10 @@ bolt-on fender flares, are built for both cars (`blender/ND-EXTRAS.md`).
 Both cars also get four replacement steering wheels, two pairs of
 replacement seats, quick-release bumper fasteners and colour variants of the
 stripes, mirrors and flares, and the NA gets a removable hardtop
-(`blender/PARTS-R4.md`). Variants of one part form a group in the panel,
+(`blender/PARTS-R4.md`). Round five adds shift knobs, a fire extinguisher,
+rally lamps, race roundels, an offset stripe, eight-spoke and pepperpot
+wheels, and NA versions of the vents, canards, fuel cap and a carbon boot lid
+(`blender/PARTS-R5.md`). Variants of one part form a group in the panel,
 and picking one takes the others off.
 
 **What does not:** aero options without the 3D badge (spec sheet only). A

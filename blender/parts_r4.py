@@ -499,15 +499,15 @@ def carbon_bonnet(ident='HD40'):
     """A carbon replacement bonnet for the NA, hiding the stock one.
 
     The panel is derived from the NA's own bonnet surface (so the shut lines
-    are right by construction), given a carbon weave and 2 mm of thickness.
-    It is the only round-four part derived from the base mesh, and is
-    recorded as such in ATTRIBUTION.md.
+    are right by construction), given a carbon weave and 2 mm of thickness
+    behind the original outer surface, so stripes, pins and vents laid on
+    the bonnet still sit on it. It is recorded in ATTRIBUTION.md.
     """
     coll = m.start_mod(k.GEN, ident)
     panel = m.panel_from_base('hood_Material #71_0', name(ident, 'panel'), coll, gen=k.GEN)
     k.surface_material(panel, CARBON)
     m.clean(panel)
-    m.solidify(panel, 2.0, gen=k.GEN, offset=1.0)
+    m.solidify(panel, 2.0, gen=k.GEN, offset=-1.0)
     for f in panel.data.polygons:
         f.use_smooth = True
     m.box_uv(panel, scale=0.05)

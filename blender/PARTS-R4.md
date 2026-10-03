@@ -53,7 +53,8 @@ which is where the catalogue entries came from.
 - **The hardtop** is lofted from the windscreen header back to the rear deck
   with a tinted rear-window film. It is exclusive with the roll bars and the
   wind deflector: if both are picked, the hardtop wins.
-- **HD40 is derived from the base mesh.** It offsets the stock bonnet surface
-  into a 2 mm skin. See `ATTRIBUTION.md`.
+- **HD40 is derived from the base mesh.** It thickens the stock bonnet
+  surface into a 2 mm skin behind its outer face (so stripes and pins still
+  sit on it). See `ATTRIBUTION.md`.
 - **New contract material.** `MOD_Wood` (class `mod_wood`, never tinted) is
   used for the wood rim.

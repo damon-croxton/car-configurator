@@ -90,7 +90,8 @@ export type SpokeType =
   | 'six_spoke'
   | 'split_five'
   | 'mesh_cross'
-  | 'eight_spoke';
+  | 'eight_spoke'
+  | 'pepperpot';
 
 export interface WheelStyleDef {
   id: string;

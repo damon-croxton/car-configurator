@@ -43,6 +43,13 @@ GEN_CFG = {
         'mirror': ((805.0, 818.0, 100.0), (905.0, 876.0, 70.0)),
         'front_strap': ('BumperF 6.003_111', -480.0),
         'deflector': (-790.0, 240.0, 945.0, 1035.0, 40.0),
+        # Vents: per-side panel, then z0, z1, y0, y1 on it.
+        'fender_vent': ({1: 'FenderFL 6.002_88', -1: 'FenderFR 6.001_80'}, 700.0, 520.0, 470.0, 590.0),
+        'rear_vent': ('BumperR 6.001_146', -1545.0, -1635.0, 385.0, 455.0),
+        # Rear canards: bumper, leading z, span along the car, height.
+        'canard': ('BumperR 6.001_146', -1680.0, 150.0, 412.0),
+        # Fuel filler: panel, side, centre y, centre z.
+        'fuel': ('FendersR 6.001_40', 1, 787.0, -1480.0),
     },
     'na': {
         'stripe_panels': (('hood_Material #71_0', 'bonnet'), ('trunk_Material #71_0', 'boot')),
@@ -62,6 +69,11 @@ GEN_CFG = {
         'front_strap': ('frontbumper_Material #71_0', 440.0),
         # On the shelf behind the seat well, which starts at z -880.
         'deflector': (-895.0, 300.0, 840.0, 1010.0, 14.0),
+        'fender_vent': ({1: 'f fender_Material #71_0', -1: 'f fender_Material #71_0'}, 860.0, 705.0, 445.0, 520.0),
+        'rear_vent': ('rearbumper_Material #71_0', -1510.0, -1590.0, 330.0, 390.0),
+        'canard': ('rearbumper_Material #71_0', -1690.0, 140.0, 360.0),
+        # The NA's filler is on the right rear quarter, ahead of the tail light.
+        'fuel': ('rearfender_Material #71_0', -1, 720.0, -1330.0),
     },
 }
 
@@ -293,7 +305,7 @@ def side_vent(ident, coll, tag, part, side, z0, z1, y0, y1, slats, frame_mat):
     axis = Vector((side, 0, 0))
 
     def on(z, y):
-        p, n = k.ray_normal(part, (side * 1300, y, z), (-side, 0, 0))
+        p, n = k.ray_normal(part, (k.CX + side * 1300, y, z), (-side, 0, 0))
         assert p is not None, (tag, z, y)
         return p, outward(n, axis)
 
@@ -319,19 +331,21 @@ def side_vent(ident, coll, tag, part, side, z0, z1, y0, y1, slats, frame_mat):
 def fender_vents(ident='DT48'):
     """Carbon three-slat gills on both front fenders, behind the arch."""
     coll = m.start_mod(k.GEN, ident)
-    for side, part in ((1, 'FenderFL 6.002_88'), (-1, 'FenderFR 6.001_80')):
-        side_vent(ident, coll, 'L' if side > 0 else 'R', k.base(part), side,
-                  700.0, 520.0, 470.0, 590.0, 3, CARBON)
+    parts, z0, z1, y0, y1 = cfg()['fender_vent']
+    for side in (1, -1):
+        side_vent(ident, coll, 'L' if side > 0 else 'R', k.base(parts[side]), side,
+                  z0, z1, y0, y1, 3, CARBON)
     return k.finish(coll)
 
 
 def rear_vents(ident='DT52'):
     """Carbon two-slat vents on the rear bumper's flanks, behind the arch."""
     coll = m.start_mod(k.GEN, ident)
-    bumper = k.base('BumperR 6.001_146')
+    part, z0, z1, y0, y1 = cfg()['rear_vent']
+    bumper = k.base(part)
     for side in (1, -1):
         side_vent(ident, coll, 'L' if side > 0 else 'R', bumper, side,
-                  -1545.0, -1635.0, 385.0, 455.0, 2, CARBON)
+                  z0, z1, y0, y1, 2, CARBON)
     return k.finish(coll)
 
 
@@ -383,14 +397,15 @@ def aero_mirrors(ident='DT49', material=CARBON):
 def rear_canards(ident='DT50'):
     """A carbon canard on each rear bumper corner, following its curve."""
     coll = m.start_mod(k.GEN, ident)
-    bumper = k.base('BumperR 6.001_146')
+    part, z_lead, span, y_root = cfg()['canard']
+    bumper = k.base(part)
     for side in (1, -1):
         rings = []
         for i in range(25):
             t = i / 24
-            z = -1680 - 150 * t
-            y = 412 - 10 * t
-            p, n = k.ray_normal(bumper, (side * 1300, y, z), (-side, 0, 0))
+            z = z_lead - span * t
+            y = y_root - 10 * t
+            p, n = k.ray_normal(bumper, (k.CX + side * 1300, y, z), (-side, 0, 0))
             assert p is not None, (side, z)
             n = outward(Vector((n.x, 0, n.z)).normalized(), Vector((side, 0, 0)))
             width = 3 + 42 * math.sin(math.pi * t) ** 0.8
@@ -594,25 +609,22 @@ def rear_strap(ident='DT08'):
 
 # ------------------------------------------------------- racing fuel cap ----
 
-#: Fuel door centre (app mm) and the side it is on, measured from renders.
-FUEL_DOOR = {'nd': (1, 787.0, -1480.0)}
-
 
 def fuel_cap(ident='DT54'):
-    """An alloy racing filler cap over the ND's round fuel door.
+    """An alloy racing filler cap over the fuel filler (GEN_CFG 'fuel').
 
-    The door is the round panel on the left rear quarter, about 180 mm
+    On the ND the door is the round panel on the left rear quarter, about 180 mm
     across on a sloping, curved surface. The bezel ring is laid out in that
     surface's plane and fitted to it point by point; the flat chrome lid then sits just clear of the
     panel's highest point beneath it, with a dark centre badge and a hinge.
     """
     coll = m.start_mod(k.GEN, ident)
-    quarter = k.base('FendersR 6.001_40')
-    side, cy, cz = FUEL_DOOR[k.GEN]
+    part, side, cy, cz = cfg()['fuel']
+    quarter = k.base(part)
     axis = Vector((side, 0, 0))
 
     def on(y, z):
-        p, n = k.ray_normal(quarter, (side * 1300, y, z), (-side, 0, 0))
+        p, n = k.ray_normal(quarter, (k.CX + side * 1300, y, z), (-side, 0, 0))
         assert p is not None, (y, z)
         return p, outward(n, axis)
 

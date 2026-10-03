@@ -40,7 +40,9 @@
         "bbs_mesh",
         "watanabe_rs",
         "concave_split_five",
-        "retro_three_spoke"
+        "retro_three_spoke",
+        "classic_eight_spoke",
+        "pepperpot_disc"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -308,7 +310,9 @@
         "bbs_mesh",
         "enkei_rpf1",
         "retro_three_spoke",
-        "concave_split_five"
+        "concave_split_five",
+        "classic_eight_spoke",
+        "pepperpot_disc"
       ],
       "defaultWheel": "oem_na_14",
       "wheelDiameters": [
@@ -492,6 +496,28 @@
       "weightPerCorner": 9.1,
       "oem": false,
       "description": "Three swept paddles, an inset centre and a polished step lip."
+    },
+    {
+      "id": "classic_eight_spoke",
+      "name": "Classic Eight Spoke",
+      "brand": "Club",
+      "spokeType": "eight_spoke",
+      "spokeCount": 8,
+      "lipDepth": 0.045,
+      "weightPerCorner": 8.6,
+      "oem": false,
+      "description": "Eight even spokes with filleted windows and a polished step lip, after classic motorsport alloys."
+    },
+    {
+      "id": "pepperpot_disc",
+      "name": "Pepperpot Disc",
+      "brand": "Club",
+      "spokeType": "pepperpot",
+      "spokeCount": 16,
+      "lipDepth": 0.045,
+      "weightPerCorner": 8.6,
+      "oem": false,
+      "description": "A flat disc pierced with eight large and eight small round windows, a period rally look."
     }
   ],
   "aeroParts": {
