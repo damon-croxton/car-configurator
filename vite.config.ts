@@ -7,6 +7,19 @@ export default defineConfig(() => {
   return {
     base: './',
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          // three.js and React change far less often than the app, so they get
+          // their own long-cached chunks instead of one 1.3 MB bundle that is
+          // re-downloaded after every deploy.
+          manualChunks: {
+            three: ['three'],
+            vendor: ['react', 'react-dom', 'gsap'],
+          },
+        },
+      },
+    },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),

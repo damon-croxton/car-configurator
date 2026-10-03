@@ -109,7 +109,7 @@ export class EnvironmentManager {
   private async tryLoadPanorama(url?: string): Promise<THREE.Texture | null> {
     if (!url) return null;
     try {
-      const texture = await new THREE.TextureLoader(this.loadingManager).loadAsync(url);
+      const texture = await this.loadPanoramaTexture(url);
       texture.colorSpace = THREE.SRGBColorSpace;
       texture.mapping = THREE.EquirectangularReflectionMapping;
       texture.anisotropy = 4;
@@ -117,6 +117,31 @@ export class EnvironmentManager {
     } catch {
       return null;
     }
+  }
+
+  /**
+   * The backdrops are 8K WebPs. TextureLoader hands the GPU an <img>, which
+   * the browser decodes on the main thread at upload — a visible freeze on
+   * every environment switch. ImageBitmapLoader decodes off the main thread.
+   * Safari and Firefox < 98 can't flip an ImageBitmap at decode (three's
+   * GLTFLoader makes the same call), so they keep the <img> path.
+   */
+  private async loadPanoramaTexture(url: string): Promise<THREE.Texture> {
+    const agent = navigator.userAgent;
+    const safari = /^((?!chrome|android).)*safari/i.test(agent);
+    const firefox = agent.match(/Firefox\/(\d+)/);
+    const oldFirefox = firefox !== null && Number(firefox[1]) < 98;
+    if (typeof createImageBitmap === 'undefined' || safari || oldFirefox) {
+      return new THREE.TextureLoader(this.loadingManager).loadAsync(url);
+    }
+    const loader = new THREE.ImageBitmapLoader(this.loadingManager);
+    loader.setOptions({ imageOrientation: 'flipY' });
+    const bitmap = await loader.loadAsync(url);
+    const texture = new THREE.Texture(bitmap as unknown as HTMLImageElement);
+    texture.flipY = false;
+    texture.needsUpdate = true;
+    texture.addEventListener('dispose', () => bitmap.close());
+    return texture;
   }
 
   private async tryLoadHdri(url: string): Promise<THREE.DataTexture | null> {

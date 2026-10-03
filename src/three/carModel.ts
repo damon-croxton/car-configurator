@@ -108,9 +108,10 @@ type ShadeableMaterial = THREE.Material & {
 
 /**
  * Light a lens with its own glow, or put it back to the asset's look. The
- * lenses are mostly-transparent blended glass (the ND's red is 25% opaque
- * with transmission), and blending scales emissive by alpha too — so a lit
- * lens also goes near-opaque, as a lit lamp reads in life.
+ * lenses are mostly-transparent blended glass (the ND's red is 25% opaque;
+ * its authored transmission is dropped at load, see dropTransmission), and
+ * blending scales emissive by alpha too — so a lit lens also goes
+ * near-opaque, as a lit lamp reads in life.
  */
 function lamp(m: ShadeableMaterial, base: MaterialSnapshot, on: boolean, hex: number, intensity: number): void {
   if (!m.emissive) return;
@@ -125,6 +126,26 @@ function lamp(m: ShadeableMaterial, base: MaterialSnapshot, on: boolean, hex: nu
     m.opacity = base.opacity;
     if (typeof m.transmission === 'number') m.transmission = base.transmission;
   }
+}
+
+/**
+ * Turn a transmissive material back into plain blended glass.
+ *
+ * Any material with transmission makes three.js render the whole scene a
+ * second time, every frame, so it has something to refract. The only ones in
+ * play are the ND's red lamp lenses (transmission 1 on 25%-opaque blended
+ * glass), where refraction through a few millimetres of lens can't be seen —
+ * the alpha blend they already have carries the look.
+ */
+function dropTransmission(material: THREE.Material): void {
+  const m = material as THREE.MeshPhysicalMaterial;
+  if (!(m.transmission > 0)) return;
+  m.transmission = 0;
+  if (!m.transparent) {
+    m.transparent = true;
+    m.opacity = Math.min(m.opacity, 0.35);
+  }
+  m.needsUpdate = true;
 }
 
 /** Properties a tint may push onto a material. All optional. */
@@ -651,15 +672,17 @@ export class CarModel {
     // this.loadingManager at the time, briefly showing the full loading
     // overlay too. Loading first means the old wheel/part stays on screen
     // right up until the new one is ready to swap in.
-    const loaded: { mod: ModEntry; instance: THREE.Group }[] = [];
-    for (const mod of mods) {
+    // Fetched in parallel (a shared link can fit a dozen parts at once), and
+    // kept in selection order so later parts still win where it matters.
+    const results = await Promise.all(mods.map(async (mod) => {
       try {
-        const instance = await this.modLoader.instance(mod, generationId);
-        loaded.push({ mod, instance });
+        return { mod, instance: await this.modLoader.instance(mod, generationId) };
       } catch (error) {
         console.warn(`[CarModel] could not load mod ${mod.id}:`, error);
+        return null;
       }
-    }
+    }));
+    const loaded = results.filter((entry): entry is { mod: ModEntry; instance: THREE.Group } => entry !== null);
 
     // A second selection made while this one was still loading (fast
     // wheel-to-wheel clicking) has already moved modKey on — attaching this
@@ -1105,6 +1128,7 @@ export class CarModel {
       const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
       for (const material of materials) {
         if (!material) continue;
+        dropTransmission(material);
         // A cabin part split out at load carries its own class (see
         // splitCabinParts); its cloned material keeps the source's name.
         const cls = (mesh.userData.surfaceClass as string | undefined) ?? classOf(this.table, material.name);

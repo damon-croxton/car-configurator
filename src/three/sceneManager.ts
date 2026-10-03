@@ -70,6 +70,10 @@ export class SceneManager {
   private fpsAccumulator = 0;
   private lastCameraPreset = '';
   private firstFrame = true;
+  /** Frames still owed after a change; the loop is idle at zero. */
+  private renderFrames = 3;
+  /** Set while a new car's shaders compile: no frames are drawn. */
+  private holdFrames: CarConfig | null = null;
 
   constructor(
     private readonly container: HTMLElement,
@@ -82,13 +86,16 @@ export class SceneManager {
       antialias: true,
       alpha: false,
       powerPreference: 'high-performance',
-      // Required so the snapshot tool can read the frame back reliably.
-      preserveDrawingBuffer: true,
+      // No preserveDrawingBuffer: capture() renders and reads the frame back
+      // in the same task, and keeping the buffer costs every frame.
     });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(this.targetPixelRatio());
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFShadowMap;
+    // The car and its lights only move when the config does, so the shadow
+    // map is re-rendered on invalidate() rather than every frame.
+    this.renderer.shadowMap.autoUpdate = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
     this.renderer.toneMappingExposure = 1;
     // Accumulate stats across every pass instead of only the last one.
@@ -131,15 +138,31 @@ export class SceneManager {
       this.options.onLoadingChange?.({ progress, label, done });
 
     this.loadingManager.onStart = (url) => emit(0.02, describeAsset(url), false);
-    this.loadingManager.onProgress = (url, loaded, total) =>
+    // A finished download (a texture, a mod) can change the picture.
+    this.loadingManager.onProgress = (url, loaded, total) => {
+      this.invalidate();
       emit(total > 0 ? loaded / total : 0.5, describeAsset(url), false);
-    this.loadingManager.onLoad = () => emit(1, 'Ready', true);
+    };
+    this.loadingManager.onLoad = () => {
+      this.invalidate();
+      emit(1, 'Ready', true);
+    };
     this.loadingManager.onError = (url) => emit(1, `Skipped ${describeAsset(url)}`, true);
   }
 
   /** First-time boot: load the car and light the scene. */
   async initialise(config: CarConfig): Promise<void> {
     this.config = config;
+    this.holdFrames = config;
+    try {
+      await this.boot(config);
+    } finally {
+      if (this.holdFrames === config) this.holdFrames = null;
+      this.invalidate();
+    }
+  }
+
+  private async boot(config: CarConfig): Promise<void> {
     this.options.onLoadingChange?.({ progress: 0.08, label: 'Loading model', done: false });
 
     await this.car.load(modelSpecFor(config.generation));
@@ -161,7 +184,8 @@ export class SceneManager {
     this.applyRenderSettings(config);
     this.rig.snapTo(getCameraPreset(config.cameraPreset));
     this.lastCameraPreset = config.cameraPreset;
-    this.shadow.invalidate();
+    await this.precompile();
+    this.invalidate();
 
     this.options.onLoadingChange?.({ progress: 1, label: 'Ready', done: true });
   }
@@ -173,8 +197,22 @@ export class SceneManager {
   async setConfig(next: CarConfig): Promise<void> {
     const previous = this.config;
     this.config = next;
+    // A new car means a batch of new shader programs; hold drawing until
+    // they are compiled (see precompile) rather than stall on the first frame.
+    const newCar = !previous || previous.generation !== next.generation;
+    if (newCar) this.holdFrames = next;
+    try {
+      await this.applyConfig(previous, next, newCar);
+    } finally {
+      if (this.holdFrames === next) {
+        this.holdFrames = null;
+        this.invalidate();
+      }
+    }
+  }
 
-    if (!previous || previous.generation !== next.generation) {
+  private async applyConfig(previous: CarConfig | null, next: CarConfig, newCar: boolean): Promise<void> {
+    if (newCar) {
       this.options.onLoadingChange?.({ progress: 0.1, label: 'Loading model', done: false });
       await this.car.load(modelSpecFor(next.generation));
       if (this.config !== next) return;
@@ -182,6 +220,7 @@ export class SceneManager {
     }
 
     this.applyCarConfig(next);
+    this.invalidate();
 
     // Mods come after the rest of the car config: fitting one re-buckets the
     // materials and re-applies paint, so it has to see the final colours.
@@ -203,7 +242,23 @@ export class SceneManager {
       this.rig.goTo(getCameraPreset(next.cameraPreset));
     }
 
-    this.shadow.invalidate();
+    if (newCar) await this.precompile();
+    this.invalidate();
+  }
+
+  /**
+   * Compile the scene's shader programs without blocking. Left to the first
+   * draw, a freshly loaded car compiled ~40 programs synchronously — close to
+   * a second's freeze on Windows/ANGLE. compileAsync uses
+   * KHR_parallel_shader_compile where available; the loop holds frames
+   * meanwhile, so nothing draws with a half-compiled scene.
+   */
+  private async precompile(): Promise<void> {
+    try {
+      await this.renderer.compileAsync(this.scene, this.rig.camera);
+    } catch {
+      // Compiled at the first draw instead, as before.
+    }
   }
 
   /** Everything the config is allowed to change about the car itself. */
@@ -291,13 +346,14 @@ export class SceneManager {
    */
   showIslandDebug(enabled: boolean): IslandDebugResult {
     const reports = this.car.showIslandDebug(enabled);
-    this.shadow.invalidate();
+    this.invalidate();
     return reports;
   }
 
   /** Emphasise one debug island and fade the rest. Null clears the emphasis. */
   highlightIsland(index: number | null): void {
     this.car.highlightIsland(index);
+    this.invalidate();
   }
 
   /**
@@ -318,7 +374,7 @@ export class SceneManager {
   /** Set which cabin loose parts (and what height cut) count as roof lining. */
   setRoofLining(keys: string[], cutY: number | null): void {
     this.car.setRoofLining(keys, cutY);
-    this.shadow.invalidate();
+    this.invalidate();
   }
 
   /** Height range of the soft top, for the lining cut slider. */
@@ -329,6 +385,19 @@ export class SceneManager {
   goToCamera(presetId: string): void {
     this.lastCameraPreset = presetId;
     this.rig.goTo(getCameraPreset(presetId));
+    this.invalidate();
+  }
+
+  /**
+   * Ask for fresh frames. The loop only draws while the camera is moving or
+   * for a few frames after a change — an idle configurator otherwise redrew
+   * the whole scene (and its post stack) 60 times a second for nothing. The
+   * contact shadow and the light's shadow map are re-baked at the same time.
+   */
+  invalidate(frames = 3): void {
+    this.renderFrames = Math.max(this.renderFrames, frames);
+    this.renderer.shadowMap.needsUpdate = true;
+    this.shadow.invalidate();
   }
 
   /* ---------------------------------------------------------------- */
@@ -341,23 +410,28 @@ export class SceneManager {
 
     this.timer.update();
     const delta = Math.min(this.timer.getDelta(), 0.1);
-    this.renderer.info.reset();
 
-    this.rig.update();
+    // Damping, auto-rotate and preset flights move the camera every frame;
+    // otherwise only draw while frames are owed after a change.
+    const moving = this.rig.update();
+    if (!this.holdFrames && (moving || this.renderFrames > 0)) {
+      if (this.renderFrames > 0) this.renderFrames--;
+      this.renderer.info.reset();
 
-    if (this.config?.contactShadow) {
-      this.environment.setBackdropVisible(false);
-      this.shadow.render(this.scene);
-      this.environment.setBackdropVisible(true);
-    }
+      if (this.config?.contactShadow) {
+        this.environment.setBackdropVisible(false);
+        this.shadow.render(this.scene);
+        this.environment.setBackdropVisible(true);
+      }
 
-    this.post.render();
+      this.post.render();
 
-    // Bake the shadow once more on the very first frame: materials and the
-    // environment settle asynchronously, so the initial bake can be stale.
-    if (this.firstFrame) {
-      this.firstFrame = false;
-      this.shadow.invalidate();
+      // Bake the shadow once more on the very first frame: materials and the
+      // environment settle asynchronously, so the initial bake can be stale.
+      if (this.firstFrame) {
+        this.firstFrame = false;
+        this.invalidate();
+      }
     }
 
     this.frames++;
@@ -401,7 +475,7 @@ export class SceneManager {
     this.rig.setAspect(width / height);
     this.post.setSize(width, height, pixelRatio);
     this.environment.setShadowQuality(this.shadowMapSize());
-    this.shadow.invalidate();
+    this.invalidate();
   }
 
   /* ---------------------------------------------------------------- */
@@ -432,7 +506,7 @@ export class SceneManager {
     this.renderer.setPixelRatio(previousPixelRatio);
     this.post.setSize(width, height, previousPixelRatio);
     this.renderer.setSize(width, height);
-    this.shadow.invalidate();
+    this.invalidate();
 
     return dataUrl;
   }

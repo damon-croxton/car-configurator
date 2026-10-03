@@ -113,8 +113,14 @@ export class CameraRig {
     this.controls.update();
   }
 
-  update(): void {
-    this.controls.update();
+  /**
+   * Advance damping, auto-rotate and any preset flight. True while the view
+   * is changing — the controls only report position/orientation, so a flight
+   * still counts while it runs (it also tweens the FOV).
+   */
+  update(): boolean {
+    const moved = this.controls.update();
+    return moved || this.tween !== null;
   }
 
   dispose(): void {
