@@ -6,6 +6,7 @@ DT49 is the one replacement, and it hides only the stock mirror heads.
 Run through build_nd_extras.py. Dimensions are app-space millimetres.
 """
 import math
+import bmesh
 import bpy
 from mathutils import Vector
 import mx5_lib as m
@@ -447,14 +448,15 @@ def front_strap(ident='DT51'):
 # ----------------------------------------------------------- fender flares ----
 
 
-def fender_flares(ident='DT53', material=SATIN):
+def fender_flares(ident='DT53', material=SATIN, width=40.0, swell=27.0, rivets=None):
     """Bolt-on satin flares round all four wheel arches.
 
     For each arch the lip is found by walking outward from the hub at every
     angle until the ray from outside lands on a body panel. The flare is a
-    closed section laid over that lip: it starts on the panel 40 mm outside
-    the lip, swells 30 mm proud and returns 3 mm inside it, tapering to
-    nothing at hub height front and rear.
+    closed section laid over that lip: it starts on the panel `width` mm
+    outside the lip, swells `3 + swell` mm proud and returns 3 mm inside it,
+    tapering to nothing at hub height front and rear. `rivets` (a material)
+    adds exposed rivet heads along the outer band, overfender style.
     """
     coll = m.start_mod(k.GEN, ident)
     hub_y = cfg()['hub_y']
@@ -481,7 +483,7 @@ def fender_flares(ident='DT53', material=SATIN):
             for (deg, d, _), lip in zip(stations, lips):
                 t = (deg - a0) / (a1 - a0)
                 end = k.smooth(min(t, 1 - t) / 0.18)
-                proud = 3 + 27 * end
+                proud = 3 + swell * end
 
                 def surf(r):
                     # Below the bumper line the panel can end before r; walk
@@ -492,18 +494,47 @@ def fender_flares(ident='DT53', material=SATIN):
                             return p
                     return None
 
-                base = surf(lip + 40)
+                base = surf(lip + width)
                 rim = surf(lip + 2)
                 assert base is not None and rim is not None, (arch, deg)
-                section = [(40, 0.6), (34, 0.3 * proud + 1), (22, 0.75 * proud), (9, proud),
+                w = width / 40.0
+                section = [(40 * w, 0.6), (34 * w, 0.3 * proud + 1), (22 * w, 0.75 * proud), (9, proud),
                            (0, proud), (-3, proud * 0.85), (-3, proud * 0.45), (2, 1.0)]
+                if width > 40:
+                    # Underside back along the panel, so the closing edge
+                    # can't cut a chord through a bulging panel.
+                    section += [(10 * w, 0.6), (20 * w, 0.6), (30 * w, 0.6)]
                 ring = []
                 for dr, dx in section:
                     r = lip + dr
-                    ref = base if dr >= 20 else rim
+                    if width > 40:
+                        # A wide band crosses enough panel curvature that two
+                        # reference points fold the section; follow the skin.
+                        ref = surf(lip + max(dr, 2)) or base
+                    else:
+                        ref = base if dr >= 20 * w else rim
                     ring.append((ref.x + side * dx, hub_y + r * d.y, hz + r * d.z))
                 rings.append(ring)
-            k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, material)
+                if rivets and len(rings) % 4 == 3 and end > 0.3:
+                    # A rivet head on the outer band, where the flare is thin.
+                    r = lip + 37 * w
+                    # Flare surface there is midway between its outer two
+                    # section points; seat the head 1 mm into it.
+                    dx = 0.6 + (0.3 * proud + 0.4) * 0.5 - 1.0
+                    head = (base.x + side * dx, hub_y + r * d.y, hz + r * d.z)
+                    k.cylinder(f'rivet_{arch}_{"L" if side > 0 else "R"}{len(rings)}', coll, head, 'x', 4.5,
+                               side * 3.5, rivets, 12)
+            obj = k.mesh_object(name(ident, f'{arch}_{"L" if side > 0 else "R"}'), rings, coll, material)
+            if width > 40:
+                # The wide section's concave end caps can fool the normal
+                # recalculation into facing everything inward; the signed
+                # volume says which way is out.
+                bm = bmesh.new()
+                bm.from_mesh(obj.data)
+                if bm.calc_volume(signed=True) < 0:
+                    bmesh.ops.reverse_faces(bm, faces=list(bm.faces))
+                    bm.to_mesh(obj.data)
+                bm.free()
     return k.finish(coll)
 
 

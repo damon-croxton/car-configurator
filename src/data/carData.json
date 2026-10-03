@@ -44,7 +44,11 @@
         "classic_eight_spoke",
         "pepperpot_disc",
         "turbofan",
-        "deep_dish_six"
+        "deep_dish_six",
+        "classic_five_spoke",
+        "ten_spoke",
+        "steel_wheel",
+        "three_piece_multi_spoke"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -316,7 +320,11 @@
         "classic_eight_spoke",
         "pepperpot_disc",
         "turbofan",
-        "deep_dish_six"
+        "deep_dish_six",
+        "classic_five_spoke",
+        "ten_spoke",
+        "steel_wheel",
+        "three_piece_multi_spoke"
       ],
       "defaultWheel": "oem_na_14",
       "wheelDiameters": [
@@ -544,6 +552,50 @@
       "weightPerCorner": 8.9,
       "oem": false,
       "description": "Six straight spokes recessed behind a wide polished lip and dish wall."
+    },
+    {
+      "id": "classic_five_spoke",
+      "name": "Classic Five Spoke",
+      "brand": "Club",
+      "spokeType": "five_spoke",
+      "spokeCount": 5,
+      "lipDepth": 0.045,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Five broad, tapering spokes and a polished step lip."
+    },
+    {
+      "id": "ten_spoke",
+      "name": "Ten Spoke Forged",
+      "brand": "Club",
+      "spokeType": "ten_spoke",
+      "spokeCount": 10,
+      "lipDepth": 0.04,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Ten slim straight spokes on a concave face, forged-wheel style."
+    },
+    {
+      "id": "steel_wheel",
+      "name": "Steel Wheel",
+      "brand": "Club",
+      "spokeType": "steel",
+      "spokeCount": 6,
+      "lipDepth": 0.03,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "A pressed steel disc with six oval vents and a chrome centre cap, the club racer's choice."
+    },
+    {
+      "id": "three_piece_multi_spoke",
+      "name": "Three-Piece Multi-Spoke",
+      "brand": "Club",
+      "spokeType": "multi_spoke",
+      "spokeCount": 20,
+      "lipDepth": 0.07,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Twenty fine spokes inside a wide polished lip ringed with assembly bolts."
     }
   ],
   "aeroParts": {

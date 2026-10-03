@@ -35,7 +35,10 @@ wheels, and NA versions of the vents, canards, fuel cap and a carbon boot lid
 (`blender/PARTS-R5.md`). Round six adds harnesses for the carbon buckets,
 a cue-ball knob, chrome bullet mirrors, pinstripes, a bonnet wrap, covered
 lamps, a skid plate, turbofan and deep-dish wheels, and NA mud flaps
-(`blender/PARTS-R6.md`). Variants of one part form a group in the panel,
+(`blender/PARTS-R6.md`). Round seven adds riveted overfenders,
+body-colour flares, NACA bonnet ducts, NA dive planes, rear spats and brake
+ducts, and five-spoke, ten-spoke, steel and three-piece multi-spoke wheels
+(`blender/PARTS-R7.md`). Variants of one part form a group in the panel,
 and picking one takes the others off. A part can require another (the
 harnesses need the buckets): fitting it fits both, and losing the required
 part drops it.

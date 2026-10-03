@@ -8000,6 +8000,658 @@
         "rim_badge",
         "tyre"
       ]
+    },
+    {
+      "id": "DT70",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Riveted Overfenders",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint",
+        "MOD_Chrome"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -912,
+            351,
+            -1519
+          ],
+          "max": [
+            912,
+            711,
+            1600
+          ]
+        },
+        "na": {
+          "min": [
+            -886,
+            374,
+            -1525
+          ],
+          "max": [
+            888,
+            687,
+            1575
+          ]
+        }
+      },
+      "triangleBudget": 5600,
+      "file": {
+        "nd": "assets/mods/nd/DT70_riveted_overfenders.glb",
+        "na": "assets/mods/na/DT70_riveted_overfenders.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Bolt-on overfenders in the body colour round all four arches, 60 mm wide on the panel and up to 45 mm proud, with exposed chrome rivet heads along the outer band, in the style of riveted Japanese wide-body kits. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Wide body-colour overfenders with exposed rivets."
+    },
+    {
+      "id": "DT71",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Body-Colour Fender Flares",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -893,
+            351,
+            -1499
+          ],
+          "max": [
+            893,
+            691,
+            1580
+          ]
+        },
+        "na": {
+          "min": [
+            -870,
+            374,
+            -1506
+          ],
+          "max": [
+            873,
+            667,
+            1555
+          ]
+        }
+      },
+      "triangleBudget": 3000,
+      "file": {
+        "nd": "assets/mods/nd/DT71_fender_flares_painted.glb",
+        "na": "assets/mods/na/DT71_fender_flares_painted.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The bolt-on fender flares in the body colour. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py.",
+      "uiHint": "Painted flares round all four arches."
+    },
+    {
+      "id": "DT72",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Twin NACA Bonnet Ducts",
+      "area": "top",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [
+        "DT67",
+        "BP01",
+        "BP03",
+        "BP41"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120"
+        ],
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -492,
+            765,
+            1046
+          ],
+          "max": [
+            492,
+            838,
+            1361
+          ]
+        },
+        "na": {
+          "min": [
+            -481,
+            754,
+            1106
+          ],
+          "max": [
+            464,
+            824,
+            1421
+          ]
+        }
+      },
+      "triangleBudget": 3500,
+      "file": {
+        "nd": "assets/mods/nd/DT72_naca_ducts.glb",
+        "na": "assets/mods/na/DT72_naca_ducts.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Twin NACA submerged inlets on the bonnet, outboard of the stripes: dark recesses in the classic planform with raised carbon surrounds and rear lips. Exclusive with the bonnet wrap and vented bonnets. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "uiHint": "Two NACA inlets either side of the bonnet."
+    },
+    {
+      "id": "FA45",
+      "gen": [
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "NA Carbon Dive Planes",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -746,
+            352,
+            1689
+          ],
+          "max": [
+            731,
+            386,
+            1857
+          ]
+        }
+      },
+      "triangleBudget": 500,
+      "file": {
+        "na": "assets/mods/na/FA45_dive_planes.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A carbon dive plane on each front bumper corner, following its curve and kicking up toward the front, as on track NAs. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "uiHint": "Carbon dive planes on the bumper corners."
+    },
+    {
+      "id": "RA50",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Carbon Rear Spats",
+      "area": "rear",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -785,
+            247,
+            -1666
+          ],
+          "max": [
+            769,
+            257,
+            -1515
+          ]
+        }
+      },
+      "triangleBudget": 500,
+      "file": {
+        "na": "assets/mods/na/RA50_rear_spats.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Carbon spats along the rear bumper's lower flanks behind the rear wheels, up to 50 mm proud and tapering at both ends. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "uiHint": "Carbon blades on the rear bumper flanks."
+    },
+    {
+      "id": "DT73",
+      "gen": [
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "NA Brake Cooling Ducts",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_Mesh"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -616,
+            253,
+            1801
+          ],
+          "max": [
+            599,
+            345,
+            1862
+          ]
+        }
+      },
+      "triangleBudget": 3200,
+      "file": {
+        "na": "assets/mods/na/DT73_brake_ducts.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Round brake-cooling inlets in the front bumper's lower corners: a raised carbon trim ring round a black mesh, fitted to the curved bumper face. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "uiHint": "Round brake-cooling inlets in the bumper corners."
+    },
+    {
+      "id": "W16",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Classic Five Spoke",
+      "slot": "wheelStyle",
+      "optionId": "classic_five_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Five broad tapering spokes and a polished lip.",
+      "file": {
+        "nd": "assets/mods/nd/W16_classic_five_spoke.glb",
+        "na": "assets/mods/nd/W16_classic_five_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport and JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W17",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Ten Spoke Forged",
+      "slot": "wheelStyle",
+      "optionId": "ten_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Ten slim straight spokes on a concave face.",
+      "file": {
+        "nd": "assets/mods/nd/W17_ten_spoke.glb",
+        "na": "assets/mods/nd/W17_ten_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport and JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W18",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Steel Wheel",
+      "slot": "wheelStyle",
+      "optionId": "steel_wheel",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "A pressed steel disc with six oval vents and a chrome cap.",
+      "file": {
+        "nd": "assets/mods/nd/W18_steel_wheel.glb",
+        "na": "assets/mods/nd/W18_steel_wheel.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport and JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W19",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Three-Piece Multi-Spoke",
+      "slot": "wheelStyle",
+      "optionId": "three_piece_multi_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Twenty fine spokes inside a wide polished lip ringed with assembly bolts.",
+      "file": {
+        "nd": "assets/mods/nd/W19_three_piece_multi_spoke.glb",
+        "na": "assets/mods/nd/W19_three_piece_multi_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after classic motorsport and JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
     }
   ]
 }

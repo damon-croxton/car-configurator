@@ -92,7 +92,11 @@ export type SpokeType =
   | 'mesh_cross'
   | 'eight_spoke'
   | 'pepperpot'
-  | 'turbofan';
+  | 'turbofan'
+  | 'five_spoke'
+  | 'ten_spoke'
+  | 'steel'
+  | 'multi_spoke';
 
 export interface WheelStyleDef {
   id: string;
