@@ -125,7 +125,7 @@ def pinstripes(ident='DT66', material=WHITE):
 
 # ------------------------------------------------------------- bonnet wrap ----
 
-def bonnet_wrap(ident='DT67'):
+def bonnet_wrap(ident='DT67', material=SATIN):
     """A satin black vinyl wrap over the whole bonnet, inset 8 mm from its
     edges, 0.8 mm clear so the panel's tight curves can't poke through
     between samples. Stripes would sit under it, so the catalogue makes it
@@ -163,7 +163,7 @@ def bonnet_wrap(ident='DT67'):
             row.append((hit, x.outward(nrm, UP)))
         if len(row) == 61:
             rows.append(row)
-    x.film(name(ident, 'wrap'), coll, rows, 0.8, 0.3, SATIN)
+    x.film(name(ident, 'wrap'), coll, rows, 0.8, 0.3, material)
     return k.finish(coll)
 
 

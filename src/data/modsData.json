@@ -7577,6 +7577,7 @@
       "category": "detail",
       "displayName": "Satin Black Bonnet Wrap",
       "area": "top",
+      "group": "bonnet_wrap",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -9208,6 +9209,411 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "Original visual concept after classic roadster and JDM wheels; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r8.py; geometry in blender/parts_r8.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "NB01",
+      "gen": [
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "NA Nose Bra",
+      "area": "front",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "frontbumper_Material #71_0",
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -701,
+            361,
+            1616
+          ],
+          "max": [
+            684,
+            715,
+            1987
+          ]
+        }
+      },
+      "triangleBudget": 8000,
+      "file": {
+        "na": "assets/mods/na/NB01_nose_bra.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The period black vinyl nose bra: laid over the front bumper above the intake in three pieces that frame the parking-lamp openings, with a band across the bonnet's leading edge. Rebuild with blender/build_r9.py; geometry in blender/parts_r9.py.",
+      "uiHint": "Black vinyl bra over the nose and bonnet edge."
+    },
+    {
+      "id": "RA51",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Low-Mount Wing",
+      "slot": "rearWing",
+      "optionId": "low_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -612,
+            811,
+            -1825
+          ],
+          "max": [
+            596,
+            1000,
+            -1538
+          ]
+        }
+      },
+      "triangleBudget": 1200,
+      "file": {
+        "na": "assets/mods/na/RA51_low_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The carbon wing on shorter uprights: 110 mm lower, 1200 mm span and 85% of the chord, the low-mount street style. Rebuild with blender/build_r9.py; geometry in blender/na_kit.py.",
+      "uiHint": "A lower, narrower carbon wing."
+    },
+    {
+      "id": "DT78",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Carbon-Vinyl Bonnet Wrap",
+      "area": "top",
+      "group": "bonnet_wrap",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [
+        "DT43",
+        "DT56",
+        "DT57",
+        "DT62",
+        "DT63",
+        "DT69",
+        "BP01",
+        "BP03",
+        "HD40",
+        "BP41",
+        "DT72"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120"
+        ],
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -712,
+            618,
+            656
+          ],
+          "max": [
+            712,
+            865,
+            1753
+          ]
+        },
+        "na": {
+          "min": [
+            -691,
+            647,
+            780
+          ],
+          "max": [
+            683,
+            843,
+            1784
+          ]
+        }
+      },
+      "triangleBudget": 22300,
+      "file": {
+        "nd": "assets/mods/nd/DT78_bonnet_wrap_carbon.glb",
+        "na": "assets/mods/na/DT78_bonnet_wrap_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The bonnet wrap in carbon-look vinyl. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Carbon-look vinyl over the whole bonnet."
+    },
+    {
+      "id": "DT79",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "detail",
+      "displayName": "Accent Bonnet Wrap",
+      "area": "top",
+      "group": "bonnet_wrap",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [
+        "DT43",
+        "DT56",
+        "DT57",
+        "DT62",
+        "DT63",
+        "DT69",
+        "BP01",
+        "BP03",
+        "HD40",
+        "BP41",
+        "DT72"
+      ],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Hood 6.001_120"
+        ],
+        "na": [
+          "hood_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_AccentPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -712,
+            618,
+            656
+          ],
+          "max": [
+            712,
+            865,
+            1753
+          ]
+        },
+        "na": {
+          "min": [
+            -691,
+            647,
+            780
+          ],
+          "max": [
+            683,
+            843,
+            1784
+          ]
+        }
+      },
+      "triangleBudget": 22300,
+      "file": {
+        "nd": "assets/mods/nd/DT79_bonnet_wrap_accent.glb",
+        "na": "assets/mods/na/DT79_bonnet_wrap_accent.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The bonnet wrap in the accent colour, for a contrasting bonnet. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py.",
+      "uiHint": "Bonnet wrapped in the accent colour."
+    },
+    {
+      "id": "W22",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Six Y-Spoke",
+      "slot": "wheelStyle",
+      "optionId": "six_y_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Six spokes forking into a Y toward the rim.",
+      "file": {
+        "nd": "assets/mods/nd/W22_six_y_spoke.glb",
+        "na": "assets/mods/nd/W22_six_y_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r9.py; geometry in blender/parts_r9.py.",
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ]
+    },
+    {
+      "id": "W23",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "wheel",
+      "displayName": "Twelve Spoke",
+      "slot": "wheelStyle",
+      "optionId": "twelve_spoke",
+      "attachType": "replace",
+      "attachTo": "wheel",
+      "hides": {
+        "nd": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
+      "triangleBudget": 18000,
+      "uiHint": "Twelve slim straight spokes on a flat face.",
+      "file": {
+        "nd": "assets/mods/nd/W23_twelve_spoke.glb",
+        "na": "assets/mods/nd/W23_twelve_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Original visual concept after JDM alloys; no vendor mesh, logo or measured product dimensions. Shares the W07 tyre, barrel and brakes. Rebuild with blender/build_r9.py; geometry in blender/parts_r9.py.",
       "originMm": {
         "nd": [
           734,

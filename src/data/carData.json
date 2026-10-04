@@ -50,7 +50,9 @@
         "steel_wheel",
         "three_piece_multi_spoke",
         "wire_wheel",
-        "seven_twin_spoke"
+        "seven_twin_spoke",
+        "six_y_spoke",
+        "twelve_spoke"
       ],
       "defaultWheel": "oem_17_design",
       "wheelDiameters": [
@@ -328,7 +330,9 @@
         "steel_wheel",
         "three_piece_multi_spoke",
         "wire_wheel",
-        "seven_twin_spoke"
+        "seven_twin_spoke",
+        "six_y_spoke",
+        "twelve_spoke"
       ],
       "defaultWheel": "oem_na_14",
       "wheelDiameters": [
@@ -361,7 +365,8 @@
           "oem_ducktail",
           "gt_wing",
           "carbon_ducktail",
-          "tall_ducktail"
+          "tall_ducktail",
+          "low_wing"
         ],
         "hood": [
           "stock",
@@ -623,6 +628,28 @@
       "weightPerCorner": 8.9,
       "oem": false,
       "description": "Seven pairs of parallel spokes on a concave face with a polished lip."
+    },
+    {
+      "id": "six_y_spoke",
+      "name": "Six Y-Spoke",
+      "brand": "Club",
+      "spokeType": "y_spoke",
+      "spokeCount": 12,
+      "lipDepth": 0.045,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Six spokes forking into a Y toward a polished lip."
+    },
+    {
+      "id": "twelve_spoke",
+      "name": "Twelve Spoke",
+      "brand": "Club",
+      "spokeType": "twelve_spoke",
+      "spokeCount": 12,
+      "lipDepth": 0.04,
+      "weightPerCorner": 8.9,
+      "oem": false,
+      "description": "Twelve slim straight spokes on a flat face."
     }
   ],
   "aeroParts": {
@@ -889,6 +916,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "A taller painted ducktail for more kick."
+      },
+      {
+        "id": "low_wing",
+        "name": "Low-Mount Wing",
+        "node": "MOD_NA_RA51",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "A lower, narrower carbon wing on short uprights."
       }
     ],
     "hood": [

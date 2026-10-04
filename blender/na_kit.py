@@ -641,12 +641,13 @@ def build_rear_valance(ident='RA43', material=SATIN, depth=26.0):
 
 # ---------------------------------------------------------------- GT wing ----
 
-def build_gt_wing(ident='RA44'):
+def build_gt_wing(ident='RA44', drop=0.0, half=640.0, scale=1.0):
     """A carbon wing on two swept uprights, sized to the NA's short boot.
 
     Span 1280 mm (the boot is 1100 wide), chord 200 mm, about 250 mm above
     the deck. Uprights foot on the deck through fitted plates; shaped
-    endplates finish the tips.
+    endplates finish the tips. `drop` lowers the wing, `half` sets the
+    half-span and `scale` the chord (and endplates) for a low-mount variant.
     """
     coll = m.start_mod(GEN, ident)
     boot = base('trunk_Material #71_0')
@@ -656,9 +657,10 @@ def build_gt_wing(ident='RA44'):
         assert p is not None, (x, z)
         return p.y
 
-    half, y0, z0 = 640.0, 1062.0, -1640.0
-    section = [(0, 0), (9, 4.5), (32, 6.5), (82, 6.5), (155, 12), (200, 20),
-               (200, 17), (155, 5), (82, -8), (32, -9), (9, -4.5)]
+    y0, z0 = 1062.0 - drop, -1640.0
+    section = [(dz * scale, dy * scale) for dz, dy in
+               [(0, 0), (9, 4.5), (32, 6.5), (82, 6.5), (155, 12), (200, 20),
+                (200, 17), (155, 5), (82, -8), (32, -9), (9, -4.5)]]
     rings = []
     for i in range(29):
         x = CX - half + 2 * half * i / 28
@@ -687,8 +689,9 @@ def build_gt_wing(ident='RA44'):
             foot.append([(a, ya, z), (b, yb, z), (b, yb - 3, z), (a, ya - 3, z)])
         mesh_object(f'MOD_NA_{ident}_foot_{tag}', foot, coll, SATIN)
         xe = CX + side * (half + 2)
-        outline = [(-1608, 1100), (-1622, 1118), (-1820, 1112), (-1858, 1062),
-                   (-1838, 1006), (-1650, 1016), (-1608, 1036)]
+        outline = [(z0 + (z + 1640) * scale, y0 + (y - 1062) * scale) for z, y in
+                   [(-1608, 1100), (-1622, 1118), (-1820, 1112), (-1858, 1062),
+                    (-1838, 1006), (-1650, 1016), (-1608, 1036)]]
         mesh_object(f'MOD_NA_{ident}_endplate_{tag}',
                     [[(xe + dx, y, z) for z, y in outline] for dx in (-2, 2)], coll, CARBON)
     return finish(coll)

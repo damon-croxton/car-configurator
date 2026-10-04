@@ -29,6 +29,7 @@ export const MOD_GROUP_LABELS: Record<string, string> = {
   gear_knob: 'Gear knob',
   rally_lamps: 'Driving lamps',
   roundels: 'Door numbers',
+  bonnet_wrap: 'Bonnet wrap',
 };
 
 export const MOD_AREAS: { id: ModArea; label: string }[] = [
