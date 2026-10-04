@@ -16,6 +16,21 @@ import type { CarConfig } from '../config/types';
 /** Where on the car an additional part sits; groups the panel's list. */
 export type ModArea = 'front' | 'sides' | 'rear' | 'top' | 'cabin';
 
+/** Panel labels for exclusive part groups (a catalogue entry's `group`). */
+export const MOD_GROUP_LABELS: Record<string, string> = {
+  mirrors: 'Mirrors',
+  racing_stripes: 'Bonnet & boot stripes',
+  side_stripes: 'Side stripes',
+  boot_rack: 'Boot rack',
+  flares: 'Arch flares',
+  steering_wheel: 'Steering wheel',
+  seats: 'Seats',
+  hardtop: 'Hardtop',
+  gear_knob: 'Gear knob',
+  rally_lamps: 'Driving lamps',
+  roundels: 'Door numbers',
+};
+
 export const MOD_AREAS: { id: ModArea; label: string }[] = [
   { id: 'front', label: 'Front' },
   { id: 'sides', label: 'Sides & mirrors' },

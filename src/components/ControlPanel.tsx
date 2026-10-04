@@ -17,9 +17,10 @@ import {
   type AeroSlotId,
   type CabinPartId,
 } from '../data/schema';
-import { activeMods, MOD_AREAS, modForOption, optionalMods } from '../data/mods';
+import { activeMods, modForOption, optionalMods } from '../data/mods';
 import { cabinControls, modelHasClass } from '../data/surfaces';
 import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
+import { PartsPicker } from './PartsPicker';
 
 // No leading slash: mod .glb paths follow the same convention (see
 // ModLoader.instance()) so they resolve relative to the page itself rather
@@ -616,35 +617,8 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
       ))}
 
       {extras.length > 0 && (
-        <Section title="Additional parts" hint={`${extras.length} modelled`}>
-          <div className="space-y-4">
-            {MOD_AREAS.map(({ id, label }) => {
-              const group = extras.filter((mod) => (mod.area ?? 'top') === id);
-              if (group.length === 0) return null;
-              const fitted = group.filter((mod) => config.extraMods.includes(mod.id)).length;
-              return (
-                <div key={id}>
-                  <h4 className="mb-1.5 flex items-baseline justify-between text-[10px] font-medium uppercase tracking-wide text-slate-400">
-                    {label}
-                    <span className="font-normal normal-case tracking-normal text-slate-600">
-                      {fitted > 0 ? `${fitted} of ${group.length} fitted` : `${group.length}`}
-                    </span>
-                  </h4>
-                  <div className="space-y-2">
-                    {group.map((mod) => (
-                      <ToggleRow
-                        key={mod.id}
-                        label={mod.displayName}
-                        hint={mod.uiHint}
-                        checked={config.extraMods.includes(mod.id)}
-                        onChange={(on) => toggleExtra(mod.id, on)}
-                      />
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        <Section title="Additional parts" hint={`${config.extraMods.filter((id) => extras.some((m) => m.id === id)).length} fitted`}>
+          <PartsPicker extras={extras} fitted={config.extraMods} onToggle={toggleExtra} />
         </Section>
       )}
 

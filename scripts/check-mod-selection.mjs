@@ -4,12 +4,12 @@ import { build } from 'esbuild';
 
 // Bundle the app's real selection code, including JSON catalogues, for Node.
 const { outputFiles } = await build({
-  stdin: { contents: `export { activeMods } from './src/data/mods';
+  stdin: { contents: `export { activeMods, MOD_GROUP_LABELS } from './src/data/mods';
     export { DEFAULT_CONFIG, reconcileConfig } from './src/config/defaults';`,
     resolveDir: process.cwd(), loader: 'ts' },
   bundle: true, write: false, platform: 'node', format: 'esm',
 });
-const { activeMods, DEFAULT_CONFIG, reconcileConfig } = await import(
+const { activeMods, MOD_GROUP_LABELS, DEFAULT_CONFIG, reconcileConfig } = await import(
   `data:text/javascript;base64,${Buffer.from(outputFiles[0].contents).toString('base64')}`
 );
 for (const [ids,winner] of [[['DT01','DT02'],'DT02'],[['DT02','DT01'],'DT01']]) {
@@ -114,6 +114,7 @@ const groups = new Map();
 for (const m of catalogue.filter(m => m.group)) groups.set(m.group, [...(groups.get(m.group) ?? []), m]);
 for (const [group, members] of groups) {
   assert.ok(members.length >= 2, `group ${group} needs two or more parts`);
+  assert.ok(MOD_GROUP_LABELS[group], `group ${group} needs a panel label in MOD_GROUP_LABELS`);
   for (const gen of ['nd', 'na']) {
     const ids = members.filter(m => m.gen.includes(gen)).map(m => m.id);
     if (ids.length < 2) continue;
