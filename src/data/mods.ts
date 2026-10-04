@@ -164,6 +164,10 @@ export function resolveModConflicts(picked: ModEntry[]): ModEntry[] {
     if (accepted.some((other) =>
       other.incompatibleWith?.includes(mod.id) || mod.incompatibleWith?.includes(other.id)
       || (mod.group !== undefined && other.group === mod.group)
+      // A car wears one set of wheels. The pack and sourced wheels used to
+      // list the styles they override by hand, and every style added since
+      // was missing, so both rendered on the same hub.
+      || (mod.attachTo === 'wheel' && other.attachTo === 'wheel')
     )) continue;
     accepted.push(mod);
   }

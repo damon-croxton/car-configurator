@@ -25,6 +25,17 @@ assert.deepEqual(activeMods('nd',DEFAULT_CONFIG),[]);
 assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods:['unknown','DT01','DT01'] }).extraMods,['DT01']);
 console.log('PASS: antenna conflicts, unrelated extras, sourced wheel override, forced override, stock reset and duplicate/unknown IDs');
 const catalogue = JSON.parse(readFileSync('src/data/modsData.json','utf8')).mods;
+// Exactly one wheel is ever fitted: a pack or sourced wheel overrides every
+// wheel style (they used to list the styles by hand and missed new ones).
+const wheelStyles = [...new Set(catalogue.filter(m => m.slot === 'wheelStyle').map(m => m.optionId))];
+for (const gen of ['nd', 'na']) {
+  for (const style of wheelStyles) {
+    const fitted = activeMods(gen, { ...DEFAULT_CONFIG, generation: gen, wheelStyle: style, extraMods: ['WP01'] })
+      .filter(m => m.attachTo === 'wheel').map(m => m.id);
+    assert.deepEqual(fitted, ['WP01'], `${gen}: WP01 must replace ${style}`);
+  }
+}
+console.log(`PASS: a sourced wheel replaces each of ${wheelStyles.length} wheel styles on both cars`);
 for (const id of ['FA20','FA21','RA20','RA21','RA22','RA23','RA24','RA25',
   'W10','W11','FA30','RA30','RA31','RA32','EX30','EX31']) {
   const mod = catalogue.find(m => m.id === id);
