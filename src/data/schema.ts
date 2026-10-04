@@ -311,12 +311,27 @@ export interface EnvironmentDef {
   rim: EnvLightDef;
 }
 
+/**
+ * A surface finish layered over any wheel colour (gloss, satin, matte...).
+ * Unset properties keep the colour's own value; `metalnessCap` limits it.
+ */
+export interface WheelSheenDef {
+  id: string;
+  name: string;
+  hint?: string;
+  roughness?: number;
+  clearcoat?: number;
+  metalness?: number;
+  metalnessCap?: number;
+}
+
 export interface MaterialCatalogue {
   version: number;
   paintFinishes: PaintFinishDef[];
   oemColors: PaintColorDef[];
   wrapColors: PaintColorDef[];
   wheelFinishes: WheelFinishDef[];
+  wheelSheens: WheelSheenDef[];
   caliperColors: CaliperColorDef[];
   cabinFinishes: Record<CabinPartId, CabinFinishDef[]>;
   roofFabricColors: SimpleColorDef[];
@@ -377,6 +392,23 @@ export const getPaintFinish = (id: string | undefined): PaintFinishDef =>
 
 export const getWheelFinish = (id: string | undefined): WheelFinishDef =>
   pick(materialsData.wheelFinishes, id);
+
+export const getWheelSheen = (id: string | undefined): WheelSheenDef =>
+  materialsData.wheelSheens.find((sheen) => sheen.id === id) ?? materialsData.wheelSheens[0];
+
+/** A wheel colour with a sheen applied on top. */
+export function withWheelSheen<T extends { roughness: number; clearcoat: number; metalness: number }>(
+  finish: T, sheenId: string | undefined,
+): T {
+  const sheen = getWheelSheen(sheenId);
+  const metalness = sheen.metalness ?? Math.min(finish.metalness, sheen.metalnessCap ?? 1);
+  return {
+    ...finish,
+    roughness: sheen.roughness ?? finish.roughness,
+    clearcoat: sheen.clearcoat ?? finish.clearcoat,
+    metalness,
+  };
+}
 
 export const getCaliperColor = (id: string | undefined): CaliperColorDef =>
   pick(materialsData.caliperColors, id);

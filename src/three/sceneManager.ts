@@ -12,6 +12,7 @@ import {
   getPaintFinish,
   getRoofFabric,
   getWheelFinish,
+  withWheelSheen,
 } from '../data/schema';
 import { activeMods, forcedModIds } from '../data/mods';
 import { CameraRig } from './cameraRig';
@@ -269,7 +270,7 @@ export class SceneManager {
     const rawFinish = getWheelFinish(config.wheelFinish);
     // "Body Colour Match" has no fixed hex of its own — it borrows whatever
     // the body is wearing right now, already computed above for setPaint.
-    const finish = rawFinish.matchBody
+    const colour = rawFinish.matchBody
       ? {
           ...rawFinish,
           hex: paintSpec.hex,
@@ -278,7 +279,8 @@ export class SceneManager {
           clearcoat: paintSpec.clearcoat,
         }
       : rawFinish;
-    this.car.setWheelFinish(finish);
+    // Gloss / satin / matte / polished layered over whichever colour.
+    this.car.setWheelFinish(withWheelSheen(colour, config.wheelSheen));
 
     if (config.wheelPackTint) {
       const rawTint = getWheelFinish(config.wheelPackTint);

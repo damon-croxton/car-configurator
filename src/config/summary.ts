@@ -12,6 +12,7 @@ import {
   getRoofType,
   getStancePreset,
   getWheelFinish,
+  getWheelSheen,
   getWheelStyle,
   carData,
   type AeroSlotId,
@@ -131,7 +132,9 @@ export function buildSummary(config: CarConfig): BuildSummary {
     value: `${sourcedWheel ? sourcedWheel.displayName : `${wheel.brand} ${wheel.name}`} · ${config.wheelDiameter}"`,
     price: sourcedWheel || !wheel.oem ? 2_400 : 0,
   });
-  lines.push({ group: 'Wheels', label: 'Finish', value: wheelFinish.name, price: wheelFinish.id === 'chrome' ? 900 : 0 });
+  const sheen = getWheelSheen(config.wheelSheen);
+  lines.push({ group: 'Wheels', label: 'Finish', value: sheen.id ? `${wheelFinish.name} (${sheen.name})` : wheelFinish.name,
+    price: wheelFinish.id === 'chrome' ? 900 : 0 });
   lines.push({ group: 'Wheels', label: 'Ride height', value: describeStance(config), price: config.rideHeight < -5 ? 1_850 : 0 });
   lines.push({ group: 'Wheels', label: 'Camber', value: `${config.camber.toFixed(1)}°`, price: 0 });
   lines.push({ group: 'Wheels', label: 'Track offset', value: `${config.trackOffset} mm per corner`, price: config.trackOffset > 2 ? 260 : 0 });

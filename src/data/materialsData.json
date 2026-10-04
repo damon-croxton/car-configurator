@@ -410,6 +410,51 @@
       "clearcoat": 0.7
     }
   ],
+  "wheelSheens": [
+    {
+      "id": "",
+      "name": "As colour",
+      "hint": "The colour's own finish"
+    },
+    {
+      "id": "gloss",
+      "name": "Gloss",
+      "hint": "Deep clearcoat, mirror highlights",
+      "roughness": 0.1,
+      "clearcoat": 1.0
+    },
+    {
+      "id": "satin",
+      "name": "Satin",
+      "hint": "Soft sheen, no clearcoat",
+      "roughness": 0.42,
+      "clearcoat": 0.05
+    },
+    {
+      "id": "matte",
+      "name": "Matte",
+      "hint": "Flat powder coat",
+      "roughness": 0.78,
+      "clearcoat": 0.0,
+      "metalnessCap": 0.45
+    },
+    {
+      "id": "polished",
+      "name": "Polished",
+      "hint": "Bare polished alloy",
+      "roughness": 0.04,
+      "clearcoat": 0.5,
+      "metalness": 1.0
+    },
+    {
+      "id": "brushed",
+      "name": "Brushed",
+      "hint": "Machined, uncoated alloy",
+      "roughness": 0.3,
+      "clearcoat": 0.0,
+      "metalness": 1.0
+    }
+  ],
   "caliperColors": [
     {
       "id": "brembo_red",

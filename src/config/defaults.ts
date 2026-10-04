@@ -5,6 +5,7 @@ import {
   carData,
   getGeneration,
   getPaintColor,
+  materialsData,
   roofOptionsFor,
   wheelOptionsFor,
   type AeroSlotId,
@@ -41,6 +42,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   // opens on a modified car and gives you nothing to compare against.
   wheelStyle: 'oem_17_design',
   wheelFinish: 'gunmetal',
+  wheelSheen: '',
   wheelPackTint: '',
   wheelDiameter: 17,
   rideHeight: 0,
@@ -130,6 +132,7 @@ export function reconcileConfig(config: CarConfig): CarConfig {
 
   const wheels = wheelOptionsFor(generation);
   if (!wheels.some((w) => w.id === next.wheelStyle)) next.wheelStyle = generation.defaultWheel;
+  if (!materialsData.wheelSheens.some((sheen) => sheen.id === next.wheelSheen)) next.wheelSheen = '';
 
   if (!generation.wheelDiameters.includes(next.wheelDiameter)) {
     next.wheelDiameter = generation.defaultWheelDiameter;

@@ -485,6 +485,14 @@ const WheelsTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
             finish.matchBody ? { ...finish, hex: bodyHex } : finish,
           )}
         />
+        <SegmentedControl
+          value={config.wheelSheen}
+          onChange={(id) => onChange({ wheelSheen: id })}
+          options={materialsData.wheelSheens.map((sheen) => ({
+            id: sheen.id,
+            label: sheen.id ? sheen.name : 'Default',
+          }))}
+        />
       </Section>
 
       {packWheels.length > 0 && (
