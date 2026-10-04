@@ -296,6 +296,41 @@
         "Material_70": "body_paint",
         "Material_76": "mirror_glass"
       }
+    },
+    "nb": {
+      "$model": "Sketchfab \"Mazda MX-5 (NB) convertible HQ interior\" by niev, decimated and re-exported by blender/prepare_nb_nc.py, which also renames every material NB_<source name> and moves the wheel faces onto NB_wheel_rim / NB_wheel_tire / NB_wheel_brake. Only the surfaces the configurator drives are mapped. The soft top shares its material with trim, so it is not classed: the NB keeps its roof up and the roof controls hide, as for the NA.",
+      "complete": false,
+      "paintableClass": "body_paint",
+      "materials": {
+        "NB_carpaint": "body_paint",
+        "NB_wheel_rim": "rim",
+        "NB_wheel_brake": "rim_badge",
+        "NB_wheel_tire": "tyre",
+        "NB_windowglass": "glass",
+        "NB_mirror": "mirror_glass",
+        "NB_redglass": "lens_red",
+        "NB_orangeglass": "lens_amber",
+        "NB_clearglass": "lens_clear",
+        "NB_interior_second": "interior_main",
+        "NB_interior_fifth": "interior_trim"
+      }
+    },
+    "nc": {
+      "$model": "Sketchfab \"2009 Mazda MX-5 Miata (NC)\" by supercarmodels, decimated and re-exported by blender/prepare_nb_nc.py (materials renamed NC_<source name>; wheel faces moved onto NC_wheel_rim / NC_wheel_tire / NC_wheel_brake, because the source shares its rim material with body badges and its brake material with the exhaust). Its clear glass covers both the windows and the headlamp lenses, so it is classed glass. Roof as for the NB.",
+      "complete": false,
+      "paintableClass": "body_paint",
+      "materials": {
+        "NC_carpaint": "body_paint",
+        "NC_wheel_rim": "rim",
+        "NC_wheel_brake": "rim_badge",
+        "NC_wheel_tire": "tyre",
+        "NC_clearglass": "glass",
+        "NC_darkglass": "glass",
+        "NC_mirror": "mirror_glass",
+        "NC_redglass": "lens_red",
+        "NC_orangeglass": "lens_amber",
+        "NC_interior": "interior_main"
+      }
     }
   }
 }

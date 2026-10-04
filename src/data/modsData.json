@@ -78,25 +78,110 @@
   "mods": [
     {
       "id": "WS01",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Meister L1 3P (sourced)",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_SatinBlack", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-129, 0, -320], "max": [129, 641, 321]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_SatinBlack",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -129,
+            0,
+            -320
+          ],
+          "max": [
+            129,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 18000,
       "uiHint": "Original sourced rim retained; brake hardware recessed behind its spokes.",
-      "file": { "nd": "assets/mods/nd/WS01_meister_l1_full.glb", "na": "assets/mods/nd/WS01_meister_l1_full.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WS01_meister_l1_full.glb",
+        "na": "assets/mods/nd/WS01_meister_l1_full.glb",
+        "nb": "assets/mods/nd/WS01_meister_l1_full.glb",
+        "nc": "assets/mods/nd/WS01_meister_l1_full.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Derived from a THIRD-PARTY sourced asset, not built by this pipeline. Models/meister_l1_3p/scene.gltf, \"Meister L1 3P\" by Wilbruh (sketchfab.com/mirz1911), CC-BY-4.0. See ATTRIBUTION.md.",
       "$note": "Original sourced rim retained; brake hardware recessed behind its spokes. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
@@ -105,26 +190,110 @@
     },
     {
       "id": "WS02",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Gramlights 57DR (sourced, full)",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-124, 0, -320], "max": [124, 641, 321]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -124,
+            0,
+            -320
+          ],
+          "max": [
+            124,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 270000,
       "oversizeApproved": true,
       "uiHint": "Original sourced rim retained; brake hardware recessed behind its spokes.",
-      "file": { "nd": "assets/mods/nd/WS02_gramlights_full.glb", "na": "assets/mods/nd/WS02_gramlights_full.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WS02_gramlights_full.glb",
+        "na": "assets/mods/nd/WS02_gramlights_full.glb",
+        "nb": "assets/mods/nd/WS02_gramlights_full.glb",
+        "nc": "assets/mods/nd/WS02_gramlights_full.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Derived from a THIRD-PARTY sourced asset. Models/rays_gramlights_57dr/scene.gltf, \"RAYS GramLights 57DR\" by ilvskf (sketchfab.com/ilvskf), CC-BY-4.0. See ATTRIBUTION.md.",
       "$note": "Original sourced rim retained; brake hardware recessed behind its spokes. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
@@ -134,26 +303,108 @@
     },
     {
       "id": "WP01",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 01",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_01_metal", "wheel_01_rubber"],
-      "bboxMm": { "nd": { "min": [-126, 0, -321], "max": [126, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_01_metal",
+        "wheel_01_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -126,
+            0,
+            -321
+          ],
+          "max": [
+            126,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "903 tris — from a 30-wheel pack. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP01_wheelpack.glb", "na": "assets/mods/nd/WP01_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP01_wheelpack.glb",
+        "na": "assets/mods/nd/WP01_wheelpack.glb",
+        "nb": "assets/mods/nd/WP01_wheelpack.glb",
+        "nc": "assets/mods/nd/WP01_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Derived from a THIRD-PARTY sourced asset. Models/wheels/scene.gltf, \"Wheels\" by Wasi204 (sketchfab.com/hafizzwaseem88), CC-BY-4.0. See ATTRIBUTION.md.",
       "$note": "Wheel_01 of 30 in the pack. Unlike WS01/WS02 (bare rims, needing our own tyre/disc/caliper/lugs built from primitives) this source is a complete self-contained assembly per wheel — a rim, a tyre and an already-modelled disc+caliper — so this mod ships none of mx5_lib's revolve()/radial_copies() geometry at all, only what the source authored. Each Wheel_NN in the pack sits on a display-tray placement (an arbitrary showcase rotation, not the wheel's real shape); orientation was recovered by measuring in that node's own local frame rather than raw import-world space, which resolves to a clean thin-axle/matched-diameter disc. Scaled uniformly so the tyre's own outer radius lands on TYRE_R (320.5mm), the same anchor every other wheel mod's tyre is built to, rather than RIM_R, since the source's tyre is real geometry here, not something built around a bare rim afterward.",
@@ -163,26 +414,108 @@
     },
     {
       "id": "WP02",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 02",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_02_metal", "wheel_02_rubber"],
-      "bboxMm": { "nd": { "min": [-163, 0, -321], "max": [163, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_02_metal",
+        "wheel_02_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -163,
+            0,
+            -321
+          ],
+          "max": [
+            163,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,112 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP02_wheelpack.glb", "na": "assets/mods/nd/WP02_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP02_wheelpack.glb",
+        "na": "assets/mods/nd/WP02_wheelpack.glb",
+        "nb": "assets/mods/nd/WP02_wheelpack.glb",
+        "nc": "assets/mods/nd/WP02_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_02 of 30, orientation-corrected: needed the 180-degree local-Z flip — see WP01's $bugs field. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -190,26 +523,108 @@
     },
     {
       "id": "WP03",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 03",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_03_metal", "wheel_03_rubber"],
-      "bboxMm": { "nd": { "min": [-116, 1, -320], "max": [116, 640, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_03_metal",
+        "wheel_03_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -116,
+            1,
+            -320
+          ],
+          "max": [
+            116,
+            640,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,330 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP03_wheelpack.glb", "na": "assets/mods/nd/WP03_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP03_wheelpack.glb",
+        "na": "assets/mods/nd/WP03_wheelpack.glb",
+        "nb": "assets/mods/nd/WP03_wheelpack.glb",
+        "nc": "assets/mods/nd/WP03_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_03 of 30, orientation-corrected: needed the 180-degree local-Z flip — see WP01's $bugs field. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -217,26 +632,108 @@
     },
     {
       "id": "WP04",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 04",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_04_metal", "wheel_04_rubber"],
-      "bboxMm": { "nd": { "min": [-193, 10, -310], "max": [194, 632, 312] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_04_metal",
+        "wheel_04_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -193,
+            10,
+            -310
+          ],
+          "max": [
+            194,
+            632,
+            312
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,489 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP04_wheelpack.glb", "na": "assets/mods/nd/WP04_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP04_wheelpack.glb",
+        "na": "assets/mods/nd/WP04_wheelpack.glb",
+        "nb": "assets/mods/nd/WP04_wheelpack.glb",
+        "nc": "assets/mods/nd/WP04_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_04 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -244,26 +741,108 @@
     },
     {
       "id": "WP05",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 05",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_05_metal", "wheel_05_rubber"],
-      "bboxMm": { "nd": { "min": [-134, 0, -321], "max": [136, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_05_metal",
+        "wheel_05_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -134,
+            0,
+            -321
+          ],
+          "max": [
+            136,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "741 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP05_wheelpack.glb", "na": "assets/mods/nd/WP05_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP05_wheelpack.glb",
+        "na": "assets/mods/nd/WP05_wheelpack.glb",
+        "nb": "assets/mods/nd/WP05_wheelpack.glb",
+        "nc": "assets/mods/nd/WP05_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_05 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -271,26 +850,108 @@
     },
     {
       "id": "WP06",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 06",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_06_metal", "wheel_06_rubber"],
-      "bboxMm": { "nd": { "min": [-116, 0, -321], "max": [116, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_06_metal",
+        "wheel_06_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -116,
+            0,
+            -321
+          ],
+          "max": [
+            116,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "929 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP06_wheelpack.glb", "na": "assets/mods/nd/WP06_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP06_wheelpack.glb",
+        "na": "assets/mods/nd/WP06_wheelpack.glb",
+        "nb": "assets/mods/nd/WP06_wheelpack.glb",
+        "nc": "assets/mods/nd/WP06_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_06 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -298,26 +959,108 @@
     },
     {
       "id": "WP07",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 07",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_07_metal", "wheel_07_rubber"],
-      "bboxMm": { "nd": { "min": [-117, 0, -321], "max": [117, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_07_metal",
+        "wheel_07_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -117,
+            0,
+            -321
+          ],
+          "max": [
+            117,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,146 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP07_wheelpack.glb", "na": "assets/mods/nd/WP07_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP07_wheelpack.glb",
+        "na": "assets/mods/nd/WP07_wheelpack.glb",
+        "nb": "assets/mods/nd/WP07_wheelpack.glb",
+        "nc": "assets/mods/nd/WP07_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_07 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -325,26 +1068,108 @@
     },
     {
       "id": "WP08",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 08",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_08_metal", "wheel_08_rubber"],
-      "bboxMm": { "nd": { "min": [-117, 0, -321], "max": [117, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_08_metal",
+        "wheel_08_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -117,
+            0,
+            -321
+          ],
+          "max": [
+            117,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "839 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP08_wheelpack.glb", "na": "assets/mods/nd/WP08_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP08_wheelpack.glb",
+        "na": "assets/mods/nd/WP08_wheelpack.glb",
+        "nb": "assets/mods/nd/WP08_wheelpack.glb",
+        "nc": "assets/mods/nd/WP08_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_08 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -353,26 +1178,108 @@
     },
     {
       "id": "WP09",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 09",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_09_metal", "wheel_09_rubber"],
-      "bboxMm": { "nd": { "min": [-121, 0, -321], "max": [124, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_09_metal",
+        "wheel_09_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -121,
+            0,
+            -321
+          ],
+          "max": [
+            124,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "798 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP09_wheelpack.glb", "na": "assets/mods/nd/WP09_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP09_wheelpack.glb",
+        "na": "assets/mods/nd/WP09_wheelpack.glb",
+        "nb": "assets/mods/nd/WP09_wheelpack.glb",
+        "nc": "assets/mods/nd/WP09_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_09 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -381,26 +1288,108 @@
     },
     {
       "id": "WP10",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 10",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_10_metal", "wheel_10_rubber"],
-      "bboxMm": { "nd": { "min": [-163, 0, -321], "max": [176, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_10_metal",
+        "wheel_10_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -163,
+            0,
+            -321
+          ],
+          "max": [
+            176,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "926 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP10_wheelpack.glb", "na": "assets/mods/nd/WP10_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP10_wheelpack.glb",
+        "na": "assets/mods/nd/WP10_wheelpack.glb",
+        "nb": "assets/mods/nd/WP10_wheelpack.glb",
+        "nc": "assets/mods/nd/WP10_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_10 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -408,26 +1397,108 @@
     },
     {
       "id": "WP11",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 11",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_11_metal", "wheel_11_rubber"],
-      "bboxMm": { "nd": { "min": [-114, 0, -321], "max": [118, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_11_metal",
+        "wheel_11_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -114,
+            0,
+            -321
+          ],
+          "max": [
+            118,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,284 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP11_wheelpack.glb", "na": "assets/mods/nd/WP11_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP11_wheelpack.glb",
+        "na": "assets/mods/nd/WP11_wheelpack.glb",
+        "nb": "assets/mods/nd/WP11_wheelpack.glb",
+        "nc": "assets/mods/nd/WP11_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_11 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -435,26 +1506,108 @@
     },
     {
       "id": "WP12",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 12",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_12_metal", "wheel_12_rubber"],
-      "bboxMm": { "nd": { "min": [-123, 0, -321], "max": [124, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_12_metal",
+        "wheel_12_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -123,
+            0,
+            -321
+          ],
+          "max": [
+            124,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,118 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP12_wheelpack.glb", "na": "assets/mods/nd/WP12_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP12_wheelpack.glb",
+        "na": "assets/mods/nd/WP12_wheelpack.glb",
+        "nb": "assets/mods/nd/WP12_wheelpack.glb",
+        "nc": "assets/mods/nd/WP12_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_12 of 30, orientation-corrected: needed the 180-degree local-Z flip. Same pipeline as WP01: local-frame orientation, scaled to TYRE_R, own materials kept.",
@@ -462,26 +1615,108 @@
     },
     {
       "id": "WP13",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 13",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_13_metal", "wheel_13_rubber"],
-      "bboxMm": { "nd": { "min": [-123, 0, -321], "max": [123, 641, 321] } },
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_13_metal",
+        "wheel_13_rubber"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -123,
+            0,
+            -321
+          ],
+          "max": [
+            123,
+            641,
+            321
+          ]
+        }
+      },
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "678 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP13_wheelpack.glb", "na": "assets/mods/nd/WP13_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP13_wheelpack.glb",
+        "na": "assets/mods/nd/WP13_wheelpack.glb",
+        "nb": "assets/mods/nd/WP13_wheelpack.glb",
+        "nc": "assets/mods/nd/WP13_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_13 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -489,25 +1724,94 @@
     },
     {
       "id": "WP14",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 14",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_14_metal", "wheel_14_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_14_metal",
+        "wheel_14_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,059 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP14_wheelpack.glb", "na": "assets/mods/nd/WP14_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP14_wheelpack.glb",
+        "na": "assets/mods/nd/WP14_wheelpack.glb",
+        "nb": "assets/mods/nd/WP14_wheelpack.glb",
+        "nc": "assets/mods/nd/WP14_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_14 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -515,25 +1819,94 @@
     },
     {
       "id": "WP15",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 15",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_15_metal", "wheel_15_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_15_metal",
+        "wheel_15_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "774 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP15_wheelpack.glb", "na": "assets/mods/nd/WP15_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP15_wheelpack.glb",
+        "na": "assets/mods/nd/WP15_wheelpack.glb",
+        "nb": "assets/mods/nd/WP15_wheelpack.glb",
+        "nc": "assets/mods/nd/WP15_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_15 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -541,25 +1914,94 @@
     },
     {
       "id": "WP16",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 16",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_16_metal", "wheel_16_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_16_metal",
+        "wheel_16_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,038 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP16_wheelpack.glb", "na": "assets/mods/nd/WP16_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP16_wheelpack.glb",
+        "na": "assets/mods/nd/WP16_wheelpack.glb",
+        "nb": "assets/mods/nd/WP16_wheelpack.glb",
+        "nc": "assets/mods/nd/WP16_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_16 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -567,25 +2009,94 @@
     },
     {
       "id": "WP17",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 17",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_17_metal", "wheel_17_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_17_metal",
+        "wheel_17_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "909 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP17_wheelpack.glb", "na": "assets/mods/nd/WP17_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP17_wheelpack.glb",
+        "na": "assets/mods/nd/WP17_wheelpack.glb",
+        "nb": "assets/mods/nd/WP17_wheelpack.glb",
+        "nc": "assets/mods/nd/WP17_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_17 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -593,25 +2104,94 @@
     },
     {
       "id": "WP18",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 18",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_18_metal", "wheel_18_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_18_metal",
+        "wheel_18_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,221 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP18_wheelpack.glb", "na": "assets/mods/nd/WP18_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP18_wheelpack.glb",
+        "na": "assets/mods/nd/WP18_wheelpack.glb",
+        "nb": "assets/mods/nd/WP18_wheelpack.glb",
+        "nc": "assets/mods/nd/WP18_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_18 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -619,25 +2199,94 @@
     },
     {
       "id": "WP19",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 19",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_19_metal", "wheel_19_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_19_metal",
+        "wheel_19_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,019 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP19_wheelpack.glb", "na": "assets/mods/nd/WP19_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP19_wheelpack.glb",
+        "na": "assets/mods/nd/WP19_wheelpack.glb",
+        "nb": "assets/mods/nd/WP19_wheelpack.glb",
+        "nc": "assets/mods/nd/WP19_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_19 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -645,25 +2294,94 @@
     },
     {
       "id": "WP20",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 20",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_20_metal", "wheel_20_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_20_metal",
+        "wheel_20_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,284 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP20_wheelpack.glb", "na": "assets/mods/nd/WP20_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP20_wheelpack.glb",
+        "na": "assets/mods/nd/WP20_wheelpack.glb",
+        "nb": "assets/mods/nd/WP20_wheelpack.glb",
+        "nc": "assets/mods/nd/WP20_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_20 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -671,25 +2389,94 @@
     },
     {
       "id": "WP21",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 21",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_21_metal", "wheel_21_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_21_metal",
+        "wheel_21_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "867 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP21_wheelpack.glb", "na": "assets/mods/nd/WP21_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP21_wheelpack.glb",
+        "na": "assets/mods/nd/WP21_wheelpack.glb",
+        "nb": "assets/mods/nd/WP21_wheelpack.glb",
+        "nc": "assets/mods/nd/WP21_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_21 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -697,25 +2484,94 @@
     },
     {
       "id": "WP22",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 22",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_22_metal", "wheel_22_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_22_metal",
+        "wheel_22_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "826 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP22_wheelpack.glb", "na": "assets/mods/nd/WP22_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP22_wheelpack.glb",
+        "na": "assets/mods/nd/WP22_wheelpack.glb",
+        "nb": "assets/mods/nd/WP22_wheelpack.glb",
+        "nc": "assets/mods/nd/WP22_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_22 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -723,25 +2579,94 @@
     },
     {
       "id": "WP23",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 23",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_23_metal", "wheel_23_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_23_metal",
+        "wheel_23_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,124 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP23_wheelpack.glb", "na": "assets/mods/nd/WP23_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP23_wheelpack.glb",
+        "na": "assets/mods/nd/WP23_wheelpack.glb",
+        "nb": "assets/mods/nd/WP23_wheelpack.glb",
+        "nc": "assets/mods/nd/WP23_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_23 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -749,25 +2674,94 @@
     },
     {
       "id": "WP24",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 24",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP25", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_24_metal", "wheel_24_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_24_metal",
+        "wheel_24_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,338 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP24_wheelpack.glb", "na": "assets/mods/nd/WP24_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP24_wheelpack.glb",
+        "na": "assets/mods/nd/WP24_wheelpack.glb",
+        "nb": "assets/mods/nd/WP24_wheelpack.glb",
+        "nc": "assets/mods/nd/WP24_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_24 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -775,25 +2769,94 @@
     },
     {
       "id": "WP25",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 25",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP26", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_25_metal", "wheel_25_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_25_metal",
+        "wheel_25_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "936 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP25_wheelpack.glb", "na": "assets/mods/nd/WP25_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP25_wheelpack.glb",
+        "na": "assets/mods/nd/WP25_wheelpack.glb",
+        "nb": "assets/mods/nd/WP25_wheelpack.glb",
+        "nc": "assets/mods/nd/WP25_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_25 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -801,25 +2864,94 @@
     },
     {
       "id": "WP26",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 26",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP27", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP27",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_26_metal", "wheel_26_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_26_metal",
+        "wheel_26_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "864 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP26_wheelpack.glb", "na": "assets/mods/nd/WP26_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP26_wheelpack.glb",
+        "na": "assets/mods/nd/WP26_wheelpack.glb",
+        "nb": "assets/mods/nd/WP26_wheelpack.glb",
+        "nc": "assets/mods/nd/WP26_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_26 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -827,25 +2959,94 @@
     },
     {
       "id": "WP27",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 27",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP28", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP28",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_27_metal", "wheel_27_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_27_metal",
+        "wheel_27_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "798 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP27_wheelpack.glb", "na": "assets/mods/nd/WP27_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP27_wheelpack.glb",
+        "na": "assets/mods/nd/WP27_wheelpack.glb",
+        "nb": "assets/mods/nd/WP27_wheelpack.glb",
+        "nc": "assets/mods/nd/WP27_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_27 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -853,25 +3054,94 @@
     },
     {
       "id": "WP28",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 28",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP29", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP29",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_28_metal", "wheel_28_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_28_metal",
+        "wheel_28_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "918 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP28_wheelpack.glb", "na": "assets/mods/nd/WP28_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP28_wheelpack.glb",
+        "na": "assets/mods/nd/WP28_wheelpack.glb",
+        "nb": "assets/mods/nd/WP28_wheelpack.glb",
+        "nc": "assets/mods/nd/WP28_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_28 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -879,25 +3149,94 @@
     },
     {
       "id": "WP29",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 29",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP30", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP30",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_29_metal", "wheel_29_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_29_metal",
+        "wheel_29_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,274 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP29_wheelpack.glb", "na": "assets/mods/nd/WP29_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP29_wheelpack.glb",
+        "na": "assets/mods/nd/WP29_wheelpack.glb",
+        "nb": "assets/mods/nd/WP29_wheelpack.glb",
+        "nc": "assets/mods/nd/WP29_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_29 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -905,25 +3244,94 @@
     },
     {
       "id": "WP30",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel_sourced",
       "displayName": "Wheel Pack 30",
       "slot": null,
       "optionId": null,
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
-      "incompatibleWith": ["WS01", "WS02", "WP01", "WP02", "WP03", "WP04", "WP05", "WP06", "WP07", "WP08", "WP09", "WP10", "WP11", "WP12", "WP13", "WP14", "WP15", "WP16", "WP17", "WP18", "WP19", "WP20", "WP21", "WP22", "WP23", "WP24", "WP25", "WP26", "WP27", "WP28", "WP29", "W01", "W04", "W05", "W07", "W09"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
+      "incompatibleWith": [
+        "WS01",
+        "WS02",
+        "WP01",
+        "WP02",
+        "WP03",
+        "WP04",
+        "WP05",
+        "WP06",
+        "WP07",
+        "WP08",
+        "WP09",
+        "WP10",
+        "WP11",
+        "WP12",
+        "WP13",
+        "WP14",
+        "WP15",
+        "WP16",
+        "WP17",
+        "WP18",
+        "WP19",
+        "WP20",
+        "WP21",
+        "WP22",
+        "WP23",
+        "WP24",
+        "WP25",
+        "WP26",
+        "WP27",
+        "WP28",
+        "WP29",
+        "W01",
+        "W04",
+        "W05",
+        "W07",
+        "W09"
+      ],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["wheel_30_metal", "wheel_30_rubber"],
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "wheel_30_metal",
+        "wheel_30_rubber"
+      ],
       "triangleBudget": 2000,
       "materialContractExempt": true,
       "uiHint": "1,076 tris — from the same 30-wheel pack as WP01. Ships with its own disc and caliper baked in; the brake toggle does not apply to it.",
-      "file": { "nd": "assets/mods/nd/WP30_wheelpack.glb", "na": "assets/mods/nd/WP30_wheelpack.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/WP30_wheelpack.glb",
+        "na": "assets/mods/nd/WP30_wheelpack.glb",
+        "nb": "assets/mods/nd/WP30_wheelpack.glb",
+        "nc": "assets/mods/nd/WP30_wheelpack.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$sourced": "Same source pack as WP01 — see that entry and ATTRIBUTION.md.",
       "$note": "Wheel_30 of 30. Same pipeline as WP01: local-frame orientation, unconditional 180-degree flip (see WP01's $bugs field for why it's unconditional), scaled to TYRE_R, own materials kept.",
@@ -931,48 +3339,142 @@
     },
     {
       "id": "W05",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel",
       "displayName": "Classic Mesh",
       "slot": "wheelStyle",
       "optionId": "bbs_mesh",
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
       "triangleBudget": 18000,
-      "file": { "nd": "assets/mods/nd/W05_classic_mesh.glb", "na": "assets/mods/nd/W05_classic_mesh.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/W05_classic_mesh.glb",
+        "na": "assets/mods/nd/W05_classic_mesh.glb",
+        "nb": "assets/mods/nd/W05_classic_mesh.glb",
+        "nc": "assets/mods/nd/W05_classic_mesh.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
     },
     {
       "id": "W09",
-      "gen": ["nd"],
+      "gen": [
+        "nd",
+        "nb",
+        "nc"
+      ],
       "category": "wheel",
       "displayName": "OEM 16\" Sport Ten-Spoke",
       "slot": "wheelStyle",
       "optionId": "oem_16_silver",
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
       "triangleBudget": 18000,
-      "file": { "nd": "assets/mods/nd/W09_oem_ten_spoke.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/W09_oem_ten_spoke.glb",
+        "nb": "assets/mods/nd/W09_oem_ten_spoke.glb",
+        "nc": "assets/mods/nd/W09_oem_ten_spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "uiHint": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware."
@@ -1751,24 +4253,72 @@
     },
     {
       "id": "W04",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel",
       "displayName": "Deep Dish 8-Spoke",
       "slot": "wheelStyle",
       "optionId": "watanabe_rs",
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
       "triangleBudget": 18000,
-      "file": { "nd": "assets/mods/nd/W04_deep_dish_8spoke.glb", "na": "assets/mods/nd/W04_deep_dish_8spoke.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/W04_deep_dish_8spoke.glb",
+        "na": "assets/mods/nd/W04_deep_dish_8spoke.glb",
+        "nb": "assets/mods/nd/W04_deep_dish_8spoke.glb",
+        "nc": "assets/mods/nd/W04_deep_dish_8spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "$deviation": "The brief lists this as NA-only, but carData.json already offers watanabe_rs on the ND and the NA is not imported into the working .blend, so it is built at 17x9 ET0 for the generation that can show it.",
@@ -1776,24 +4326,72 @@
     },
     {
       "id": "W07",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel",
       "displayName": "Forged 6-Spoke Concave",
       "slot": "wheelStyle",
       "optionId": "rays_te37",
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
       "triangleBudget": 18000,
-      "file": { "nd": "assets/mods/nd/W07_forged_6spoke.glb", "na": "assets/mods/nd/W07_forged_6spoke.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/W07_forged_6spoke.glb",
+        "na": "assets/mods/nd/W07_forged_6spoke.glb",
+        "nb": "assets/mods/nd/W07_forged_6spoke.glb",
+        "nc": "assets/mods/nd/W07_forged_6spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "$partial": "No machined dimple detail near the hub, and the spoke section is a chamfered slab rather than a rounded trapezoid.",
@@ -1801,24 +4399,72 @@
     },
     {
       "id": "W01",
-      "gen": ["nd", "na"],
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
       "category": "wheel",
       "displayName": "Lightweight Twin 6-Spoke",
       "slot": "wheelStyle",
       "optionId": "enkei_rpf1",
       "attachType": "replace",
       "attachTo": "wheel",
-      "originMm": { "nd": [734, 0, 1194] },
-      "hides": { "nd": [] },
-      "hidesSurfaceClasses": ["rim", "rim_badge", "tyre"],
+      "originMm": {
+        "nd": [
+          734,
+          0,
+          1194
+        ]
+      },
+      "hides": {
+        "nd": []
+      },
+      "hidesSurfaceClasses": [
+        "rim",
+        "rim_badge",
+        "tyre"
+      ],
       "incompatibleWith": [],
       "requires": [],
-      "anchors": { "nd": ["Tire_Regular_S_FL 1_193"] },
-      "materials": ["MOD_Alloy", "MOD_CaliperPaint", "MOD_Chrome", "MOD_Rim", "MOD_Tyre"],
-      "bboxMm": {"nd": {"min": [-120, 0, -321], "max": [120, 641, 320]}},
+      "anchors": {
+        "nd": [
+          "Tire_Regular_S_FL 1_193"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_CaliperPaint",
+        "MOD_Chrome",
+        "MOD_Rim",
+        "MOD_Tyre"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -120,
+            0,
+            -321
+          ],
+          "max": [
+            120,
+            641,
+            320
+          ]
+        }
+      },
       "triangleBudget": 18000,
-      "file": { "nd": "assets/mods/nd/W01_race_7spoke.glb", "na": "assets/mods/nd/W01_race_7spoke.glb" },
-      "flags": { "requiresFenderRoll": false, "trackWidening": 0 },
+      "file": {
+        "nd": "assets/mods/nd/W01_race_7spoke.glb",
+        "na": "assets/mods/nd/W01_race_7spoke.glb",
+        "nb": "assets/mods/nd/W01_race_7spoke.glb",
+        "nc": "assets/mods/nd/W01_race_7spoke.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
       "derivedFromBaseMesh": false,
       "$note": "Curved spoke geometry with a stepped barrel, four lug nuts and inset brake hardware. Rebuilt by blender/build_nd_details.py and blender/fix_nd_sourced_brakes.py; dimensions are visual concepts, not manufacturing specifications.",
       "$partial": "Spokes are simple tapered slabs. Reads correctly at configurator distance; would want a rounded trapezoid section and machined detail to stand a close-up.",
@@ -2401,7 +5047,9 @@
       "id": "W10",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Concave Split Five",
@@ -2445,7 +5093,9 @@
       "uiHint": "CR Kiwami-inspired splayed spokes, a deep centre and four exposed lugs.",
       "file": {
         "nd": "assets/mods/nd/W10_concave_split_five.glb",
-        "na": "assets/mods/nd/W10_concave_split_five.glb"
+        "na": "assets/mods/nd/W10_concave_split_five.glb",
+        "nb": "assets/mods/nd/W10_concave_split_five.glb",
+        "nc": "assets/mods/nd/W10_concave_split_five.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -2470,7 +5120,9 @@
       "id": "W11",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Retro Three Spoke",
@@ -2514,7 +5166,9 @@
       "uiHint": "Three swept paddles, an inset centre and a polished step lip.",
       "file": {
         "nd": "assets/mods/nd/W11_retro_three_spoke.glb",
-        "na": "assets/mods/nd/W11_retro_three_spoke.glb"
+        "na": "assets/mods/nd/W11_retro_three_spoke.glb",
+        "nb": "assets/mods/nd/W11_retro_three_spoke.glb",
+        "nc": "assets/mods/nd/W11_retro_three_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -7059,7 +9713,9 @@
       "id": "W12",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Classic Eight Spoke",
@@ -7103,7 +9759,9 @@
       "uiHint": "Eight even spokes, filleted windows and a polished lip.",
       "file": {
         "nd": "assets/mods/nd/W12_classic_eight_spoke.glb",
-        "na": "assets/mods/nd/W12_classic_eight_spoke.glb"
+        "na": "assets/mods/nd/W12_classic_eight_spoke.glb",
+        "nb": "assets/mods/nd/W12_classic_eight_spoke.glb",
+        "nc": "assets/mods/nd/W12_classic_eight_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -7128,7 +9786,9 @@
       "id": "W13",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Pepperpot Disc",
@@ -7172,7 +9832,9 @@
       "uiHint": "A flat disc with eight large and eight small round windows.",
       "file": {
         "nd": "assets/mods/nd/W13_pepperpot_disc.glb",
-        "na": "assets/mods/nd/W13_pepperpot_disc.glb"
+        "na": "assets/mods/nd/W13_pepperpot_disc.glb",
+        "nb": "assets/mods/nd/W13_pepperpot_disc.glb",
+        "nc": "assets/mods/nd/W13_pepperpot_disc.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -7868,7 +10530,9 @@
       "id": "W14",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Turbofan",
@@ -7912,7 +10576,9 @@
       "uiHint": "A flat disc with twenty curved blade slots round its edge.",
       "file": {
         "nd": "assets/mods/nd/W14_turbofan.glb",
-        "na": "assets/mods/nd/W14_turbofan.glb"
+        "na": "assets/mods/nd/W14_turbofan.glb",
+        "nb": "assets/mods/nd/W14_turbofan.glb",
+        "nc": "assets/mods/nd/W14_turbofan.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -7937,7 +10603,9 @@
       "id": "W15",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Deep Dish Six",
@@ -7981,7 +10649,9 @@
       "uiHint": "Six spokes recessed behind a wide polished lip.",
       "file": {
         "nd": "assets/mods/nd/W15_deep_dish_six.glb",
-        "na": "assets/mods/nd/W15_deep_dish_six.glb"
+        "na": "assets/mods/nd/W15_deep_dish_six.glb",
+        "nb": "assets/mods/nd/W15_deep_dish_six.glb",
+        "nc": "assets/mods/nd/W15_deep_dish_six.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -8382,7 +11052,9 @@
       "id": "W16",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Classic Five Spoke",
@@ -8426,7 +11098,9 @@
       "uiHint": "Five broad tapering spokes and a polished lip.",
       "file": {
         "nd": "assets/mods/nd/W16_classic_five_spoke.glb",
-        "na": "assets/mods/nd/W16_classic_five_spoke.glb"
+        "na": "assets/mods/nd/W16_classic_five_spoke.glb",
+        "nb": "assets/mods/nd/W16_classic_five_spoke.glb",
+        "nc": "assets/mods/nd/W16_classic_five_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -8451,7 +11125,9 @@
       "id": "W17",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Ten Spoke Forged",
@@ -8495,7 +11171,9 @@
       "uiHint": "Ten slim straight spokes on a concave face.",
       "file": {
         "nd": "assets/mods/nd/W17_ten_spoke.glb",
-        "na": "assets/mods/nd/W17_ten_spoke.glb"
+        "na": "assets/mods/nd/W17_ten_spoke.glb",
+        "nb": "assets/mods/nd/W17_ten_spoke.glb",
+        "nc": "assets/mods/nd/W17_ten_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -8520,7 +11198,9 @@
       "id": "W18",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Steel Wheel",
@@ -8564,7 +11244,9 @@
       "uiHint": "A pressed steel disc with six oval vents and a chrome cap.",
       "file": {
         "nd": "assets/mods/nd/W18_steel_wheel.glb",
-        "na": "assets/mods/nd/W18_steel_wheel.glb"
+        "na": "assets/mods/nd/W18_steel_wheel.glb",
+        "nb": "assets/mods/nd/W18_steel_wheel.glb",
+        "nc": "assets/mods/nd/W18_steel_wheel.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -8589,7 +11271,9 @@
       "id": "W19",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Three-Piece Multi-Spoke",
@@ -8633,7 +11317,9 @@
       "uiHint": "Twenty fine spokes inside a wide polished lip ringed with assembly bolts.",
       "file": {
         "nd": "assets/mods/nd/W19_three_piece_multi_spoke.glb",
-        "na": "assets/mods/nd/W19_three_piece_multi_spoke.glb"
+        "na": "assets/mods/nd/W19_three_piece_multi_spoke.glb",
+        "nb": "assets/mods/nd/W19_three_piece_multi_spoke.glb",
+        "nc": "assets/mods/nd/W19_three_piece_multi_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -9088,7 +11774,9 @@
       "id": "W20",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Wire Wheel",
@@ -9132,7 +11820,9 @@
       "uiHint": "48 laced spokes and a two-eared knock-off spinner.",
       "file": {
         "nd": "assets/mods/nd/W20_wire_wheel.glb",
-        "na": "assets/mods/nd/W20_wire_wheel.glb"
+        "na": "assets/mods/nd/W20_wire_wheel.glb",
+        "nb": "assets/mods/nd/W20_wire_wheel.glb",
+        "nc": "assets/mods/nd/W20_wire_wheel.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -9157,7 +11847,9 @@
       "id": "W21",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Seven Twin-Spoke",
@@ -9201,7 +11893,9 @@
       "uiHint": "Seven pairs of parallel spokes on a concave face.",
       "file": {
         "nd": "assets/mods/nd/W21_seven_twin_spoke.glb",
-        "na": "assets/mods/nd/W21_seven_twin_spoke.glb"
+        "na": "assets/mods/nd/W21_seven_twin_spoke.glb",
+        "nb": "assets/mods/nd/W21_seven_twin_spoke.glb",
+        "nc": "assets/mods/nd/W21_seven_twin_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -9493,7 +12187,9 @@
       "id": "W22",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Six Y-Spoke",
@@ -9537,7 +12233,9 @@
       "uiHint": "Six spokes forking into a Y toward the rim.",
       "file": {
         "nd": "assets/mods/nd/W22_six_y_spoke.glb",
-        "na": "assets/mods/nd/W22_six_y_spoke.glb"
+        "na": "assets/mods/nd/W22_six_y_spoke.glb",
+        "nb": "assets/mods/nd/W22_six_y_spoke.glb",
+        "nc": "assets/mods/nd/W22_six_y_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -9562,7 +12260,9 @@
       "id": "W23",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "wheel",
       "displayName": "Twelve Spoke",
@@ -9606,7 +12306,9 @@
       "uiHint": "Twelve slim straight spokes on a flat face.",
       "file": {
         "nd": "assets/mods/nd/W23_twelve_spoke.glb",
-        "na": "assets/mods/nd/W23_twelve_spoke.glb"
+        "na": "assets/mods/nd/W23_twelve_spoke.glb",
+        "nb": "assets/mods/nd/W23_twelve_spoke.glb",
+        "nc": "assets/mods/nd/W23_twelve_spoke.glb"
       },
       "flags": {
         "requiresFenderRoll": false,

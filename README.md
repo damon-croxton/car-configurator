@@ -3,8 +3,11 @@
 A Three.js viewer for a Mazda MX-5, wrapped in a data-driven configurator UI.
 
 The app loads Sketchfab models and renders them as the artists shipped them.
-Two generations are live — **ND** (2016) and **NA** (1990) — and switching
-between them reloads the car in place. The guiding rule is that **nothing may
+All four generations are live: **ND** (2016), **NC** (2009), **NB** (1998)
+and **NA** (1990). Switching between them reloads the car in place. The NB
+and NC are decimated, re-materialled copies of their Sketchfab sources, made
+by `blender/prepare_nb_nc.py`; see ATTRIBUTION.md, including its provenance
+notes. The guiding rule is that **nothing may
 cut the asset up** — an earlier attempt to do that is written up in
 `CONFORM_POSTMORTEM.md`. The configurator moves, scales, recolours and hides
 what is already there, and adds **mods**: separate `.glb` parts built by Blender
@@ -339,7 +342,12 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   so a matte body does not end up next to a glossy bonnet.
 - Per-panel colour is not wired up. The data to do it is in
   `surfaceClasses.json`; the app currently paints all panels together.
-- NB / NC are catalogued but marked `available: false` — no model for them yet.
+- **The NB and NC take wheels and colours, not body mods yet.** Every wheel
+  mod fits them, along with paint, wheel finish, stance, lights and cabin
+  colours. The body kits and additional parts are modelled against the
+  ND/NA reference meshes, and there are no NB/NC anchors yet. Their soft tops
+  share materials with trim, so like the NA they keep a fixed roof (up) and
+  the roof controls are hidden.
 - **The NA's roof cannot go up.** The asset ships roof-down with no soft-top
   geometry, so the roof controls are not offered for it.
 - HDRIs are fetched, not committed — run `npm run assets` once after cloning, or

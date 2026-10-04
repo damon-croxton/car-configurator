@@ -105,6 +105,52 @@ built by inspecting which objects use each material. See
 
 ---
 
+## Car model — Mazda MX-5 NB
+
+| Field | Value |
+| --- | --- |
+| Title | Mazda MX-5 (NB) convertible HQ interior |
+| Author | niev ([sketchfab.com/niev](https://sketchfab.com/niev)) |
+| Source | https://sketchfab.com/3d-models/mazda-mx-5-nb-convertible-hq-interior-5d103c567bee4c61ad66f04562049933 |
+| Licence | Listed as [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Modified | Yes. `blender/prepare_nb_nc.py` stands the model upright, removes the number plates, moves the wheel faces onto per-wheel objects with their own materials, decimates it from 1.25M to ~340k triangles (never the rims or tyres), renames every material `NB_<name>`, corrects the PBR values the importer lost, and exports `public/assets/models/mx5_nb/scene.glb`. |
+
+Required credit: *This work is based on "Mazda MX-5 (NB) convertible HQ
+interior" (https://sketchfab.com/3d-models/mazda-mx-5-nb-convertible-hq-interior-5d103c567bee4c61ad66f04562049933)
+by niev (https://sketchfab.com/niev), licensed under CC-BY-4.0
+(http://creativecommons.org/licenses/by/4.0/). Modified: decimated,
+re-materialled and number plates removed.*
+
+**Provenance concern.** The source's number plates read "HUM3D" and its file
+is named in Hum3D's catalogue style, so this upload is likely a re-upload of a
+commercial Hum3D model rather than the uploader's own work. The project owner
+chose to publish it on the listed licence. The plates are removed, so no
+"HUM3D" mark ships.
+
+---
+
+## Car model — Mazda MX-5 NC
+
+| Field | Value |
+| --- | --- |
+| Title | 2009 Mazda MX-5 Miata (NC) |
+| Author | supercarmodels ([sketchfab.com/supercarmodels](https://sketchfab.com/supercarmodels)) |
+| Source | https://sketchfab.com/3d-models/2009-mazda-mx-5-miata-nc-44f83bd458df4025b8daa7f6eeb36b1f |
+| Licence | Listed as [CC Attribution 4.0](https://creativecommons.org/licenses/by/4.0/) |
+| Modified | Yes. The same `blender/prepare_nb_nc.py` steps take it from 1.09M to ~308k triangles, export `public/assets/models/mx5_nc/scene.glb`, and move its rim and brake faces onto their own materials (the source shares them with body badges and the exhaust). |
+
+Required credit: *This work is based on "2009 Mazda MX-5 Miata (NC)"
+(https://sketchfab.com/3d-models/2009-mazda-mx-5-miata-nc-44f83bd458df4025b8daa7f6eeb36b1f)
+by supercarmodels (https://sketchfab.com/supercarmodels), licensed under
+CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/). Modified: decimated,
+re-materialled and number plates removed.*
+
+**Provenance concern.** The listing says the car "appears in NFS Shift and The
+Run", which suggests it was extracted from those games. The project owner
+chose to publish it on the listed licence.
+
+---
+
 ## Sourced wheel models
 
 Mod wheels are usually built from primitives in Blender (see the mod brief),

@@ -125,7 +125,7 @@
       "code": "NC",
       "name": "NC Roadster",
       "years": "2005 — 2015",
-      "available": false,
+      "available": true,
       "tagline": "Third generation. Grown up, PRHT hardtop option.",
       "specs": {
         "engine": "MZR 2.0L I4",
@@ -151,14 +151,27 @@
       ],
       "defaultRoofType": "st",
       "wheels": [
-        "oem_17_design",
-        "oem_16_silver",
+        "oem_nc_17",
         "rays_te37",
-        "enkei_rpf1",
+        "watanabe_rs",
         "bbs_mesh",
-        "watanabe_rs"
+        "enkei_rpf1",
+        "retro_three_spoke",
+        "concave_split_five",
+        "classic_eight_spoke",
+        "pepperpot_disc",
+        "turbofan",
+        "deep_dish_six",
+        "classic_five_spoke",
+        "ten_spoke",
+        "steel_wheel",
+        "three_piece_multi_spoke",
+        "wire_wheel",
+        "seven_twin_spoke",
+        "six_y_spoke",
+        "twelve_spoke"
       ],
-      "defaultWheel": "oem_17_design",
+      "defaultWheel": "oem_nc_17",
       "wheelDiameters": [
         16,
         17,
@@ -203,14 +216,17 @@
           "style_bar",
           "track_hoop"
         ]
-      }
+      },
+      "assetUrl": "assets/models/mx5_nc/scene.glb",
+      "surfaceModel": "nc",
+      "modelYawDeg": 0
     },
     {
       "id": "nb",
       "code": "NB",
       "name": "NB Roadster",
       "years": "1998 — 2005",
-      "available": false,
+      "available": true,
       "tagline": "Second generation. Fixed headlights, glass rear window.",
       "specs": {
         "engine": "BP-Z3 1.8L I4",
@@ -235,19 +251,33 @@
       ],
       "defaultRoofType": "st",
       "wheels": [
-        "oem_16_silver",
+        "oem_nb_15",
         "rays_te37",
-        "enkei_rpf1",
+        "watanabe_rs",
         "bbs_mesh",
-        "watanabe_rs"
+        "enkei_rpf1",
+        "retro_three_spoke",
+        "concave_split_five",
+        "classic_eight_spoke",
+        "pepperpot_disc",
+        "turbofan",
+        "deep_dish_six",
+        "classic_five_spoke",
+        "ten_spoke",
+        "steel_wheel",
+        "three_piece_multi_spoke",
+        "wire_wheel",
+        "seven_twin_spoke",
+        "six_y_spoke",
+        "twelve_spoke"
       ],
-      "defaultWheel": "oem_16_silver",
+      "defaultWheel": "oem_nb_15",
       "wheelDiameters": [
         15,
         16,
         17
       ],
-      "defaultWheelDiameter": 16,
+      "defaultWheelDiameter": 15,
       "aero": {
         "frontLip": [
           "stock",
@@ -282,7 +312,10 @@
           "style_bar",
           "track_hoop"
         ]
-      }
+      },
+      "assetUrl": "assets/models/mx5_nb/scene.glb",
+      "surfaceModel": "nb",
+      "modelYawDeg": 0
     },
     {
       "id": "na",
@@ -650,6 +683,28 @@
       "weightPerCorner": 8.9,
       "oem": false,
       "description": "Twelve slim straight spokes on a flat face."
+    },
+    {
+      "id": "oem_nb_15",
+      "name": "15\" Factory Alloy",
+      "brand": "Mazda",
+      "spokeType": "five_spoke",
+      "spokeCount": 5,
+      "lipDepth": 0.02,
+      "weightPerCorner": 7.6,
+      "oem": true,
+      "description": "The NB's own five-spoke alloy, as modelled."
+    },
+    {
+      "id": "oem_nc_17",
+      "name": "17\" Factory Alloy",
+      "brand": "Mazda",
+      "spokeType": "ten_spoke",
+      "spokeCount": 10,
+      "lipDepth": 0.02,
+      "weightPerCorner": 8.4,
+      "oem": true,
+      "description": "The NC's own ten-spoke alloy, as modelled."
     }
   ],
   "aeroParts": {

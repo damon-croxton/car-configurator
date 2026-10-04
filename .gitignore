@@ -23,6 +23,8 @@ public/assets/**/*.bin
 # is not fetched from anywhere, and CI builds straight from the repo.
 !public/assets/models/mx5_sketchfab/**
 !public/assets/models/mx5_na_sketchfab/**
+!public/assets/models/mx5_nb/**
+!public/assets/models/mx5_nc/**
 
 # ...and the mods, for the same reason: they are generated locally by the
 # Blender pipeline, there is nowhere to fetch them from, and each is well under
@@ -35,7 +37,9 @@ raw/
 # Your local model library. Source downloads (FBX, raw glTF) stay on your
 # machine; only the copy under public/assets/ that the app actually loads is
 # committed, and only once its licence is recorded in ATTRIBUTION.md.
-Models/
+# Anchored to the repo root: git on Windows matches case-insensitively, and an
+# unanchored Models/ also swallowed public/assets/models/.
+/Models/
 
 # Blender working files. The build scripts under blender/mods/ are the
 # deliverable and are tracked; the .blend files they produce are not, because a
