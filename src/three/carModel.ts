@@ -357,6 +357,8 @@ export class CarModel {
   private hiddenByMods: THREE.Object3D[] = [];
   /** Which mods are fitted, so an unchanged selection is a no-op. */
   private modKey = '';
+  /** Extra spacer (mm) a fitted wide-body asks for, per axle. */
+  private trackWiden = { front: 0, rear: 0 };
   /**
    * Brake discs and calipers baked into every wheel mod's own geometry — not a
    * mod in their own right, just a part every wheel-mod script happens to
@@ -627,7 +629,9 @@ export class CarModel {
     const camber = -stance.camber * DEG2RAD;
 
     for (const wheel of this.wheels) {
-      wheel.pivot.position.set(wheel.base.x + wheel.side * spacer, wheel.base.y, wheel.base.z);
+      // A wide-body's arches push the wheels out on top of the spacer slider.
+      const widen = (wheel.base.z > 0 ? this.trackWiden.front : this.trackWiden.rear) / 1000;
+      wheel.pivot.position.set(wheel.base.x + wheel.side * (spacer + widen), wheel.base.y, wheel.base.z);
       wheel.pivot.rotation.z = wheel.side * camber;
     }
 
@@ -690,6 +694,15 @@ export class CarModel {
     if (this.modKey !== key) return;
 
     this.clearMods();
+
+    // The widest part fitted sets how far the wheels move out (setStance).
+    this.trackWiden = { front: 0, rear: 0 };
+    for (const { mod } of loaded) {
+      const flag = mod.flags?.trackWidening;
+      if (!flag) continue;
+      const { front, rear } = typeof flag === 'number' ? { front: flag, rear: flag } : flag;
+      this.trackWiden = { front: Math.max(this.trackWiden.front, front), rear: Math.max(this.trackWiden.rear, rear) };
+    }
 
     for (const { mod, instance } of loaded) {
       if (mod.attachTo === 'wheel') {

@@ -45,7 +45,10 @@ ducts, and five-spoke, ten-spoke, steel and three-piece multi-spoke wheels
 mirrors, accent mirror caps and side stripes, rally door plates, NA twin tips,
 and wire and seven twin-spoke wheels (`blender/PARTS-R8.md`). Round nine adds an NA nose bra and low-mount wing,
 carbon and accent bonnet wraps, and six Y-spoke and twelve-spoke wheels
-(`blender/PARTS-R9.md`). Variants of one part form a group in the panel,
+(`blender/PARTS-R9.md`). Round ten adds a Rocket Bunny / Pandem-style
+wide-body kit for both cars (wide overfenders that push the wheels out to fill
+them, plus a matching lip, skirts, diffuser and ducktail) and double-element,
+time-attack and swan-neck wings (`blender/PARTS-R10.md`). Variants of one part form a group in the panel,
 and picking one takes the others off. A part can require another (the
 harnesses need the buckets): fitting it fits both, and losing the required
 part drops it.

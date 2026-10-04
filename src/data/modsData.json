@@ -12328,6 +12328,766 @@
         "rim_badge",
         "tyre"
       ]
+    },
+    {
+      "id": "WB01",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Wide-Body Overfenders",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint",
+        "MOD_Chrome"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -935,
+            146,
+            -1581
+          ],
+          "max": [
+            935,
+            801,
+            1661
+          ]
+        },
+        "na": {
+          "min": [
+            -911,
+            184,
+            -1605
+          ],
+          "max": [
+            903,
+            775,
+            1641
+          ]
+        }
+      },
+      "triangleBudget": 9500,
+      "file": {
+        "nd": "assets/mods/nd/WB01_widebody_fenders.glb",
+        "na": "assets/mods/na/WB01_widebody_fenders.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": {
+          "front": 45,
+          "rear": 55
+        }
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Body colour with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Bolted wide arches; wheels pushed out to fill them."
+    },
+    {
+      "id": "WB02",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Carbon Wide-Body Overfenders",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_Chrome"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -935,
+            146,
+            -1581
+          ],
+          "max": [
+            935,
+            801,
+            1661
+          ]
+        },
+        "na": {
+          "min": [
+            -911,
+            184,
+            -1605
+          ],
+          "max": [
+            903,
+            775,
+            1641
+          ]
+        }
+      },
+      "triangleBudget": 9500,
+      "file": {
+        "nd": "assets/mods/nd/WB02_widebody_fenders_carbon.glb",
+        "na": "assets/mods/na/WB02_widebody_fenders_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": {
+          "front": 45,
+          "rear": 55
+        }
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Carbon with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Wide arches in carbon, chrome bolts."
+    },
+    {
+      "id": "WB03",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "body_panel",
+      "displayName": "Satin Black Wide-Body Overfenders",
+      "area": "sides",
+      "group": "flares",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "FenderFL 6.002_88",
+          "FenderFR 6.001_80",
+          "FendersR 6.001_40"
+        ],
+        "na": [
+          "f fender_Material #71_0",
+          "rearfender_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_Alloy",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -935,
+            146,
+            -1581
+          ],
+          "max": [
+            935,
+            801,
+            1661
+          ]
+        },
+        "na": {
+          "min": [
+            -911,
+            184,
+            -1605
+          ],
+          "max": [
+            903,
+            775,
+            1641
+          ]
+        }
+      },
+      "triangleBudget": 9500,
+      "file": {
+        "nd": "assets/mods/nd/WB03_widebody_fenders_satin.glb",
+        "na": "assets/mods/na/WB03_widebody_fenders_satin.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": {
+          "front": 45,
+          "rear": 55
+        }
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Satin black with alloy bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Wide arches in satin black."
+    },
+    {
+      "id": "WB10",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "front_aero",
+      "displayName": "Wide-Body Front Lip",
+      "slot": "frontLip",
+      "optionId": "wide_body_lip",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -763,
+            160,
+            1512
+          ],
+          "max": [
+            763,
+            237,
+            1942
+          ]
+        },
+        "na": {
+          "min": [
+            -771,
+            222,
+            1461
+          ],
+          "max": [
+            754,
+            340,
+            1905
+          ]
+        }
+      },
+      "triangleBudget": 800,
+      "file": {
+        "nd": "assets/mods/nd/WB10_widebody_lip.glb",
+        "na": "assets/mods/na/WB10_widebody_lip.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A 6 mm carbon splitter under the bumper, 40 mm proud of its face and running out to the overfenders, with an end fence at each corner. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Carbon splitter out to the wide arches, with end fences."
+    },
+    {
+      "id": "WB11",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Wide-Body Side Skirts",
+      "slot": "sideSkirts",
+      "optionId": "wide_body_skirts",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Skirts 6.003_57"
+        ],
+        "na": [
+          "sideskirt_Material #118_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -851,
+            139,
+            -740
+          ],
+          "max": [
+            851,
+            216,
+            800
+          ]
+        },
+        "na": {
+          "min": [
+            -841,
+            146,
+            -700
+          ],
+          "max": [
+            827,
+            230,
+            800
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "nd": "assets/mods/nd/WB11_widebody_skirts.glb",
+        "na": "assets/mods/na/WB11_widebody_skirts.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Body-colour side skirts that step 50 mm out from the sills to meet the overfenders, with a flat outer face and chamfered top, tapering where they tuck under the arches. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Deep skirts stepping out to meet the arches."
+    },
+    {
+      "id": "WB12",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Wide-Body Diffuser",
+      "slot": "rearDiffuser",
+      "optionId": "wide_body_diffuser",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperR 6.001_146"
+        ],
+        "na": [
+          "rearbumper_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -700,
+            188,
+            -1865
+          ],
+          "max": [
+            700,
+            327,
+            -1270
+          ]
+        },
+        "na": {
+          "min": [
+            -708,
+            233,
+            -1912
+          ],
+          "max": [
+            692,
+            371,
+            -1445
+          ]
+        }
+      },
+      "triangleBudget": 1200,
+      "file": {
+        "nd": "assets/mods/nd/WB12_widebody_diffuser.glb",
+        "na": "assets/mods/na/WB12_widebody_diffuser.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A wide carbon rear diffuser: an undertray plate kicking up at its trailing edge, with tall strakes placed clear of the tail pipes. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Carbon undertray with tall strakes."
+    },
+    {
+      "id": "WB13",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Wide-Body Ducktail",
+      "slot": "rearWing",
+      "optionId": "wide_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_BodyPaint"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -480,
+            824,
+            -1842
+          ],
+          "max": [
+            480,
+            916,
+            -1672
+          ]
+        },
+        "na": {
+          "min": [
+            -552,
+            720,
+            -1866
+          ],
+          "max": [
+            536,
+            859,
+            -1712
+          ]
+        }
+      },
+      "triangleBudget": 2100,
+      "file": {
+        "nd": "assets/mods/nd/WB13_widebody_ducktail.glb",
+        "na": "assets/mods/na/WB13_widebody_ducktail.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The wide-body kits' signature ducktail: a 55 mm flip along the boot's whole rear edge. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Tall body-colour flip across the boot."
+    },
+    {
+      "id": "WB14",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Carbon Wide-Body Ducktail",
+      "slot": "rearWing",
+      "optionId": "carbon_wide_ducktail",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -480,
+            824,
+            -1842
+          ],
+          "max": [
+            480,
+            916,
+            -1672
+          ]
+        },
+        "na": {
+          "min": [
+            -552,
+            720,
+            -1866
+          ],
+          "max": [
+            536,
+            859,
+            -1712
+          ]
+        }
+      },
+      "triangleBudget": 2100,
+      "file": {
+        "nd": "assets/mods/nd/WB14_widebody_ducktail_carbon.glb",
+        "na": "assets/mods/na/WB14_widebody_ducktail_carbon.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "The wide-body ducktail in carbon. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "The tall ducktail in carbon."
+    },
+    {
+      "id": "RA60",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Double-Element GT Wing",
+      "slot": "rearWing",
+      "optionId": "double_element_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -665,
+            867,
+            -1875
+          ],
+          "max": [
+            665,
+            1309,
+            -1495
+          ]
+        },
+        "na": {
+          "min": [
+            -654,
+            800,
+            -1920
+          ],
+          "max": [
+            636,
+            1136,
+            -1540
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "nd": "assets/mods/nd/RA60_double_element_wing.glb",
+        "na": "assets/mods/na/RA60_double_element_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A two-element GT wing: main plane with a 45% chord flap pitched up over its trailing edge, on swept deck-mounted uprights with endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Main plane plus a pitched flap."
+    },
+    {
+      "id": "RA61",
+      "gen": [
+        "nd",
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "Time Attack Wing",
+      "slot": "rearWing",
+      "optionId": "time_attack_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "Boot 6.001_157"
+        ],
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -805,
+            833,
+            -1965
+          ],
+          "max": [
+            805,
+            1490,
+            -1585
+          ]
+        },
+        "na": {
+          "min": [
+            -794,
+            784,
+            -2010
+          ],
+          "max": [
+            777,
+            1317,
+            -1630
+          ]
+        }
+      },
+      "triangleBudget": 2200,
+      "file": {
+        "nd": "assets/mods/nd/RA61_time_attack_wing.glb",
+        "na": "assets/mods/na/RA61_time_attack_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A time-attack wing: wide, deep two-element wing 150 mm higher than the GT wing, on tall uprights footed at the boot's rear edge, with big endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Huge chassis-mount wing on tall uprights."
+    },
+    {
+      "id": "RA62",
+      "gen": [
+        "na"
+      ],
+      "category": "rear_aero",
+      "displayName": "NA Swan-Neck Wing",
+      "slot": "rearWing",
+      "optionId": "swan_neck_wing",
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "na": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "na": [
+          "trunk_Material #71_0"
+        ]
+      },
+      "materials": [
+        "MOD_CarbonWeave",
+        "MOD_SatinBlack"
+      ],
+      "bboxMm": {
+        "na": {
+          "min": [
+            -654,
+            815,
+            -1950
+          ],
+          "max": [
+            636,
+            1156,
+            -1610
+          ]
+        }
+      },
+      "triangleBudget": 1600,
+      "file": {
+        "na": "assets/mods/na/RA62_swan_neck_wing.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "A swan-neck wing for the NA: the uprights rise behind the wing and hook over its leading edge onto the top surface, leaving the underside clean. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "uiHint": "Wing hung from above on swan-neck uprights."
     }
   ]
 }

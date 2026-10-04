@@ -2,6 +2,32 @@ import type { PresetBuild } from './types';
 
 export const PRESET_BUILDS: PresetBuild[] = [
   {
+    id: 'nd_widebody', name: 'ND Wide-Body',
+    subtitle: 'Bolted overfenders, wide lip and skirts, ducktail', badge: 'Wide-body',
+    description: 'A Rocket Bunny / Pandem-style build: bolt-on overfenders with the wheels pushed out to fill them, a wide carbon lip, deep skirts, a strake diffuser and a tall ducktail, slammed on deep-dish wheels. Original visual approximation of the style.',
+    config: {
+      generation: 'nd', roofType: 'st', roofState: 'down', paint: 'machine_gray',
+      wheelStyle: 'deep_dish_six', wheelFinish: 'gloss_black', wheelSheen: 'gloss', wheelDiameter: 17,
+      rideHeight: -55, camber: -3.5, trackOffset: 10, tyreWidth: 1.25,
+      frontLip: 'wide_body_lip', sideSkirts: 'wide_body_skirts', rearWing: 'wide_ducktail',
+      rearDiffuser: 'wide_body_diffuser', exhaust: 'titanium_quad', extraMods: ['WB01', 'DT07'],
+      environment: 'urban_night', cameraPreset: 'exterior_360',
+    },
+  },
+  {
+    id: 'na_widebody', name: 'NA Wide-Body',
+    subtitle: 'Riveted arches, time-attack wing, slammed', badge: 'Wide-body',
+    description: 'The NA in full wide-body: carbon overfenders, wide lip and skirts, strake diffuser and a time-attack wing, on gold three-piece wheels.',
+    config: {
+      generation: 'na', roofType: 'st', roofState: 'down', paint: 'arctic_white',
+      wheelStyle: 'three_piece_multi_spoke', wheelFinish: 'satin_bronze', wheelSheen: 'satin', wheelDiameter: 15,
+      rideHeight: -50, camber: -3.0, trackOffset: 10, tyreWidth: 1.2,
+      frontLip: 'wide_body_lip', sideSkirts: 'wide_body_skirts', rearWing: 'time_attack_wing',
+      rearDiffuser: 'wide_body_diffuser', exhaust: 'twin_tips', extraMods: ['WB02', 'NB01'],
+      environment: 'warehouse', cameraPreset: 'exterior_360',
+    },
+  },
+  {
     id: 'nd_msr_inspired', name: 'ND MSR-inspired',
     subtitle: 'Split lip, carbon steps and a blade spoiler', badge: 'New aero',
     description: 'A coordinated street build with the MSR-style split lip, side blades and stepped rear spoiler. These are original visual approximations inspired by real ND accessories.',

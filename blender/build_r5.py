@@ -55,7 +55,7 @@ def build(only=None, export=True):
             reports[f'{ident}/{gen}'] = m.stats(list(coll.objects), gen=gen)
             if export:
                 # Wheels export about their contact patch (brief §2.2).
-                origin = [734, 0, 1194] if ident.startswith('W') else None
+                origin = [734, 0, 1194] if ident[0] == 'W' and ident[1:].isdigit() else None
                 m.export_glb(gen, ident, filename, coll, origin=origin)
     return reports
 

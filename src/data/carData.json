@@ -69,7 +69,8 @@
           "aggressive_splitter",
           "msr_split_lip",
           "three_piece_lip",
-          "carbon_corner_splitters"
+          "carbon_corner_splitters",
+          "wide_body_lip"
         ],
         "sideSkirts": [
           "stock",
@@ -77,13 +78,15 @@
           "carbon_extenders",
           "msr_side_blades",
           "rs_sculpted_skirts",
-          "race_side_steps"
+          "race_side_steps",
+          "wide_body_skirts"
         ],
         "rearDiffuser": [
           "stock",
           "oem_diffuser",
           "track_diffuser",
-          "mp_street_diffuser"
+          "mp_street_diffuser",
+          "wide_body_diffuser"
         ],
         "rearWing": [
           "wing_delete",
@@ -94,7 +97,11 @@
           "touring_ducktail",
           "swan_neck_wing",
           "gurney_flap",
-          "club_bridge_spoiler"
+          "club_bridge_spoiler",
+          "wide_ducktail",
+          "carbon_wide_ducktail",
+          "double_element_wing",
+          "time_attack_wing"
         ],
         "hood": [
           "stock",
@@ -380,18 +387,21 @@
           "club_lip",
           "aggressive_splitter",
           "painted_lip",
-          "carbon_lip"
+          "carbon_lip",
+          "wide_body_lip"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
           "carbon_extenders",
-          "painted_extensions"
+          "painted_extensions",
+          "wide_body_skirts"
         ],
         "rearDiffuser": [
           "stock",
           "oem_diffuser",
-          "track_diffuser"
+          "track_diffuser",
+          "wide_body_diffuser"
         ],
         "rearWing": [
           "wing_delete",
@@ -399,7 +409,12 @@
           "gt_wing",
           "carbon_ducktail",
           "tall_ducktail",
-          "low_wing"
+          "low_wing",
+          "wide_ducktail",
+          "carbon_wide_ducktail",
+          "double_element_wing",
+          "time_attack_wing",
+          "swan_neck_wing"
         ],
         "hood": [
           "stock",
@@ -777,6 +792,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "The street lip in carbon weave."
+      },
+      {
+        "id": "wide_body_lip",
+        "name": "Wide-Body Lip",
+        "node": "MOD_ND_WB10",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Carbon splitter out to the wide arches."
       }
     ],
     "sideSkirts": [
@@ -839,6 +863,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "Slim sill blades painted to match the body."
+      },
+      {
+        "id": "wide_body_skirts",
+        "name": "Wide-Body Skirts",
+        "node": "MOD_ND_WB11",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Deep skirts stepping out to the arches."
       }
     ],
     "rearDiffuser": [
@@ -874,6 +907,15 @@
         "downforce": 0,
         "weight": 0,
         "description": "Curved satin valance and four fins, with clearance for side-exit tips."
+      },
+      {
+        "id": "wide_body_diffuser",
+        "name": "Wide-Body Diffuser",
+        "node": "MOD_ND_WB12",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Carbon undertray with tall strakes."
       }
     ],
     "rearWing": [
@@ -980,6 +1022,42 @@
         "downforce": 0,
         "weight": 0,
         "description": "A lower, narrower carbon wing on short uprights."
+      },
+      {
+        "id": "wide_ducktail",
+        "name": "Wide-Body Ducktail",
+        "node": "MOD_ND_WB13",
+        "material": "paint",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Tall flip across the whole boot."
+      },
+      {
+        "id": "carbon_wide_ducktail",
+        "name": "Carbon Wide-Body Ducktail",
+        "node": "MOD_ND_WB14",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "The tall ducktail in carbon."
+      },
+      {
+        "id": "double_element_wing",
+        "name": "Double-Element GT Wing",
+        "node": "MOD_ND_RA60",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Main plane plus a pitched flap."
+      },
+      {
+        "id": "time_attack_wing",
+        "name": "Time Attack Wing",
+        "node": "MOD_ND_RA61",
+        "material": "carbon",
+        "downforce": 0,
+        "weight": 0,
+        "description": "Huge chassis-mount wing on tall uprights."
       }
     ],
     "hood": [

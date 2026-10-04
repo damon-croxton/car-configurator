@@ -163,6 +163,16 @@ assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ['DT43', 'DT67'
 assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ['DT67', 'DT62'] }).extraMods, ['DT62']);
 console.log('PASS: harnesses require the buckets; bonnet wrap and stripes are exclusive');
 
+// Wide-body overfenders push the wheels out to fill them, and are one of the
+// exclusive flare choices.
+for (const id of ['WB01', 'WB02', 'WB03']) {
+  const mod = catalogue.find(m => m.id === id);
+  assert.ok(mod.flags?.trackWidening?.front > 0 && mod.flags.trackWidening.rear > 0, `${id} must widen the track`);
+  assert.equal(mod.group, 'flares');
+}
+assert.deepEqual(reconcileConfig({ ...DEFAULT_CONFIG, extraMods: ['DT70', 'WB01'] }).extraMods, ['WB01']);
+console.log('PASS: wide-body overfenders widen the track and replace other flares');
+
 // Cabin finishes: valid ids survive, unknown ids and parts a car cannot
 // colour separately (the NA has no dash accent or door inserts) clear to ''.
 const ndCabin = reconcileConfig({ ...DEFAULT_CONFIG, seatTrim: 'red_alcantara', wheelTrim: 'tan_leather',

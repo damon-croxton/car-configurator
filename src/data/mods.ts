@@ -78,7 +78,9 @@ export interface ModEntry {
    *  a sourced wheel belongs with the recolourable styles or the pack grid. */
   materialContractExempt?: boolean;
   file: Record<string, string>;
-  flags?: { requiresFenderRoll?: boolean; trackWidening?: number };
+  /** trackWidening: mm each wheel moves outboard while the part is fitted
+   *  (a wide-body's arches), one figure or per axle. */
+  flags?: { requiresFenderRoll?: boolean; trackWidening?: number | { front: number; rear: number } };
   derivedFromBaseMesh?: boolean;
 }
 

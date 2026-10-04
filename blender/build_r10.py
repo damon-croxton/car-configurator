@@ -1,10 +1,10 @@
-"""Build/export the round-seven parts for both cars.
+"""Build/export the round-ten parts for both cars.
 
-blender --background --factory-startup --python blender/build_r7.py
+blender --background --factory-startup --python blender/build_r10.py
 
 Imports both reference cars (as build_na_kit does) and builds every spec
-below for each generation it lists. Geometry lives in parts_r7.py, with
-variants of nd_extras builders. Writes blender/build/r7_report.json.
+below for each generation it lists. Geometry lives in parts_r10.py, with
+new builders. Writes blender/build/r10_report.json.
 """
 import json
 import sys
@@ -16,7 +16,7 @@ sys.path.insert(0, str(ROOT / 'blender'))
 import mx5_lib as m
 import na_kit as k
 import nd_extras as x
-import parts_r7 as p
+import parts_r10 as p
 
 BOTH = ('nd', 'na')
 NA = ('na',)
@@ -24,17 +24,17 @@ ND = ('nd',)
 
 #: (ident, generations, file name, builder)
 SPECS = [
-    ('DT70', BOTH, 'DT70_riveted_overfenders.glb',
-     lambda: x.fender_flares('DT70', k.PAINT, width=60.0, swell=42.0, rivets=k.CHROME)),
-    ('DT71', BOTH, 'DT71_fender_flares_painted.glb', lambda: x.fender_flares('DT71', k.PAINT)),
-    ('DT72', BOTH, 'DT72_naca_ducts.glb', p.naca_ducts),
-    ('FA45', NA, 'FA45_dive_planes.glb', p.dive_planes),
-    ('RA50', NA, 'RA50_rear_spats.glb', p.rear_spats),
-    ('DT73', NA, 'DT73_brake_ducts.glb', p.brake_ducts),
-    ('W16', ND, 'W16_classic_five_spoke.glb', lambda: p.wheel('W16')),
-    ('W17', ND, 'W17_ten_spoke.glb', lambda: p.wheel('W17')),
-    ('W18', ND, 'W18_steel_wheel.glb', lambda: p.wheel('W18')),
-    ('W19', ND, 'W19_three_piece_multi_spoke.glb', lambda: p.wheel('W19')),
+    ('WB01', BOTH, 'WB01_widebody_fenders.glb', lambda: p.wide_fenders('WB01', k.PAINT, k.CHROME)),
+    ('WB02', BOTH, 'WB02_widebody_fenders_carbon.glb', lambda: p.wide_fenders('WB02', k.CARBON, k.CHROME)),
+    ('WB03', BOTH, 'WB03_widebody_fenders_satin.glb', lambda: p.wide_fenders('WB03', k.SATIN, k.ALLOY)),
+    ('WB10', BOTH, 'WB10_widebody_lip.glb', p.wide_lip),
+    ('WB11', BOTH, 'WB11_widebody_skirts.glb', p.wide_skirts),
+    ('WB12', BOTH, 'WB12_widebody_diffuser.glb', p.wide_diffuser),
+    ('WB13', BOTH, 'WB13_widebody_ducktail.glb', p.ducktail),
+    ('WB14', BOTH, 'WB14_widebody_ducktail_carbon.glb', lambda: p.ducktail('WB14', material=k.CARBON)),
+    ('RA60', BOTH, 'RA60_double_element_wing.glb', lambda: p.wing('RA60', 'double')),
+    ('RA61', BOTH, 'RA61_time_attack_wing.glb', lambda: p.wing('RA61', 'time_attack')),
+    ('RA62', NA, 'RA62_swan_neck_wing.glb', lambda: p.wing('RA62', 'swan')),
 ]
 
 
@@ -56,14 +56,14 @@ def build(only=None, export=True):
 
 
 def main():
-    ns = {'__name__': 'r7'}
+    ns = {'__name__': 'r10'}
     exec(open(ROOT / 'blender/build_na_kit.py').read(), ns)   # reuse its reference import
     for gen in BOTH:
         ns['import_reference'](gen)
         assert m.verify_frame(gen, ns['ASSETS'][gen][2]), f'{gen} frame must match anchors'
     reports = build()
     (ROOT / 'blender/build').mkdir(exist_ok=True)
-    (ROOT / 'blender/build/r7_report.json').write_text(json.dumps(reports, indent=2))
+    (ROOT / 'blender/build/r10_report.json').write_text(json.dumps(reports, indent=2))
 
 
 if __name__ == '__main__':
