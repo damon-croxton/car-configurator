@@ -74,7 +74,7 @@ CFG = {
         'front_bumper': ('NC_FRONT',),
         'rear_bumper': ('Object_60.001',),
         'sill': 'NC_BODY',
-        'skirt_z': (880.0, -700.0),
+        'skirt_z': (860.0, -700.0),
         'wing': (-1620.0, 1200.0, 320.0, 650.0),
         # Clear of the twin tail pipes at x +-420.
         'strakes': (-620.0, -300.0, -130.0, 0.0, 130.0, 300.0, 620.0),

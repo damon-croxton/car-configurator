@@ -189,23 +189,30 @@
         "frontLip": [
           "stock",
           "club_lip",
-          "aggressive_splitter"
+          "aggressive_splitter",
+          "wide_body_lip"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
-          "carbon_extenders"
+          "carbon_extenders",
+          "wide_body_skirts"
         ],
         "rearDiffuser": [
           "stock",
           "oem_diffuser",
-          "track_diffuser"
+          "track_diffuser",
+          "wide_body_diffuser"
         ],
         "rearWing": [
           "wing_delete",
           "oem_ducktail",
           "oem_lip",
-          "gt_wing"
+          "gt_wing",
+          "wide_ducktail",
+          "carbon_wide_ducktail",
+          "double_element_wing",
+          "time_attack_wing"
         ],
         "hood": [
           "stock",
@@ -289,21 +296,28 @@
         "frontLip": [
           "stock",
           "club_lip",
-          "aggressive_splitter"
+          "aggressive_splitter",
+          "wide_body_lip"
         ],
         "sideSkirts": [
           "stock",
           "oem_extensions",
-          "carbon_extenders"
+          "carbon_extenders",
+          "wide_body_skirts"
         ],
         "rearDiffuser": [
           "stock",
-          "oem_diffuser"
+          "oem_diffuser",
+          "wide_body_diffuser"
         ],
         "rearWing": [
           "wing_delete",
           "oem_ducktail",
-          "gt_wing"
+          "gt_wing",
+          "wide_ducktail",
+          "carbon_wide_ducktail",
+          "double_element_wing",
+          "time_attack_wing"
         ],
         "hood": [
           "stock",

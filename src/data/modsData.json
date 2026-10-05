@@ -5501,7 +5501,9 @@
       "id": "DT30",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "details",
       "displayName": "Rally Mud Flaps",
@@ -5512,7 +5514,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [
         "RA26"
@@ -5525,6 +5529,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -5555,20 +5567,46 @@
             374,
             793
           ]
+        },
+        "nb": {
+          "min": [
+            -862,
+            105,
+            -1501
+          ],
+          "max": [
+            862,
+            374,
+            800
+          ]
+        },
+        "nc": {
+          "min": [
+            -852,
+            105,
+            -1476
+          ],
+          "max": [
+            852,
+            374,
+            852
+          ]
         }
       },
       "triangleBudget": 6500,
       "uiHint": "Four shaped rubber flaps with metal fasteners.",
       "file": {
         "nd": "assets/mods/nd/DT30_mud_flaps.glb",
-        "na": "assets/mods/na/DT30_mud_flaps.glb"
+        "na": "assets/mods/na/DT30_mud_flaps.glb",
+        "nb": "assets/mods/nb/DT30_mud_flaps.glb",
+        "nc": "assets/mods/nc/DT30_mud_flaps.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py. NA version built by blender/build_r6.py (parts_r6.mud_flaps)."
+      "$note": "Original visual concept; no vendor mesh, logo, measured product dimensions or performance claims. Rebuild with blender/build_nd_club_expansion.py. NA version built by blender/build_r6.py (parts_r6.mud_flaps). NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels."
     },
     {
       "id": "DT31",
@@ -6484,7 +6522,9 @@
       "id": "DT43",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Twin Racing Stripes",
@@ -6496,7 +6536,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -6508,6 +6550,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -6537,26 +6587,54 @@
             866,
             1778
           ]
+        },
+        "nb": {
+          "min": [
+            -130,
+            633,
+            -1858
+          ],
+          "max": [
+            130,
+            896,
+            1830
+          ]
+        },
+        "nc": {
+          "min": [
+            -130,
+            658,
+            -1846
+          ],
+          "max": [
+            130,
+            963,
+            1919
+          ]
         }
       },
       "triangleBudget": 5500,
       "file": {
         "nd": "assets/mods/nd/DT43_racing_stripes.glb",
-        "na": "assets/mods/na/DT43_racing_stripes.glb"
+        "na": "assets/mods/na/DT43_racing_stripes.glb",
+        "nb": "assets/mods/nb/DT43_racing_stripes.glb",
+        "nc": "assets/mods/nc/DT43_racing_stripes.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Two 110 mm white stripes either side of a 40 mm gap, laid over the bonnet and boot lid from edge to edge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Two 110 mm white stripes either side of a 40 mm gap, laid over the bonnet and boot lid from edge to edge. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "White twin stripes over bonnet and boot."
     },
     {
       "id": "DT44",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Side Stripes",
@@ -6568,7 +6646,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -6580,6 +6660,16 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51",
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -6609,26 +6699,54 @@
             357,
             835
           ]
+        },
+        "nb": {
+          "min": [
+            -841,
+            400,
+            -761
+          ],
+          "max": [
+            841,
+            422,
+            840
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            430,
+            -730
+          ],
+          "max": [
+            840,
+            452,
+            901
+          ]
         }
       },
       "triangleBudget": 4500,
       "file": {
         "nd": "assets/mods/nd/DT44_side_stripes.glb",
-        "na": "assets/mods/na/DT44_side_stripes.glb"
+        "na": "assets/mods/na/DT44_side_stripes.glb",
+        "nb": "assets/mods/nb/DT44_side_stripes.glb",
+        "nc": "assets/mods/nc/DT44_side_stripes.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A 22 mm white stripe along each flank between the arches, across fender, door and rear quarter. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "A 22 mm white stripe along each flank between the arches, across fender, door and rear quarter. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "White stripe along each flank."
     },
     {
       "id": "DT45",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Boot Luggage Rack",
@@ -6640,7 +6758,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -6650,6 +6770,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -6680,19 +6806,45 @@
             904,
             -1281
           ]
+        },
+        "nb": {
+          "min": [
+            -313,
+            866,
+            -1799
+          ],
+          "max": [
+            313,
+            944,
+            -1311
+          ]
+        },
+        "nc": {
+          "min": [
+            -313,
+            886,
+            -1809
+          ],
+          "max": [
+            313,
+            969,
+            -1361
+          ]
         }
       },
       "triangleBudget": 5000,
       "file": {
         "nd": "assets/mods/nd/DT45_boot_rack.glb",
-        "na": "assets/mods/na/DT45_boot_rack.glb"
+        "na": "assets/mods/na/DT45_boot_rack.glb",
+        "nb": "assets/mods/nb/DT45_boot_rack.glb",
+        "nc": "assets/mods/nc/DT45_boot_rack.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Chrome rack on the boot lid: two rails following the lid 45 mm above it and three crossbars, on padded feet. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Chrome rack on the boot lid: two rails following the lid 45 mm above it and three crossbars, on padded feet. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Chrome rack on the boot lid."
     },
     {
@@ -7213,7 +7365,9 @@
       "id": "DT53",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Bolt-on Fender Flares",
@@ -7225,7 +7379,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -7238,6 +7394,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -7267,19 +7431,45 @@
             667,
             1555
           ]
+        },
+        "nb": {
+          "min": [
+            -888,
+            342,
+            -1512
+          ],
+          "max": [
+            888,
+            726,
+            1574
+          ]
+        },
+        "nc": {
+          "min": [
+            -875,
+            378,
+            -1459
+          ],
+          "max": [
+            875,
+            711,
+            1641
+          ]
         }
       },
       "triangleBudget": 3500,
       "file": {
         "nd": "assets/mods/nd/DT53_fender_flares.glb",
-        "na": "assets/mods/na/DT53_fender_flares.glb"
+        "na": "assets/mods/na/DT53_fender_flares.glb",
+        "nb": "assets/mods/nb/DT53_fender_flares.glb",
+        "nc": "assets/mods/nc/DT53_fender_flares.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Satin flares round all four arches, laid over each arch lip found by ray-casting, up to 30 mm proud and tapering out at hub height. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py.",
+      "$note": "Satin flares round all four arches, laid over each arch lip found by ray-casting, up to 30 mm proud and tapering out at hub height. Rebuild with blender/build_nd_extras.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Satin flares round all four arches."
     },
     {
@@ -7885,7 +8075,9 @@
       "id": "DT56",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Black Racing Stripes",
@@ -7897,7 +8089,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -7909,6 +8103,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -7938,26 +8140,54 @@
             866,
             1778
           ]
+        },
+        "nb": {
+          "min": [
+            -130,
+            633,
+            -1858
+          ],
+          "max": [
+            130,
+            896,
+            1830
+          ]
+        },
+        "nc": {
+          "min": [
+            -130,
+            658,
+            -1846
+          ],
+          "max": [
+            130,
+            963,
+            1919
+          ]
         }
       },
       "triangleBudget": 6100,
       "file": {
         "nd": "assets/mods/nd/DT56_racing_stripes_black.glb",
-        "na": "assets/mods/na/DT56_racing_stripes_black.glb"
+        "na": "assets/mods/na/DT56_racing_stripes_black.glb",
+        "nb": "assets/mods/nb/DT56_racing_stripes_black.glb",
+        "nc": "assets/mods/nc/DT56_racing_stripes_black.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The twin racing stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "$note": "The twin racing stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Gloss black twin stripes over bonnet and boot."
     },
     {
       "id": "DT57",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Accent Racing Stripes",
@@ -7969,7 +8199,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -7981,6 +8213,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -8010,26 +8250,54 @@
             866,
             1778
           ]
+        },
+        "nb": {
+          "min": [
+            -130,
+            633,
+            -1858
+          ],
+          "max": [
+            130,
+            896,
+            1830
+          ]
+        },
+        "nc": {
+          "min": [
+            -130,
+            658,
+            -1846
+          ],
+          "max": [
+            130,
+            963,
+            1919
+          ]
         }
       },
       "triangleBudget": 6100,
       "file": {
         "nd": "assets/mods/nd/DT57_racing_stripes_red.glb",
-        "na": "assets/mods/na/DT57_racing_stripes_red.glb"
+        "na": "assets/mods/na/DT57_racing_stripes_red.glb",
+        "nb": "assets/mods/nb/DT57_racing_stripes_red.glb",
+        "nc": "assets/mods/nc/DT57_racing_stripes_red.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The twin racing stripes in the accent colour (red by default). Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "$note": "The twin racing stripes in the accent colour (red by default). Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Twin stripes in the accent colour (Paint tab)."
     },
     {
       "id": "DT58",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Black Side Stripes",
@@ -8041,7 +8309,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -8053,6 +8323,16 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51",
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -8082,19 +8362,45 @@
             357,
             835
           ]
+        },
+        "nb": {
+          "min": [
+            -841,
+            400,
+            -761
+          ],
+          "max": [
+            841,
+            422,
+            840
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            430,
+            -730
+          ],
+          "max": [
+            840,
+            452,
+            901
+          ]
         }
       },
       "triangleBudget": 4900,
       "file": {
         "nd": "assets/mods/nd/DT58_side_stripes_black.glb",
-        "na": "assets/mods/na/DT58_side_stripes_black.glb"
+        "na": "assets/mods/na/DT58_side_stripes_black.glb",
+        "nb": "assets/mods/nb/DT58_side_stripes_black.glb",
+        "nc": "assets/mods/nc/DT58_side_stripes_black.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The side stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "$note": "The side stripes in gloss black. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Gloss black stripe along each flank."
     },
     {
@@ -8260,7 +8566,9 @@
       "id": "DT61",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Carbon Fender Flares",
@@ -8272,7 +8580,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -8285,6 +8595,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -8314,19 +8632,45 @@
             667,
             1555
           ]
+        },
+        "nb": {
+          "min": [
+            -888,
+            342,
+            -1512
+          ],
+          "max": [
+            888,
+            726,
+            1574
+          ]
+        },
+        "nc": {
+          "min": [
+            -875,
+            378,
+            -1459
+          ],
+          "max": [
+            875,
+            711,
+            1641
+          ]
         }
       },
       "triangleBudget": 3000,
       "file": {
         "nd": "assets/mods/nd/DT61_fender_flares_carbon.glb",
-        "na": "assets/mods/na/DT61_fender_flares_carbon.glb"
+        "na": "assets/mods/na/DT61_fender_flares_carbon.glb",
+        "nb": "assets/mods/nb/DT61_fender_flares_carbon.glb",
+        "nc": "assets/mods/nc/DT61_fender_flares_carbon.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The bolt-on fender flares in carbon. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
+      "$note": "The bolt-on fender flares in carbon. Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Carbon flares round all four arches."
     },
     {
@@ -9300,7 +9644,9 @@
       "id": "DL01",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Rally Driving Lamps",
@@ -9312,7 +9658,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -9322,6 +9670,12 @@
         ],
         "na": [
           "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -9353,26 +9707,54 @@
             570,
             2036
           ]
+        },
+        "nb": {
+          "min": [
+            -410,
+            390,
+            1938
+          ],
+          "max": [
+            410,
+            550,
+            2023
+          ]
+        },
+        "nc": {
+          "min": [
+            -410,
+            420,
+            1956
+          ],
+          "max": [
+            410,
+            580,
+            2041
+          ]
         }
       },
       "triangleBudget": 4600,
       "file": {
         "nd": "assets/mods/nd/DL01_rally_lamps.glb",
-        "na": "assets/mods/na/DL01_rally_lamps.glb"
+        "na": "assets/mods/na/DL01_rally_lamps.glb",
+        "nb": "assets/mods/nb/DL01_rally_lamps.glb",
+        "nc": "assets/mods/nc/DL01_rally_lamps.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Two 150 mm round driving lamps (black housings, chrome bezels, clear lenses over chrome reflectors) on stalks bolted to the front bumper, as on period rally cars. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "$note": "Two 150 mm round driving lamps (black housings, chrome bezels, clear lenses over chrome reflectors) on stalks bolted to the front bumper, as on period rally cars. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Pair of round driving lamps on the bumper."
     },
     {
       "id": "RN01",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Race Roundels",
@@ -9384,7 +9766,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -9396,6 +9780,13 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -9425,26 +9816,54 @@
             660,
             130
           ]
+        },
+        "nb": {
+          "min": [
+            -837,
+            390,
+            -150
+          ],
+          "max": [
+            837,
+            690,
+            150
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            410,
+            -150
+          ],
+          "max": [
+            840,
+            710,
+            150
+          ]
         }
       },
       "triangleBudget": 6300,
       "file": {
         "nd": "assets/mods/nd/RN01_race_roundels.glb",
-        "na": "assets/mods/na/RN01_race_roundels.glb"
+        "na": "assets/mods/na/RN01_race_roundels.glb",
+        "nb": "assets/mods/nb/RN01_race_roundels.glb",
+        "nc": "assets/mods/nc/RN01_race_roundels.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Vintage-racing number roundels: a 300 mm white disc on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "$note": "Vintage-racing number roundels: a 300 mm white disc on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "White 300 mm roundels on both doors."
     },
     {
       "id": "RN02",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Accent Race Roundels",
@@ -9456,7 +9875,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -9468,6 +9889,13 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -9497,26 +9925,54 @@
             660,
             130
           ]
+        },
+        "nb": {
+          "min": [
+            -837,
+            390,
+            -150
+          ],
+          "max": [
+            837,
+            690,
+            150
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            410,
+            -150
+          ],
+          "max": [
+            840,
+            710,
+            150
+          ]
         }
       },
       "triangleBudget": 6300,
       "file": {
         "nd": "assets/mods/nd/RN02_race_roundels_accent.glb",
-        "na": "assets/mods/na/RN02_race_roundels_accent.glb"
+        "na": "assets/mods/na/RN02_race_roundels_accent.glb",
+        "nb": "assets/mods/nb/RN02_race_roundels_accent.glb",
+        "nc": "assets/mods/nc/RN02_race_roundels_accent.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The race roundels in the accent colour. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "$note": "The race roundels in the accent colour. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Roundels in the accent colour (Paint tab)."
     },
     {
       "id": "DT62",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Offset Rally Stripe",
@@ -9528,7 +9984,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -9540,6 +9998,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -9569,26 +10035,54 @@
             865,
             1762
           ]
+        },
+        "nb": {
+          "min": [
+            60,
+            626,
+            -1847
+          ],
+          "max": [
+            300,
+            896,
+            1815
+          ]
+        },
+        "nc": {
+          "min": [
+            60,
+            657,
+            -1838
+          ],
+          "max": [
+            300,
+            961,
+            1891
+          ]
         }
       },
       "triangleBudget": 4300,
       "file": {
         "nd": "assets/mods/nd/DT62_offset_stripe.glb",
-        "na": "assets/mods/na/DT62_offset_stripe.glb"
+        "na": "assets/mods/na/DT62_offset_stripe.glb",
+        "nb": "assets/mods/nb/DT62_offset_stripe.glb",
+        "nc": "assets/mods/nc/DT62_offset_stripe.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A single 240 mm white stripe over bonnet and boot, offset to the driver side as on period endurance racers. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "$note": "A single 240 mm white stripe over bonnet and boot, offset to the driver side as on period endurance racers. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Single white stripe offset to the driver side."
     },
     {
       "id": "DT63",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Black Offset Stripe",
@@ -9600,7 +10094,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -9612,6 +10108,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -9641,19 +10145,45 @@
             865,
             1762
           ]
+        },
+        "nb": {
+          "min": [
+            60,
+            626,
+            -1847
+          ],
+          "max": [
+            300,
+            896,
+            1815
+          ]
+        },
+        "nc": {
+          "min": [
+            60,
+            657,
+            -1838
+          ],
+          "max": [
+            300,
+            961,
+            1891
+          ]
         }
       },
       "triangleBudget": 4300,
       "file": {
         "nd": "assets/mods/nd/DT63_offset_stripe_black.glb",
-        "na": "assets/mods/na/DT63_offset_stripe_black.glb"
+        "na": "assets/mods/na/DT63_offset_stripe_black.glb",
+        "nb": "assets/mods/nb/DT63_offset_stripe_black.glb",
+        "nc": "assets/mods/nc/DT63_offset_stripe_black.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The offset stripe in gloss black. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
+      "$note": "The offset stripe in gloss black. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Single gloss black offset stripe."
     },
     {
@@ -10091,7 +10621,9 @@
       "id": "DT65",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Black Boot Luggage Rack",
@@ -10103,7 +10635,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10113,6 +10647,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -10143,26 +10683,54 @@
             904,
             -1281
           ]
+        },
+        "nb": {
+          "min": [
+            -313,
+            866,
+            -1799
+          ],
+          "max": [
+            313,
+            944,
+            -1311
+          ]
+        },
+        "nc": {
+          "min": [
+            -313,
+            886,
+            -1809
+          ],
+          "max": [
+            313,
+            969,
+            -1361
+          ]
         }
       },
       "triangleBudget": 5200,
       "file": {
         "nd": "assets/mods/nd/DT65_boot_rack_black.glb",
-        "na": "assets/mods/na/DT65_boot_rack_black.glb"
+        "na": "assets/mods/na/DT65_boot_rack_black.glb",
+        "nb": "assets/mods/nb/DT65_boot_rack_black.glb",
+        "nc": "assets/mods/nc/DT65_boot_rack_black.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The boot luggage rack in gloss black. Rebuild with blender/build_r6.py; geometry in blender/nd_extras.py.",
+      "$note": "The boot luggage rack in gloss black. Rebuild with blender/build_r6.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Gloss black rack on the boot lid."
     },
     {
       "id": "DT66",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Twin Coachline Pinstripes",
@@ -10174,7 +10742,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10186,6 +10756,16 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51",
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10215,26 +10795,54 @@
             605,
             835
           ]
+        },
+        "nb": {
+          "min": [
+            -853,
+            600,
+            -760
+          ],
+          "max": [
+            853,
+            620,
+            840
+          ]
+        },
+        "nc": {
+          "min": [
+            -826,
+            620,
+            -730
+          ],
+          "max": [
+            826,
+            640,
+            900
+          ]
         }
       },
       "triangleBudget": 7300,
       "file": {
         "nd": "assets/mods/nd/DT66_pinstripes.glb",
-        "na": "assets/mods/na/DT66_pinstripes.glb"
+        "na": "assets/mods/na/DT66_pinstripes.glb",
+        "nb": "assets/mods/nb/DT66_pinstripes.glb",
+        "nc": "assets/mods/nc/DT66_pinstripes.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Twin 6 mm coachline pinstripes 8 mm apart along each flank, between the arches, as hand-painted on classic roadsters. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "$note": "Twin 6 mm coachline pinstripes 8 mm apart along each flank, between the arches, as hand-painted on classic roadsters. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Two fine white lines along each flank."
     },
     {
       "id": "DT67",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Satin Black Bonnet Wrap",
@@ -10246,7 +10854,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [
         "DT43",
@@ -10267,6 +10877,12 @@
         ],
         "na": [
           "hood_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10296,26 +10912,54 @@
             843,
             1784
           ]
+        },
+        "nb": {
+          "min": [
+            -658,
+            618,
+            744
+          ],
+          "max": [
+            658,
+            861,
+            1845
+          ]
+        },
+        "nc": {
+          "min": [
+            -652,
+            645,
+            816
+          ],
+          "max": [
+            652,
+            898,
+            1933
+          ]
         }
       },
       "triangleBudget": 22300,
       "file": {
         "nd": "assets/mods/nd/DT67_bonnet_wrap.glb",
-        "na": "assets/mods/na/DT67_bonnet_wrap.glb"
+        "na": "assets/mods/na/DT67_bonnet_wrap.glb",
+        "nb": "assets/mods/nb/DT67_bonnet_wrap.glb",
+        "nc": "assets/mods/nc/DT67_bonnet_wrap.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A satin black vinyl wrap over the whole bonnet, inset 8 mm from its edges. It sits above where stripes lie, so it is exclusive with them and with replacement or vented bonnets. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "$note": "A satin black vinyl wrap over the whole bonnet, inset 8 mm from its edges. It sits above where stripes lie, so it is exclusive with them and with replacement or vented bonnets. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Satin black vinyl over the whole bonnet."
     },
     {
       "id": "DT69",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Accent Offset Stripe",
@@ -10327,7 +10971,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10339,6 +10985,14 @@
         "na": [
           "hood_Material #71_0",
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001",
+          "Object_48"
+        ],
+        "nc": [
+          "Object_54.002",
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -10368,26 +11022,54 @@
             865,
             1762
           ]
+        },
+        "nb": {
+          "min": [
+            60,
+            626,
+            -1847
+          ],
+          "max": [
+            300,
+            896,
+            1815
+          ]
+        },
+        "nc": {
+          "min": [
+            60,
+            657,
+            -1838
+          ],
+          "max": [
+            300,
+            961,
+            1891
+          ]
         }
       },
       "triangleBudget": 4300,
       "file": {
         "nd": "assets/mods/nd/DT69_offset_stripe_red.glb",
-        "na": "assets/mods/na/DT69_offset_stripe_red.glb"
+        "na": "assets/mods/na/DT69_offset_stripe_red.glb",
+        "nb": "assets/mods/nb/DT69_offset_stripe_red.glb",
+        "nc": "assets/mods/nc/DT69_offset_stripe_red.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The offset rally stripe in the accent colour. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
+      "$note": "The offset rally stripe in the accent colour. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Offset stripe in the accent colour (Paint tab)."
     },
     {
       "id": "DL02",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Covered Rally Lamps",
@@ -10399,7 +11081,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10409,6 +11093,12 @@
         ],
         "na": [
           "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10440,26 +11130,54 @@
             570,
             2042
           ]
+        },
+        "nb": {
+          "min": [
+            -410,
+            390,
+            1938
+          ],
+          "max": [
+            410,
+            550,
+            2029
+          ]
+        },
+        "nc": {
+          "min": [
+            -410,
+            420,
+            1956
+          ],
+          "max": [
+            410,
+            580,
+            2047
+          ]
         }
       },
       "triangleBudget": 4800,
       "file": {
         "nd": "assets/mods/nd/DL02_rally_lamps_covered.glb",
-        "na": "assets/mods/na/DL02_rally_lamps_covered.glb"
+        "na": "assets/mods/na/DL02_rally_lamps_covered.glb",
+        "nb": "assets/mods/nb/DL02_rally_lamps_covered.glb",
+        "nc": "assets/mods/nc/DL02_rally_lamps_covered.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The rally driving lamps with push-on stone-guard covers in the accent colour, as run by day. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
+      "$note": "The rally driving lamps with push-on stone-guard covers in the accent colour, as run by day. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Rally lamps with accent-colour stone covers."
     },
     {
       "id": "SP01",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Alloy Skid Plate",
@@ -10470,7 +11188,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10480,6 +11200,12 @@
         ],
         "na": [
           "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10511,19 +11237,45 @@
             292,
             1840
           ]
+        },
+        "nb": {
+          "min": [
+            -320,
+            198,
+            1413
+          ],
+          "max": [
+            320,
+            290,
+            1893
+          ]
+        },
+        "nc": {
+          "min": [
+            -320,
+            210,
+            1255
+          ],
+          "max": [
+            320,
+            302,
+            1735
+          ]
         }
       },
       "triangleBudget": 700,
       "file": {
         "nd": "assets/mods/nd/SP01_skid_plate.glb",
-        "na": "assets/mods/na/SP01_skid_plate.glb"
+        "na": "assets/mods/na/SP01_skid_plate.glb",
+        "nb": "assets/mods/nb/SP01_skid_plate.glb",
+        "nc": "assets/mods/nc/SP01_skid_plate.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A 3 mm alloy skid plate under the nose, below any front lip, with a rolled front edge and brackets up to the bumper, as on gravel and rally builds. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py.",
+      "$note": "A 3 mm alloy skid plate under the nose, below any front lip, with a rolled front edge and brackets up to the bumper, as on gravel and rally builds. Rebuild with blender/build_r6.py; geometry in blender/parts_r6.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Alloy sump guard under the nose."
     },
     {
@@ -10676,7 +11428,9 @@
       "id": "DT70",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Riveted Overfenders",
@@ -10688,7 +11442,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10701,6 +11457,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10731,26 +11495,54 @@
             687,
             1575
           ]
+        },
+        "nb": {
+          "min": [
+            -903,
+            342,
+            -1532
+          ],
+          "max": [
+            903,
+            746,
+            1594
+          ]
+        },
+        "nc": {
+          "min": [
+            -893,
+            378,
+            -1478
+          ],
+          "max": [
+            893,
+            731,
+            1661
+          ]
         }
       },
       "triangleBudget": 5600,
       "file": {
         "nd": "assets/mods/nd/DT70_riveted_overfenders.glb",
-        "na": "assets/mods/na/DT70_riveted_overfenders.glb"
+        "na": "assets/mods/na/DT70_riveted_overfenders.glb",
+        "nb": "assets/mods/nb/DT70_riveted_overfenders.glb",
+        "nc": "assets/mods/nc/DT70_riveted_overfenders.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Bolt-on overfenders in the body colour round all four arches, 60 mm wide on the panel and up to 45 mm proud, with exposed chrome rivet heads along the outer band, in the style of riveted Japanese wide-body kits. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py.",
+      "$note": "Bolt-on overfenders in the body colour round all four arches, 60 mm wide on the panel and up to 45 mm proud, with exposed chrome rivet heads along the outer band, in the style of riveted Japanese wide-body kits. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Wide body-colour overfenders with exposed rivets."
     },
     {
       "id": "DT71",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Body-Colour Fender Flares",
@@ -10762,7 +11554,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -10775,6 +11569,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10804,26 +11606,54 @@
             667,
             1555
           ]
+        },
+        "nb": {
+          "min": [
+            -888,
+            342,
+            -1512
+          ],
+          "max": [
+            888,
+            726,
+            1574
+          ]
+        },
+        "nc": {
+          "min": [
+            -875,
+            378,
+            -1459
+          ],
+          "max": [
+            875,
+            711,
+            1641
+          ]
         }
       },
       "triangleBudget": 3000,
       "file": {
         "nd": "assets/mods/nd/DT71_fender_flares_painted.glb",
-        "na": "assets/mods/na/DT71_fender_flares_painted.glb"
+        "na": "assets/mods/na/DT71_fender_flares_painted.glb",
+        "nb": "assets/mods/nb/DT71_fender_flares_painted.glb",
+        "nc": "assets/mods/nc/DT71_fender_flares_painted.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The bolt-on fender flares in the body colour. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py.",
+      "$note": "The bolt-on fender flares in the body colour. Rebuild with blender/build_r7.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Painted flares round all four arches."
     },
     {
       "id": "DT72",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Twin NACA Bonnet Ducts",
@@ -10834,7 +11664,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [
         "DT67",
@@ -10849,6 +11681,12 @@
         ],
         "na": [
           "hood_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -10879,19 +11717,45 @@
             824,
             1421
           ]
+        },
+        "nb": {
+          "min": [
+            -442,
+            767,
+            1086
+          ],
+          "max": [
+            442,
+            829,
+            1401
+          ]
+        },
+        "nc": {
+          "min": [
+            -473,
+            811,
+            1136
+          ],
+          "max": [
+            473,
+            867,
+            1451
+          ]
         }
       },
       "triangleBudget": 3500,
       "file": {
         "nd": "assets/mods/nd/DT72_naca_ducts.glb",
-        "na": "assets/mods/na/DT72_naca_ducts.glb"
+        "na": "assets/mods/na/DT72_naca_ducts.glb",
+        "nb": "assets/mods/nb/DT72_naca_ducts.glb",
+        "nc": "assets/mods/nc/DT72_naca_ducts.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Twin NACA submerged inlets on the bonnet, outboard of the stripes: dark recesses in the classic planform with raised carbon surrounds and rear lips. Exclusive with the bonnet wrap and vented bonnets. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py.",
+      "$note": "Twin NACA submerged inlets on the bonnet, outboard of the stripes: dark recesses in the classic planform with raised carbon surrounds and rear lips. Exclusive with the bonnet wrap and vented bonnets. Rebuild with blender/build_r7.py; geometry in blender/parts_r7.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Two NACA inlets either side of the bonnet."
     },
     {
@@ -11578,7 +12442,9 @@
       "id": "DT77",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Accent Side Stripes",
@@ -11590,7 +12456,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -11602,6 +12470,16 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51",
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -11631,26 +12509,54 @@
             357,
             835
           ]
+        },
+        "nb": {
+          "min": [
+            -841,
+            400,
+            -761
+          ],
+          "max": [
+            841,
+            422,
+            840
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            430,
+            -730
+          ],
+          "max": [
+            840,
+            452,
+            901
+          ]
         }
       },
       "triangleBudget": 4900,
       "file": {
         "nd": "assets/mods/nd/DT77_side_stripes_accent.glb",
-        "na": "assets/mods/na/DT77_side_stripes_accent.glb"
+        "na": "assets/mods/na/DT77_side_stripes_accent.glb",
+        "nb": "assets/mods/nb/DT77_side_stripes_accent.glb",
+        "nc": "assets/mods/nc/DT77_side_stripes_accent.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The side stripes in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/nd_extras.py.",
+      "$note": "The side stripes in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/nd_extras.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Side stripes in the accent colour (Paint tab)."
     },
     {
       "id": "RN03",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Rally Door Plates",
@@ -11662,7 +12568,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -11674,6 +12582,13 @@
         "na": [
           "leftdoor_Material #71_0",
           "rigthdoor_Material #71_0"
+        ],
+        "nb": [
+          "Object_50",
+          "Object_51"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -11703,19 +12618,45 @@
             625,
             150
           ]
+        },
+        "nb": {
+          "min": [
+            -835,
+            425,
+            -170
+          ],
+          "max": [
+            835,
+            655,
+            170
+          ]
+        },
+        "nc": {
+          "min": [
+            -840,
+            445,
+            -170
+          ],
+          "max": [
+            840,
+            675,
+            170
+          ]
         }
       },
       "triangleBudget": 6300,
       "file": {
         "nd": "assets/mods/nd/RN03_rally_door_plates.glb",
-        "na": "assets/mods/na/RN03_rally_door_plates.glb"
+        "na": "assets/mods/na/RN03_rally_door_plates.glb",
+        "nb": "assets/mods/nb/RN03_rally_door_plates.glb",
+        "nc": "assets/mods/nc/RN03_rally_door_plates.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rally-style door number plates: a 340 x 230 mm white rounded rectangle on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r8.py; geometry in blender/parts_r5.py.",
+      "$note": "Rally-style door number plates: a 340 x 230 mm white rounded rectangle on each door, fitted to the panel and bridged over its seams. Rebuild with blender/build_r8.py; geometry in blender/parts_r5.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "White rounded number plates on both doors."
     },
     {
@@ -12023,7 +12964,9 @@
       "id": "DT78",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Carbon-Vinyl Bonnet Wrap",
@@ -12035,7 +12978,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [
         "DT43",
@@ -12057,6 +13002,12 @@
         ],
         "na": [
           "hood_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12086,26 +13037,54 @@
             843,
             1784
           ]
+        },
+        "nb": {
+          "min": [
+            -658,
+            618,
+            744
+          ],
+          "max": [
+            658,
+            861,
+            1845
+          ]
+        },
+        "nc": {
+          "min": [
+            -652,
+            645,
+            816
+          ],
+          "max": [
+            652,
+            898,
+            1933
+          ]
         }
       },
       "triangleBudget": 22300,
       "file": {
         "nd": "assets/mods/nd/DT78_bonnet_wrap_carbon.glb",
-        "na": "assets/mods/na/DT78_bonnet_wrap_carbon.glb"
+        "na": "assets/mods/na/DT78_bonnet_wrap_carbon.glb",
+        "nb": "assets/mods/nb/DT78_bonnet_wrap_carbon.glb",
+        "nc": "assets/mods/nc/DT78_bonnet_wrap_carbon.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The bonnet wrap in carbon-look vinyl. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py.",
+      "$note": "The bonnet wrap in carbon-look vinyl. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Carbon-look vinyl over the whole bonnet."
     },
     {
       "id": "DT79",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "detail",
       "displayName": "Accent Bonnet Wrap",
@@ -12117,7 +13096,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [
         "DT43",
@@ -12139,6 +13120,12 @@
         ],
         "na": [
           "hood_Material #71_0"
+        ],
+        "nb": [
+          "Object_47.001"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12168,19 +13155,45 @@
             843,
             1784
           ]
+        },
+        "nb": {
+          "min": [
+            -658,
+            618,
+            744
+          ],
+          "max": [
+            658,
+            861,
+            1845
+          ]
+        },
+        "nc": {
+          "min": [
+            -652,
+            645,
+            816
+          ],
+          "max": [
+            652,
+            898,
+            1933
+          ]
         }
       },
       "triangleBudget": 22300,
       "file": {
         "nd": "assets/mods/nd/DT79_bonnet_wrap_accent.glb",
-        "na": "assets/mods/na/DT79_bonnet_wrap_accent.glb"
+        "na": "assets/mods/na/DT79_bonnet_wrap_accent.glb",
+        "nb": "assets/mods/nb/DT79_bonnet_wrap_accent.glb",
+        "nc": "assets/mods/nc/DT79_bonnet_wrap_accent.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The bonnet wrap in the accent colour, for a contrasting bonnet. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py.",
+      "$note": "The bonnet wrap in the accent colour, for a contrasting bonnet. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Bonnet wrapped in the accent colour (Paint tab)."
     },
     {
@@ -12333,7 +13346,9 @@
       "id": "WB01",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Wide-Body Overfenders",
@@ -12345,7 +13360,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12358,6 +13375,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12388,12 +13413,38 @@
             777,
             1649
           ]
+        },
+        "nb": {
+          "min": [
+            -924,
+            211,
+            -1602
+          ],
+          "max": [
+            924,
+            842,
+            1663
+          ]
+        },
+        "nc": {
+          "min": [
+            -923,
+            231,
+            -1558
+          ],
+          "max": [
+            924,
+            808,
+            1734
+          ]
         }
       },
       "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB01_widebody_fenders.glb",
-        "na": "assets/mods/na/WB01_widebody_fenders.glb"
+        "na": "assets/mods/na/WB01_widebody_fenders.glb",
+        "nb": "assets/mods/nb/WB01_widebody_fenders.glb",
+        "nc": "assets/mods/nc/WB01_widebody_fenders.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -12403,14 +13454,16 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Body colour with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Body colour with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Bolted wide arches; wheels pushed out to fill them."
     },
     {
       "id": "WB02",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Carbon Wide-Body Overfenders",
@@ -12422,7 +13475,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12435,6 +13490,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12465,12 +13528,38 @@
             777,
             1649
           ]
+        },
+        "nb": {
+          "min": [
+            -924,
+            211,
+            -1602
+          ],
+          "max": [
+            924,
+            842,
+            1663
+          ]
+        },
+        "nc": {
+          "min": [
+            -923,
+            231,
+            -1558
+          ],
+          "max": [
+            924,
+            808,
+            1734
+          ]
         }
       },
       "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB02_widebody_fenders_carbon.glb",
-        "na": "assets/mods/na/WB02_widebody_fenders_carbon.glb"
+        "na": "assets/mods/na/WB02_widebody_fenders_carbon.glb",
+        "nb": "assets/mods/nb/WB02_widebody_fenders_carbon.glb",
+        "nc": "assets/mods/nc/WB02_widebody_fenders_carbon.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -12480,14 +13569,16 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Carbon with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Carbon with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Wide arches in carbon, chrome bolts."
     },
     {
       "id": "WB03",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "body_panel",
       "displayName": "Satin Black Wide-Body Overfenders",
@@ -12499,7 +13590,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12512,6 +13605,14 @@
         "na": [
           "f fender_Material #71_0",
           "rearfender_Material #71_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12542,12 +13643,38 @@
             777,
             1649
           ]
+        },
+        "nb": {
+          "min": [
+            -924,
+            211,
+            -1602
+          ],
+          "max": [
+            924,
+            842,
+            1663
+          ]
+        },
+        "nc": {
+          "min": [
+            -923,
+            231,
+            -1558
+          ],
+          "max": [
+            924,
+            808,
+            1734
+          ]
         }
       },
       "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB03_widebody_fenders_satin.glb",
-        "na": "assets/mods/na/WB03_widebody_fenders_satin.glb"
+        "na": "assets/mods/na/WB03_widebody_fenders_satin.glb",
+        "nb": "assets/mods/nb/WB03_widebody_fenders_satin.glb",
+        "nc": "assets/mods/nc/WB03_widebody_fenders_satin.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
@@ -12557,14 +13684,16 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Satin black with alloy bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Satin black with alloy bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Wide arches in satin black."
     },
     {
       "id": "WB10",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "front_aero",
       "displayName": "Wide-Body Front Lip",
@@ -12574,7 +13703,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12584,6 +13715,12 @@
         ],
         "na": [
           "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12614,26 +13751,54 @@
             393,
             1905
           ]
+        },
+        "nb": {
+          "min": [
+            -776,
+            200,
+            1445
+          ],
+          "max": [
+            776,
+            301,
+            1957
+          ]
+        },
+        "nc": {
+          "min": [
+            -776,
+            219,
+            1498
+          ],
+          "max": [
+            776,
+            441,
+            2011
+          ]
         }
       },
       "triangleBudget": 1300,
       "file": {
         "nd": "assets/mods/nd/WB10_widebody_lip.glb",
-        "na": "assets/mods/na/WB10_widebody_lip.glb"
+        "na": "assets/mods/na/WB10_widebody_lip.glb",
+        "nb": "assets/mods/nb/WB10_widebody_lip.glb",
+        "nc": "assets/mods/nc/WB10_widebody_lip.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A 6 mm carbon splitter under the bumper, 40 mm proud of its face and running out to the overfenders, with an end fence at each corner. Upturned leading edge, three support rods to the bumper and tall canted end fences. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A 6 mm carbon splitter under the bumper, 40 mm proud of its face and running out to the overfenders, with an end fence at each corner. Upturned leading edge, three support rods to the bumper and tall canted end fences. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Carbon splitter out to the wide arches, with end fences."
     },
     {
       "id": "WB11",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Wide-Body Side Skirts",
@@ -12643,7 +13808,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12653,6 +13820,14 @@
         ],
         "na": [
           "sideskirt_Material #118_0"
+        ],
+        "nb": [
+          "Object_52.001",
+          "Object_46",
+          "Object_53"
+        ],
+        "nc": [
+          "Object_54.002"
         ]
       },
       "materials": [
@@ -12683,26 +13858,54 @@
             230,
             800
           ]
+        },
+        "nb": {
+          "min": [
+            -874,
+            172,
+            -730
+          ],
+          "max": [
+            873,
+            244,
+            820
+          ]
+        },
+        "nc": {
+          "min": [
+            -836,
+            136,
+            -700
+          ],
+          "max": [
+            837,
+            206,
+            860
+          ]
         }
       },
       "triangleBudget": 2800,
       "file": {
         "nd": "assets/mods/nd/WB11_widebody_skirts.glb",
-        "na": "assets/mods/na/WB11_widebody_skirts.glb"
+        "na": "assets/mods/na/WB11_widebody_skirts.glb",
+        "nb": "assets/mods/nb/WB11_widebody_skirts.glb",
+        "nc": "assets/mods/nc/WB11_widebody_skirts.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Body-colour side skirts that step 50 mm out from the sills to meet the overfenders, with a flat outer face and chamfered top, tapering where they tuck under the arches. Two-tier section with a lower blade and a small fin at each end. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Body-colour side skirts that step 50 mm out from the sills to meet the overfenders, with a flat outer face and chamfered top, tapering where they tuck under the arches. Two-tier section with a lower blade and a small fin at each end. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Deep skirts stepping out to meet the arches."
     },
     {
       "id": "WB12",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Wide-Body Diffuser",
@@ -12712,7 +13915,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12722,6 +13927,12 @@
         ],
         "na": [
           "rearbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_45.001"
+        ],
+        "nc": [
+          "Object_60.001"
         ]
       },
       "materials": [
@@ -12751,26 +13962,54 @@
             371,
             -1445
           ]
+        },
+        "nb": {
+          "min": [
+            -700,
+            283,
+            -1925
+          ],
+          "max": [
+            700,
+            399,
+            -1364
+          ]
+        },
+        "nc": {
+          "min": [
+            -700,
+            252,
+            -1948
+          ],
+          "max": [
+            700,
+            479,
+            -1203
+          ]
         }
       },
       "triangleBudget": 1200,
       "file": {
         "nd": "assets/mods/nd/WB12_widebody_diffuser.glb",
-        "na": "assets/mods/na/WB12_widebody_diffuser.glb"
+        "na": "assets/mods/na/WB12_widebody_diffuser.glb",
+        "nb": "assets/mods/nb/WB12_widebody_diffuser.glb",
+        "nc": "assets/mods/nc/WB12_widebody_diffuser.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A wide carbon rear diffuser: an undertray plate kicking up at its trailing edge, with tall strakes placed clear of the tail pipes. Tall fences at the outer edges. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A wide carbon rear diffuser: an undertray plate kicking up at its trailing edge, with tall strakes placed clear of the tail pipes. Tall fences at the outer edges. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Carbon undertray with tall strakes."
     },
     {
       "id": "WB13",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Wide-Body Ducktail",
@@ -12780,7 +14019,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12790,6 +14031,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -12819,26 +14066,54 @@
             866,
             -1712
           ]
+        },
+        "nb": {
+          "min": [
+            -610,
+            809,
+            -1868
+          ],
+          "max": [
+            610,
+            942,
+            -1670
+          ]
+        },
+        "nc": {
+          "min": [
+            -578,
+            843,
+            -1844
+          ],
+          "max": [
+            578,
+            957,
+            -1668
+          ]
         }
       },
       "triangleBudget": 2500,
       "file": {
         "nd": "assets/mods/nd/WB13_widebody_ducktail.glb",
-        "na": "assets/mods/na/WB13_widebody_ducktail.glb"
+        "na": "assets/mods/na/WB13_widebody_ducktail.glb",
+        "nb": "assets/mods/nb/WB13_widebody_ducktail.glb",
+        "nc": "assets/mods/nc/WB13_widebody_ducktail.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The wide-body kits' signature ducktail: a 55 mm flip along the boot's whole rear edge. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "The wide-body kits' signature ducktail: a 55 mm flip along the boot's whole rear edge. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Tall body-colour flip across the boot."
     },
     {
       "id": "WB14",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Carbon Wide-Body Ducktail",
@@ -12848,7 +14123,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12858,6 +14135,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -12887,26 +14170,54 @@
             866,
             -1712
           ]
+        },
+        "nb": {
+          "min": [
+            -610,
+            809,
+            -1868
+          ],
+          "max": [
+            610,
+            942,
+            -1670
+          ]
+        },
+        "nc": {
+          "min": [
+            -578,
+            843,
+            -1844
+          ],
+          "max": [
+            578,
+            957,
+            -1668
+          ]
         }
       },
       "triangleBudget": 2500,
       "file": {
         "nd": "assets/mods/nd/WB14_widebody_ducktail_carbon.glb",
-        "na": "assets/mods/na/WB14_widebody_ducktail_carbon.glb"
+        "na": "assets/mods/na/WB14_widebody_ducktail_carbon.glb",
+        "nb": "assets/mods/nb/WB14_widebody_ducktail_carbon.glb",
+        "nc": "assets/mods/nc/WB14_widebody_ducktail_carbon.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The wide-body ducktail in carbon. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "The wide-body ducktail in carbon. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "The tall ducktail in carbon."
     },
     {
       "id": "RA60",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Double-Element GT Wing",
@@ -12916,7 +14227,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12926,6 +14239,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -12956,26 +14275,54 @@
             1136,
             -1540
           ]
+        },
+        "nb": {
+          "min": [
+            -625,
+            860,
+            -1920
+          ],
+          "max": [
+            625,
+            1253,
+            -1540
+          ]
+        },
+        "nc": {
+          "min": [
+            -655,
+            884,
+            -1900
+          ],
+          "max": [
+            655,
+            1273,
+            -1520
+          ]
         }
       },
       "triangleBudget": 2200,
       "file": {
         "nd": "assets/mods/nd/RA60_double_element_wing.glb",
-        "na": "assets/mods/na/RA60_double_element_wing.glb"
+        "na": "assets/mods/na/RA60_double_element_wing.glb",
+        "nb": "assets/mods/nb/RA60_double_element_wing.glb",
+        "nc": "assets/mods/nc/RA60_double_element_wing.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A two-element GT wing: main plane with a 45% chord flap pitched up over its trailing edge, on swept deck-mounted uprights with endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A two-element GT wing: main plane with a 45% chord flap pitched up over its trailing edge, on swept deck-mounted uprights with endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Main plane plus a pitched flap."
     },
     {
       "id": "RA61",
       "gen": [
         "nd",
-        "na"
+        "na",
+        "nb",
+        "nc"
       ],
       "category": "rear_aero",
       "displayName": "Time Attack Wing",
@@ -12985,7 +14332,9 @@
       "attachTo": "body",
       "hides": {
         "nd": [],
-        "na": []
+        "na": [],
+        "nb": [],
+        "nc": []
       },
       "incompatibleWith": [],
       "requires": [],
@@ -12995,6 +14344,12 @@
         ],
         "na": [
           "trunk_Material #71_0"
+        ],
+        "nb": [
+          "Object_48"
+        ],
+        "nc": [
+          "Object_56.002"
         ]
       },
       "materials": [
@@ -13025,19 +14380,45 @@
             1317,
             -1630
           ]
+        },
+        "nb": {
+          "min": [
+            -765,
+            856,
+            -2010
+          ],
+          "max": [
+            765,
+            1435,
+            -1630
+          ]
+        },
+        "nc": {
+          "min": [
+            -795,
+            877,
+            -1990
+          ],
+          "max": [
+            795,
+            1455,
+            -1610
+          ]
         }
       },
       "triangleBudget": 2200,
       "file": {
         "nd": "assets/mods/nd/RA61_time_attack_wing.glb",
-        "na": "assets/mods/na/RA61_time_attack_wing.glb"
+        "na": "assets/mods/na/RA61_time_attack_wing.glb",
+        "nb": "assets/mods/nb/RA61_time_attack_wing.glb",
+        "nc": "assets/mods/nc/RA61_time_attack_wing.glb"
       },
       "flags": {
         "requiresFenderRoll": false,
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A time-attack wing: wide, deep two-element wing 150 mm higher than the GT wing, on tall uprights footed at the boot's rear edge, with big endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A time-attack wing: wide, deep two-element wing 150 mm higher than the GT wing, on tall uprights footed at the boot's rear edge, with big endplates. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py. NB version fitted to the NB model's panels (blender/build_nbnc.py). NC version fitted to the NC model's panels.",
       "uiHint": "Huge chassis-mount wing on tall uprights."
     },
     {

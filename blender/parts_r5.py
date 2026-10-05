@@ -254,7 +254,7 @@ def offset_stripe(ident='DT62', material=WHITE):
             row = []
             for j in range(7):
                 xx = k.CX + 60 + 240 * j / 6
-                hit, nrm = k.ray_normal(panel, (xx, 2000, z), (0, -1, 0))
+                hit, nrm = x.deck_hit(panel, xx, z)
                 assert hit is not None, (tag, xx, z)
                 row.append((hit, x.outward(nrm, UP)))
             rows.append(row)

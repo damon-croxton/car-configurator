@@ -94,7 +94,7 @@ GEN_CFG = {
         'side_panels': {1: ('NC_BODY',), -1: ('NC_BODY',)},
         'side_z': (900.0, -730.0), 'side_y': 430.0,
         'boot': 'NC_BOOT', 'rack': (300.0, -1380.0, -1790.0, (-1440.0, -1600.0, -1750.0)),
-        'arches': {'front': 1240.0, 'rear': -1079.0}, 'hub_y': 317.0, 'arc': (8.0, 172.0),
+        'arches': {'front': 1240.0, 'rear': -1079.0}, 'hub_y': 317.0, 'arc': (10.0, 165.0),
         'body': {1: ('NC_BODY',), -1: ('NC_BODY',)},
         'rear_bumper': ('Object_60.001',), 'strap_x': 250.0,
         'front_strap': ('NC_FRONT', 440.0),
@@ -117,6 +117,16 @@ def hit_any(parts, origin, direction):
         if best[0] is None or d < best[2]:
             best = (p, n, d)
     return best[0], best[1]
+
+
+def deck_hit(panel, x, z):
+    """A downward ray onto a deck panel at (x, z), stepping past hairline
+    cracks between faces of a cropped panel. The point keeps the asked z."""
+    for dz in (0, 1.5, -1.5, 3, -3):
+        p, n = k.ray_normal(panel, (x, 2000, z + dz), (0, -1, 0))
+        if p is not None:
+            return Vector((p.x, p.y, z)), n
+    return None, None
 
 
 def film(label, coll, grid, lift, thick, material):
@@ -182,7 +192,10 @@ def racing_stripes(ident='DT43', material=WHITE):
     up = Vector((0, 1, 0))
     for panel_name, tag in cfg()['stripe_panels']:
         panel = k.base(panel_name)
-        zs = [z for z in range(-2000, 2000, 4) if k.ray(panel, (k.CX + 75, 2000, z), (0, -1, 0))]
+        # Only where every stripe column lands (the NB's boot crop has a
+        # ragged front edge).
+        zs = [z for z in range(-2000, 2000, 4)
+              if all(k.ray(panel, (k.CX + s * dx, 2000, z), (0, -1, 0)) for s in (-1, 1) for dx in (20, 75, 130))]
         z_front, z_back = max(zs) - 14, min(zs) + 14
         for side in (-1, 1):
             rows = []
@@ -191,7 +204,7 @@ def racing_stripes(ident='DT43', material=WHITE):
                 row = []
                 for j in range(5):
                     x = k.CX + side * (20 + 110 * j / 4)
-                    p, n = k.ray_normal(panel, (x, 2000, z), (0, -1, 0))
+                    p, n = deck_hit(panel, x, z)
                     assert p is not None, (tag, x, z)
                     row.append((p, outward(n, up)))
                 rows.append(row if side > 0 else list(reversed(row)))
@@ -514,7 +527,9 @@ def fender_flares(ident='DT53', material=SATIN, width=40.0, swell=27.0, rivets=N
                 def surf(r):
                     # Below the bumper line the panel can end before r; walk
                     # back toward the lip until there is skin to sit on.
-                    for rr in range(int(r), int(lip) - 1, -2):
+                    # The smoothed lip can sit just inside the opening, so
+                    # finally look a little further out.
+                    for rr in [*range(int(r), int(lip) - 1, -2), *range(int(r) + 2, int(r) + 40, 2)]:
                         p, _ = hit_any(parts, (k.CX + side * 1300, hub_y + rr * d.y, hz + rr * d.z), (-side, 0, 0))
                         if p is not None and abs(p.x - k.CX) > 680:
                             return p

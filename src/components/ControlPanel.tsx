@@ -109,7 +109,7 @@ const ModelTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
 
   return (
     <>
-      <Section title="Generation" hint="NC and NB not modelled yet">
+      <Section title="Generation" hint="Four generations, 1989 – today">
         <OptionGrid
           columns={2}
           value={config.generation}

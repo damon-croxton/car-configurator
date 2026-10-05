@@ -48,7 +48,9 @@ carbon and accent bonnet wraps, and six Y-spoke and twelve-spoke wheels
 (`blender/PARTS-R9.md`). Round ten adds a Rocket Bunny / Pandem-style
 wide-body kit for both cars (wide overfenders that push the wheels out to fill
 them, plus a matching lip, skirts, diffuser and ducktail) and double-element,
-time-attack and swan-neck wings (`blender/PARTS-R10.md`). Variants of one part form a group in the panel,
+time-attack and swan-neck wings (`blender/PARTS-R10.md`). The NB and NC now
+take 37 of the body parts too: stripes, flares, roundels, lamps, racks,
+wraps, the whole wide-body kit and the big wings (`blender/PARTS-NBNC.md`). Variants of one part form a group in the panel,
 and picking one takes the others off. A part can require another (the
 harnesses need the buckets): fitting it fits both, and losing the required
 part drops it.
@@ -345,12 +347,12 @@ the UI is DOM, so exports are free of overlay artefacts by construction.
   so a matte body does not end up next to a glossy bonnet.
 - Per-panel colour is not wired up. The data to do it is in
   `surfaceClasses.json`; the app currently paints all panels together.
-- **The NB and NC take wheels and colours, not body mods yet.** Every wheel
-  mod fits them, along with paint, wheel finish, stance, lights and cabin
-  colours. The body kits and additional parts are modelled against the
-  ND/NA reference meshes, and there are no NB/NC anchors yet. Their soft tops
-  share materials with trim, so like the NA they keep a fixed roof (up) and
-  the roof controls are hidden.
+- **The NB and NC have a subset of the body mods.** Every wheel mod fits
+  them, plus 37 body parts rebuilt against their own panels (see
+  `blender/PARTS-NBNC.md`). Parts tied to ND/NA-only panels (bumper and
+  bonnet swaps, interiors, lamps) are not offered, nor are their older
+  spec-only aero options. Their soft tops share materials with trim, so like
+  the NA they keep a fixed roof (up) and the roof controls are hidden.
 - **The NA's roof cannot go up.** The asset ships roof-down with no soft-top
   geometry, so the roof controls are not offered for it.
 - HDRIs are fetched, not committed — run `npm run assets` once after cloning, or

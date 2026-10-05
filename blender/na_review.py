@@ -40,10 +40,11 @@ def review(tag, views=None, size=(1200, 900), gen="na"):
     """Render views of one car. When both references share the scene (in
     NA_REF / ND_REF collections), the other car is hidden from the render."""
     scene = bpy.context.scene
-    for name in ("NA_REF", "ND_REF"):
+    # NB/NC import into <GEN>_SRC (prepare_nb_nc), the others into <GEN>_REF.
+    for name in ("NA_REF", "ND_REF", "NB_SRC", "NC_SRC"):
         coll = bpy.data.collections.get(name)
         if coll is not None:
-            coll.hide_render = name != f"{gen.upper()}_REF"
+            coll.hide_render = name[:2] != gen.upper()
     scene.render.engine = "BLENDER_WORKBENCH"
     shading = scene.display.shading
     shading.light = "STUDIO"
