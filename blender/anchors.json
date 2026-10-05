@@ -4453,6 +4453,6077 @@
         }
       ]
     },
+    "nc": {
+      "generation": "nc",
+      "asset": "assets/models/mx5_nc/scene.glb",
+      "frame": {
+        "yawDeg": 0,
+        "scale": 1.003868,
+        "offsetMm": [
+          0,
+          0,
+          8
+        ],
+        "$comment": "Applied by CarModel.frame() to the model root, in this order: yaw, scale, translate."
+      },
+      "bbox": {
+        "min": [
+          -958,
+          0,
+          -2010
+        ],
+        "max": [
+          958,
+          1228,
+          2010
+        ]
+      },
+      "size": [
+        1916,
+        1228,
+        4020
+      ],
+      "catalogueDimensionsMm": {
+        "length": 4020,
+        "width": 1720,
+        "height": 1245,
+        "wheelbase": 2330,
+        "trackFront": 1490,
+        "trackRear": 1495
+      },
+      "wheels": [
+        {
+          "corner": "LF",
+          "contactPatch": [
+            725,
+            0,
+            1240
+          ],
+          "hubCentre": [
+            725,
+            317,
+            1240
+          ],
+          "diameter": 633,
+          "width": 209,
+          "bbox": {
+            "min": [
+              620,
+              0,
+              924
+            ],
+            "max": [
+              829,
+              633,
+              1557
+            ]
+          }
+        },
+        {
+          "corner": "LR",
+          "contactPatch": [
+            725,
+            0,
+            -1079
+          ],
+          "hubCentre": [
+            725,
+            317,
+            -1079
+          ],
+          "diameter": 633,
+          "width": 209,
+          "bbox": {
+            "min": [
+              620,
+              0,
+              -1396
+            ],
+            "max": [
+              829,
+              633,
+              -763
+            ]
+          }
+        },
+        {
+          "corner": "RF",
+          "contactPatch": [
+            -722,
+            0,
+            1240
+          ],
+          "hubCentre": [
+            -722,
+            317,
+            1240
+          ],
+          "diameter": 633,
+          "width": 209,
+          "bbox": {
+            "min": [
+              -827,
+              0,
+              924
+            ],
+            "max": [
+              -617,
+              633,
+              1557
+            ]
+          }
+        },
+        {
+          "corner": "RR",
+          "contactPatch": [
+            -722,
+            0,
+            -1079
+          ],
+          "hubCentre": [
+            -722,
+            317,
+            -1079
+          ],
+          "diameter": 633,
+          "width": 209,
+          "bbox": {
+            "min": [
+              -827,
+              0,
+              -1396
+            ],
+            "max": [
+              -617,
+              633,
+              -763
+            ]
+          }
+        }
+      ],
+      "derived": {
+        "frontAxleZ": 1240,
+        "rearAxleZ": -1079,
+        "hubHeight": 317,
+        "trackFront": 1447,
+        "trackRear": 1447,
+        "noseZ": 2010,
+        "tailZ": -2010,
+        "bodyFloorY": 159,
+        "roofY": 1228,
+        "wheelbase": 2319
+      },
+      "unclassifiedMaterials": [
+        "NC_black",
+        "NC_brakedisk",
+        "NC_chrome",
+        "NC_material"
+      ],
+      "nodes": [
+        {
+          "name": "Object_54.002",
+          "vertices": 12837,
+          "materials": [
+            "NC_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -840,
+              159,
+              -1899
+            ],
+            "max": [
+              841,
+              1212,
+              2010
+            ]
+          },
+          "size": [
+            1681,
+            1054,
+            3909
+          ],
+          "centre": [
+            0,
+            685,
+            56
+          ]
+        },
+        {
+          "name": "Object_22.001",
+          "vertices": 10943,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -352,
+              335,
+              1921
+            ],
+            "max": [
+              358,
+              492,
+              1979
+            ]
+          },
+          "size": [
+            709,
+            157,
+            58
+          ],
+          "centre": [
+            3,
+            414,
+            1950
+          ]
+        },
+        {
+          "name": "Object_24.001",
+          "vertices": 10747,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -351,
+              335,
+              1922
+            ],
+            "max": [
+              358,
+              490,
+              1979
+            ]
+          },
+          "size": [
+            709,
+            155,
+            57
+          ],
+          "centre": [
+            4,
+            413,
+            1951
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_LR.001",
+          "vertices": 8946,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              624,
+              0,
+              -1396
+            ],
+            "max": [
+              821,
+              633,
+              -763
+            ]
+          },
+          "size": [
+            197,
+            633,
+            633
+          ],
+          "centre": [
+            723,
+            317,
+            -1079
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_RR.001",
+          "vertices": 8946,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -819,
+              0,
+              -1396
+            ],
+            "max": [
+              -621,
+              633,
+              -763
+            ]
+          },
+          "size": [
+            197,
+            633,
+            633
+          ],
+          "centre": [
+            -720,
+            317,
+            -1079
+          ]
+        },
+        {
+          "name": "Object_80.001",
+          "vertices": 8824,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -680,
+              683,
+              -1855
+            ],
+            "max": [
+              680,
+              799,
+              -1680
+            ]
+          },
+          "size": [
+            1360,
+            116,
+            176
+          ],
+          "centre": [
+            0,
+            741,
+            -1767
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_LF",
+          "vertices": 8820,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              622,
+              0,
+              924
+            ],
+            "max": [
+              829,
+              633,
+              1557
+            ]
+          },
+          "size": [
+            208,
+            633,
+            633
+          ],
+          "centre": [
+            726,
+            317,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_RF",
+          "vertices": 8820,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -827,
+              0,
+              924
+            ],
+            "max": [
+              -619,
+              633,
+              1557
+            ]
+          },
+          "size": [
+            208,
+            633,
+            633
+          ],
+          "centre": [
+            -723,
+            317,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_LR",
+          "vertices": 6618,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              620,
+              72,
+              -1324
+            ],
+            "max": [
+              829,
+              562,
+              -833
+            ]
+          },
+          "size": [
+            209,
+            491,
+            491
+          ],
+          "centre": [
+            725,
+            317,
+            -1078
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_LF",
+          "vertices": 5658,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              620,
+              72,
+              996
+            ],
+            "max": [
+              829,
+              562,
+              1486
+            ]
+          },
+          "size": [
+            209,
+            491,
+            491
+          ],
+          "centre": [
+            725,
+            317,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RF",
+          "vertices": 5658,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -826,
+              72,
+              996
+            ],
+            "max": [
+              -617,
+              562,
+              1486
+            ]
+          },
+          "size": [
+            209,
+            491,
+            491
+          ],
+          "centre": [
+            -722,
+            317,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RR",
+          "vertices": 5658,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -826,
+              72,
+              -1324
+            ],
+            "max": [
+              -617,
+              562,
+              -833
+            ]
+          },
+          "size": [
+            209,
+            491,
+            491
+          ],
+          "centre": [
+            -722,
+            317,
+            -1078
+          ]
+        },
+        {
+          "name": "Object_74.001",
+          "vertices": 5447,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -657,
+              604,
+              1577
+            ],
+            "max": [
+              655,
+              725,
+              1811
+            ]
+          },
+          "size": [
+            1312,
+            121,
+            234
+          ],
+          "centre": [
+            -1,
+            665,
+            1694
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_LF.001",
+          "vertices": 5046,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              624,
+              0,
+              924
+            ],
+            "max": [
+              821,
+              633,
+              1557
+            ]
+          },
+          "size": [
+            197,
+            633,
+            633
+          ],
+          "centre": [
+            723,
+            317,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_RF.001",
+          "vertices": 5046,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -819,
+              0,
+              924
+            ],
+            "max": [
+              -621,
+              633,
+              1557
+            ]
+          },
+          "size": [
+            197,
+            633,
+            633
+          ],
+          "centre": [
+            -720,
+            317,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_LR",
+          "vertices": 4920,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              622,
+              0,
+              -1396
+            ],
+            "max": [
+              829,
+              633,
+              -763
+            ]
+          },
+          "size": [
+            208,
+            633,
+            633
+          ],
+          "centre": [
+            726,
+            317,
+            -1079
+          ]
+        },
+        {
+          "name": "NC_wheel_tire_RR",
+          "vertices": 4920,
+          "materials": [
+            "NC_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -827,
+              0,
+              -1396
+            ],
+            "max": [
+              -619,
+              633,
+              -763
+            ]
+          },
+          "size": [
+            208,
+            633,
+            633
+          ],
+          "centre": [
+            -723,
+            317,
+            -1079
+          ]
+        },
+        {
+          "name": "Object_56.002",
+          "vertices": 4219,
+          "materials": [
+            "NC_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -848,
+              374,
+              -1825
+            ],
+            "max": [
+              849,
+              962,
+              -524
+            ]
+          },
+          "size": [
+            1697,
+            589,
+            1301
+          ],
+          "centre": [
+            0,
+            668,
+            -1175
+          ]
+        },
+        {
+          "name": "Object_66.001",
+          "vertices": 4161,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -548,
+              420,
+              1801
+            ],
+            "max": [
+              549,
+              421,
+              1812
+            ]
+          },
+          "size": [
+            1097,
+            1,
+            10
+          ],
+          "centre": [
+            1,
+            420,
+            1807
+          ]
+        },
+        {
+          "name": "Object_70.001",
+          "vertices": 4158,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -449,
+              661,
+              1702
+            ],
+            "max": [
+              448,
+              662,
+              1713
+            ]
+          },
+          "size": [
+            897,
+            1,
+            10
+          ],
+          "centre": [
+            -1,
+            662,
+            1708
+          ]
+        },
+        {
+          "name": "Object_26.001",
+          "vertices": 4041,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              7,
+              343,
+              1943
+            ],
+            "max": [
+              233,
+              492,
+              1978
+            ]
+          },
+          "size": [
+            225,
+            149,
+            35
+          ],
+          "centre": [
+            120,
+            417,
+            1961
+          ]
+        },
+        {
+          "name": "Object_50.001",
+          "vertices": 3915,
+          "materials": [
+            "NC_brakedisk"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -517,
+              249,
+              -1905
+            ],
+            "max": [
+              497,
+              368,
+              -1489
+            ]
+          },
+          "size": [
+            1015,
+            119,
+            416
+          ],
+          "centre": [
+            -10,
+            308,
+            -1697
+          ]
+        },
+        {
+          "name": "Object_20.001",
+          "vertices": 3359,
+          "materials": [
+            "NC_redglass"
+          ],
+          "classes": [
+            "lens_red"
+          ],
+          "bbox": {
+            "min": [
+              -753,
+              525,
+              -1854
+            ],
+            "max": [
+              755,
+              960,
+              -1317
+            ]
+          },
+          "size": [
+            1508,
+            434,
+            537
+          ],
+          "centre": [
+            1,
+            742,
+            -1586
+          ]
+        },
+        {
+          "name": "Object_94.002",
+          "vertices": 3317,
+          "materials": [
+            "NC_clearglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -693,
+              366,
+              -1893
+            ],
+            "max": [
+              693,
+              812,
+              1870
+            ]
+          },
+          "size": [
+            1386,
+            446,
+            3763
+          ],
+          "centre": [
+            0,
+            589,
+            -12
+          ]
+        },
+        {
+          "name": "Object_98.001",
+          "vertices": 3272,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              197,
+              479,
+              187
+            ],
+            "max": [
+              598,
+              881,
+              438
+            ]
+          },
+          "size": [
+            401,
+            402,
+            251
+          ],
+          "centre": [
+            397,
+            680,
+            313
+          ]
+        },
+        {
+          "name": "Object_122",
+          "vertices": 3123,
+          "materials": [
+            "NC_material"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -631,
+              411,
+              -1634
+            ],
+            "max": [
+              556,
+              1208,
+              1797
+            ]
+          },
+          "size": [
+            1187,
+            796,
+            3431
+          ],
+          "centre": [
+            -38,
+            809,
+            81
+          ]
+        },
+        {
+          "name": "Object_100.002",
+          "vertices": 3108,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -727,
+              394,
+              316
+            ],
+            "max": [
+              709,
+              882,
+              774
+            ]
+          },
+          "size": [
+            1437,
+            489,
+            458
+          ],
+          "centre": [
+            -9,
+            638,
+            545
+          ]
+        },
+        {
+          "name": "Object_90.001",
+          "vertices": 2985,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -799,
+              767,
+              -515
+            ],
+            "max": [
+              798,
+              785,
+              -497
+            ]
+          },
+          "size": [
+            1597,
+            18,
+            19
+          ],
+          "centre": [
+            -1,
+            776,
+            -506
+          ]
+        },
+        {
+          "name": "Object_92.001",
+          "vertices": 2951,
+          "materials": [
+            "NC_clearglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -710,
+              417,
+              -1834
+            ],
+            "max": [
+              709,
+              1018,
+              1876
+            ]
+          },
+          "size": [
+            1419,
+            601,
+            3710
+          ],
+          "centre": [
+            0,
+            717,
+            21
+          ]
+        },
+        {
+          "name": "Object_28.001",
+          "vertices": 2760,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -734,
+              200,
+              -2006
+            ],
+            "max": [
+              737,
+              813,
+              1797
+            ]
+          },
+          "size": [
+            1470,
+            613,
+            3803
+          ],
+          "centre": [
+            1,
+            506,
+            -105
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_LF",
+          "vertices": 2721,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              716,
+              179,
+              1100
+            ],
+            "max": [
+              741,
+              459,
+              1380
+            ]
+          },
+          "size": [
+            25,
+            280,
+            280
+          ],
+          "centre": [
+            728,
+            319,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_RR",
+          "vertices": 2714,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -738,
+              179,
+              -1219
+            ],
+            "max": [
+              -713,
+              459,
+              -939
+            ]
+          },
+          "size": [
+            25,
+            280,
+            280
+          ],
+          "centre": [
+            -726,
+            319,
+            -1079
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_RF",
+          "vertices": 2713,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -738,
+              179,
+              1100
+            ],
+            "max": [
+              -713,
+              459,
+              1380
+            ]
+          },
+          "size": [
+            25,
+            280,
+            280
+          ],
+          "centre": [
+            -726,
+            319,
+            1240
+          ]
+        },
+        {
+          "name": "Object_84.001",
+          "vertices": 2679,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -409,
+              626,
+              1786
+            ],
+            "max": [
+              407,
+              672,
+              1803
+            ]
+          },
+          "size": [
+            815,
+            46,
+            17
+          ],
+          "centre": [
+            -1,
+            649,
+            1795
+          ]
+        },
+        {
+          "name": "Object_60.001",
+          "vertices": 2529,
+          "materials": [
+            "NC_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -846,
+              259,
+              -2010
+            ],
+            "max": [
+              847,
+              791,
+              -1283
+            ]
+          },
+          "size": [
+            1694,
+            532,
+            727
+          ],
+          "centre": [
+            0,
+            525,
+            -1646
+          ]
+        },
+        {
+          "name": "Object_58.002",
+          "vertices": 2417,
+          "materials": [
+            "NC_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -806,
+              739,
+              -542
+            ],
+            "max": [
+              804,
+              792,
+              -290
+            ]
+          },
+          "size": [
+            1610,
+            53,
+            253
+          ],
+          "centre": [
+            -1,
+            766,
+            -416
+          ]
+        },
+        {
+          "name": "Object_120",
+          "vertices": 2251,
+          "materials": [
+            "NC_material"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -457,
+              652,
+              1682
+            ],
+            "max": [
+              455,
+              670,
+              1698
+            ]
+          },
+          "size": [
+            912,
+            18,
+            15
+          ],
+          "centre": [
+            -1,
+            661,
+            1690
+          ]
+        },
+        {
+          "name": "Object_40.001",
+          "vertices": 2212,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -641,
+              819,
+              590
+            ],
+            "max": [
+              6,
+              888,
+              862
+            ]
+          },
+          "size": [
+            647,
+            68,
+            273
+          ],
+          "centre": [
+            -318,
+            853,
+            726
+          ]
+        },
+        {
+          "name": "Object_34.001",
+          "vertices": 2210,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -167,
+              817,
+              725
+            ],
+            "max": [
+              513,
+              885,
+              796
+            ]
+          },
+          "size": [
+            680,
+            68,
+            72
+          ],
+          "centre": [
+            173,
+            851,
+            760
+          ]
+        },
+        {
+          "name": "Object_36.001",
+          "vertices": 1936,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -824,
+              198,
+              -1814
+            ],
+            "max": [
+              827,
+              1194,
+              1924
+            ]
+          },
+          "size": [
+            1651,
+            996,
+            3738
+          ],
+          "centre": [
+            2,
+            696,
+            55
+          ]
+        },
+        {
+          "name": "Object_62.001",
+          "vertices": 1867,
+          "materials": [
+            "NC_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -958,
+              765,
+              75
+            ],
+            "max": [
+              958,
+              961,
+              255
+            ]
+          },
+          "size": [
+            1916,
+            196,
+            181
+          ],
+          "centre": [
+            0,
+            863,
+            165
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_LR",
+          "vertices": 1809,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              716,
+              179,
+              -1219
+            ],
+            "max": [
+              741,
+              459,
+              -939
+            ]
+          },
+          "size": [
+            25,
+            280,
+            280
+          ],
+          "centre": [
+            728,
+            319,
+            -1079
+          ]
+        },
+        {
+          "name": "Object_30.001",
+          "vertices": 1731,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -801,
+              765,
+              -518
+            ],
+            "max": [
+              799,
+              788,
+              -494
+            ]
+          },
+          "size": [
+            1600,
+            24,
+            24
+          ],
+          "centre": [
+            -1,
+            776,
+            -506
+          ]
+        },
+        {
+          "name": "Object_96.001",
+          "vertices": 1693,
+          "materials": [
+            "NC_clearglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -710,
+              821,
+              -1188
+            ],
+            "max": [
+              713,
+              1196,
+              792
+            ]
+          },
+          "size": [
+            1423,
+            374,
+            1981
+          ],
+          "centre": [
+            2,
+            1008,
+            -198
+          ]
+        },
+        {
+          "name": "Object_16.001",
+          "vertices": 1566,
+          "materials": [
+            "NC_darkglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -711,
+              636,
+              38
+            ],
+            "max": [
+              707,
+              1192,
+              1722
+            ]
+          },
+          "size": [
+            1418,
+            556,
+            1684
+          ],
+          "centre": [
+            -2,
+            914,
+            880
+          ]
+        },
+        {
+          "name": "Object_42.001",
+          "vertices": 1566,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -719,
+              200,
+              -1820
+            ],
+            "max": [
+              736,
+              1119,
+              1965
+            ]
+          },
+          "size": [
+            1455,
+            919,
+            3785
+          ],
+          "centre": [
+            8,
+            659,
+            72
+          ]
+        },
+        {
+          "name": "Object_102.002",
+          "vertices": 1503,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -150,
+              202,
+              -584
+            ],
+            "max": [
+              154,
+              625,
+              688
+            ]
+          },
+          "size": [
+            304,
+            423,
+            1272
+          ],
+          "centre": [
+            2,
+            413,
+            52
+          ]
+        },
+        {
+          "name": "Object_88.001",
+          "vertices": 1482,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -323,
+              696,
+              -1896
+            ],
+            "max": [
+              -303,
+              716,
+              -1890
+            ]
+          },
+          "size": [
+            20,
+            20,
+            6
+          ],
+          "centre": [
+            -313,
+            706,
+            -1893
+          ]
+        },
+        {
+          "name": "Object_108.001",
+          "vertices": 1462,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -614,
+              202,
+              -610
+            ],
+            "max": [
+              152,
+              1061,
+              136
+            ]
+          },
+          "size": [
+            767,
+            859,
+            747
+          ],
+          "centre": [
+            -231,
+            631,
+            -237
+          ]
+        },
+        {
+          "name": "Object_104.001",
+          "vertices": 1410,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -745,
+              226,
+              -1204
+            ],
+            "max": [
+              761,
+              921,
+              1015
+            ]
+          },
+          "size": [
+            1506,
+            695,
+            2219
+          ],
+          "centre": [
+            8,
+            574,
+            -95
+          ]
+        },
+        {
+          "name": "Object_110.001",
+          "vertices": 1393,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -744,
+              202,
+              -642
+            ],
+            "max": [
+              625,
+              1067,
+              576
+            ]
+          },
+          "size": [
+            1369,
+            865,
+            1218
+          ],
+          "centre": [
+            -60,
+            634,
+            -33
+          ]
+        },
+        {
+          "name": "Object_18.001",
+          "vertices": 1346,
+          "materials": [
+            "NC_orangeglass"
+          ],
+          "classes": [
+            "lens_amber"
+          ],
+          "bbox": {
+            "min": [
+              -732,
+              486,
+              -1772
+            ],
+            "max": [
+              732,
+              751,
+              1718
+            ]
+          },
+          "size": [
+            1464,
+            265,
+            3490
+          ],
+          "centre": [
+            0,
+            618,
+            -27
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_LR.001",
+          "vertices": 1335,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              716,
+              178,
+              -1220
+            ],
+            "max": [
+              741,
+              460,
+              -938
+            ]
+          },
+          "size": [
+            25,
+            282,
+            282
+          ],
+          "centre": [
+            728,
+            319,
+            -1079
+          ]
+        },
+        {
+          "name": "Object_86.001",
+          "vertices": 1261,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -725,
+              377,
+              1614
+            ],
+            "max": [
+              726,
+              600,
+              1813
+            ]
+          },
+          "size": [
+            1451,
+            223,
+            199
+          ],
+          "centre": [
+            0,
+            488,
+            1713
+          ]
+        },
+        {
+          "name": "Object_78.001",
+          "vertices": 1153,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -562,
+              410,
+              -1889
+            ],
+            "max": [
+              561,
+              830,
+              1831
+            ]
+          },
+          "size": [
+            1123,
+            420,
+            3720
+          ],
+          "centre": [
+            0,
+            620,
+            -29
+          ]
+        },
+        {
+          "name": "Object_76.001",
+          "vertices": 1072,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -375,
+              623,
+              -1898
+            ],
+            "max": [
+              58,
+              860,
+              1962
+            ]
+          },
+          "size": [
+            433,
+            237,
+            3860
+          ],
+          "centre": [
+            -158,
+            741,
+            32
+          ]
+        },
+        {
+          "name": "Object_52.002",
+          "vertices": 1013,
+          "materials": [
+            "NC_brakedisk"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -619,
+              688,
+              -1825
+            ],
+            "max": [
+              617,
+              748,
+              1628
+            ]
+          },
+          "size": [
+            1236,
+            60,
+            3453
+          ],
+          "centre": [
+            -1,
+            718,
+            -99
+          ]
+        },
+        {
+          "name": "Object_38.001",
+          "vertices": 1005,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -326,
+              200,
+              -1897
+            ],
+            "max": [
+              737,
+              718,
+              1150
+            ]
+          },
+          "size": [
+            1062,
+            519,
+            3047
+          ],
+          "centre": [
+            205,
+            459,
+            -373
+          ]
+        },
+        {
+          "name": "Object_44.002",
+          "vertices": 970,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -734,
+              200,
+              -1227
+            ],
+            "max": [
+              700,
+              1228,
+              1150
+            ]
+          },
+          "size": [
+            1433,
+            1028,
+            2378
+          ],
+          "centre": [
+            -17,
+            714,
+            -39
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_LF.001",
+          "vertices": 960,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              775,
+              264,
+              1180
+            ],
+            "max": [
+              793,
+              379,
+              1302
+            ]
+          },
+          "size": [
+            18,
+            115,
+            122
+          ],
+          "centre": [
+            784,
+            321,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RF.001",
+          "vertices": 960,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -790,
+              264,
+              1180
+            ],
+            "max": [
+              -772,
+              379,
+              1302
+            ]
+          },
+          "size": [
+            18,
+            115,
+            122
+          ],
+          "centre": [
+            -781,
+            321,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RR.001",
+          "vertices": 960,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -790,
+              264,
+              -1139
+            ],
+            "max": [
+              -772,
+              379,
+              -1017
+            ]
+          },
+          "size": [
+            18,
+            115,
+            122
+          ],
+          "centre": [
+            -781,
+            321,
+            -1078
+          ]
+        },
+        {
+          "name": "Object_106.001",
+          "vertices": 796,
+          "materials": [
+            "NC_interior"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              647,
+              275,
+              -642
+            ],
+            "max": [
+              746,
+              852,
+              575
+            ]
+          },
+          "size": [
+            99,
+            577,
+            1218
+          ],
+          "centre": [
+            696,
+            563,
+            -33
+          ]
+        },
+        {
+          "name": "Object_32.001",
+          "vertices": 470,
+          "materials": [
+            "NC_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -68,
+              1066,
+              70
+            ],
+            "max": [
+              118,
+              1145,
+              168
+            ]
+          },
+          "size": [
+            185,
+            79,
+            98
+          ],
+          "centre": [
+            25,
+            1105,
+            119
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_LF.001",
+          "vertices": 426,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              716,
+              178,
+              1099
+            ],
+            "max": [
+              741,
+              460,
+              1381
+            ]
+          },
+          "size": [
+            25,
+            282,
+            282
+          ],
+          "centre": [
+            728,
+            319,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_RF.001",
+          "vertices": 426,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -738,
+              178,
+              1099
+            ],
+            "max": [
+              -713,
+              460,
+              1381
+            ]
+          },
+          "size": [
+            25,
+            282,
+            282
+          ],
+          "centre": [
+            -726,
+            319,
+            1240
+          ]
+        },
+        {
+          "name": "NC_wheel_brake_RR.001",
+          "vertices": 426,
+          "materials": [
+            "NC_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -738,
+              178,
+              -1220
+            ],
+            "max": [
+              -713,
+              460,
+              -938
+            ]
+          },
+          "size": [
+            25,
+            282,
+            282
+          ],
+          "centre": [
+            -726,
+            319,
+            -1079
+          ]
+        },
+        {
+          "name": "Object_82.003",
+          "vertices": 357,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -359,
+              338,
+              1912
+            ],
+            "max": [
+              358,
+              494,
+              2004
+            ]
+          },
+          "size": [
+            717,
+            156,
+            92
+          ],
+          "centre": [
+            0,
+            416,
+            1958
+          ]
+        },
+        {
+          "name": "Object_48.001",
+          "vertices": 336,
+          "materials": [
+            "NC_brakedisk"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -605,
+              733,
+              -1736
+            ],
+            "max": [
+              605,
+              743,
+              -1718
+            ]
+          },
+          "size": [
+            1210,
+            10,
+            18
+          ],
+          "centre": [
+            0,
+            738,
+            -1727
+          ]
+        },
+        {
+          "name": "Object_64.001",
+          "vertices": 146,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -548,
+              420,
+              1697
+            ],
+            "max": [
+              549,
+              662,
+              1812
+            ]
+          },
+          "size": [
+            1097,
+            242,
+            115
+          ],
+          "centre": [
+            1,
+            541,
+            1755
+          ]
+        },
+        {
+          "name": "Object_68.002",
+          "vertices": 140,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -450,
+              661,
+              1697
+            ],
+            "max": [
+              448,
+              662,
+              1713
+            ]
+          },
+          "size": [
+            898,
+            0,
+            16
+          ],
+          "centre": [
+            -1,
+            662,
+            1705
+          ]
+        },
+        {
+          "name": "Object_72.001",
+          "vertices": 136,
+          "materials": [
+            "NC_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -548,
+              420,
+              1796
+            ],
+            "max": [
+              549,
+              421,
+              1812
+            ]
+          },
+          "size": [
+            1097,
+            0,
+            16
+          ],
+          "centre": [
+            1,
+            420,
+            1804
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_LF.002",
+          "vertices": 120,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              775,
+              264,
+              1180
+            ],
+            "max": [
+              792,
+              379,
+              1302
+            ]
+          },
+          "size": [
+            16,
+            115,
+            122
+          ],
+          "centre": [
+            783,
+            321,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_LR.001",
+          "vertices": 120,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              775,
+              264,
+              -1139
+            ],
+            "max": [
+              792,
+              379,
+              -1017
+            ]
+          },
+          "size": [
+            16,
+            115,
+            122
+          ],
+          "centre": [
+            783,
+            321,
+            -1078
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RF.002",
+          "vertices": 120,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -789,
+              264,
+              1180
+            ],
+            "max": [
+              -773,
+              379,
+              1302
+            ]
+          },
+          "size": [
+            16,
+            115,
+            122
+          ],
+          "centre": [
+            -781,
+            321,
+            1241
+          ]
+        },
+        {
+          "name": "NC_wheel_rim_RR.002",
+          "vertices": 120,
+          "materials": [
+            "NC_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -789,
+              264,
+              -1139
+            ],
+            "max": [
+              -773,
+              379,
+              -1017
+            ]
+          },
+          "size": [
+            16,
+            115,
+            122
+          ],
+          "centre": [
+            -781,
+            321,
+            -1078
+          ]
+        },
+        {
+          "name": "Object_6.001",
+          "vertices": 52,
+          "materials": [
+            "NC_mirror"
+          ],
+          "classes": [
+            "mirror_glass"
+          ],
+          "bbox": {
+            "min": [
+              -957,
+              829,
+              79
+            ],
+            "max": [
+              955,
+              957,
+              162
+            ]
+          },
+          "size": [
+            1912,
+            128,
+            83
+          ],
+          "centre": [
+            -1,
+            893,
+            120
+          ]
+        }
+      ]
+    },
+    "nb": {
+      "generation": "nb",
+      "asset": "assets/models/mx5_nb/scene.glb",
+      "frame": {
+        "yawDeg": 0,
+        "scale": 1.00097,
+        "offsetMm": [
+          0,
+          0,
+          2
+        ],
+        "$comment": "Applied by CarModel.frame() to the model root, in this order: yaw, scale, translate."
+      },
+      "bbox": {
+        "min": [
+          -949,
+          0,
+          -1978
+        ],
+        "max": [
+          949,
+          1236,
+          1978
+        ]
+      },
+      "size": [
+        1897,
+        1236,
+        3955
+      ],
+      "catalogueDimensionsMm": {
+        "length": 3955,
+        "width": 1680,
+        "height": 1235,
+        "wheelbase": 2265,
+        "trackFront": 1415,
+        "trackRear": 1427
+      },
+      "wheels": [
+        {
+          "corner": "LF",
+          "contactPatch": [
+            705,
+            0,
+            1188
+          ],
+          "hubCentre": [
+            705,
+            294,
+            1188
+          ],
+          "diameter": 587,
+          "width": 194,
+          "bbox": {
+            "min": [
+              608,
+              0,
+              895
+            ],
+            "max": [
+              802,
+              587,
+              1482
+            ]
+          }
+        },
+        {
+          "corner": "LR",
+          "contactPatch": [
+            720,
+            0,
+            -1105
+          ],
+          "hubCentre": [
+            720,
+            294,
+            -1105
+          ],
+          "diameter": 587,
+          "width": 194,
+          "bbox": {
+            "min": [
+              623,
+              0,
+              -1399
+            ],
+            "max": [
+              817,
+              587,
+              -812
+            ]
+          }
+        },
+        {
+          "corner": "RF",
+          "contactPatch": [
+            -705,
+            0,
+            1188
+          ],
+          "hubCentre": [
+            -705,
+            294,
+            1188
+          ],
+          "diameter": 587,
+          "width": 194,
+          "bbox": {
+            "min": [
+              -802,
+              0,
+              895
+            ],
+            "max": [
+              -608,
+              587,
+              1482
+            ]
+          }
+        },
+        {
+          "corner": "RR",
+          "contactPatch": [
+            -720,
+            0,
+            -1105
+          ],
+          "hubCentre": [
+            -720,
+            294,
+            -1105
+          ],
+          "diameter": 587,
+          "width": 194,
+          "bbox": {
+            "min": [
+              -817,
+              0,
+              -1399
+            ],
+            "max": [
+              -623,
+              587,
+              -812
+            ]
+          }
+        }
+      ],
+      "derived": {
+        "frontAxleZ": 1188,
+        "rearAxleZ": -1105,
+        "hubHeight": 294,
+        "trackFront": 1410,
+        "trackRear": 1440,
+        "noseZ": 1978,
+        "tailZ": -1978,
+        "bodyFloorY": 94,
+        "roofY": 1236,
+        "wheelbase": 2293
+      },
+      "unclassifiedMaterials": [
+        "NB_black",
+        "NB_blue",
+        "NB_chrome",
+        "NB_display",
+        "NB_interior_fourth",
+        "NB_interior_third",
+        "NB_material",
+        "NB_mattemetal",
+        "NB_white"
+      ],
+      "nodes": [
+        {
+          "name": "Object_84",
+          "vertices": 9560,
+          "materials": [
+            "NB_interior_second"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -660,
+              368,
+              -782
+            ],
+            "max": [
+              660,
+              870,
+              798
+            ]
+          },
+          "size": [
+            1320,
+            502,
+            1580
+          ],
+          "centre": [
+            0,
+            619,
+            8
+          ]
+        },
+        {
+          "name": "Object_58.001",
+          "vertices": 8510,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -735,
+              552,
+              1592
+            ],
+            "max": [
+              735,
+              692,
+              1841
+            ]
+          },
+          "size": [
+            1471,
+            140,
+            249
+          ],
+          "centre": [
+            0,
+            622,
+            1717
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LF.002",
+          "vertices": 7491,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              611,
+              0,
+              895
+            ],
+            "max": [
+              794,
+              587,
+              1482
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            702,
+            294,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_rim_LF",
+          "vertices": 6734,
+          "materials": [
+            "NB_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              609,
+              76,
+              971
+            ],
+            "max": [
+              801,
+              510,
+              1405
+            ]
+          },
+          "size": [
+            192,
+            434,
+            434
+          ],
+          "centre": [
+            705,
+            293,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_rim_LR",
+          "vertices": 6734,
+          "materials": [
+            "NB_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              624,
+              76,
+              -1322
+            ],
+            "max": [
+              816,
+              510,
+              -888
+            ]
+          },
+          "size": [
+            192,
+            434,
+            434
+          ],
+          "centre": [
+            720,
+            293,
+            -1105
+          ]
+        },
+        {
+          "name": "NB_wheel_rim_RF",
+          "vertices": 6734,
+          "materials": [
+            "NB_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -801,
+              76,
+              971
+            ],
+            "max": [
+              -609,
+              510,
+              1405
+            ]
+          },
+          "size": [
+            192,
+            434,
+            434
+          ],
+          "centre": [
+            -705,
+            293,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_rim_RR",
+          "vertices": 6734,
+          "materials": [
+            "NB_wheel_rim"
+          ],
+          "classes": [
+            "rim"
+          ],
+          "bbox": {
+            "min": [
+              -816,
+              76,
+              -1322
+            ],
+            "max": [
+              -624,
+              510,
+              -888
+            ]
+          },
+          "size": [
+            192,
+            434,
+            434
+          ],
+          "centre": [
+            -720,
+            293,
+            -1105
+          ]
+        },
+        {
+          "name": "Object_57",
+          "vertices": 6372,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -735,
+              552,
+              1592
+            ],
+            "max": [
+              735,
+              692,
+              1841
+            ]
+          },
+          "size": [
+            1470,
+            140,
+            249
+          ],
+          "centre": [
+            0,
+            622,
+            1717
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LR.001",
+          "vertices": 6211,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              626,
+              0,
+              -1399
+            ],
+            "max": [
+              809,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            718,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RR",
+          "vertices": 6211,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -809,
+              0,
+              -1399
+            ],
+            "max": [
+              -626,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            -718,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "Object_86",
+          "vertices": 4823,
+          "materials": [
+            "NB_interior_second"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -122,
+              481,
+              140
+            ],
+            "max": [
+              122,
+              752,
+              335
+            ]
+          },
+          "size": [
+            244,
+            271,
+            196
+          ],
+          "centre": [
+            0,
+            616,
+            237
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LF",
+          "vertices": 4802,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              608,
+              0,
+              895
+            ],
+            "max": [
+              802,
+              587,
+              1482
+            ]
+          },
+          "size": [
+            194,
+            587,
+            587
+          ],
+          "centre": [
+            705,
+            294,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LR",
+          "vertices": 4802,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              623,
+              0,
+              -1399
+            ],
+            "max": [
+              817,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            194,
+            587,
+            587
+          ],
+          "centre": [
+            720,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RF",
+          "vertices": 4682,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -802,
+              0,
+              895
+            ],
+            "max": [
+              -608,
+              587,
+              1482
+            ]
+          },
+          "size": [
+            194,
+            587,
+            587
+          ],
+          "centre": [
+            -705,
+            294,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RR.002",
+          "vertices": 4682,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -817,
+              0,
+              -1399
+            ],
+            "max": [
+              -623,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            194,
+            587,
+            587
+          ],
+          "centre": [
+            -720,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "Object_49",
+          "vertices": 4321,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -838,
+              206,
+              1374
+            ],
+            "max": [
+              838,
+              619,
+              1978
+            ]
+          },
+          "size": [
+            1676,
+            414,
+            604
+          ],
+          "centre": [
+            0,
+            412,
+            1676
+          ]
+        },
+        {
+          "name": "Object_65",
+          "vertices": 4134,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -855,
+              440,
+              -1888
+            ],
+            "max": [
+              855,
+              853,
+              1720
+            ]
+          },
+          "size": [
+            1710,
+            413,
+            3608
+          ],
+          "centre": [
+            0,
+            646,
+            -84
+          ]
+        },
+        {
+          "name": "Object_5.001",
+          "vertices": 3991,
+          "materials": [
+            "NB_redglass"
+          ],
+          "classes": [
+            "lens_red"
+          ],
+          "bbox": {
+            "min": [
+              -712,
+              647,
+              -1886
+            ],
+            "max": [
+              712,
+              854,
+              -1687
+            ]
+          },
+          "size": [
+            1424,
+            208,
+            199
+          ],
+          "centre": [
+            0,
+            751,
+            -1787
+          ]
+        },
+        {
+          "name": "Object_54.001",
+          "vertices": 3964,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -842,
+              294,
+              -596
+            ],
+            "max": [
+              842,
+              1227,
+              580
+            ]
+          },
+          "size": [
+            1684,
+            934,
+            1176
+          ],
+          "centre": [
+            0,
+            760,
+            -8
+          ]
+        },
+        {
+          "name": "Object_50",
+          "vertices": 3951,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              693,
+              299,
+              -590
+            ],
+            "max": [
+              845,
+              840,
+              577
+            ]
+          },
+          "size": [
+            152,
+            541,
+            1167
+          ],
+          "centre": [
+            769,
+            570,
+            -7
+          ]
+        },
+        {
+          "name": "Object_66",
+          "vertices": 3842,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -744,
+              617,
+              -1878
+            ],
+            "max": [
+              744,
+              791,
+              -1635
+            ]
+          },
+          "size": [
+            1488,
+            174,
+            244
+          ],
+          "centre": [
+            0,
+            704,
+            -1757
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LR.002",
+          "vertices": 3759,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              626,
+              0,
+              -1399
+            ],
+            "max": [
+              809,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            718,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RF.003",
+          "vertices": 3759,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -794,
+              0,
+              895
+            ],
+            "max": [
+              -611,
+              587,
+              1482
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            -702,
+            294,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RR.001",
+          "vertices": 3759,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -809,
+              0,
+              -1399
+            ],
+            "max": [
+              -626,
+              587,
+              -812
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            -718,
+            294,
+            -1105
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RF.001",
+          "vertices": 3732,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -794,
+              0,
+              895
+            ],
+            "max": [
+              -611,
+              587,
+              1482
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            -702,
+            294,
+            1188
+          ]
+        },
+        {
+          "name": "Object_68.001",
+          "vertices": 3656,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -793,
+              275,
+              -1652
+            ],
+            "max": [
+              793,
+              894,
+              1210
+            ]
+          },
+          "size": [
+            1587,
+            620,
+            2861
+          ],
+          "centre": [
+            0,
+            585,
+            -221
+          ]
+        },
+        {
+          "name": "Object_72",
+          "vertices": 3498,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -735,
+              552,
+              1576
+            ],
+            "max": [
+              735,
+              691,
+              1840
+            ]
+          },
+          "size": [
+            1470,
+            139,
+            264
+          ],
+          "centre": [
+            0,
+            622,
+            1708
+          ]
+        },
+        {
+          "name": "Object_77.001",
+          "vertices": 3344,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -546,
+              594,
+              -1876
+            ],
+            "max": [
+              546,
+              759,
+              1766
+            ]
+          },
+          "size": [
+            1093,
+            165,
+            3642
+          ],
+          "centre": [
+            0,
+            677,
+            -55
+          ]
+        },
+        {
+          "name": "Object_30",
+          "vertices": 3314,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -704,
+              838,
+              -702
+            ],
+            "max": [
+              704,
+              1236,
+              26
+            ]
+          },
+          "size": [
+            1408,
+            398,
+            727
+          ],
+          "centre": [
+            0,
+            1037,
+            -338
+          ]
+        },
+        {
+          "name": "Object_52.001",
+          "vertices": 3311,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -858,
+              195,
+              444
+            ],
+            "max": [
+              858,
+              840,
+              1633
+            ]
+          },
+          "size": [
+            1717,
+            645,
+            1189
+          ],
+          "centre": [
+            0,
+            517,
+            1038
+          ]
+        },
+        {
+          "name": "Object_45.001",
+          "vertices": 3272,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -843,
+              268,
+              -1978
+            ],
+            "max": [
+              843,
+              764,
+              -1280
+            ]
+          },
+          "size": [
+            1686,
+            496,
+            698
+          ],
+          "centre": [
+            0,
+            516,
+            -1629
+          ]
+        },
+        {
+          "name": "Object_71",
+          "vertices": 3233,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -699,
+              280,
+              211
+            ],
+            "max": [
+              699,
+              698,
+              1759
+            ]
+          },
+          "size": [
+            1398,
+            418,
+            1548
+          ],
+          "centre": [
+            0,
+            489,
+            985
+          ]
+        },
+        {
+          "name": "Object_79",
+          "vertices": 3169,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -666,
+              612,
+              -1788
+            ],
+            "max": [
+              666,
+              710,
+              1573
+            ]
+          },
+          "size": [
+            1332,
+            98,
+            3361
+          ],
+          "centre": [
+            0,
+            661,
+            -108
+          ]
+        },
+        {
+          "name": "Object_74",
+          "vertices": 3162,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -510,
+              645,
+              -1874
+            ],
+            "max": [
+              510,
+              759,
+              -1847
+            ]
+          },
+          "size": [
+            1021,
+            113,
+            27
+          ],
+          "centre": [
+            0,
+            702,
+            -1860
+          ]
+        },
+        {
+          "name": "Object_62",
+          "vertices": 3151,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -735,
+              552,
+              -1891
+            ],
+            "max": [
+              735,
+              692,
+              1841
+            ]
+          },
+          "size": [
+            1470,
+            139,
+            3731
+          ],
+          "centre": [
+            0,
+            622,
+            -25
+          ]
+        },
+        {
+          "name": "Object_2.001",
+          "vertices": 3104,
+          "materials": [
+            "NB_interior_fourth"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -602,
+              301,
+              -583
+            ],
+            "max": [
+              602,
+              1043,
+              67
+            ]
+          },
+          "size": [
+            1205,
+            742,
+            650
+          ],
+          "centre": [
+            0,
+            672,
+            -258
+          ]
+        },
+        {
+          "name": "Object_56.001",
+          "vertices": 3058,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -735,
+              552,
+              1592
+            ],
+            "max": [
+              735,
+              692,
+              1841
+            ]
+          },
+          "size": [
+            1471,
+            139,
+            249
+          ],
+          "centre": [
+            0,
+            622,
+            1717
+          ]
+        },
+        {
+          "name": "Object_48",
+          "vertices": 2966,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -839,
+              306,
+              -1915
+            ],
+            "max": [
+              839,
+              894,
+              571
+            ]
+          },
+          "size": [
+            1677,
+            589,
+            2486
+          ],
+          "centre": [
+            0,
+            600,
+            -672
+          ]
+        },
+        {
+          "name": "Object_76",
+          "vertices": 2909,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -863,
+              284,
+              -1877
+            ],
+            "max": [
+              863,
+              844,
+              1772
+            ]
+          },
+          "size": [
+            1726,
+            560,
+            3649
+          ],
+          "centre": [
+            0,
+            564,
+            -53
+          ]
+        },
+        {
+          "name": "Object_64",
+          "vertices": 2838,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -856,
+              440,
+              -1831
+            ],
+            "max": [
+              856,
+              768,
+              1715
+            ]
+          },
+          "size": [
+            1713,
+            328,
+            3546
+          ],
+          "centre": [
+            0,
+            604,
+            -58
+          ]
+        },
+        {
+          "name": "Object_70",
+          "vertices": 2729,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              257,
+              311,
+              530
+            ],
+            "max": [
+              456,
+              535,
+              716
+            ]
+          },
+          "size": [
+            199,
+            224,
+            186
+          ],
+          "centre": [
+            356,
+            423,
+            623
+          ]
+        },
+        {
+          "name": "Object_73.001",
+          "vertices": 2721,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -510,
+              645,
+              -1874
+            ],
+            "max": [
+              510,
+              759,
+              -1847
+            ]
+          },
+          "size": [
+            1021,
+            113,
+            27
+          ],
+          "centre": [
+            0,
+            702,
+            -1860
+          ]
+        },
+        {
+          "name": "Object_102.001",
+          "vertices": 2711,
+          "materials": [
+            "NB_white"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -91,
+              497,
+              164
+            ],
+            "max": [
+              473,
+              831,
+              343
+            ]
+          },
+          "size": [
+            564,
+            335,
+            179
+          ],
+          "centre": [
+            191,
+            664,
+            254
+          ]
+        },
+        {
+          "name": "Object_85",
+          "vertices": 2705,
+          "materials": [
+            "NB_interior_second"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -624,
+              368,
+              -782
+            ],
+            "max": [
+              616,
+              889,
+              782
+            ]
+          },
+          "size": [
+            1240,
+            521,
+            1564
+          ],
+          "centre": [
+            -4,
+            628,
+            0
+          ]
+        },
+        {
+          "name": "Object_18",
+          "vertices": 2684,
+          "materials": [
+            "NB_mattemetal"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -798,
+              230,
+              -1872
+            ],
+            "max": [
+              798,
+              876,
+              1251
+            ]
+          },
+          "size": [
+            1595,
+            645,
+            3124
+          ],
+          "centre": [
+            0,
+            553,
+            -311
+          ]
+        },
+        {
+          "name": "Object_90",
+          "vertices": 2615,
+          "materials": [
+            "NB_orangeglass"
+          ],
+          "classes": [
+            "lens_amber"
+          ],
+          "bbox": {
+            "min": [
+              -800,
+              482,
+              -1850
+            ],
+            "max": [
+              800,
+              746,
+              -1508
+            ]
+          },
+          "size": [
+            1599,
+            264,
+            342
+          ],
+          "centre": [
+            0,
+            614,
+            -1679
+          ]
+        },
+        {
+          "name": "Object_51",
+          "vertices": 2546,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -845,
+              299,
+              -590
+            ],
+            "max": [
+              -693,
+              840,
+              577
+            ]
+          },
+          "size": [
+            152,
+            541,
+            1167
+          ],
+          "centre": [
+            -769,
+            570,
+            -7
+          ]
+        },
+        {
+          "name": "Object_53",
+          "vertices": 2534,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -850,
+              194,
+              -1823
+            ],
+            "max": [
+              714,
+              894,
+              485
+            ]
+          },
+          "size": [
+            1563,
+            700,
+            2308
+          ],
+          "centre": [
+            -68,
+            544,
+            -669
+          ]
+        },
+        {
+          "name": "Object_78",
+          "vertices": 2488,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -675,
+              587,
+              -1830
+            ],
+            "max": [
+              675,
+              759,
+              1628
+            ]
+          },
+          "size": [
+            1351,
+            172,
+            3459
+          ],
+          "centre": [
+            0,
+            673,
+            -101
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_LF.001",
+          "vertices": 2479,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              611,
+              0,
+              895
+            ],
+            "max": [
+              794,
+              587,
+              1481
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            702,
+            293,
+            1188
+          ]
+        },
+        {
+          "name": "NB_wheel_tire_RF.002",
+          "vertices": 2479,
+          "materials": [
+            "NB_wheel_tire"
+          ],
+          "classes": [
+            "tyre"
+          ],
+          "bbox": {
+            "min": [
+              -794,
+              0,
+              895
+            ],
+            "max": [
+              -611,
+              587,
+              1481
+            ]
+          },
+          "size": [
+            184,
+            587,
+            587
+          ],
+          "centre": [
+            -702,
+            293,
+            1188
+          ]
+        },
+        {
+          "name": "Object_82.002",
+          "vertices": 2426,
+          "materials": [
+            "NB_interior_fifth"
+          ],
+          "classes": [
+            "interior_trim"
+          ],
+          "bbox": {
+            "min": [
+              -606,
+              225,
+              -560
+            ],
+            "max": [
+              606,
+              829,
+              80
+            ]
+          },
+          "size": [
+            1212,
+            604,
+            640
+          ],
+          "centre": [
+            0,
+            527,
+            -240
+          ]
+        },
+        {
+          "name": "Object_103",
+          "vertices": 2327,
+          "materials": [
+            "NB_white"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -79,
+              510,
+              173
+            ],
+            "max": [
+              473,
+              831,
+              343
+            ]
+          },
+          "size": [
+            551,
+            322,
+            170
+          ],
+          "centre": [
+            197,
+            671,
+            258
+          ]
+        },
+        {
+          "name": "Object_33.001",
+          "vertices": 2322,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -801,
+              94,
+              -1872
+            ],
+            "max": [
+              801,
+              1199,
+              1869
+            ]
+          },
+          "size": [
+            1603,
+            1105,
+            3741
+          ],
+          "centre": [
+            0,
+            646,
+            -2
+          ]
+        },
+        {
+          "name": "Object_32",
+          "vertices": 2293,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -855,
+              195,
+              -1888
+            ],
+            "max": [
+              857,
+              1182,
+              1914
+            ]
+          },
+          "size": [
+            1712,
+            987,
+            3802
+          ],
+          "centre": [
+            1,
+            688,
+            13
+          ]
+        },
+        {
+          "name": "Object_44.001",
+          "vertices": 2278,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -857,
+              94,
+              -1717
+            ],
+            "max": [
+              857,
+              609,
+              1869
+            ]
+          },
+          "size": [
+            1714,
+            515,
+            3586
+          ],
+          "centre": [
+            0,
+            351,
+            76
+          ]
+        },
+        {
+          "name": "Object_89.001",
+          "vertices": 2251,
+          "materials": [
+            "NB_orangeglass"
+          ],
+          "classes": [
+            "lens_amber"
+          ],
+          "bbox": {
+            "min": [
+              -602,
+              657,
+              -1850
+            ],
+            "max": [
+              602,
+              746,
+              -1809
+            ]
+          },
+          "size": [
+            1204,
+            89,
+            41
+          ],
+          "centre": [
+            0,
+            702,
+            -1829
+          ]
+        },
+        {
+          "name": "Object_26",
+          "vertices": 2216,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -578,
+              256,
+              511
+            ],
+            "max": [
+              415,
+              920,
+              1886
+            ]
+          },
+          "size": [
+            993,
+            664,
+            1375
+          ],
+          "centre": [
+            -81,
+            588,
+            1198
+          ]
+        },
+        {
+          "name": "Object_25.001",
+          "vertices": 2065,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -578,
+              634,
+              -1890
+            ],
+            "max": [
+              499,
+              920,
+              691
+            ]
+          },
+          "size": [
+            1078,
+            286,
+            2582
+          ],
+          "centre": [
+            -39,
+            777,
+            -599
+          ]
+        },
+        {
+          "name": "Object_46",
+          "vertices": 2026,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              529,
+              194,
+              -1824
+            ],
+            "max": [
+              850,
+              895,
+              484
+            ]
+          },
+          "size": [
+            320,
+            701,
+            2308
+          ],
+          "centre": [
+            689,
+            544,
+            -670
+          ]
+        },
+        {
+          "name": "Object_69",
+          "vertices": 2004,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -804,
+              275,
+              -1609
+            ],
+            "max": [
+              804,
+              873,
+              1602
+            ]
+          },
+          "size": [
+            1608,
+            599,
+            3212
+          ],
+          "centre": [
+            0,
+            574,
+            -3
+          ]
+        },
+        {
+          "name": "Object_28",
+          "vertices": 1934,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -447,
+              239,
+              -1889
+            ],
+            "max": [
+              477,
+              1137,
+              1883
+            ]
+          },
+          "size": [
+            923,
+            897,
+            3772
+          ],
+          "centre": [
+            15,
+            688,
+            -3
+          ]
+        },
+        {
+          "name": "Object_40",
+          "vertices": 1919,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -701,
+              317,
+              -525
+            ],
+            "max": [
+              701,
+              1190,
+              557
+            ]
+          },
+          "size": [
+            1401,
+            873,
+            1082
+          ],
+          "centre": [
+            0,
+            754,
+            16
+          ]
+        },
+        {
+          "name": "Object_67",
+          "vertices": 1918,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -793,
+              484,
+              -1652
+            ],
+            "max": [
+              793,
+              522,
+              -1509
+            ]
+          },
+          "size": [
+            1587,
+            38,
+            143
+          ],
+          "centre": [
+            0,
+            503,
+            -1580
+          ]
+        },
+        {
+          "name": "Object_24",
+          "vertices": 1911,
+          "materials": [
+            "NB_windowglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -683,
+              808,
+              -1083
+            ],
+            "max": [
+              683,
+              1201,
+              664
+            ]
+          },
+          "size": [
+            1367,
+            393,
+            1747
+          ],
+          "centre": [
+            0,
+            1004,
+            -209
+          ]
+        },
+        {
+          "name": "Object_42",
+          "vertices": 1848,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -722,
+              288,
+              -1872
+            ],
+            "max": [
+              722,
+              1146,
+              834
+            ]
+          },
+          "size": [
+            1444,
+            858,
+            2707
+          ],
+          "centre": [
+            0,
+            717,
+            -519
+          ]
+        },
+        {
+          "name": "Object_60",
+          "vertices": 1789,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -799,
+              482,
+              -1914
+            ],
+            "max": [
+              799,
+              915,
+              1924
+            ]
+          },
+          "size": [
+            1597,
+            433,
+            3838
+          ],
+          "centre": [
+            0,
+            699,
+            5
+          ]
+        },
+        {
+          "name": "Object_35.001",
+          "vertices": 1787,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -112,
+              220,
+              -22
+            ],
+            "max": [
+              705,
+              1132,
+              1089
+            ]
+          },
+          "size": [
+            817,
+            912,
+            1111
+          ],
+          "centre": [
+            296,
+            676,
+            533
+          ]
+        },
+        {
+          "name": "Object_16",
+          "vertices": 1765,
+          "materials": [
+            "NB_interior_third"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -691,
+              249,
+              -813
+            ],
+            "max": [
+              691,
+              850,
+              1084
+            ]
+          },
+          "size": [
+            1383,
+            601,
+            1897
+          ],
+          "centre": [
+            0,
+            550,
+            135
+          ]
+        },
+        {
+          "name": "Object_47.001",
+          "vertices": 1671,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -667,
+              608,
+              531
+            ],
+            "max": [
+              667,
+              860,
+              1854
+            ]
+          },
+          "size": [
+            1335,
+            252,
+            1322
+          ],
+          "centre": [
+            0,
+            734,
+            1192
+          ]
+        },
+        {
+          "name": "Object_39.001",
+          "vertices": 1669,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -573,
+              485,
+              -83
+            ],
+            "max": [
+              573,
+              1222,
+              340
+            ]
+          },
+          "size": [
+            1146,
+            737,
+            423
+          ],
+          "centre": [
+            0,
+            853,
+            129
+          ]
+        },
+        {
+          "name": "Object_43.001",
+          "vertices": 1638,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -707,
+              849,
+              -1186
+            ],
+            "max": [
+              706,
+              1191,
+              -651
+            ]
+          },
+          "size": [
+            1413,
+            341,
+            536
+          ],
+          "centre": [
+            0,
+            1020,
+            -919
+          ]
+        },
+        {
+          "name": "Object_34",
+          "vertices": 1589,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -710,
+              746,
+              -1201
+            ],
+            "max": [
+              710,
+              915,
+              326
+            ]
+          },
+          "size": [
+            1420,
+            169,
+            1526
+          ],
+          "centre": [
+            0,
+            831,
+            -437
+          ]
+        },
+        {
+          "name": "Object_29.001",
+          "vertices": 1567,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -693,
+              196,
+              -609
+            ],
+            "max": [
+              693,
+              900,
+              1883
+            ]
+          },
+          "size": [
+            1386,
+            705,
+            2492
+          ],
+          "centre": [
+            0,
+            548,
+            637
+          ]
+        },
+        {
+          "name": "Object_27.001",
+          "vertices": 1565,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -708,
+              740,
+              -581
+            ],
+            "max": [
+              708,
+              1206,
+              691
+            ]
+          },
+          "size": [
+            1416,
+            466,
+            1272
+          ],
+          "centre": [
+            0,
+            973,
+            55
+          ]
+        },
+        {
+          "name": "Object_37.001",
+          "vertices": 1501,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -669,
+              209,
+              -708
+            ],
+            "max": [
+              669,
+              921,
+              189
+            ]
+          },
+          "size": [
+            1337,
+            711,
+            896
+          ],
+          "centre": [
+            0,
+            565,
+            -259
+          ]
+        },
+        {
+          "name": "Object_14",
+          "vertices": 1489,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -949,
+              674,
+              -476
+            ],
+            "max": [
+              949,
+              945,
+              169
+            ]
+          },
+          "size": [
+            1897,
+            271,
+            645
+          ],
+          "centre": [
+            0,
+            809,
+            -154
+          ]
+        },
+        {
+          "name": "Object_38",
+          "vertices": 1425,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              69,
+              217,
+              -271
+            ],
+            "max": [
+              478,
+              845,
+              346
+            ]
+          },
+          "size": [
+            409,
+            629,
+            618
+          ],
+          "centre": [
+            273,
+            531,
+            37
+          ]
+        },
+        {
+          "name": "Object_81",
+          "vertices": 1344,
+          "materials": [
+            "NB_interior_fifth"
+          ],
+          "classes": [
+            "interior_trim"
+          ],
+          "bbox": {
+            "min": [
+              615,
+              330,
+              -496
+            ],
+            "max": [
+              704,
+              833,
+              541
+            ]
+          },
+          "size": [
+            89,
+            503,
+            1037
+          ],
+          "centre": [
+            659,
+            582,
+            23
+          ]
+        },
+        {
+          "name": "Object_83",
+          "vertices": 1344,
+          "materials": [
+            "NB_interior_fifth"
+          ],
+          "classes": [
+            "interior_trim"
+          ],
+          "bbox": {
+            "min": [
+              -704,
+              330,
+              -496
+            ],
+            "max": [
+              -615,
+              833,
+              541
+            ]
+          },
+          "size": [
+            89,
+            503,
+            1037
+          ],
+          "centre": [
+            -659,
+            582,
+            23
+          ]
+        },
+        {
+          "name": "Object_6",
+          "vertices": 1205,
+          "materials": [
+            "NB_redglass"
+          ],
+          "classes": [
+            "lens_red"
+          ],
+          "bbox": {
+            "min": [
+              -747,
+              617,
+              -1882
+            ],
+            "max": [
+              747,
+              791,
+              -1652
+            ]
+          },
+          "size": [
+            1494,
+            175,
+            229
+          ],
+          "centre": [
+            0,
+            704,
+            -1767
+          ]
+        },
+        {
+          "name": "Object_19.001",
+          "vertices": 1164,
+          "materials": [
+            "NB_orangeglass"
+          ],
+          "classes": [
+            "lens_amber"
+          ],
+          "bbox": {
+            "min": [
+              -865,
+              440,
+              -1852
+            ],
+            "max": [
+              865,
+              749,
+              1719
+            ]
+          },
+          "size": [
+            1729,
+            309,
+            3571
+          ],
+          "centre": [
+            0,
+            595,
+            -66
+          ]
+        },
+        {
+          "name": "Object_80",
+          "vertices": 1153,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -651,
+              612,
+              1555
+            ],
+            "max": [
+              651,
+              625,
+              1605
+            ]
+          },
+          "size": [
+            1301,
+            14,
+            50
+          ],
+          "centre": [
+            0,
+            618,
+            1580
+          ]
+        },
+        {
+          "name": "Object_22",
+          "vertices": 1152,
+          "materials": [
+            "NB_white"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -31,
+              604,
+              218
+            ],
+            "max": [
+              43,
+              723,
+              232
+            ]
+          },
+          "size": [
+            74,
+            120,
+            14
+          ],
+          "centre": [
+            6,
+            663,
+            225
+          ]
+        },
+        {
+          "name": "Object_23.001",
+          "vertices": 1089,
+          "materials": [
+            "NB_windowglass"
+          ],
+          "classes": [
+            "glass"
+          ],
+          "bbox": {
+            "min": [
+              -707,
+              796,
+              -573
+            ],
+            "max": [
+              707,
+              1144,
+              396
+            ]
+          },
+          "size": [
+            1414,
+            348,
+            970
+          ],
+          "centre": [
+            0,
+            970,
+            -89
+          ]
+        },
+        {
+          "name": "Object_87.001",
+          "vertices": 1087,
+          "materials": [
+            "NB_interior_second"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              181,
+              577,
+              61
+            ],
+            "max": [
+              534,
+              910,
+              209
+            ]
+          },
+          "size": [
+            353,
+            333,
+            148
+          ],
+          "centre": [
+            357,
+            743,
+            135
+          ]
+        },
+        {
+          "name": "Object_88",
+          "vertices": 899,
+          "materials": [
+            "NB_interior_second"
+          ],
+          "classes": [
+            "interior_main"
+          ],
+          "bbox": {
+            "min": [
+              -169,
+              245,
+              -782
+            ],
+            "max": [
+              439,
+              762,
+              778
+            ]
+          },
+          "size": [
+            608,
+            516,
+            1560
+          ],
+          "centre": [
+            135,
+            503,
+            -2
+          ]
+        },
+        {
+          "name": "Object_41.001",
+          "vertices": 853,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -702,
+              747,
+              -654
+            ],
+            "max": [
+              702,
+              851,
+              446
+            ]
+          },
+          "size": [
+            1405,
+            105,
+            1100
+          ],
+          "centre": [
+            0,
+            799,
+            -104
+          ]
+        },
+        {
+          "name": "Object_61",
+          "vertices": 833,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -733,
+              560,
+              1595
+            ],
+            "max": [
+              733,
+              674,
+              1826
+            ]
+          },
+          "size": [
+            1465,
+            115,
+            232
+          ],
+          "centre": [
+            0,
+            617,
+            1711
+          ]
+        },
+        {
+          "name": "Object_21.001",
+          "vertices": 802,
+          "materials": [
+            "NB_material"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              48,
+              545,
+              210
+            ],
+            "max": [
+              392,
+              794,
+              339
+            ]
+          },
+          "size": [
+            344,
+            249,
+            130
+          ],
+          "centre": [
+            220,
+            670,
+            275
+          ]
+        },
+        {
+          "name": "Object_17.001",
+          "vertices": 751,
+          "materials": [
+            "NB_mattemetal"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -821,
+              456,
+              -1857
+            ],
+            "max": [
+              821,
+              707,
+              1706
+            ]
+          },
+          "size": [
+            1643,
+            251,
+            3563
+          ],
+          "centre": [
+            0,
+            581,
+            -75
+          ]
+        },
+        {
+          "name": "Object_63.002",
+          "vertices": 720,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -397,
+              634,
+              -1890
+            ],
+            "max": [
+              365,
+              754,
+              107
+            ]
+          },
+          "size": [
+            762,
+            120,
+            1996
+          ],
+          "centre": [
+            -16,
+            694,
+            -891
+          ]
+        },
+        {
+          "name": "Object_59",
+          "vertices": 709,
+          "materials": [
+            "NB_chrome"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -733,
+              604,
+              -1891
+            ],
+            "max": [
+              733,
+              754,
+              1777
+            ]
+          },
+          "size": [
+            1465,
+            149,
+            3668
+          ],
+          "centre": [
+            0,
+            679,
+            -57
+          ]
+        },
+        {
+          "name": "Object_36",
+          "vertices": 678,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -687,
+              610,
+              -87
+            ],
+            "max": [
+              487,
+              851,
+              346
+            ]
+          },
+          "size": [
+            1174,
+            241,
+            433
+          ],
+          "centre": [
+            -100,
+            730,
+            129
+          ]
+        },
+        {
+          "name": "Object_4",
+          "vertices": 499,
+          "materials": [
+            "NB_mirror"
+          ],
+          "classes": [
+            "mirror_glass"
+          ],
+          "bbox": {
+            "min": [
+              -107,
+              1059,
+              76
+            ],
+            "max": [
+              107,
+              1110,
+              82
+            ]
+          },
+          "size": [
+            214,
+            51,
+            6
+          ],
+          "centre": [
+            0,
+            1084,
+            79
+          ]
+        },
+        {
+          "name": "Object_55",
+          "vertices": 420,
+          "materials": [
+            "NB_carpaint"
+          ],
+          "classes": [
+            "body_paint"
+          ],
+          "bbox": {
+            "min": [
+              -502,
+              889,
+              -1313
+            ],
+            "max": [
+              502,
+              895,
+              -1143
+            ]
+          },
+          "size": [
+            1003,
+            5,
+            170
+          ],
+          "centre": [
+            0,
+            892,
+            -1228
+          ]
+        },
+        {
+          "name": "Object_31.001",
+          "vertices": 400,
+          "materials": [
+            "NB_black"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -725,
+              195,
+              -1885
+            ],
+            "max": [
+              726,
+              901,
+              -539
+            ]
+          },
+          "size": [
+            1451,
+            706,
+            1346
+          ],
+          "centre": [
+            1,
+            548,
+            -1212
+          ]
+        },
+        {
+          "name": "Object_75.001",
+          "vertices": 338,
+          "materials": [
+            "NB_clearglass"
+          ],
+          "classes": [
+            "lens_clear"
+          ],
+          "bbox": {
+            "min": [
+              -736,
+              553,
+              1596
+            ],
+            "max": [
+              736,
+              692,
+              1847
+            ]
+          },
+          "size": [
+            1472,
+            139,
+            251
+          ],
+          "centre": [
+            0,
+            623,
+            1722
+          ]
+        },
+        {
+          "name": "NB_wheel_brake_LF",
+          "vertices": 324,
+          "materials": [
+            "NB_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              686,
+              174,
+              1070
+            ],
+            "max": [
+              699,
+              413,
+              1310
+            ]
+          },
+          "size": [
+            12,
+            240,
+            240
+          ],
+          "centre": [
+            693,
+            294,
+            1190
+          ]
+        },
+        {
+          "name": "NB_wheel_brake_LR",
+          "vertices": 324,
+          "materials": [
+            "NB_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              696,
+              174,
+              -1223
+            ],
+            "max": [
+              708,
+              413,
+              -984
+            ]
+          },
+          "size": [
+            12,
+            240,
+            240
+          ],
+          "centre": [
+            702,
+            294,
+            -1103
+          ]
+        },
+        {
+          "name": "NB_wheel_brake_RF",
+          "vertices": 324,
+          "materials": [
+            "NB_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -699,
+              174,
+              1070
+            ],
+            "max": [
+              -686,
+              413,
+              1310
+            ]
+          },
+          "size": [
+            12,
+            240,
+            240
+          ],
+          "centre": [
+            -693,
+            294,
+            1190
+          ]
+        },
+        {
+          "name": "NB_wheel_brake_RR",
+          "vertices": 324,
+          "materials": [
+            "NB_wheel_brake"
+          ],
+          "classes": [
+            "rim_badge"
+          ],
+          "bbox": {
+            "min": [
+              -708,
+              174,
+              -1223
+            ],
+            "max": [
+              -696,
+              413,
+              -984
+            ]
+          },
+          "size": [
+            12,
+            240,
+            240
+          ],
+          "centre": [
+            -702,
+            294,
+            -1103
+          ]
+        },
+        {
+          "name": "Object_3",
+          "vertices": 298,
+          "materials": [
+            "NB_mirror"
+          ],
+          "classes": [
+            "mirror_glass"
+          ],
+          "bbox": {
+            "min": [
+              -937,
+              828,
+              56
+            ],
+            "max": [
+              937,
+              939,
+              57
+            ]
+          },
+          "size": [
+            1875,
+            111,
+            1
+          ],
+          "centre": [
+            0,
+            884,
+            57
+          ]
+        },
+        {
+          "name": "Object_12",
+          "vertices": 248,
+          "materials": [
+            "NB_blue"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              69,
+              543,
+              209
+            ],
+            "max": [
+              90,
+              580,
+              217
+            ]
+          },
+          "size": [
+            21,
+            37,
+            8
+          ],
+          "centre": [
+            80,
+            562,
+            213
+          ]
+        },
+        {
+          "name": "Object_11.001",
+          "vertices": 128,
+          "materials": [
+            "NB_blue"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              353,
+              739,
+              102
+            ],
+            "max": [
+              363,
+              749,
+              105
+            ]
+          },
+          "size": [
+            10,
+            10,
+            3
+          ],
+          "centre": [
+            358,
+            744,
+            103
+          ]
+        },
+        {
+          "name": "Object_15.001",
+          "vertices": 76,
+          "materials": [
+            "NB_display"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -87,
+              613,
+              224
+            ],
+            "max": [
+              43,
+              710,
+              232
+            ]
+          },
+          "size": [
+            130,
+            97,
+            8
+          ],
+          "centre": [
+            -22,
+            661,
+            228
+          ]
+        },
+        {
+          "name": "Object_20",
+          "vertices": 72,
+          "materials": [
+            "NB_material"
+          ],
+          "classes": [],
+          "bbox": {
+            "min": [
+              -5,
+              775,
+              226
+            ],
+            "max": [
+              6,
+              785,
+              230
+            ]
+          },
+          "size": [
+            11,
+            9,
+            3
+          ],
+          "centre": [
+            0,
+            780,
+            228
+          ]
+        }
+      ]
+    },
     "na": {
       "generation": "na",
       "asset": "assets/models/mx5_na_sketchfab/scene.gltf",

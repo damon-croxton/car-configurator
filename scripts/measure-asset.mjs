@@ -339,7 +339,9 @@ const options = {
   // might have to hide, not just the twenty biggest.
   nodes: args.includes('--nodes') || Boolean(outPath),
 };
-const wanted = args.filter((a, i) => !a.startsWith('--') && i !== outFlag + 1);
+// Skip the --out path, but only when there is one (otherwise outFlag + 1 is 0
+// and the first generation named would be dropped).
+const wanted = args.filter((a, i) => !a.startsWith('--') && !(outFlag >= 0 && i === outFlag + 1));
 const targets = wanted.length
   ? wanted
   : carData.generations.filter((g) => g.available && g.assetUrl).map((g) => g.id);

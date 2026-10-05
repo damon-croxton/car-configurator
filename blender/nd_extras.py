@@ -76,6 +76,29 @@ GEN_CFG = {
         # The NA's filler is on the right rear quarter, ahead of the tail light.
         'fuel': ('rearfender_Material #71_0', -1, 720.0, -1330.0),
     },
+    # The NB and NC are ray-cast against Blender-only helper meshes built by
+    # prepare_nb_nc.make_helpers(): <CAR>_BODY (the paint shell), and panel
+    # crops where the model has no separate panel (the NC is one shell).
+    'nb': {
+        'stripe_panels': (('Object_47.001', 'bonnet'), ('NB_BOOT', 'boot')),
+        'side_panels': {1: ('NB_BODY',), -1: ('NB_BODY',)},
+        'side_z': (840.0, -760.0), 'side_y': 400.0,
+        'boot': 'NB_BOOT', 'rack': (300.0, -1330.0, -1780.0, (-1400.0, -1555.0, -1710.0)),
+        'arches': {'front': 1188.0, 'rear': -1105.0}, 'hub_y': 294.0, 'arc': (8.0, 172.0),
+        'body': {1: ('NB_BODY',), -1: ('NB_BODY',)},
+        'rear_bumper': ('Object_45.001',), 'strap_x': 400.0,
+        'front_strap': ('Object_49', 440.0),
+    },
+    'nc': {
+        'stripe_panels': (('NC_BONNET', 'bonnet'), ('NC_BOOT', 'boot')),
+        'side_panels': {1: ('NC_BODY',), -1: ('NC_BODY',)},
+        'side_z': (900.0, -730.0), 'side_y': 430.0,
+        'boot': 'NC_BOOT', 'rack': (300.0, -1380.0, -1790.0, (-1440.0, -1600.0, -1750.0)),
+        'arches': {'front': 1240.0, 'rear': -1079.0}, 'hub_y': 317.0, 'arc': (8.0, 172.0),
+        'body': {1: ('NC_BODY',), -1: ('NC_BODY',)},
+        'rear_bumper': ('Object_60.001',), 'strap_x': 250.0,
+        'front_strap': ('NC_FRONT', 440.0),
+    },
 }
 
 

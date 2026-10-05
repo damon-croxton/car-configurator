@@ -43,6 +43,18 @@ CFG = {
         # Mud flaps: z behind the front and rear wheels.
         'flaps': (791.0, -1500.0),
     },
+    'nb': {
+        'bonnet': 'Object_47.001',
+        'skid': (('Object_49',), 200.0, (216.0, 1918.0)),
+        'pinstripe_y': 600.0,
+        'flaps': (798.0, -1495.0),
+    },
+    'nc': {
+        'bonnet': 'NC_BONNET',
+        'skid': (('NC_FRONT',), 212.0, (228.0, 1760.0)),
+        'pinstripe_y': 620.0,
+        'flaps': (850.0, -1470.0),
+    },
 }
 
 

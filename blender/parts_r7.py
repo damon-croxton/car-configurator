@@ -38,6 +38,8 @@ CFG = {
         # Brake ducts: bumper, x either side, height, radius.
         'ducts': ('frontbumper_Material #71_0', 560.0, 300.0, 38.0),
     },
+    'nb': {'bonnet': 'Object_47.001', 'naca': (330.0, 1400.0, 300.0)},
+    'nc': {'bonnet': 'NC_BONNET', 'naca': (360.0, 1450.0, 300.0)},
 }
 
 

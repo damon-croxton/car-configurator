@@ -56,6 +56,31 @@ CFG = {
         # pinches, so its flares start and end near hub height.
         'flare_arc': (2.0, 178.0),
     },
+    # NB / NC: helper meshes from prepare_nb_nc.make_helpers().
+    'nb': {
+        'boot': 'NB_BOOT',
+        'front_bumper': ('Object_49',),
+        'rear_bumper': ('Object_45.001',),
+        'sill': 'NB_BODY',
+        'skirt_z': (820.0, -730.0),
+        'wing': (-1640.0, 1180.0, 300.0, 620.0),
+        # Clear of the single tail pipe at x -500.
+        'strakes': (-380.0, -220.0, -70.0, 80.0, 230.0, 390.0, 560.0),
+        'rear_edge_search': (-1920, -1650),
+        'flare_arc': (-10.0, 190.0),
+    },
+    'nc': {
+        'boot': 'NC_BOOT',
+        'front_bumper': ('NC_FRONT',),
+        'rear_bumper': ('Object_60.001',),
+        'sill': 'NC_BODY',
+        'skirt_z': (880.0, -700.0),
+        'wing': (-1620.0, 1200.0, 320.0, 650.0),
+        # Clear of the twin tail pipes at x +-420.
+        'strakes': (-620.0, -300.0, -130.0, 0.0, 130.0, 300.0, 620.0),
+        'rear_edge_search': (-1900, -1650),
+        'flare_arc': (-10.0, 190.0),
+    },
 }
 
 

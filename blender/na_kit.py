@@ -19,7 +19,7 @@ CX = -8.5
 
 #: Where each asset's centreline sits. Most of this kit is NA-only; the
 #: shared accessories at the end are built for either car via `use()`.
-CENTRES = {'na': -8.5, 'nd': 0.0}
+CENTRES = {'na': -8.5, 'nd': 0.0, 'nb': 0.0, 'nc': 0.0}
 
 
 def use(gen):

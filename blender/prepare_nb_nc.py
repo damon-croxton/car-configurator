@@ -220,3 +220,71 @@ def export(gen):
     return {'tris': tris, 'objects': len(coll.objects),
             'materials': sorted({s.material.name for o in coll.objects for s in o.material_slots if s.material}),
             'mb': round(os.path.getsize(out + '/scene.glb') / 1e6, 1)}
+
+
+# ----------------------------------------------------------- mod helpers ----
+
+#: Paint meshes that make up each car's body for ray-casting (mirrors left
+#: out). The NB's bonnet, bumpers and doors are their own meshes; the NC is
+#: one shell, so its panels are cropped from it below.
+BODY_SOURCES = {
+    'nb': ['Object_45.001', 'Object_46', 'Object_47.001', 'Object_48', 'Object_49', 'Object_50', 'Object_51',
+           'Object_52.001', 'Object_53', 'Object_54.001', 'Object_55'],
+    'nc': ['Object_54.002', 'Object_56.002', 'Object_58.002', 'Object_60.001'],
+}
+
+#: Panel crops, as (name, car, source, test(app centre, app normal)). App mm,
+#: +X left, +Y up, +Z nose; bonnet/boot spans found by a centreline scan.
+CROPS = [
+    ('NB_BOOT', 'nb', 'NB_BODY', lambda c, n: -1905 < c.z < -1205 and n.y > 0.55 and c.y > 820 and abs(c.x) < 620),
+    ('NC_BOOT', 'nc', 'NC_BODY', lambda c, n: -1885 < c.z < -1175 and n.y > 0.55 and c.y > 850 and abs(c.x) < 640),
+    ('NC_BONNET', 'nc', 'NC_BODY', lambda c, n: 800 < c.z < 1965 and n.y > 0.5 and c.y > 640 and abs(c.x) < 640),
+    ('NC_FRONT', 'nc', 'NC_BODY', lambda c, n: c.z > 1600 and c.y < 720),
+    ('NC_DOOR_L', 'nc', 'NC_BODY', lambda c, n: -620 < c.z < 640 and c.x > 600 and n.x > 0.55),
+    ('NC_DOOR_R', 'nc', 'NC_BODY', lambda c, n: -620 < c.z < 640 and c.x < -600 and n.x < -0.55),
+]
+
+
+def make_helpers():
+    """Ray-cast helpers the mod builders use on the NB and NC (never exported):
+    <CAR>_BODY joined from BODY_SOURCES, and the CROPS cut from it."""
+    import mx5_lib as m
+    coll = bpy.data.collections.get('NBNC_HELPERS') or bpy.data.collections.new('NBNC_HELPERS')
+    if coll.name not in bpy.context.scene.collection.children:
+        bpy.context.scene.collection.children.link(coll)
+    coll.hide_render = True
+
+    def fresh(name, bm):
+        old = bpy.data.objects.get(name)
+        if old:
+            bpy.data.objects.remove(old, do_unlink=True)
+        me = bpy.data.meshes.new(name)
+        bm.to_mesh(me)
+        bm.free()
+        ob = bpy.data.objects.new(name, me)
+        coll.objects.link(ob)
+        return ob
+
+    def world_bmesh(names):
+        bm = bmesh.new()
+        for n in names:
+            o = bpy.data.objects[n]
+            tmp = o.data.copy()
+            tmp.transform(o.matrix_world)
+            bm.from_mesh(tmp)
+            bpy.data.meshes.remove(tmp)
+        return bm
+
+    for gen, names in BODY_SOURCES.items():
+        fresh(f'{gen.upper()}_BODY', world_bmesh(names))
+    for name, gen, source, test in CROPS:
+        bm = world_bmesh([source])
+        drop = []
+        for f in bm.faces:
+            c = mathutils.Vector(m.blender_to_app(f.calc_center_median(), gen=gen))
+            n = mathutils.Vector((f.normal.x, f.normal.z, -f.normal.y))   # both cars are framed at yaw 0
+            if not test(c, n):
+                drop.append(f)
+        bmesh.ops.delete(bm, geom=drop, context='FACES')
+        fresh(name, bm)
+    bpy.context.view_layer.update()

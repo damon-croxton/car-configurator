@@ -57,6 +57,15 @@ CFG = {
         'lamps': (330.0, 490.0, 452.0, ('frontbumper_Material #71_0',)),
         'roundel': ({1: 'leftdoor_Material #71_0', -1: 'rigthdoor_Material #71_0'}, -20.0, 510.0, 150.0),
     },
+    # NB / NC: helper meshes from prepare_nb_nc.make_helpers().
+    'nb': {
+        'lamps': (330.0, 470.0, 440.0, ('Object_49',)),
+        'roundel': ({1: 'Object_50', -1: 'Object_51'}, 0.0, 540.0, 150.0),
+    },
+    'nc': {
+        'lamps': (330.0, 500.0, 470.0, ('NC_FRONT',)),
+        'roundel': ({1: 'NC_DOOR_L', -1: 'NC_DOOR_R'}, 0.0, 560.0, 150.0),
+    },
 }
 
 
