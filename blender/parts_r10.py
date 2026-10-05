@@ -124,9 +124,19 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
         for arch, hz in x.cfg()['arches'].items():
             w = front_w if arch == 'front' else rear_w
 
+            def hit(d, r):
+                p, n = x.hit_any(parts, (k.CX + side * 1300, hub_y + r * d.y, hz + r * d.z), (-side, 0, 0))
+                return (p, n) if p is not None and abs(p.x - k.CX) > 640 else (None, None)
+
             def skin(d, r):
-                p, _ = x.hit_any(parts, (k.CX + side * 1300, hub_y + r * d.y, hz + r * d.z), (-side, 0, 0))
-                return p if p is not None and abs(p.x - k.CX) > 640 else None
+                return hit(d, r)[0]
+
+            def side_skin(d, r):
+                # Panel that still faces sideways: past this the surface turns
+                # toward the headlamp, bumper corner or bonnet, and a band laid
+                # over it would fold.
+                p, n = hit(d, r)
+                return p if p is not None and abs(n.x) > 0.55 else None
 
             stations = []
             a0, a1 = cfg()['flare_arc']
@@ -137,10 +147,10 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
                 lip = next((r for r in range(250, 560, 2) if skin(d, r) is not None), None)
                 if lip is None:
                     continue
-                # How far out the panel continues along this line.
+                # How far out sideways-facing panel continues along this line.
                 avail = 0
                 for dr in range(4, 160, 4):
-                    if skin(d, lip + dr) is None:
+                    if side_skin(d, lip + dr) is None:
                         break
                     avail = dr
                 # Stop where the panel runs out: a squeezed band crumples the
@@ -150,7 +160,11 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
                 stations.append((deg, d, lip, avail))
             assert len(stations) > 20, (arch, side)
             lips = k.gaussian([s[2] for s in stations], 1.5)
-            avails = k.gaussian([s[3] for s in stations], 1.5)
+            # Erode before smoothing, so the smoothed edge never reaches past
+            # where the panel actually turns away.
+            raw = [s[3] for s in stations]
+            eroded = [min(raw[max(0, i - 2):i + 3]) for i in range(len(raw))]
+            avails = k.gaussian(eroded, 2.5)
             # Square the opening toward its upper corners (over the arch only).
             deltas = [square * math.sin(math.radians(2 * s[0])) ** 2 if 0 <= s[0] <= 180 else 0.0 for s in stations]
             lips = [lip + dl for lip, dl in zip(lips, deltas)]
@@ -159,16 +173,17 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
             bolt_points = []
             for n, ((deg, d, _, _), lip, avail) in enumerate(zip(stations, lips, avails)):
                 t = n / (len(stations) - 1)
-                end = k.smooth(min(t, 1 - t) / 0.05)
+                end = k.smooth(min(t, 1 - t) / 0.08)
                 proud = 6 + (w - 6) * end
                 top = math.sin(math.radians(deg))
                 band = max(46.0, min(avail, 120 + 55 * max(0.0, top)))
                 sc = min(1.0, band / 120)
-                face = min(34.0, band - 44 * sc - 4)
-                # Edge bead, rise, broad outer face, opening, return lip,
-                # then the underside back along the panel.
-                section = [(band, 0.6), (band - 4 * sc, 3.5), (band - 9 * sc, 3.5), (band - 12 * sc, 2.2),
-                           (band - 22 * sc, 0.5 * proud), (band - 44 * sc, 0.9 * proud), (face, proud),
+                face = min(34.0, band - 46 * sc - 4)
+                # Flat mounting flange along the outer edge (the bolts go
+                # through it into the body), rise, broad outer face, opening,
+                # return lip, then the underside back along the panel.
+                section = [(band, 0.6), (band - 3 * sc, 3.2), (band - 15 * sc, 3.2),
+                           (band - 24 * sc, 0.45 * proud), (band - 46 * sc, 0.9 * proud), (face, proud),
                            (10, proud), (2, 0.92 * proud), (-4, 0.84 * proud), (-4, 0.4 * proud), (2, 1.0),
                            (band * 0.3, 0.6), (band * 0.55, 0.6), (band * 0.8, 0.6)]
                 ring = []
@@ -187,16 +202,37 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
                 if len(ring) < len(section):
                     continue
                 rings.append(ring)
-                if n % 2 == 1 and end > 0.5:
-                    bolt_points.append(Vector(ring[7]))
+                if n % 3 == 1 and end > 0.3:
+                    # Mid-flange, on the panel's own normal there.
+                    r = lip + band - 9 * sc
+                    p, nrm = hit(d, r)
+                    if p is not None:
+                        nrm = x.outward(nrm, Vector((side, 0, 0)))
+                        bolt_points.append((Vector((p.x, hub_y + r * d.y, hz + r * d.z)) + nrm * 3.2, nrm))
             obj = k.mesh_object(name(ident, f'{arch}_{tag}'), rings, coll, material)
             orient_outward(obj)
             if bolts:
-                for j, p in enumerate(bolt_points):
-                    # Washer, then a domed-ish head on it.
-                    k.cylinder(f'washer_{arch}_{tag}{j}', coll, (p.x - side * 0.8, p.y, p.z), 'x', 8.0, side * 2.0, bolts, 16)
-                    k.cylinder(f'bolt_{arch}_{tag}{j}', coll, (p.x + side * 1.0, p.y, p.z), 'x', 5.5, side * 4.0, bolts, 12)
+                for j, (p, nrm) in enumerate(bolt_points):
+                    # Washer, then a button head on it.
+                    stud(f'washer_{arch}_{tag}{j}', coll, p - nrm * 0.8, nrm, 7.0, 2.0, bolts, 16)
+                    stud(f'bolt_{arch}_{tag}{j}', coll, p + nrm * 1.0, nrm, 4.8, 3.2, bolts, 12)
     return k.finish(coll)
+
+
+def stud(label, coll, base, axis, radius, length, material, segments=12):
+    """A capped cylinder from `base` along an arbitrary `axis` (app mm)."""
+    axis = Vector(axis).normalized()
+    u = axis.orthogonal().normalized()
+    v = axis.cross(u)
+    rings = []
+    for dist in (0.0, length):
+        c = Vector(base) + axis * dist
+        rings.append([tuple(c + (u * math.cos(a) + v * math.sin(a)) * radius)
+                      for a in (2 * math.pi * j / segments for j in range(segments))])
+    obj = k.mesh_object(label, rings, coll, material)
+    for face in obj.data.polygons:
+        face.use_smooth = len(face.vertices) == 4
+    return obj
 
 
 # ----------------------------------------------------------- wide front lip ----
