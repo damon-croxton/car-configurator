@@ -25,6 +25,7 @@ const STRING_FIELDS: { key: string; field: keyof CarConfig }[] = [
   { key: 'wheels', field: 'wheelStyle' },
   { key: 'wf', field: 'wheelFinish' },
   { key: 'wsheen', field: 'wheelSheen' },
+  { key: 'acol', field: 'accentColor' },
   { key: 'ptint', field: 'wheelPackTint' },
   { key: 'caliper', field: 'caliperColor' },
   { key: 'fabric', field: 'roofFabric' },

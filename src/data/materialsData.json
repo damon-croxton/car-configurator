@@ -455,6 +455,78 @@
       "metalness": 1.0
     }
   ],
+  "accentColors": [
+    {
+      "id": "body",
+      "name": "Body colour",
+      "hex": "#c3c8cc",
+      "matchBody": true
+    },
+    {
+      "id": "race_red",
+      "name": "Race Red",
+      "hex": "#c1121f"
+    },
+    {
+      "id": "signal_yellow",
+      "name": "Signal Yellow",
+      "hex": "#f2c014"
+    },
+    {
+      "id": "safety_orange",
+      "name": "Safety Orange",
+      "hex": "#f06a10"
+    },
+    {
+      "id": "acid_lime",
+      "name": "Acid Lime",
+      "hex": "#8fd42a"
+    },
+    {
+      "id": "sky_blue",
+      "name": "Sky Blue",
+      "hex": "#3aa0e8"
+    },
+    {
+      "id": "royal_blue",
+      "name": "Royal Blue",
+      "hex": "#1d3fa6"
+    },
+    {
+      "id": "violet",
+      "name": "Violet",
+      "hex": "#6b35b8"
+    },
+    {
+      "id": "hot_pink",
+      "name": "Hot Pink",
+      "hex": "#e33c8f"
+    },
+    {
+      "id": "gold",
+      "name": "Gold",
+      "hex": "#c9a13b",
+      "metalness": 0.7,
+      "roughness": 0.3
+    },
+    {
+      "id": "white",
+      "name": "White",
+      "hex": "#f2f2f0"
+    },
+    {
+      "id": "gunmetal",
+      "name": "Gunmetal",
+      "hex": "#3a3f45",
+      "metalness": 0.5,
+      "roughness": 0.35
+    },
+    {
+      "id": "black",
+      "name": "Black",
+      "hex": "#0e0e10"
+    }
+  ],
   "caliperColors": [
     {
       "id": "brembo_red",

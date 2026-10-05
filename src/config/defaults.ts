@@ -43,6 +43,7 @@ export const DEFAULT_CONFIG: CarConfig = {
   wheelStyle: 'oem_17_design',
   wheelFinish: 'gunmetal',
   wheelSheen: '',
+  accentColor: 'race_red',
   wheelPackTint: '',
   wheelDiameter: 17,
   rideHeight: 0,
@@ -133,6 +134,7 @@ export function reconcileConfig(config: CarConfig): CarConfig {
   const wheels = wheelOptionsFor(generation);
   if (!wheels.some((w) => w.id === next.wheelStyle)) next.wheelStyle = generation.defaultWheel;
   if (!materialsData.wheelSheens.some((sheen) => sheen.id === next.wheelSheen)) next.wheelSheen = '';
+  if (!materialsData.accentColors.some((c) => c.id === next.accentColor)) next.accentColor = DEFAULT_CONFIG.accentColor;
 
   if (!generation.wheelDiameters.includes(next.wheelDiameter)) {
     next.wheelDiameter = generation.defaultWheelDiameter;

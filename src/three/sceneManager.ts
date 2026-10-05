@@ -13,6 +13,7 @@ import {
   getRoofFabric,
   getWheelFinish,
   withWheelSheen,
+  getAccentColor,
 } from '../data/schema';
 import { activeMods, forcedModIds } from '../data/mods';
 import { CameraRig } from './cameraRig';
@@ -281,6 +282,11 @@ export class SceneManager {
       : rawFinish;
     // Gloss / satin / matte / polished layered over whichever colour.
     this.car.setWheelFinish(withWheelSheen(colour, config.wheelSheen));
+
+    const accent = getAccentColor(config.accentColor);
+    this.car.setAccent(accent.matchBody
+      ? { hex: paintSpec.hex, metalness: paintSpec.metalness, roughness: paintSpec.roughness }
+      : { hex: accent.hex, metalness: accent.metalness ?? 0.15, roughness: accent.roughness ?? 0.35 });
 
     if (config.wheelPackTint) {
       const rawTint = getWheelFinish(config.wheelPackTint);

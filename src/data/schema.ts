@@ -325,6 +325,16 @@ export interface WheelSheenDef {
   metalnessCap?: number;
 }
 
+/** Colour for accent parts (MOD_AccentPaint): stripes, roundels, caps... */
+export interface AccentColorDef {
+  id: string;
+  name: string;
+  hex: string;
+  matchBody?: boolean;
+  metalness?: number;
+  roughness?: number;
+}
+
 export interface MaterialCatalogue {
   version: number;
   paintFinishes: PaintFinishDef[];
@@ -332,6 +342,7 @@ export interface MaterialCatalogue {
   wrapColors: PaintColorDef[];
   wheelFinishes: WheelFinishDef[];
   wheelSheens: WheelSheenDef[];
+  accentColors: AccentColorDef[];
   caliperColors: CaliperColorDef[];
   cabinFinishes: Record<CabinPartId, CabinFinishDef[]>;
   roofFabricColors: SimpleColorDef[];
@@ -409,6 +420,9 @@ export function withWheelSheen<T extends { roughness: number; clearcoat: number;
     metalness,
   };
 }
+
+export const getAccentColor = (id: string | undefined): AccentColorDef =>
+  materialsData.accentColors.find((c) => c.id === id) ?? materialsData.accentColors[1];
 
 export const getCaliperColor = (id: string | undefined): CaliperColorDef =>
   pick(materialsData.caliperColors, id);

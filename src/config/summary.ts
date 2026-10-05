@@ -13,6 +13,7 @@ import {
   getStancePreset,
   getWheelFinish,
   getWheelSheen,
+  getAccentColor,
   getWheelStyle,
   carData,
   type AeroSlotId,
@@ -133,6 +134,10 @@ export function buildSummary(config: CarConfig): BuildSummary {
     price: sourcedWheel || !wheel.oem ? 2_400 : 0,
   });
   const sheen = getWheelSheen(config.wheelSheen);
+  const accentColour = getAccentColor(config.accentColor);
+  if (mods.some((m) => m.materials?.includes('MOD_AccentPaint'))) {
+    lines.push({ group: 'Paint', label: 'Accent colour', value: accentColour.name, price: 0 });
+  }
   lines.push({ group: 'Wheels', label: 'Finish', value: sheen.id ? `${wheelFinish.name} (${sheen.name})` : wheelFinish.name,
     price: wheelFinish.id === 'chrome' ? 900 : 0 });
   lines.push({ group: 'Wheels', label: 'Ride height', value: describeStance(config), price: config.rideHeight < -5 ? 1_850 : 0 });

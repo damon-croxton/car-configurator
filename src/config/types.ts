@@ -27,6 +27,8 @@ export interface CarConfig {
   wheelFinish: string;
   /** materialsData.wheelSheens id layered over wheelFinish; '' keeps the colour's own finish. */
   wheelSheen: string;
+  /** materialsData.accentColors id for accent parts (stripes, roundels...); 'body' follows the paint. */
+  accentColor: string;
   /** Light rim-only colour cast for the 30-wheel pack, '' = none. A
    *  materialsData.wheelFinishes id, same catalogue as wheelFinish — those
    *  wheels' baked texture can't take the real wheel-finish tint (see

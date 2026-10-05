@@ -310,6 +310,7 @@ export class CarModel {
 
   // Held so values set before the model finished loading are not lost.
   private paint: PaintSpec | null = null;
+  private accent: Tint | null = null;
   /**
    * Standard→physical upgrades, keyed by the original material's uuid.
    *
@@ -442,6 +443,7 @@ export class CarModel {
     this.indexMaterials();
 
     if (this.paint) this.setPaint(this.paint);
+    if (this.accent) this.setAccent(this.accent);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.roofFabric) this.setRoofFabric(this.roofFabric);
     if (this.interior) this.setInterior(this.interior);
@@ -758,6 +760,7 @@ export class CarModel {
     // the existing pickers colour them with no special case.
     this.indexMaterials();
     if (this.paint) this.setPaint(this.paint);
+    if (this.accent) this.setAccent(this.accent);
     if (this.wheelFinish) this.setWheelFinish(this.wheelFinish);
     if (this.details) this.setDetails(this.details);
     if (this.stance) this.setStance(this.stance);
@@ -1194,6 +1197,12 @@ export class CarModel {
       }
       material.needsUpdate = true;
     }
+  }
+
+  /** Colour the accent parts (MOD_AccentPaint: stripes, roundels, caps...). */
+  setAccent(tint: Tint): void {
+    this.accent = tint;
+    this.tint('mod_accent', tint);
   }
 
   /**

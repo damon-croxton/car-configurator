@@ -7960,7 +7960,7 @@
         "na"
       ],
       "category": "detail",
-      "displayName": "Red Racing Stripes",
+      "displayName": "Accent Racing Stripes",
       "area": "top",
       "group": "racing_stripes",
       "slot": null,
@@ -8023,7 +8023,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The twin racing stripes in the accent colour (red by default). Rebuild with blender/build_r4.py; geometry in blender/nd_extras.py.",
-      "uiHint": "Twin stripes in the accent colour."
+      "uiHint": "Twin stripes in the accent colour (Paint tab)."
     },
     {
       "id": "DT58",
@@ -9510,7 +9510,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The race roundels in the accent colour. Rebuild with blender/build_r5.py; geometry in blender/parts_r5.py.",
-      "uiHint": "Roundels in the accent colour."
+      "uiHint": "Roundels in the accent colour (Paint tab)."
     },
     {
       "id": "DT62",
@@ -10318,7 +10318,7 @@
         "na"
       ],
       "category": "detail",
-      "displayName": "Red Offset Stripe",
+      "displayName": "Accent Offset Stripe",
       "area": "top",
       "group": "racing_stripes",
       "slot": null,
@@ -10381,7 +10381,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The offset rally stripe in the accent colour. Rebuild with blender/build_r6.py; geometry in blender/parts_r5.py.",
-      "uiHint": "Offset stripe in the accent colour."
+      "uiHint": "Offset stripe in the accent colour (Paint tab)."
     },
     {
       "id": "DL02",
@@ -11572,7 +11572,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The mirror caps in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/na_kit.py.",
-      "uiHint": "Mirror caps in the accent colour."
+      "uiHint": "Mirror caps in the accent colour (Paint tab)."
     },
     {
       "id": "DT77",
@@ -11644,7 +11644,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The side stripes in the accent colour. Rebuild with blender/build_r8.py; geometry in blender/nd_extras.py.",
-      "uiHint": "Side stripes in the accent colour."
+      "uiHint": "Side stripes in the accent colour (Paint tab)."
     },
     {
       "id": "RN03",
@@ -12181,7 +12181,7 @@
       },
       "derivedFromBaseMesh": false,
       "$note": "The bonnet wrap in the accent colour, for a contrasting bonnet. Exclusive with stripes, NACA ducts and vented bonnets. Rebuild with blender/build_r9.py; geometry in blender/parts_r6.py.",
-      "uiHint": "Bonnet wrapped in the accent colour."
+      "uiHint": "Bonnet wrapped in the accent colour (Paint tab)."
     },
     {
       "id": "W22",

@@ -210,6 +210,7 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const paint = getPaintColor(config.paint);
   const customColor = materialsData.wrapColors.find((color) => color.userColor);
   const customActive = paint.userColor;
+  const paintHex = paint.userColor ? config.paintCustomHex : paint.hex;
 
   return (
     <>
@@ -277,6 +278,16 @@ const PaintTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
               hex: color.hex,
               caption: color.finish,
             }))}
+        />
+      </Section>
+
+      <Section title="Accent colour" hint="Stripes, roundels, caps and other accent parts">
+        <SwatchGrid
+          value={config.accentColor}
+          onChange={(id) => onChange({ accentColor: id })}
+          swatches={materialsData.accentColors.map((colour) =>
+            colour.matchBody ? { ...colour, hex: paintHex } : colour,
+          )}
         />
       </Section>
 
