@@ -36,7 +36,7 @@ def only(*idents, gen="na"):
                 obj.hide_render = not show
 
 
-def review(tag, views=None, size=(1200, 900), gen="na"):
+def review(tag, views=None, size=(1200, 900), gen="na", color_type="MATERIAL"):
     """Render views of one car. When both references share the scene (in
     NA_REF / ND_REF collections), the other car is hidden from the render."""
     scene = bpy.context.scene
@@ -48,7 +48,7 @@ def review(tag, views=None, size=(1200, 900), gen="na"):
     scene.render.engine = "BLENDER_WORKBENCH"
     shading = scene.display.shading
     shading.light = "STUDIO"
-    shading.color_type = "MATERIAL"
+    shading.color_type = color_type     # "TEXTURE" shows embedded images (weaves)
     shading.show_shadows = False
     shading.show_cavity = True
     shading.cavity_type = "BOTH"

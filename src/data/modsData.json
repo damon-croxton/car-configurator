@@ -8799,6 +8799,7 @@
       "category": "detail",
       "displayName": "Mesh Grille Insert",
       "area": "front",
+      "group": "grille",
       "slot": null,
       "optionId": null,
       "attachType": "bolt_on",
@@ -13392,49 +13393,49 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -941,
+            -936,
             169,
             -1591
           ],
           "max": [
-            941,
-            805,
-            1671
+            936,
+            797,
+            1656
           ]
         },
         "na": {
           "min": [
-            -923,
+            -918,
             315,
             -1610
           ],
           "max": [
-            910,
+            905,
             777,
             1649
           ]
         },
         "nb": {
           "min": [
-            -924,
-            211,
-            -1602
+            -919,
+            212,
+            -1598
           ],
           "max": [
-            924,
+            919,
             842,
-            1663
+            1662
           ]
         },
         "nc": {
           "min": [
-            -923,
+            -918,
             231,
             -1558
           ],
           "max": [
-            924,
-            808,
+            919,
+            778,
             1734
           ]
         }
@@ -13507,49 +13508,49 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -941,
+            -936,
             169,
             -1591
           ],
           "max": [
-            941,
-            805,
-            1671
+            936,
+            797,
+            1656
           ]
         },
         "na": {
           "min": [
-            -923,
+            -918,
             315,
             -1610
           ],
           "max": [
-            910,
+            905,
             777,
             1649
           ]
         },
         "nb": {
           "min": [
-            -924,
-            211,
-            -1602
+            -919,
+            212,
+            -1598
           ],
           "max": [
-            924,
+            919,
             842,
-            1663
+            1662
           ]
         },
         "nc": {
           "min": [
-            -923,
+            -918,
             231,
             -1558
           ],
           "max": [
-            924,
-            808,
+            919,
+            778,
             1734
           ]
         }
@@ -13622,49 +13623,49 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -941,
+            -936,
             169,
             -1591
           ],
           "max": [
-            941,
-            805,
-            1671
+            936,
+            797,
+            1656
           ]
         },
         "na": {
           "min": [
-            -923,
+            -918,
             315,
             -1610
           ],
           "max": [
-            910,
+            905,
             777,
             1649
           ]
         },
         "nb": {
           "min": [
-            -924,
-            211,
-            -1602
+            -919,
+            212,
+            -1598
           ],
           "max": [
-            924,
+            919,
             842,
-            1663
+            1662
           ]
         },
         "nc": {
           "min": [
-            -923,
+            -918,
             231,
             -1558
           ],
           "max": [
-            924,
-            808,
+            919,
+            778,
             1734
           ]
         }
@@ -14471,6 +14472,218 @@
       "derivedFromBaseMesh": false,
       "$note": "A swan-neck wing for the NA: the uprights rise behind the wing and hook over its leading edge onto the top surface, leaving the underside clean. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Wing hung from above on swan-neck uprights."
+    },
+    {
+      "id": "ZG01",
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
+      "category": "detail",
+      "displayName": "Black Mesh Grille",
+      "area": "front",
+      "group": "grille",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [],
+        "nb": [],
+        "nc": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
+        ]
+      },
+      "materials": [
+        "MOD_Mesh"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -724,
+            240,
+            1680
+          ],
+          "max": [
+            724,
+            432,
+            1968
+          ]
+        },
+        "na": {
+          "min": [
+            -407,
+            289,
+            1868
+          ],
+          "max": [
+            389,
+            417,
+            1900
+          ]
+        },
+        "nb": {
+          "min": [
+            -405,
+            273,
+            1897
+          ],
+          "max": [
+            405,
+            381,
+            1937
+          ]
+        },
+        "nc": {
+          "min": [
+            -352,
+            352,
+            1945
+          ],
+          "max": [
+            352,
+            480,
+            1983
+          ]
+        }
+      },
+      "triangleBudget": 5200,
+      "file": {
+        "nd": "assets/mods/nd/ZG01_zunsport_grille_black.glb",
+        "na": "assets/mods/na/ZG01_zunsport_grille_black.glb",
+        "nb": "assets/mods/nb/ZG01_zunsport_grille_black.glb",
+        "nc": "assets/mods/nc/ZG01_zunsport_grille_black.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Zunsport-style woven diamond grille mesh cut to the front openings (the ND also gets its two lower corner grilles) and fitted just inside them, in front of whatever already sits there. The weave is an alpha-masked 14 x 7 mm diamond texture on a 1 mm slab, so the stock parts show through it up close. Black. Rebuild with blender/build_r11.py; geometry in blender/parts_r11.py.",
+      "uiHint": "Zunsport-style black woven mesh in the front openings."
+    },
+    {
+      "id": "ZG02",
+      "gen": [
+        "nd",
+        "na",
+        "nb",
+        "nc"
+      ],
+      "category": "detail",
+      "displayName": "Stainless Mesh Grille",
+      "area": "front",
+      "group": "grille",
+      "slot": null,
+      "optionId": null,
+      "attachType": "bolt_on",
+      "attachTo": "body",
+      "hides": {
+        "nd": [],
+        "na": [],
+        "nb": [],
+        "nc": []
+      },
+      "incompatibleWith": [],
+      "requires": [],
+      "anchors": {
+        "nd": [
+          "BumperF 6.003_111"
+        ],
+        "na": [
+          "frontbumper_Material #71_0"
+        ],
+        "nb": [
+          "Object_49"
+        ],
+        "nc": [
+          "Object_54.002"
+        ]
+      },
+      "materials": [
+        "MOD_Mesh"
+      ],
+      "bboxMm": {
+        "nd": {
+          "min": [
+            -724,
+            240,
+            1680
+          ],
+          "max": [
+            724,
+            432,
+            1968
+          ]
+        },
+        "na": {
+          "min": [
+            -407,
+            289,
+            1868
+          ],
+          "max": [
+            389,
+            417,
+            1900
+          ]
+        },
+        "nb": {
+          "min": [
+            -405,
+            273,
+            1897
+          ],
+          "max": [
+            405,
+            381,
+            1937
+          ]
+        },
+        "nc": {
+          "min": [
+            -352,
+            352,
+            1945
+          ],
+          "max": [
+            352,
+            480,
+            1983
+          ]
+        }
+      },
+      "triangleBudget": 5200,
+      "file": {
+        "nd": "assets/mods/nd/ZG02_zunsport_grille_stainless.glb",
+        "na": "assets/mods/na/ZG02_zunsport_grille_stainless.glb",
+        "nb": "assets/mods/nb/ZG02_zunsport_grille_stainless.glb",
+        "nc": "assets/mods/nc/ZG02_zunsport_grille_stainless.glb"
+      },
+      "flags": {
+        "requiresFenderRoll": false,
+        "trackWidening": 0
+      },
+      "derivedFromBaseMesh": false,
+      "$note": "Zunsport-style woven diamond grille mesh cut to the front openings (the ND also gets its two lower corner grilles) and fitted just inside them, in front of whatever already sits there. The weave is an alpha-masked 14 x 7 mm diamond texture on a 1 mm slab, so the stock parts show through it up close. Bare stainless. Rebuild with blender/build_r11.py; geometry in blender/parts_r11.py.",
+      "uiHint": "Zunsport-style bare stainless woven mesh."
     }
   ]
 }

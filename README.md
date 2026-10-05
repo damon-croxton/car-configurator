@@ -50,7 +50,9 @@ wide-body kit for both cars (wide overfenders that push the wheels out to fill
 them, plus a matching lip, skirts, diffuser and ducktail) and double-element,
 time-attack and swan-neck wings (`blender/PARTS-R10.md`). The NB and NC now
 take 37 of the body parts too: stripes, flares, roundels, lamps, racks,
-wraps, the whole wide-body kit and the big wings (`blender/PARTS-NBNC.md`). Variants of one part form a group in the panel,
+wraps, the whole wide-body kit and the big wings (`blender/PARTS-NBNC.md`).
+Round eleven adds Zunsport-style woven mesh grilles, black or stainless, for
+all four cars (`blender/PARTS-R11.md`). Variants of one part form a group in the panel,
 and picking one takes the others off. A part can require another (the
 harnesses need the buckets): fitting it fits both, and losing the required
 part drops it.

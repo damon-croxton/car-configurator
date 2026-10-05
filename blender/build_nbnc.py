@@ -93,7 +93,9 @@ def build(only=None, gens=GENS, export=True):
     return reports, errors
 
 
-def main():
+def import_cars():
+    """Import the shipped NB/NC models into NB_SRC / NC_SRC and rebuild the
+    ray-cast helpers."""
     import prepare_nb_nc
     for gen in GENS:
         before = set(bpy.data.objects)
@@ -105,6 +107,10 @@ def main():
                 c.objects.unlink(o)
             coll.objects.link(o)
     prepare_nb_nc.make_helpers()
+
+
+def main():
+    import_cars()
     reports, errors = build()
     (ROOT / 'blender/build').mkdir(exist_ok=True)
     (ROOT / 'blender/build/nbnc_report.json').write_text(json.dumps(reports, indent=2))

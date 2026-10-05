@@ -31,6 +31,7 @@ export const MOD_GROUP_LABELS: Record<string, string> = {
   rally_lamps: 'Driving lamps',
   roundels: 'Door numbers',
   bonnet_wrap: 'Bonnet wrap',
+  grille: 'Grille mesh',
 };
 
 export const MOD_AREAS: { id: ModArea; label: string }[] = [
