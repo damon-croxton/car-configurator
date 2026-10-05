@@ -43,10 +43,19 @@ Geometry is in `blender/parts_r11.py`.
 
 ## Overfender fixes (WB01-03)
 
-- The bolts now run along a flat mounting flange at the overfender's outer
-  edge, where it fixes to the body, set on the panel's normal, instead of
-  along the wheel opening.
-- The band stops where the panel stops facing sideways (|normal.x| < 0.55),
-  so the flare no longer wraps onto the surfaces turning toward the
-  headlamps, bumper corners or bonnet, where it folded. The band edge is
-  eroded before it is smoothed, so smoothing can't push it back out there.
+- **Round outline.** The edge where each overfender meets the body is one
+  circle per arch, about a centre at or below the hub, so the outline on the
+  body is a clean round arc rather than following wherever the panel runs
+  out. Each arch tries bands of 150 down to 80 mm over the top and centres
+  0-120 mm below the hub, and keeps the widest circle that still covers
+  nearly the whole arch on panel facing the side (|normal.x| > 0.4). The
+  flare runs as far round as that circle allows, and its ends are pulled back
+  until the panel under them clearly faces the side, so they stop short of
+  the headlamps, bumper corners and sill instead of folding over them.
+- **Constant section.** The cross-section is the same all the way round;
+  only where the band is narrower than 110 mm does it scale.
+- **Holes in the panel** (side-marker lamps, shut lines) are filled from the
+  neighbouring stations, and dips (a ray into a lamp recess) are taken out,
+  so the flare never dents.
+- **Bolts** run along a flat mounting flange at the outer edge, where the
+  flare fixes to the body, on the panel's normal.

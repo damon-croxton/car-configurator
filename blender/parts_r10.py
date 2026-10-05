@@ -102,7 +102,7 @@ def orient_outward(obj):
 
 # ------------------------------------------------------------ overfenders ----
 
-def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_w=70.0, square=22.0):
+def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_w=70.0, square=10.0, reach=150.0):
     """Wide-body overfenders round all four arches.
 
     Each flare sweeps from below hub height ahead of the wheel, over the
@@ -110,11 +110,13 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
     panel within 40 mm to a broad outer face `w` mm proud (60 front, 70
     rear), then turns back in at the arch opening with a short return lip,
     so from the side it reads as a separate, much wider wheel arch. The
-    opening is squared off toward its upper corners (`square` mm at 45 deg),
-    as the real kits cut it, and a raised bead runs along the flare's outer
-    edge where it meets the panel. Washered bolt heads stud the outer face
-    along the opening. The band (up to 175 mm) shrinks wherever the panel
-    runs out (bumper corners, sill).
+    edge where it meets the body is a circle about the hub, `reach` mm
+    beyond the arch's median lip, so the outline on the body is one clean
+    round arc; the flare runs as far round as that circle stays on panel
+    facing the side (it stops short of headlamps, bumper corners and sill).
+    The opening follows the arch, eased `square` mm toward its upper
+    corners. Washered bolts run along a flat mounting flange at the outer
+    edge, on the panel's normal.
     """
     coll = m.start_mod(k.GEN, ident)
     hub_y = x.cfg()['hub_y']
@@ -136,48 +138,104 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
                 # toward the headlamp, bumper corner or bonnet, and a band laid
                 # over it would fold.
                 p, n = hit(d, r)
-                return p if p is not None and abs(n.x) > 0.55 else None
+                return p if p is not None and abs(n.x) > 0.4 else None
 
-            stations = []
             a0, a1 = cfg()['flare_arc']
-            for i in range(59):
-                deg = a0 + (a1 - a0) * i / 58
+            found = []
+            for i in range(73):
+                deg = a0 + (a1 - a0) * i / 72
                 th = math.radians(deg)
                 d = Vector((0, math.sin(th), math.cos(th)))
                 lip = next((r for r in range(250, 560, 2) if skin(d, r) is not None), None)
+                found.append((deg, d, lip))
+            lips_known = sorted(f[2] for f in found if f[2] is not None)
+            assert len(lips_known) > 20, (arch, side)
+            median_lip = lips_known[len(lips_known) // 2]
+
+            def circle(drop, radius, d):
+                # Distance from the hub, along d, to a circle centred `drop`
+                # mm below the hub.
+                c = -drop * d.y
+                return c + math.sqrt(max(c * c - drop * drop + radius * radius, 0.0))
+
+            def on_side_panel(d, lip, r_out):
+                # The circle must land on sideways-facing panel, with skin
+                # under most of the band (shut lines are small gaps).
+                if lip is None or r_out - lip < 60:
+                    return False
+                if not any(side_skin(d, r_out + dr) is not None for dr in (0, -4, 4, -8)):
+                    return False
+                probes = [lip + (r_out - lip) * f for f in (0.2, 0.4, 0.6, 0.8)]
+                return sum(skin(d, r) is not None for r in probes) >= 3
+
+            def longest_run(ok):
+                # Bridge single misses, then keep the longest run.
+                ok = [v or (0 < i < len(ok) - 1 and ok[i - 1] and ok[i + 1]) for i, v in enumerate(ok)]
+                best, run = (0, 0), None
+                for i, v in enumerate(ok + [False]):
+                    if v and run is None:
+                        run = i
+                    elif not v and run is not None:
+                        best = max(best, (run, i), key=lambda ab: ab[1] - ab[0])
+                        run = None
+                return best
+
+            # The attachment edge is one circle per arch: the kits' clean round
+            # outline on the body. Try a few bands over the top (front wings
+            # roll into the bonnet a little above the arch) and centre heights
+            # (a lower centre widens the band toward the ends), and take the
+            # widest that still covers nearly the whole arch.
+            trials = []
+            for r_extra in range(int(reach), 70, -10):
+                for drop in (0.0, 40.0, 80.0, 120.0):
+                    radius = median_lip + r_extra + drop
+                    if radius - drop - median_lip < 70:
+                        continue
+                    run = longest_run([on_side_panel(d, lip, circle(drop, radius, d)) for _, d, lip in found])
+                    trials.append((run[1] - run[0], r_extra, -drop, run, drop, radius))
+            most = max(t[0] for t in trials)
+            # Largest band first, then the highest centre.
+            _, _, _, best, drop, radius = max((t for t in trials if t[0] >= most - 3), key=lambda t: (t[1], t[2]))
+            stations = [(deg, d, lip) for deg, d, lip in found[best[0]:best[1]]]
+            r_outs = [circle(drop, radius, d) for _, d, _ in stations]
+            # Fill any bridged station's lip from its neighbours.
+            for i, (deg, d, lip) in enumerate(stations):
                 if lip is None:
-                    continue
-                # How far out sideways-facing panel continues along this line.
-                avail = 0
-                for dr in range(4, 160, 4):
-                    if side_skin(d, lip + dr) is None:
-                        break
-                    avail = dr
-                # Stop where the panel runs out: a squeezed band crumples the
-                # section at the bumper corners.
-                if avail < 50:
-                    continue
-                stations.append((deg, d, lip, avail))
-            assert len(stations) > 20, (arch, side)
-            lips = k.gaussian([s[2] for s in stations], 1.5)
-            # Erode before smoothing, so the smoothed edge never reaches past
-            # where the panel actually turns away.
-            raw = [s[3] for s in stations]
-            eroded = [min(raw[max(0, i - 2):i + 3]) for i in range(len(raw))]
-            avails = k.gaussian(eroded, 2.5)
-            # Square the opening toward its upper corners (over the arch only).
-            deltas = [square * math.sin(math.radians(2 * s[0])) ** 2 if 0 <= s[0] <= 180 else 0.0 for s in stations]
-            lips = [lip + dl for lip, dl in zip(lips, deltas)]
-            avails = [av - dl for av, dl in zip(avails, deltas)]
-            rings = []
-            bolt_points = []
-            for n, ((deg, d, _, _), lip, avail) in enumerate(zip(stations, lips, avails)):
+                    near = [q[2] for q in stations[max(0, i - 2):i + 3] if q[2] is not None]
+                    stations[i] = (deg, d, sum(near) / len(near))
+            # The ends taper onto the bumper corner or sill: pull each end back
+            # until the panel under the band clearly faces the side, so the
+            # thin end can't fold over a corner (the NB's nose).
+            def squarely_sideways(i):
+                deg, d, lip = stations[i]
+                ro = r_outs[i]
+                normals = [hit(d, lip + (ro - lip) * f)[1] for f in (0.3, 0.6, 0.9)]
+                return all(n_ is not None and abs(n_.x) > 0.6 for n_ in normals)
+
+            for _ in range(8):
+                if len(stations) > 24 and not squarely_sideways(0):
+                    stations.pop(0)
+                    r_outs.pop(0)
+            for _ in range(8):
+                if len(stations) > 24 and not squarely_sideways(-1):
+                    stations.pop()
+                    r_outs.pop()
+            assert len(stations) > 20, (arch, side, best)
+            lips = k.gaussian([s_[2] for s_ in stations], 2.0)
+            # Square the opening a little toward its upper corners.
+            lips = [lip + square * math.sin(math.radians(2 * s_[0])) ** 2 if 0 <= s_[0] <= 180 else lip
+                    for lip, s_ in zip(lips, stations)]
+            lips = [min(lip, ro - 60) for lip, ro in zip(lips, r_outs)]
+            avails = [ro - lip for lip, ro in zip(lips, r_outs)]
+            # Pass one: the section at every station, and how far out the panel
+            # sits under each of its points ("out" = side * (x - centre)).
+            sections, outs = [], []
+            for n, ((deg, d, _), lip, band) in enumerate(zip(stations, lips, avails)):
                 t = n / (len(stations) - 1)
                 end = k.smooth(min(t, 1 - t) / 0.08)
                 proud = 6 + (w - 6) * end
-                top = math.sin(math.radians(deg))
-                band = max(46.0, min(avail, 120 + 55 * max(0.0, top)))
-                sc = min(1.0, band / 120)
+                # Same section all the way round; only a narrow band scales.
+                sc = min(1.0, band / 110)
                 face = min(34.0, band - 46 * sc - 4)
                 # Flat mounting flange along the outer edge (the bolts go
                 # through it into the body), rise, broad outer face, opening,
@@ -186,29 +244,49 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_
                            (band - 24 * sc, 0.45 * proud), (band - 46 * sc, 0.9 * proud), (face, proud),
                            (10, proud), (2, 0.92 * proud), (-4, 0.84 * proud), (-4, 0.4 * proud), (2, 1.0),
                            (band * 0.3, 0.6), (band * 0.55, 0.6), (band * 0.8, 0.6)]
-                ring = []
-                for dr, dx in section:
+                row = []
+                for dr, _ in section:
                     r = lip + max(dr, 2)
-                    ref = None
-                    # Smoothing can move the edge a little off the panel:
-                    # look inward first, then outward.
-                    for rr in list(range(int(r), int(lip) - 13, -2)) + list(range(int(r) + 2, int(r) + 32, 2)):
-                        ref = skin(d, rr)
-                        if ref is not None:
-                            break
-                    if ref is None:
-                        break
-                    ring.append((ref.x + side * dx, hub_y + (lip + dr) * d.y, hz + (lip + dr) * d.z))
-                if len(ring) < len(section):
-                    continue
-                rings.append(ring)
+                    ref = next((q for q in (skin(d, r + j) for j in (0, -2, 2, -4, 4)) if q is not None), None)
+                    row.append(None if ref is None else side * (ref.x - k.CX))
+                sections.append((d, lip, band, sc, end, section))
+                outs.append(row)
+            # Pass two: fill holes in the panel (lamps, shut lines) across the
+            # stations, then take out dips: a ray into a lamp recess lands deep
+            # and would dent the flare.
+            for j in range(len(outs[0])):
+                col = [row[j] for row in outs]
+                known = [i for i, v in enumerate(col) if v is not None]
+                assert known, (arch, side, j)
+                for i, v in enumerate(col):
+                    if v is None:
+                        lo = max((q for q in known if q < i), default=None)
+                        hi = min((q for q in known if q > i), default=None)
+                        if lo is None or hi is None:
+                            col[i] = col[hi if lo is None else lo]
+                        else:
+                            col[i] = col[lo] + (col[hi] - col[lo]) * (i - lo) / (hi - lo)
+                med = [sorted(col[max(0, i - 3):i + 4])[len(col[max(0, i - 3):i + 4]) // 2] for i in range(len(col))]
+                col = [max(v, m_ - 3.0) for v, m_ in zip(col, med)]
+                for row, v in zip(outs, k.gaussian(col, 1.0)):
+                    row[j] = v
+            # Pass three: the rings, and bolts on the flange.
+            rings = []
+            bolt_points = []
+            for n, ((d, lip, band, sc, end, section), row) in enumerate(zip(sections, outs)):
+                rings.append([(k.CX + side * (o + dx), hub_y + (lip + dr) * d.y, hz + (lip + dr) * d.z)
+                              for (dr, dx), o in zip(section, row)])
                 if n % 3 == 1 and end > 0.3:
-                    # Mid-flange, on the panel's own normal there.
+                    # Mid-flange, on the panel's own normal there (sideways
+                    # where the panel had a hole).
                     r = lip + band - 9 * sc
+                    o = 0.5 * (row[1] + row[2])
                     p, nrm = hit(d, r)
-                    if p is not None:
-                        nrm = x.outward(nrm, Vector((side, 0, 0)))
-                        bolt_points.append((Vector((p.x, hub_y + r * d.y, hz + r * d.z)) + nrm * 3.2, nrm))
+                    if p is None or abs(side * (p.x - k.CX) - o) > 3:
+                        nrm = Vector((side, 0, 0))
+                    nrm = x.outward(nrm, Vector((side, 0, 0)))
+                    base = Vector((k.CX + side * o, hub_y + r * d.y, hz + r * d.z))
+                    bolt_points.append((base + nrm * 3.2, nrm))
             obj = k.mesh_object(name(ident, f'{arch}_{tag}'), rings, coll, material)
             orient_outward(obj)
             if bolts:
