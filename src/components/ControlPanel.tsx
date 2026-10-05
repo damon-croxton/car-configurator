@@ -21,6 +21,7 @@ import { activeMods, modForOption, optionalMods } from '../data/mods';
 import { cabinControls, modelHasClass } from '../data/surfaces';
 import { IconOptionGrid, OptionGrid, Section, SegmentedControl, SliderRow, SwatchGrid, ToggleRow } from './ui/Controls';
 import { PartsPicker } from './PartsPicker';
+import { isWideBodyOption, WideBodyKit } from './WideBodyKit';
 
 // No leading slash: mod .glb paths follow the same convention (see
 // ModLoader.instance()) so they resolve relative to the page itself rather
@@ -581,7 +582,10 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   const generation = getGeneration(config.generation);
   // Wheel-attached extras get their own section on the Wheels tab, next to
   // the rim style picker they actually override.
-  const extras = optionalMods(generation.id).filter((m) => m.attachTo === 'body');
+  const allExtras = optionalMods(generation.id).filter((m) => m.attachTo === 'body');
+  // The wide-body overfenders live in their own kit section.
+  const fenders = allExtras.filter((m) => m.area === 'widebody');
+  const extras = allExtras.filter((m) => m.area !== 'widebody');
   const hasIndicators = modelHasClass(generation.surfaceModel, 'lens_amber');
   const hasHousings = modelHasClass(generation.surfaceModel, 'light_housing');
 
@@ -591,17 +595,17 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
   // they thread through); removing a part removes whatever requires it.
   const toggleExtra = (id: string, on: boolean) => {
     const groupMates = (pick: string) => {
-      const group = extras.find((mod) => mod.id === pick)?.group;
-      return group ? extras.filter((mod) => mod.group === group && mod.id !== pick).map((mod) => mod.id) : [];
+      const group = allExtras.find((mod) => mod.id === pick)?.group;
+      return group ? allExtras.filter((mod) => mod.group === group && mod.id !== pick).map((mod) => mod.id) : [];
     };
     if (on) {
-      const picks = [...(extras.find((mod) => mod.id === id)?.requires ?? []), id];
+      const picks = [...(allExtras.find((mod) => mod.id === id)?.requires ?? []), id];
       const others = picks.flatMap(groupMates);
       onChange({
         extraMods: [...config.extraMods.filter((entry) => !others.includes(entry) && !picks.includes(entry)), ...picks],
       });
     } else {
-      const dependants = extras.filter((mod) => mod.requires?.includes(id)).map((mod) => mod.id);
+      const dependants = allExtras.filter((mod) => mod.requires?.includes(id)).map((mod) => mod.id);
       onChange({ extraMods: config.extraMods.filter((entry) => entry !== id && !dependants.includes(entry)) });
     }
   };
@@ -614,13 +618,17 @@ const AeroTab: React.FC<ControlPanelProps> = ({ config, onChange }) => {
         {' '}Supplier-inspired designs are visual approximations.
       </p>
 
+      {fenders.length > 0 && (
+        <WideBodyKit config={config} generation={generation} fenders={fenders} onChange={onChange} onToggleExtra={toggleExtra} />
+      )}
+
       {AERO_SECTIONS.map(({ slot, title, columns }) => (
         <Section key={slot} title={title}>
           <OptionGrid
             columns={columns}
             value={config[slot] as string}
             onChange={(id) => onChange({ [slot]: id } as Partial<CarConfig>)}
-            options={aeroOptionsFor(generation, slot).map((part) => ({
+            options={aeroOptionsFor(generation, slot).filter((part) => !isWideBodyOption(slot, part.id)).map((part) => ({
               id: part.id,
               label: part.name,
               badge: modForOption(generation.id, slot, part.id) ? '3D' : undefined,

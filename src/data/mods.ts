@@ -14,7 +14,8 @@ import type { CarConfig } from '../config/types';
  */
 
 /** Where on the car an additional part sits; groups the panel's list. */
-export type ModArea = 'front' | 'sides' | 'rear' | 'top' | 'cabin';
+/** `widebody` parts are shown in the Aero tab's Wide-body kit section, not the parts list. */
+export type ModArea = 'front' | 'sides' | 'rear' | 'top' | 'cabin' | 'widebody';
 
 /** Panel labels for exclusive part groups (a catalogue entry's `group`). */
 export const MOD_GROUP_LABELS: Record<string, string> = {
