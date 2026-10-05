@@ -39,6 +39,8 @@ CFG = {
         # Diffuser strakes clear of the twin tail pipes (|x| 176-400).
         'strakes': (-600.0, -520.0, -110.0, 0.0, 110.0, 520.0, 600.0),
         'rear_edge_search': (-1880, -1650),
+        # Overfender sweep, degrees from straight ahead of the hub.
+        'flare_arc': (-26.0, 206.0),
     },
     'na': {
         'boot': 'trunk_Material #71_0',
@@ -50,6 +52,9 @@ CFG = {
         # Clear of the single tail pipe at x -604.
         'strakes': (-470.0, -300.0, -120.0, 60.0, 240.0, 420.0, 560.0),
         'rear_edge_search': (-1900, -1700),
+        # The NA's bumper corners face forward, and a flare wrapped onto them
+        # pinches, so its flares start and end near hub height.
+        'flare_arc': (2.0, 178.0),
     },
 }
 
@@ -72,16 +77,19 @@ def orient_outward(obj):
 
 # ------------------------------------------------------------ overfenders ----
 
-def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_w=65.0):
+def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=60.0, rear_w=70.0, square=22.0):
     """Wide-body overfenders round all four arches.
 
     Each flare sweeps from below hub height ahead of the wheel, over the
     arch, to below hub height behind it. Across the band it rises off the
-    panel within 40 mm to a broad outer face `w` mm proud (55 front, 65
+    panel within 40 mm to a broad outer face `w` mm proud (60 front, 70
     rear), then turns back in at the arch opening with a short return lip,
-    so from the side it reads as a separate, much wider wheel arch. Bolt
-    heads stud the outer face along the opening. The band (up to 150 mm)
-    shrinks wherever the panel runs out (bumper corners, sill).
+    so from the side it reads as a separate, much wider wheel arch. The
+    opening is squared off toward its upper corners (`square` mm at 45 deg),
+    as the real kits cut it, and a raised bead runs along the flare's outer
+    edge where it meets the panel. Washered bolt heads stud the outer face
+    along the opening. The band (up to 175 mm) shrinks wherever the panel
+    runs out (bumper corners, sill).
     """
     coll = m.start_mod(k.GEN, ident)
     hub_y = x.cfg()['hub_y']
@@ -96,7 +104,7 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_
                 return p if p is not None and abs(p.x - k.CX) > 640 else None
 
             stations = []
-            a0, a1 = -26.0, 206.0
+            a0, a1 = cfg()['flare_arc']
             for i in range(59):
                 deg = a0 + (a1 - a0) * i / 58
                 th = math.radians(deg)
@@ -110,12 +118,18 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_
                     if skin(d, lip + dr) is None:
                         break
                     avail = dr
-                if avail < 28:
+                # Stop where the panel runs out: a squeezed band crumples the
+                # section at the bumper corners.
+                if avail < 50:
                     continue
                 stations.append((deg, d, lip, avail))
             assert len(stations) > 20, (arch, side)
             lips = k.gaussian([s[2] for s in stations], 1.5)
             avails = k.gaussian([s[3] for s in stations], 1.5)
+            # Square the opening toward its upper corners (over the arch only).
+            deltas = [square * math.sin(math.radians(2 * s[0])) ** 2 if 0 <= s[0] <= 180 else 0.0 for s in stations]
+            lips = [lip + dl for lip, dl in zip(lips, deltas)]
+            avails = [av - dl for av, dl in zip(avails, deltas)]
             rings = []
             bolt_points = []
             for n, ((deg, d, _, _), lip, avail) in enumerate(zip(stations, lips, avails)):
@@ -123,8 +137,13 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_
                 end = k.smooth(min(t, 1 - t) / 0.05)
                 proud = 6 + (w - 6) * end
                 top = math.sin(math.radians(deg))
-                band = min(avail, 110 + 40 * max(0.0, top))
-                section = [(band, 0.6), (band - 14, 0.45 * proud), (band - 38, 0.9 * proud), (34, proud),
+                band = max(46.0, min(avail, 120 + 55 * max(0.0, top)))
+                sc = min(1.0, band / 120)
+                face = min(34.0, band - 44 * sc - 4)
+                # Edge bead, rise, broad outer face, opening, return lip,
+                # then the underside back along the panel.
+                section = [(band, 0.6), (band - 4 * sc, 3.5), (band - 9 * sc, 3.5), (band - 12 * sc, 2.2),
+                           (band - 22 * sc, 0.5 * proud), (band - 44 * sc, 0.9 * proud), (face, proud),
                            (10, proud), (2, 0.92 * proud), (-4, 0.84 * proud), (-4, 0.4 * proud), (2, 1.0),
                            (band * 0.3, 0.6), (band * 0.55, 0.6), (band * 0.8, 0.6)]
                 ring = []
@@ -143,14 +162,15 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_
                 if len(ring) < len(section):
                     continue
                 rings.append(ring)
-                if n % 3 == 1 and end > 0.5:
-                    p = Vector(ring[4])
-                    bolt_points.append(p)
+                if n % 2 == 1 and end > 0.5:
+                    bolt_points.append(Vector(ring[7]))
             obj = k.mesh_object(name(ident, f'{arch}_{tag}'), rings, coll, material)
             orient_outward(obj)
             if bolts:
                 for j, p in enumerate(bolt_points):
-                    k.cylinder(f'bolt_{arch}_{tag}{j}', coll, (p.x - side * 1.0, p.y, p.z), 'x', 5.0, side * 4.0, bolts, 12)
+                    # Washer, then a domed-ish head on it.
+                    k.cylinder(f'washer_{arch}_{tag}{j}', coll, (p.x - side * 0.8, p.y, p.z), 'x', 8.0, side * 2.0, bolts, 16)
+                    k.cylinder(f'bolt_{arch}_{tag}{j}', coll, (p.x + side * 1.0, p.y, p.z), 'x', 5.5, side * 4.0, bolts, 12)
     return k.finish(coll)
 
 
@@ -158,8 +178,9 @@ def wide_fenders(ident='WB01', material=PAINT, bolts=CHROME, front_w=55.0, rear_
 
 def wide_lip(ident='WB10', material=CARBON):
     """A wide-body front splitter: a 6 mm carbon blade under the bumper,
-    stepping 40 mm proud of its face and running out to the overfenders'
-    width, with an end fence at each corner."""
+    stepping 40 mm proud of its face with a slightly upturned leading edge,
+    running out to the overfenders' width, held by three adjustable support
+    rods to the bumper, with a tall canted end fence at each corner."""
     coll = m.start_mod(k.GEN, ident)
     parts = [k.base(n) for n in cfg()['front_bumper']]
     rows = []
@@ -183,15 +204,25 @@ def wide_lip(ident='WB10', material=CARBON):
         reach = 40 + 25 * u ** 3
         depth = 170 - 60 * u
         yb = y - 3
-        rows.append([(xx, yb, z + reach), (xx, yb, z - depth), (xx, yb - 6, z - depth), (xx, yb - 6, z + reach - 3)])
+        # Section front to back: upturned leading edge, flat blade, back edge.
+        rows.append([(xx, yb + 7, z + reach), (xx, yb + 1, z + reach - 18), (xx, yb, z - depth),
+                     (xx, yb - 6, z - depth), (xx, yb - 6, z + reach - 20), (xx, yb + 2, z + reach - 2)])
     obj = k.mesh_object(name(ident, 'blade'), rows, coll, material)
     orient_outward(obj)
     for end in (0, -1):
         xx, y, z = xs[end], ys[end] - 3, zs[end]
         sgn = 1 if xx > k.CX else -1
-        fence = [[(xx + sgn * dx, y - 6, z + 50), (xx + sgn * dx, y + 70, z + 10), (xx + sgn * dx, y + 70, z - 90),
-                  (xx + sgn * dx, y - 6, z - 120)] for dx in (-3.0, 3.0)]
+        # Canted outward 8 deg, taller at the front.
+        fence = [[(xx + sgn * (dx + 0.14 * (yy - y)), yy, zz) for zz, yy in
+                  ((z + 60, y - 6), (z + 40, y + 95), (z - 60, y + 80), (z - 140, y + 20), (z - 140, y - 6))]
+                 for dx in (-3.0, 3.0)]
         k.mesh_object(name(ident, f'fence_{"L" if sgn > 0 else "R"}'), fence, coll, material)
+    # Support rods from the blade up to the bumper's underside.
+    for n, frac in enumerate((0.2, 0.5, 0.8)):
+        i = int(frac * (len(xs) - 1))
+        xx, y, z = xs[i], ys[i] - 3, zs[i] - 70
+        top = next((p.y for p in (x.hit_any(parts, (xx, y + 10, z), (0, 1, 0))[0],) if p is not None), y + 60)
+        k.tube(f'rod_{n}', coll, [(xx, y + 1, z), (xx, min(top, y + 160) + 2, z - 25)], 3.0, ALLOY, 8)
     return k.finish(coll)
 
 
@@ -222,11 +253,21 @@ def wide_skirts(ident='WB11', material=PAINT, reach=50.0):
             end = k.smooth(min(t, 1 - t) / 0.08)
             out = 12 + (reach - 12) * end
             drop = 10 + 14 * end
-            section = [(xt + 0.7, top), (xt + out - 10, top - 4), (xt + out, top - 14), (xt + out, bottom - drop + 4),
+            # Upper body, a step, then a lower blade that sticks out 12 mm
+            # further: the kits' two-tier skirt.
+            section = [(xt + 0.7, top), (xt + out - 10, top - 4), (xt + out, top - 14), (xt + out, bottom - drop + 12),
+                       (xt + out + 12 * end, bottom - drop + 8), (xt + out + 12 * end, bottom - drop + 2),
                        (xt + out - 4, bottom - drop), (xb + 2, bottom - drop), (xb + 0.7, bottom + 2)]
             rings.append([(k.CX + side * dd, yy, z) for dd, yy in section])
         obj = k.mesh_object(name(ident, f'skirt_{"L" if side > 0 else "R"}'), rings, coll, material)
         orient_outward(obj)
+        # A small vertical fin at each end of the lower blade.
+        for t_end, tag2 in ((0.09, 'f'), (0.91, 'r')):
+            ring = rings[int(t_end * 60)]
+            px, py, pz = ring[4]
+            fin = [[(px + side * dx, py - 2, pz + dz) for dx, dz in ((-30, -40), (0, -40), (0, 40), (-30, 40))],
+                   [(px + side * dx, py + 38, pz + dz) for dx, dz in ((-30, -30), (-4, -20), (-4, 20), (-30, 30))]]
+            k.mesh_object(name(ident, f'fin_{"L" if side > 0 else "R"}{tag2}'), fin, coll, CARBON)
     return k.finish(coll)
 
 
@@ -267,6 +308,13 @@ def wide_diffuser(ident='WB12', material=CARBON):
         fin = [[(xx + s, y + 2, z + 230), (xx + s, y + 2, z - 25), (xx + s, y + 70, z - 25), (xx + s, y + 28, z + 230)]
                for s in (-2.5, 2.5)]
         k.mesh_object(name(ident, f'strake_{n}'), fin, coll, material)
+    # Tall fences at the outer edges, as on the kits' diffusers.
+    for end, tag in ((0, 'R'), (-1, 'L')):
+        xx, y, z = xs[end], ys[end] - 3, zs[end]
+        sgn = 1 if xx > k.CX else -1
+        fence = [[(xx - sgn * 4 + s, yy, zz) for zz, yy in ((z + 250, y + 2), (z - 35, y + 2), (z - 35, y + 110), (z + 60, y + 60))]
+                 for s in (-3.0, 3.0)]
+        k.mesh_object(name(ident, f'fence_{tag}'), fence, coll, material)
     return k.finish(coll)
 
 
@@ -315,6 +363,19 @@ def ducktail(ident='WB13', rise=55.0, chord=110.0, inset=20.0, material=PAINT):
         rings.append(ring)
     obj = k.mesh_object(name(ident, 'spoiler'), rings, coll, material)
     orient_outward(obj)
+    # Gurney lip along the trailing edge's top, and an end cap each side
+    # where the flip meets the boot corner.
+    gurney = []
+    for ring in rings[::2]:
+        tx, ty, tz = ring[6]
+        gurney.append([(tx, ty - 1, tz + 6), (tx, ty + 9, tz + 1), (tx, ty + 9, tz - 2), (tx, ty - 1, tz - 2)])
+    k.mesh_object(name(ident, 'gurney'), gurney, coll, material)
+    for ring, tag in ((rings[0], 'R'), (rings[-1], 'L')):
+        xx = ring[0][0]
+        sgn = 1 if xx > k.CX else -1
+        outline = [(p[2], p[1]) for p in ring[:7]] + [(ring[6][2], ring[6][1] - 18), (ring[0][2], ring[0][1] - 4)]
+        cap = [[(xx + sgn * dx, yy, zz) for zz, yy in outline] for dx in (-2.0, 2.0)]
+        k.mesh_object(name(ident, f'cap_{tag}'), cap, coll, material)
     return k.finish(coll)
 
 

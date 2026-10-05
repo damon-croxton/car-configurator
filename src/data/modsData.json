@@ -12367,30 +12367,30 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -935,
-            146,
-            -1581
+            -941,
+            169,
+            -1591
           ],
           "max": [
-            935,
-            801,
-            1661
+            941,
+            805,
+            1671
           ]
         },
         "na": {
           "min": [
-            -911,
-            184,
-            -1605
+            -923,
+            315,
+            -1610
           ],
           "max": [
-            903,
-            775,
-            1641
+            910,
+            777,
+            1649
           ]
         }
       },
-      "triangleBudget": 9500,
+      "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB01_widebody_fenders.glb",
         "na": "assets/mods/na/WB01_widebody_fenders.glb"
@@ -12403,7 +12403,7 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Body colour with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Body colour with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Bolted wide arches; wheels pushed out to fill them."
     },
     {
@@ -12444,30 +12444,30 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -935,
-            146,
-            -1581
+            -941,
+            169,
+            -1591
           ],
           "max": [
-            935,
-            801,
-            1661
+            941,
+            805,
+            1671
           ]
         },
         "na": {
           "min": [
-            -911,
-            184,
-            -1605
+            -923,
+            315,
+            -1610
           ],
           "max": [
-            903,
-            775,
-            1641
+            910,
+            777,
+            1649
           ]
         }
       },
-      "triangleBudget": 9500,
+      "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB02_widebody_fenders_carbon.glb",
         "na": "assets/mods/na/WB02_widebody_fenders_carbon.glb"
@@ -12480,7 +12480,7 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Carbon with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Carbon with chrome bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Wide arches in carbon, chrome bolts."
     },
     {
@@ -12521,30 +12521,30 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -935,
-            146,
-            -1581
+            -941,
+            169,
+            -1591
           ],
           "max": [
-            935,
-            801,
-            1661
+            941,
+            805,
+            1671
           ]
         },
         "na": {
           "min": [
-            -911,
-            184,
-            -1605
+            -923,
+            315,
+            -1610
           ],
           "max": [
-            903,
-            775,
-            1641
+            910,
+            777,
+            1649
           ]
         }
       },
-      "triangleBudget": 9500,
+      "triangleBudget": 22500,
       "file": {
         "nd": "assets/mods/nd/WB03_widebody_fenders_satin.glb",
         "na": "assets/mods/na/WB03_widebody_fenders_satin.glb"
@@ -12557,7 +12557,7 @@
         }
       },
       "derivedFromBaseMesh": false,
-      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 55 mm (front) / 65 mm (rear) proud, a return lip at the opening and bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Satin black with alloy bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Rocket Bunny / Pandem-style bolt-on overfenders round all four arches: each sweeps from below hub height ahead of the wheel, over the arch, to below hub height behind it, with a broad outer face 60 mm (front) / 70 mm (rear) proud, a squared-off opening, an edge bead,, a return lip at the opening and washered bolt heads along it. Fitting them moves the wheels out 45 mm front / 55 mm rear to fill the arches (flags.trackWidening). Satin black with alloy bolts. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Wide arches in satin black."
     },
     {
@@ -12587,35 +12587,36 @@
         ]
       },
       "materials": [
+        "MOD_Alloy",
         "MOD_CarbonWeave"
       ],
       "bboxMm": {
         "nd": {
           "min": [
-            -763,
+            -776,
             160,
-            1512
+            1492
           ],
           "max": [
-            763,
-            237,
+            776,
+            330,
             1942
           ]
         },
         "na": {
           "min": [
-            -771,
+            -785,
             222,
-            1461
+            1441
           ],
           "max": [
-            754,
-            340,
+            768,
+            393,
             1905
           ]
         }
       },
-      "triangleBudget": 800,
+      "triangleBudget": 1300,
       "file": {
         "nd": "assets/mods/nd/WB10_widebody_lip.glb",
         "na": "assets/mods/na/WB10_widebody_lip.glb"
@@ -12625,7 +12626,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A 6 mm carbon splitter under the bumper, 40 mm proud of its face and running out to the overfenders, with an end fence at each corner. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A 6 mm carbon splitter under the bumper, 40 mm proud of its face and running out to the overfenders, with an end fence at each corner. Upturned leading edge, three support rods to the bumper and tall canted end fences. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Carbon splitter out to the wide arches, with end fences."
     },
     {
@@ -12655,35 +12656,36 @@
         ]
       },
       "materials": [
-        "MOD_BodyPaint"
+        "MOD_BodyPaint",
+        "MOD_CarbonWeave"
       ],
       "bboxMm": {
         "nd": {
           "min": [
-            -851,
+            -863,
             139,
             -740
           ],
           "max": [
-            851,
+            863,
             216,
             800
           ]
         },
         "na": {
           "min": [
-            -841,
+            -853,
             146,
             -700
           ],
           "max": [
-            827,
+            839,
             230,
             800
           ]
         }
       },
-      "triangleBudget": 2200,
+      "triangleBudget": 2800,
       "file": {
         "nd": "assets/mods/nd/WB11_widebody_skirts.glb",
         "na": "assets/mods/na/WB11_widebody_skirts.glb"
@@ -12693,7 +12695,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "Body-colour side skirts that step 50 mm out from the sills to meet the overfenders, with a flat outer face and chamfered top, tapering where they tuck under the arches. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "Body-colour side skirts that step 50 mm out from the sills to meet the overfenders, with a flat outer face and chamfered top, tapering where they tuck under the arches. Two-tier section with a lower blade and a small fin at each end. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Deep skirts stepping out to meet the arches."
     },
     {
@@ -12761,7 +12763,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "A wide carbon rear diffuser: an undertray plate kicking up at its trailing edge, with tall strakes placed clear of the tail pipes. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "A wide carbon rear diffuser: an undertray plate kicking up at its trailing edge, with tall strakes placed clear of the tail pipes. Tall fences at the outer edges. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Carbon undertray with tall strakes."
     },
     {
@@ -12796,30 +12798,30 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -480,
-            824,
-            -1842
+            -482,
+            819,
+            -1844
           ],
           "max": [
-            480,
+            482,
             916,
             -1672
           ]
         },
         "na": {
           "min": [
-            -552,
-            720,
-            -1866
+            -555,
+            704,
+            -1868
           ],
           "max": [
-            536,
-            859,
+            537,
+            866,
             -1712
           ]
         }
       },
-      "triangleBudget": 2100,
+      "triangleBudget": 2500,
       "file": {
         "nd": "assets/mods/nd/WB13_widebody_ducktail.glb",
         "na": "assets/mods/na/WB13_widebody_ducktail.glb"
@@ -12829,7 +12831,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The wide-body kits' signature ducktail: a 55 mm flip along the boot's whole rear edge. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "The wide-body kits' signature ducktail: a 55 mm flip along the boot's whole rear edge. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "Tall body-colour flip across the boot."
     },
     {
@@ -12864,30 +12866,30 @@
       "bboxMm": {
         "nd": {
           "min": [
-            -480,
-            824,
-            -1842
+            -482,
+            819,
+            -1844
           ],
           "max": [
-            480,
+            482,
             916,
             -1672
           ]
         },
         "na": {
           "min": [
-            -552,
-            720,
-            -1866
+            -555,
+            704,
+            -1868
           ],
           "max": [
-            536,
-            859,
+            537,
+            866,
             -1712
           ]
         }
       },
-      "triangleBudget": 2100,
+      "triangleBudget": 2500,
       "file": {
         "nd": "assets/mods/nd/WB14_widebody_ducktail_carbon.glb",
         "na": "assets/mods/na/WB14_widebody_ducktail_carbon.glb"
@@ -12897,7 +12899,7 @@
         "trackWidening": 0
       },
       "derivedFromBaseMesh": false,
-      "$note": "The wide-body ducktail in carbon. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
+      "$note": "The wide-body ducktail in carbon. Gurney lip and end caps. Rebuild with blender/build_r10.py; geometry in blender/parts_r10.py.",
       "uiHint": "The tall ducktail in carbon."
     },
     {
